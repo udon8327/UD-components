@@ -8,8 +8,10 @@
     <link href="img/favicon.ico" rel="shortcut icon">
     <title>frontend</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css" rel="stylesheet">
+    <link href="css/components.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -29,7 +31,9 @@
       </div>
       <div class="container">
         <div class="wrapper">
-          <c-button></c-button>
+          <h1>{{title}}</h1>
+          <c-button @click="title=456">111</c-button>
+          <c-input v-model="title"></c-input>
         </div>
       </div>
     </div>
