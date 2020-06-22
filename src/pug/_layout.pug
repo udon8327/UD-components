@@ -1,0 +1,44 @@
+doctype html
+html(lang='zh-Hant-TW')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name="viewport" content="width=device-width initial-scale=1 shrink-to-fit=no maximum-scale=1 user-scalable=no")
+    meta(name="format-detection" content="telephone=no")
+    //- meta(name='description' content='網頁描述')
+    //- meta(name='keywords' content='網頁關鍵字')
+    //- meta(name='author' content='Bohan Huang')
+    link(href='img/favicon.ico' rel='shortcut icon')
+    title frontend
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css' rel='stylesheet')
+    //- link(href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css' rel='stylesheet')
+    //- link(href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet')
+    link(href='css/main.css' rel='stylesheet')
+    block css
+    |
+    | <!--[if lt IE 9]>
+    |   <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    |   <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    | <![endif]-->
+
+  body
+    #app
+      .modal
+        .modal-wrapper
+          .modal-content
+            block modal
+
+      .container
+        .wrapper
+          block content
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    //- script(src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.common.dev.js')
+    //- script(src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js')
+    block js
+    script.
+      function modal(target,type){
+        type ? $(target).fadeIn(100) : $(target).fadeOut(100);
+      }

@@ -1,0 +1,19 @@
+extends _layout.pug
+
+block css
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
+  link(href='css/index.css' rel='stylesheet')
+
+block modal
+  h6 彈出標題
+  p 彈出訊息
+  button.button(type="button" onclick="modal('.modal')") OK
+
+block content
+  c-button
+
+block js
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
+  script(src="js/utils.js")
+  script(src="js/components.js")
+  script(src="js/index.js")
