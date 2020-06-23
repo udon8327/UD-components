@@ -12,8 +12,11 @@ block modal
 
 block content
   h1 {{title}}
-  c-button(@click="title=456") 111
+  h2 {{agree ? "同意": "不同意"}}
+  c-button(@click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round) →456
+  c-button(@click="disabled = !disabled" round) 開關
   c-input(v-model="title")
+  c-captcha(color="#f00" font="35px Arial" bg-color="aqua" :has-line="false" :has-dots="false")
 
 block js
   script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")

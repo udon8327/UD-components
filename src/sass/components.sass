@@ -14,3 +14,25 @@
   transition: all 0.2s ease
   &:hover
     background-color: lighten($primary, 10%)
+  &--disabled
+    background-color: #ccc !important
+    &:hover
+      cursor: not-allowed
+      background-color: #ccc !important
+  &--round
+    border-radius: 50px
+
+.c-input
+
+.c-checkbox
+
+.c-captcha
+  #random
+    flex: 0 0 100px
+    border: 1px solid #ccc
+    margin-right: 10px
+    position: relative
+    #refresh
+      position: absolute
+      right: 0
+      flex: 0 0 auto

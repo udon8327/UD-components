@@ -32,8 +32,11 @@
       <div class="container">
         <div class="wrapper">
           <h1>{{title}}</h1>
-          <c-button @click="title=456">111</c-button>
+          <h2>{{agree ? "同意": "不同意"}}</h2>
+          <c-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>→456</c-button>
+          <c-button @click="disabled = !disabled" round>開關</c-button>
           <c-input v-model="title"></c-input>
+          <c-captcha color="#f00" font="35px Arial" bg-color="aqua" :has-line="false" :has-dots="false"></c-captcha>
         </div>
       </div>
     </div>

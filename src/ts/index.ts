@@ -3,11 +3,16 @@ declare var $: (selector: string) => any;
 let vm = new Vue({
   el: "#app",
   data: {
-    title: "123",
+    title: "標題",
+    agree: true,
     data: [],
     checkList: ["选中且禁用", "复选框 A"],
     arr: [[1, 2],[3, 4, 5], [6, 7, 8, 9]],
-    uniqArr: []
+    uniqArr: [],
+    go: false,
+    disabled: false,
+    hasLine: false,
+    hasDots: false
   },
   computed: {},
   watch: {},
@@ -16,6 +21,5 @@ let vm = new Vue({
     this.uniqArr = flatArray(this.arr);
   },
   methods: {
-    
   }
 });
