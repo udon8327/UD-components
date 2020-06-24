@@ -9,10 +9,13 @@ var vm = new Vue({
         uniqArr: [],
         go: false,
         disabled: false,
-        hasLine: false,
-        hasDots: false
+        verify: "123",
     },
-    computed: {},
+    computed: {
+        random: function () {
+            return randomString(10);
+        }
+    },
     watch: {},
     created: function () { },
     mounted: function () {

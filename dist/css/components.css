@@ -25,14 +25,14 @@
   .c-button--round {
     border-radius: 50px; }
 
-.c-captcha #random {
+.c-captcha {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100px;
   flex: 0 0 100px;
   border: 1px solid #ccc;
   margin-right: 10px;
   position: relative; }
-  .c-captcha #random #refresh {
+  .c-captcha #refresh {
     position: absolute;
     right: 0;
     -webkit-box-flex: 0;

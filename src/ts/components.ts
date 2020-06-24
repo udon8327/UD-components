@@ -96,11 +96,11 @@ Vue.component('c-radio', {
 
 Vue.component('c-captcha', {
   template: `
-    <div id="random" class="c-captcha">
+    <div class="c-captcha">
       <canvas id="verify-canvas" ref="verifyCanvas" width="126" height="48"></canvas>
-      <img id="captcha-img">
+      <img id="captcha-img" ref="captchaImg">
       <input id="letify-hidden" type="hidden">
-      <div id="refresh">
+      <div id="refresh" v-if="hasRefresh">
         <i class="refresh fas fa-sync-alt"></i>
       </div>
     </div>
@@ -125,14 +125,9 @@ Vue.component('c-captcha', {
       type: String,
       default: "25px Arial"
     },
-    hasLine: {
-      type: Boolean,
-      default: true
-    },
-    hasDots: {
-      type: Boolean,
-      default: true
-    },
+    noLine: Boolean,
+    noDots: Boolean,
+    hasRefresh: Boolean,
   },
   methods: {
     captchaInit: function(){
@@ -161,14 +156,14 @@ Vue.component('c-captcha', {
         varifyValue = rand.join('').toLowerCase();
         
         //畫3條隨機線
-        if(vm.hasLine){
+        if(!vm.noLine){
           for (let i = 0; i < 3; i++) {
             drawline(canvas, context);
           }
         }
 
         //畫30個隨機點
-        if(vm.hasDots){
+        if(!vm.noDots){
           for (let i = 0; i < 30; i++) {
             drawDot(canvas, context);
           }
@@ -195,8 +190,8 @@ Vue.component('c-captcha', {
       }
       // 繪製圖片
       function convertCanvasToImage(canvas) {
-        document.getElementById("verify-canvas").style.display = "none";
-        let image = document.getElementById("captcha-img");
+        vm.$refs.verifyCanvas.style.display = "none";
+        let image = vm.$refs.captchaImg;
         image.src = canvas.toDataURL("image/png");
         return image;
       }
