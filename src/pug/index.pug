@@ -11,16 +11,23 @@ block modal
   button.button(type="button" onclick="modal('.modal')") OK
 
 block content
+
+  c-button(@click="showModal = true") Show Modal
+  c-modal(v-if="showModal" @close="showModal = false")
+    h3(slot="header") custom header
+  h1 {{random}}
+  .box
+    c-ellipsis(:max-line="1") 測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字
   h1 {{verify}}
-  h2 {{agree ? "同意": "不同意"}}
-  c-button(@click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round) →456
+  h2#aa {{agree ? "同意": "不同意"}}
+  c-button(@click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round) 456
   c-button(@click="disabled = !disabled" round) 開關
   c-input(v-model="title")
-  c-captcha(color="#f00" bg-color="aqua" has-refresh)
-  br
-  c-captcha(color="#f00" bg-color="green" line-color="#ff0")
-  br
-  c-captcha(color="#f00" bg-color="aqua" has-refresh)
+  c-image-upload
+  c-image-upload-multiple
+  .text-wrapper
+    c-video-youtube(url="KnWMMgEDva0" autoplay :start="360")
+    c-video-youtube(autoplay loop)
 
 block js
   script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")

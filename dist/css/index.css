@@ -1,0 +1,18 @@
+.box {
+  max-width: 200px;
+  margin: 0 auto; }
+
+.upload-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  .upload-wrapper > div {
+    padding: 5px;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%; }
+
+.text-wrapper {
+  width: 70%; }

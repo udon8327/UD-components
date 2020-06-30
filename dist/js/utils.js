@@ -16,6 +16,22 @@ function randomString(len) {
     }
     return str;
 }
+//複製文字至剪貼簿
+function copyTextToClipboard(id) {
+    var textRange = document.createRange();
+    textRange.selectNode(document.getElementById(id));
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(textRange);
+    document.execCommand("copy");
+    alert('複製成功');
+}
+function copyTxt() {
+    var Url2 = document.getElementById("aa");
+    Url2.select(); // 選擇物件
+    document.execCommand("Copy"); // 執行瀏覽器複製命令
+    alert("已複製好，可貼粘。");
+}
 //查詢網址所帶參數
 function queryString(key) {
     var url = location.href;

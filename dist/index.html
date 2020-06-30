@@ -31,14 +31,25 @@
       </div>
       <div class="container">
         <div class="wrapper">
+          <c-button @click="showModal = true">Show Modal</c-button>
+          <c-modal v-if="showModal" @close="showModal = false">
+            <h3 slot="header">custom header</h3>
+          </c-modal>
+          <h1>{{random}}</h1>
+          <div class="box">
+            <c-ellipsis :max-line="1">測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</c-ellipsis>
+          </div>
           <h1>{{verify}}</h1>
-          <h2>{{agree ? "同意": "不同意"}}</h2>
-          <c-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>→456</c-button>
+          <h2 id="aa">{{agree ? "同意": "不同意"}}</h2>
+          <c-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>456</c-button>
           <c-button @click="disabled = !disabled" round>開關</c-button>
           <c-input v-model="title"></c-input>
-          <c-captcha color="#f00" bg-color="aqua" has-refresh></c-captcha><br>
-          <c-captcha color="#f00" bg-color="green" line-color="#ff0"></c-captcha><br>
-          <c-captcha color="#f00" bg-color="aqua" has-refresh></c-captcha>
+          <c-image-upload></c-image-upload>
+          <c-image-upload-multiple></c-image-upload-multiple>
+          <div class="text-wrapper">
+            <c-video-youtube url="KnWMMgEDva0" autoplay :start="360"></c-video-youtube>
+            <c-video-youtube autoplay loop></c-video-youtube>
+          </div>
         </div>
       </div>
     </div>

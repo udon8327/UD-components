@@ -9,7 +9,7 @@ var vm = new Vue({
         uniqArr: [],
         go: false,
         disabled: false,
-        verify: "123",
+        showModal: false,
     },
     computed: {
         random: function () {

@@ -99,14 +99,19 @@ Vue.component('c-captcha', {
     <div class="c-captcha">
       <canvas id="verify-canvas" ref="verifyCanvas" width="126" height="48"></canvas>
       <img id="captcha-img" ref="captchaImg">
-      <input id="letify-hidden" type="hidden">
-      <div id="refresh" v-if="hasRefresh">
+      <input id="verify-hidden" ref="verifyHidden" type="hidden" v-model="verify">
+      <div id="refresh" ref="refresh" v-if="hasRefresh">
         <i class="refresh fas fa-sync-alt"></i>
       </div>
     </div>
   `,
   mounted() {
     this.captchaInit();
+  },
+  data() {
+    return {
+      verify: "",
+    }
   },
   props: {
     color: {
@@ -119,26 +124,26 @@ Vue.component('c-captcha', {
     },
     lineColor: {
       type: String,
-      default: "#fff"
+      default: "#777"
     },
     font: {
       type: String,
       default: "25px Arial"
     },
+    value: String,
     noLine: Boolean,
     noDots: Boolean,
     hasRefresh: Boolean,
   },
   methods: {
     captchaInit: function(){
-      let varifyValue;
+      let verifyValue;
       let nums = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz".split("");
       let vm = this;
       drawCode();
       //繪製驗證碼
       function drawCode() {
         let canvas = vm.$refs.verifyCanvas; //獲取HTML端畫布
-        console.log('canvas: ', canvas);
         let context = canvas.getContext("2d"); //獲取畫布2D上下文
         context.fillStyle = vm.bgColor; //畫布填充色
         context.fillRect(0, 0, canvas.width, canvas.height); //清空畫布
@@ -153,7 +158,8 @@ Vue.component('c-captcha', {
             y[i] = Math.random() * 20 + 20;
             context.fillText(rand[i], x[i], y[i]);
         }
-        varifyValue = rand.join('').toLowerCase();
+        verifyValue = rand.join('').toLowerCase();
+        vm.verify = verifyValue;
         
         //畫3條隨機線
         if(!vm.noLine){
@@ -161,7 +167,6 @@ Vue.component('c-captcha', {
             drawline(canvas, context);
           }
         }
-
         //畫30個隨機點
         if(!vm.noDots){
           for (let i = 0; i < 30; i++) {
@@ -170,16 +175,15 @@ Vue.component('c-captcha', {
         }
         convertCanvasToImage(canvas)
       }
-  
-      // 随机线
+      //隨機線
       function drawline(canvas, context) {
         context.moveTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));             //随机线的起点x坐标是画布x坐标0位置，y坐标是画布高度的随机数
         context.lineTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));  //随机线的终点x坐标是画布宽度，y坐标是画布高度的随机数
         context.lineWidth = 0.5; //隨機線寬
-        context.strokeStyle = 'rgba(100,100,100,1)'; //隨機線描邊屬性
+        context.strokeStyle = vm.lineColor; //隨機線描邊屬性
         context.stroke(); //描邊，即起點描到終點
       }
-      // 隨機點(所謂畫面其實就是畫1px像素的線)
+      //隨機點(所謂畫面其實就是畫1px像素的線)
       function drawDot(canvas, context) {
         let px = Math.floor(Math.random() * canvas.width);
         let py = Math.floor(Math.random() * canvas.height);
@@ -188,24 +192,196 @@ Vue.component('c-captcha', {
         context.lineWidth = 0.2;
         context.stroke();
       }
-      // 繪製圖片
+      //繪製圖片
       function convertCanvasToImage(canvas) {
         vm.$refs.verifyCanvas.style.display = "none";
         let image = vm.$refs.captchaImg;
         image.src = canvas.toDataURL("image/png");
         return image;
       }
-      // 點擊圖片刷新
-      document.getElementById('captcha-img').onclick = function () {
+      //點擊圖片刷新
+      vm.$refs.captchaImg.onclick = function () {
         $('#verify-canvas').remove();
-        $('#verify').after('<canvas width="100" height="40" id="verify-canvas"></canvas>')
+        $('#verify').after('<canvas width="126" height="48" id="verify-canvas"></canvas>')
         drawCode();
       }
-      document.getElementById('refresh').onclick = function () {
+      vm.$refs.refresh.onclick = function () {
         $('#verify-canvas').remove();
-        $('#verify').after('<canvas width="100" height="40" id="verify-canvas"></canvas>')
+        $('#verify').after('<canvas width="126" height="48" id="verify-canvas"></canvas>')
         drawCode();
       }
     }
   }
+})
+
+Vue.component('c-ellipsis', {
+  template: '<p class="c-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
+  props: {
+    maxLine: {
+      type: Number,
+      default: 1,
+    }
+  },
+})
+
+Vue.component('c-modal', {
+  template: `
+    <transition name="modal">
+      <div class="modal-mask c-modal">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+            <div class="modal-header">
+              <slot name="header">
+                default header
+              </slot>
+            </div>
+            <div class="modal-body">
+              <slot name="body">
+                default body
+              </slot>
+            </div>
+            <div class="modal-footer">
+              <slot name="footer">
+                default footer
+                <c-button class="modal-default-button" @click="$emit('close')">
+                  OK
+                </c-button>
+              </slot>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  `,
+})
+
+Vue.component('c-image-upload', {
+  template: `
+    <div class="c-image-upload">
+      <input type="file" accept="image/*" ref="input" @change="previewImage">
+      <template v-if="preview">
+        <div class="image-preview">
+          <img :src="preview" class="img-fluid" />
+          <div class="image-info">
+            <p>檔案名稱：{{ image.name }}</p>
+            <p>檔案大小：{{ parseInt(image.size/1024) }}KB</p>
+          </div>
+        </div>
+        <c-button @click="reset">刪除圖片</c-button>
+      </template>
+    </div>
+  `,
+  data: function() {
+    return {
+      preview: "",
+      image: "",
+    };
+  },
+  methods: {
+    previewImage: function(event) {
+      let input = event.target;
+      if (input.files) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.preview = e.target.result;
+        }
+        this.image=input.files[0];
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    reset: function() {
+      this.image = "";
+      this.preview = "";
+      this.$refs.input.value = "";
+    }
+  }
+})
+
+Vue.component('c-image-upload-multiple', {
+  template: `
+    <div class="c-image-upload-multiple">
+      <input type="file" accept="image/*" multiple="multiple" ref="input" @change="previewMultiImage">
+      <template v-if="preview_list.length">
+        <div class="image-preview">
+          <div v-for="item, index in preview_list" :key="index">
+            <img :src="item"/>
+            <div class="image-info">
+              <p>檔案名稱：{{ image_list[index].name }}</p>
+              <p>檔案大小：{{ parseInt(image_list[index].size/1024) }}KB</p>
+            </div>
+          </div>
+          <c-button @click="reset">刪除圖片</c-button>
+        </div>
+      </template>
+    </div>
+  `,
+  data: function() {
+    return {
+      preview_list: [],
+      image_list: []
+    };
+  },
+  methods: {
+    previewMultiImage: function(event) {
+      let input = event.target;
+      let count = input.files.length;
+      let index = 0;
+      if (input.files) {
+        while(count --) {
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            this.preview_list.push(e.target.result);
+          }
+          this.image_list.push(input.files[index]);
+          reader.readAsDataURL(input.files[index]);
+          index ++;
+        }
+      }
+    },
+    reset: function() {
+      this.image_list = [];
+      this.preview_list = [];
+      this.$refs.input.value = "";
+    }
+  }
+})
+
+Vue.component('c-video-youtube', {
+  template: `
+    <div class="c-video-youtube">
+      <iframe width="560" height="315" :src="urlAfter" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  `,
+  props: {
+    url: { //影片代碼
+      type: String,
+      default: "p6qjpdi8XuE"
+    },
+    start: Number, //開始時間
+    autoplay: Boolean, //自動播放
+    loop: Boolean, //自動循環
+    noControl: Boolean, //移除控制介面
+  },
+  computed: {
+    urlAfter: function(){
+      let urlTemp = `https://www.youtube.com/embed/${this.url}?`;
+      if(this.start){
+        urlTemp = `${urlTemp}&start=${this.start}`;
+      }
+      if(this.autoplay){
+        urlTemp = `${urlTemp}&autoplay=1`;
+      }
+      if(this.loop){
+        urlTemp = `${urlTemp}&loop=1&playlist=${this.url}`;
+      }
+      if(this.noControl){
+        urlTemp = `${urlTemp}&controls=0`;
+      }
+      return urlTemp;
+      
+    }
+  },
+  mounted() {
+    console.log(this.urlAfter);
+  },
 })
