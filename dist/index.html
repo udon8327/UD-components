@@ -19,15 +19,6 @@
   </head>
   <body>
     <div id="app">
-      <div class="modal">
-        <div class="modal-wrapper">
-          <div class="modal-content">
-            <h6>彈出標題</h6>
-            <p>彈出訊息</p>
-            <button class="button" type="button" onclick="modal('.modal')">OK</button>
-          </div>
-        </div>
-      </div>
       <div class="container">
         <div class="wrapper">
           <c-button @click="showModal = true">Show Modal</c-button>
@@ -49,16 +40,10 @@
         </div>
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.common.dev.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/components.js"></script>
     <script src="js/index.js"></script>
-    <script>
-      function modal(target,type){
-        type ? $(target).fadeIn(100) : $(target).fadeOut(100);
-      }
-    </script>
   </body>
 </html>

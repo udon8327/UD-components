@@ -5,11 +5,6 @@ block css
   link(href='css/components.css' rel='stylesheet')
   link(href='css/index.css' rel='stylesheet')
 
-block modal
-  h6 彈出標題
-  p 彈出訊息
-  button.button(type="button" onclick="modal('.modal')") OK
-
 block content
   c-button(@click="showModal = true") Show Modal
   c-modal(v-if="showModal" @close="showModal = false")
