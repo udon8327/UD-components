@@ -8,6 +8,12 @@ function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+//取得隨機十六進制顏色
+function randomHexColorCode(){
+  let n = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + n.slice(0, 6);
+};
+
 //取得隨機字串
 function randomString(len) {
   const chars =
@@ -33,7 +39,7 @@ function copyTextToClipboard(id) {
 
 function copyTxt()
 {
-  var Url2=document.getElementById("aa");
+  let Url2=document.getElementById("aa");
   Url2.select(); // 選擇物件
   document.execCommand("Copy"); // 執行瀏覽器複製命令
   alert("已複製好，可貼粘。");
@@ -73,6 +79,11 @@ function isAndroidMobileDevice() {
   return /android/i.test(navigator.userAgent.toLowerCase());
 }
 
+//HTTP跳轉HTTPS
+function httpsRedirect(){
+  if (location.protocol !== 'https:') location.replace('https://' + location.href.split('//')[1]);
+};
+
 //獲取窗體可見範圍的寬與高
 function getViewSize() {
   let de = document.documentElement;
@@ -88,28 +99,42 @@ function uniqArray(arr) {
   return newArr;
 }
 
-//二維陣列扁平化
-function flatArray(arr) {
-  let newArr = [].concat.apply([], arr);
-  return newArr;
+//二維陣列扁平化(第二參數可指定深度)
+function flatArray(arr, depth = 1){
+  return arr.reduce((a, v) => a.concat(depth > 1 && Array.isArray(v) ? flatArray(v, depth - 1) : v), []);
 }
+  // flatArray([1, [2], 3, 4]); // [1, 2, 3, 4]
+  // flatArray([1, [2, [3, [4, 5], 6], 7], 8], 2); // [1, 2, 3, [4, 5], 6, 7, 8]
+
+//返回數組中某值的所有索引
+function indexOfAll(arr, val){
+  return arr.reduce((acc, el, i) => (el === val ? [...acc, i] : acc), []);
+}
+  // indexOfAll([1, 2, 3, 1, 2, 3], 1); // [0,3]
+  // indexOfAll([1, 2, 3], 4); // []
+
+//兩數組的交集
+function intersection(a, b){
+  const s = new Set(b);
+  return a.filter(x => s.has(x));
+};
+  // intersection([1, 2, 3], [4, 3, 2]); // [2, 3]
+
+//洗牌數組
+function shuffle([...arr]){
+  let m = arr.length;
+  while (m) {
+    const i = Math.floor(Math.random() * m--);
+    [arr[m], arr[i]] = [arr[i], arr[m]];
+  }
+  return arr;
+};
+  // const foo = [1, 2, 3];
+  // shuffle(foo); // [2, 3, 1], foo = [1, 2, 3]
 
 //精準型別判斷
-function typeOf(obj) {
-  const toString = Object.prototype.toString;
-  const map = {
-    "[object Boolean]": "boolean",
-    "[object Number]": "number",
-    "[object String]": "string",
-    "[object Function]": "function",
-    "[object Array]": "array",
-    "[object Date]": "date",
-    "[object RegExp]": "regExp",
-    "[object Undefined]": "undefined",
-    "[object Null]": "null",
-    "[object Object]": "object"
-  };
-  return map[toString.call(obj)];
+function getType(v){
+  return v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
 }
 
 //深拷貝deepCopy
@@ -135,3 +160,150 @@ function deepCopy(data) {
   return newData;
 }
 
+//返回當前24小時制時間的字符串
+function getColonTimeFromDate(date){
+  return date.toTimeString().slice(0, 8);
+}
+  // getColonTimeFromDate(new Date()); // "08:38:00"
+
+//返回日期間的天數
+function getDaysDiffBetweenDates(dateInitial, dateFinal){
+  return (dateFinal - dateInitial) / (1000 * 3600 * 24);
+}
+  // getDaysDiffBetweenDates(new Date('2019-01-01'), new Date('2019-10-14')); // 286
+
+//檢查是否在某日期後
+function isAfterDate(dateA, dateB){
+  return dateA > dateB;
+}
+  // isAfterDate(new Date(2010, 10, 21), new Date(2010, 10, 20)); // true
+
+//檢查是否在某日期前
+function isBeforeDate(dateA, dateB){
+  return dateA < dateB;
+}
+  // isBeforeDate(new Date(2010, 10, 20), new Date(2010, 10, 21)); // true
+
+//返回幾天前後的日期
+function getDiffDate(days){
+  let t = new Date();
+  t.setDate(t.getDate() + days);
+  return t.toISOString().split('T')[0];
+};
+  //getDiffDate(1) // "2020-07-01"
+  //getDiffDate(0) // "2020-06-30"
+  //getDiffDate(-2) // "2020-06-28"
+
+//四捨五入到指定位數
+function round(n, decimals = 0){
+  return Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
+}
+  // round(1.235, 2); // 1.24
+
+//平滑滾動至頂部
+function scrollToTop(){
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    window.scrollTo(0, c - c / 8);
+  }
+};
+
+//平滑滾動到指定元素區域
+function smoothScroll(element){
+  document.querySelector(element).scrollIntoView({
+    behavior: 'smooth'
+  });
+}
+  // smoothScroll('#fooBar');
+
+//返回當前的滾動位置
+function getScrollPosition(el = window){
+  return {
+    x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
+    y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop
+  }
+}
+
+//轉義HTML(防XSS攻擊)
+function escapeHTML(str){
+  return str.replace(/[&<>'"]/g,tag =>({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+    }[tag] || tag)
+  );
+}
+  // escapeHTML('<a href="#">Me & you</a>'); // '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
+
+//動態加載css文件
+function loadStyle(url) {
+  try {
+    document.createStyleSheet(url);
+  } catch (e) {
+    let cssLink = document.createElement("link");
+    cssLink.rel = "stylesheet";
+    cssLink.type = "text/css";
+    cssLink.href = url;
+    let head = document.getElementsByTagName("head")[0];
+    head.appendChild(cssLink);
+  }
+}
+
+//時間個性化輸出功能
+function timeFormat(time) {
+  let date = new Date(time),
+    curDate = new Date(),
+    year = date.getFullYear(),
+    month = date.getMonth() + 10,
+    day = date.getDate(),
+    hour = date.getHours(),
+    minute = date.getMinutes(),
+    curYear = curDate.getFullYear(),
+    curHour = curDate.getHours(),
+    timeStr;
+  if (year < curYear) {
+    timeStr = year + "年" + month + "月" + day + "日 " + hour + ":" + minute;
+  } else {
+    let pastTime = curDate - date,
+      pastH = pastTime / 3600000;
+    if (pastH > curHour) {
+      timeStr = month + "月" + day + "日 " + hour + ":" + minute;
+    } else if (pastH >= 1) {
+      timeStr = "今天 " + hour + ":" + minute + "分";
+    } else {
+      let pastM = curDate.getMinutes() - minute;
+      if (pastM > 1) {
+        timeStr = pastM + "分鐘前";
+      } else {
+        timeStr = "剛剛";
+      }
+    }
+  }
+  return timeStr;
+}
+
+//隨機數時間戳
+function uniqueId() {
+  let a = Math.random,b = parseInt;
+  return (
+    Number(new Date()).toString() + b(10 * a()) + b(10 * a()) + b(10 * a())
+  );
+}
+
+//校驗是否為網址
+function isURL(str) {
+  return /^(https:\/\/|http:\/\/|ftp:\/\/|rtsp:\/\/|mms:\/\/)?[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/.test(str);
+}
+
+//校驗是否為不含端口號的IP地址
+function isIP(str) {
+  return /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/.test(str);
+}
+
+//校驗是否為IPv6地址
+function isIPv6(str){
+  return Boolean(str.match(/:/g)?str.match(/:/g).length<=7:false && /::/.test(str)?/^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(str):/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str));
+}

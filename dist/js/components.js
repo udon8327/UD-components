@@ -1,3 +1,4 @@
+//通用按鈕
 Vue.component('c-button', {
     template: "\n    <button \n      class=\"c-button\"\n      :class=\"{\n        'c-button--disabled': disabled,\n        'c-button--round': round,\n      }\"\n      :type=\"type\"\n      @click=\"handleClick\"\n      :disabled=\"disabled\"\n    >\n      <i class=\"fas fa-spinner fa-pulse\" v-if=\"loading\"></i>\n      <i :class=\"icon\" v-if=\"icon && !loading\"></i>\n      <span><slot>\u6309\u9215</slot></span>\n    </button>\n  ",
     props: {
@@ -21,6 +22,7 @@ Vue.component('c-button', {
         }
     }
 });
+//通用input表單
 Vue.component('c-input', {
     template: "\n    <input \n      type=\"text\" \n      :placeholder=\"placeholder\" \n      :required=\"required\" \n      :value=\"value\" \n      @input=\"$emit('input', $event.target.value)\"\n    >\n  ",
     props: {
@@ -33,6 +35,7 @@ Vue.component('c-input', {
     },
     methods: {},
 });
+//通用checkbox表單
 Vue.component('c-checkbox', {
     template: "\n    <input\n      class=\"c-checkbox\"\n      type=\"checkbox\"\n      :checked=\"checked\"\n      @change=\"$emit('change', $event.target.checked)\"\n    >\n  ",
     model: {
@@ -43,6 +46,7 @@ Vue.component('c-checkbox', {
         checked: Boolean
     },
 });
+//通用radio表單
 Vue.component('c-radio', {
     template: "\n    <input\n      class=\"c-checkbox\"\n      type=\"radio\"\n      :checked=\"checked\"\n      @change=\"$emit('change', $event.target.checked)\"\n    >\n  ",
     model: {
@@ -53,6 +57,7 @@ Vue.component('c-radio', {
         checked: Boolean
     },
 });
+//圖形驗證碼
 Vue.component('c-captcha', {
     template: "\n    <div class=\"c-captcha\">\n      <canvas id=\"verify-canvas\" ref=\"verifyCanvas\" width=\"126\" height=\"48\"></canvas>\n      <img id=\"captcha-img\" ref=\"captchaImg\">\n      <input id=\"verify-hidden\" ref=\"verifyHidden\" type=\"hidden\" v-model=\"verify\">\n      <div id=\"refresh\" ref=\"refresh\" v-if=\"hasRefresh\">\n        <i class=\"refresh fas fa-sync-alt\"></i>\n      </div>\n    </div>\n  ",
     mounted: function () {
@@ -162,6 +167,7 @@ Vue.component('c-captcha', {
         }
     }
 });
+//文字省略
 Vue.component('c-ellipsis', {
     template: '<p class="c-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
     props: {
@@ -171,9 +177,11 @@ Vue.component('c-ellipsis', {
         }
     },
 });
+//modal彈窗
 Vue.component('c-modal', {
     template: "\n    <transition name=\"modal\">\n      <div class=\"modal-mask c-modal\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-container\">\n            <div class=\"modal-header\">\n              <slot name=\"header\">\n                default header\n              </slot>\n            </div>\n            <div class=\"modal-body\">\n              <slot name=\"body\">\n                default body\n              </slot>\n            </div>\n            <div class=\"modal-footer\">\n              <slot name=\"footer\">\n                default footer\n                <c-button class=\"modal-default-button\" @click=\"$emit('close')\">\n                  OK\n                </c-button>\n              </slot>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
 });
+//圖片上傳預覽
 Vue.component('c-image-upload', {
     template: "\n    <div class=\"c-image-upload\">\n      <input type=\"file\" accept=\"image/*\" ref=\"input\" @change=\"previewImage\">\n      <template v-if=\"preview\">\n        <div class=\"image-preview\">\n          <img :src=\"preview\" class=\"img-fluid\" />\n          <div class=\"image-info\">\n            <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image.name }}</p>\n            <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image.size/1024) }}KB</p>\n          </div>\n        </div>\n        <c-button @click=\"reset\">\u522A\u9664\u5716\u7247</c-button>\n      </template>\n    </div>\n  ",
     data: function () {
@@ -202,6 +210,7 @@ Vue.component('c-image-upload', {
         }
     }
 });
+//圖片上傳預覽(多張)
 Vue.component('c-image-upload-multiple', {
     template: "\n    <div class=\"c-image-upload-multiple\">\n      <input type=\"file\" accept=\"image/*\" multiple=\"multiple\" ref=\"input\" @change=\"previewMultiImage\">\n      <template v-if=\"preview_list.length\">\n        <div class=\"image-preview\">\n          <div v-for=\"item, index in preview_list\" :key=\"index\">\n            <img :src=\"item\"/>\n            <div class=\"image-info\">\n              <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image_list[index].name }}</p>\n              <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image_list[index].size/1024) }}KB</p>\n            </div>\n          </div>\n          <c-button @click=\"reset\">\u522A\u9664\u5716\u7247</c-button>\n        </div>\n      </template>\n    </div>\n  ",
     data: function () {
@@ -235,38 +244,107 @@ Vue.component('c-image-upload-multiple', {
         }
     }
 });
+//播放Youtube影片(無控制版)
 Vue.component('c-video-youtube', {
-    template: "\n    <div class=\"c-video-youtube\">\n      <iframe width=\"560\" height=\"315\" :src=\"urlAfter\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n    </div>\n  ",
+    template: "\n    <div class=\"c-video-youtube\">\n      <div class=\"video-wrapper\">\n        <iframe width=\"560\" height=\"315\" :src=\"videoIdAfter\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n      </div>\n    </div>\n  ",
     props: {
-        url: {
+        videoId: {
             type: String,
             default: "p6qjpdi8XuE"
         },
-        start: Number,
+        start: {
+            type: Number,
+            default: 0
+        },
         autoplay: Boolean,
         loop: Boolean,
         noControl: Boolean,
     },
     computed: {
-        urlAfter: function () {
-            var urlTemp = "https://www.youtube.com/embed/" + this.url + "?";
-            if (this.start) {
+        videoIdAfter: function () {
+            var urlTemp = "https://www.youtube.com/embed/" + this.videoId + "?";
+            if (this.start)
                 urlTemp = urlTemp + "&start=" + this.start;
-            }
-            if (this.autoplay) {
+            if (this.autoplay)
                 urlTemp = urlTemp + "&autoplay=1";
-            }
-            if (this.loop) {
-                urlTemp = urlTemp + "&loop=1&playlist=" + this.url;
-            }
-            if (this.noControl) {
+            if (this.loop)
+                urlTemp = urlTemp + "&loop=1&playlist=" + this.videoId;
+            if (this.noControl)
                 urlTemp = urlTemp + "&controls=0";
-            }
+            console.log(urlTemp);
             return urlTemp;
         }
     },
+});
+//回頂部
+Vue.component('c-backtop', {
+    template: "\n    <c-button @click=\"scrollToTop\">\u56DE\u6700\u9802</c-button>\n  ",
+    methods: {
+        scrollToTop: function () {
+            var c = document.documentElement.scrollTop || document.body.scrollTop;
+            if (c > 0) {
+                window.requestAnimationFrame(this.scrollToTop);
+                window.scrollTo(0, c - c / 6);
+            }
+        }
+    },
+});
+//刮刮樂(引入套件：plugins/scratchcard/scratchcard.min.js)
+Vue.component('c-scratch', {
+    template: "\n    <div class=\"c-scratch\">\n      <div class=\"sc__wrapper\">\n        <div class=\"sc__container\" :id=\"id\"></div>\n      </div>\n    </div>\n  ",
     mounted: function () {
-        console.log(this.urlAfter);
+        this.initScratch();
+    },
+    props: {
+        id: {
+            type: String,
+            default: "js--sc--container"
+        },
+        coverSrc: {
+            type: String,
+            default: "img/silver.jpg"
+        },
+        brushSrc: {
+            type: String,
+            default: "img/brush.png"
+        },
+        prizeSrc: {
+            type: String,
+            default: "img/prize_01.jpg"
+        },
+        aspectRatio: {
+            type: Number,
+            default: 1.65
+        },
+        percent: {
+            type: Number,
+            default: 10
+        },
+    },
+    methods: {
+        initScratch: function () {
+            var _this = this;
+            var scContainer = document.getElementById(this.id);
+            var sc = new ScratchCard("#" + this.id, {
+                scratchType: SCRATCH_TYPE.BRUSH,
+                containerWidth: scContainer.offsetWidth,
+                containerHeight: scContainer.offsetWidth / this.aspectRatio,
+                brushSrc: this.brushSrc,
+                imageForwardSrc: this.coverSrc,
+                imageBackgroundSrc: this.prizeSrc,
+                percentToFinish: this.percent,
+                callback: function () {
+                    _this.$emit("finish"); //刮完事件
+                }
+            });
+            sc.init().then(function () {
+                sc.canvas.addEventListener('scratch.move', function () {
+                    _this.$emit("move", Math.floor(sc.getPercent())); //移動中事件(帶百分比)
+                });
+            }).catch(function (error) {
+                alert(error.message);
+            });
+        }
     },
 });
 //# sourceMappingURL=components.js.map

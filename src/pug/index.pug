@@ -1,7 +1,7 @@
 extends _layout.pug
 
 block css
-  link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
+  //- link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
   link(href='css/components.css' rel='stylesheet')
   link(href='css/index.css' rel='stylesheet')
 
@@ -25,12 +25,16 @@ block content
   c-input(v-model="title")
   c-image-upload
   c-image-upload-multiple
-  .text-wrapper
-    c-video-youtube(url="KnWMMgEDva0" autoplay :start="360")
-    c-video-youtube(autoplay loop)
+  c-video-youtube(video-id="KnWMMgEDva0" :start="360" loop)
+  c-video-youtube(loop autoplay)
+  c-backtop
+  //- h1 {{ percent }}%
+  //- c-scratch(@finish="finish" @move="move" :percent="20")
+  //- c-scratch(@finish="finish" @move="move" prize-src="img/prize_02.jpg" id="test")
 
 block js
-  script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
+  //- script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
+  //- script(src="plugins/scratchcard/scratchcard.min.js")
   script(src="js/utils.js")
   script(src="js/components.js")
   script(src="js/index.js")

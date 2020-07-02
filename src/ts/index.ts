@@ -12,6 +12,7 @@ let vm = new Vue({
     go: false,
     disabled: false,
     showModal: false,
+    percent: 0
   },
   computed: {
     random: function(){
@@ -24,5 +25,11 @@ let vm = new Vue({
     this.uniqArr = flatArray(this.arr);
   },
   methods: {
+    finish: function(){
+      alert('完成')
+    },
+    move: function(val){
+      this.percent = val;
+    }
   }
 });

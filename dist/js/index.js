@@ -10,6 +10,7 @@ var vm = new Vue({
         go: false,
         disabled: false,
         showModal: false,
+        percent: 0
     },
     computed: {
         random: function () {
@@ -21,6 +22,13 @@ var vm = new Vue({
     mounted: function () {
         this.uniqArr = flatArray(this.arr);
     },
-    methods: {}
+    methods: {
+        finish: function () {
+            alert('完成');
+        },
+        move: function (val) {
+            this.percent = val;
+        }
+    }
 });
 //# sourceMappingURL=index.js.map

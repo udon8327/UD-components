@@ -10,7 +10,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css" rel="stylesheet">
     <link href="css/components.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
     <!--[if lt IE 9]>
@@ -46,17 +45,14 @@
           <c-input v-model="title"></c-input>
           <c-image-upload></c-image-upload>
           <c-image-upload-multiple></c-image-upload-multiple>
-          <div class="text-wrapper">
-            <c-video-youtube url="KnWMMgEDva0" autoplay :start="360"></c-video-youtube>
-            <c-video-youtube autoplay loop></c-video-youtube>
-          </div>
+          <c-video-youtube video-id="KnWMMgEDva0" :start="360" loop></c-video-youtube>
+          <c-video-youtube loop autoplay></c-video-youtube>
+          <c-backtop></c-backtop>
         </div>
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/components.js"></script>
     <script src="js/index.js"></script>

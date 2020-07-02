@@ -1,3 +1,4 @@
+//通用按鈕
 Vue.component('c-button', {
   template: `
     <button 
@@ -36,6 +37,7 @@ Vue.component('c-button', {
   }
 })
 
+//通用input表單
 Vue.component('c-input', {
   template: `
     <input 
@@ -58,6 +60,7 @@ Vue.component('c-input', {
   },
 })
 
+//通用checkbox表單
 Vue.component('c-checkbox', {
   template: `
     <input
@@ -76,6 +79,7 @@ Vue.component('c-checkbox', {
   },
 })
 
+//通用radio表單
 Vue.component('c-radio', {
   template: `
     <input
@@ -94,6 +98,7 @@ Vue.component('c-radio', {
   },
 })
 
+//圖形驗證碼
 Vue.component('c-captcha', {
   template: `
     <div class="c-captcha">
@@ -214,6 +219,7 @@ Vue.component('c-captcha', {
   }
 })
 
+//文字省略
 Vue.component('c-ellipsis', {
   template: '<p class="c-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
   props: {
@@ -224,6 +230,7 @@ Vue.component('c-ellipsis', {
   },
 })
 
+//modal彈窗
 Vue.component('c-modal', {
   template: `
     <transition name="modal">
@@ -255,6 +262,7 @@ Vue.component('c-modal', {
   `,
 })
 
+//圖片上傳預覽
 Vue.component('c-image-upload', {
   template: `
     <div class="c-image-upload">
@@ -297,6 +305,7 @@ Vue.component('c-image-upload', {
   }
 })
 
+//圖片上傳預覽(多張)
 Vue.component('c-image-upload-multiple', {
   template: `
     <div class="c-image-upload-multiple">
@@ -346,42 +355,118 @@ Vue.component('c-image-upload-multiple', {
   }
 })
 
+//播放Youtube影片(無控制版)
 Vue.component('c-video-youtube', {
   template: `
     <div class="c-video-youtube">
-      <iframe width="560" height="315" :src="urlAfter" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="video-wrapper">
+        <iframe width="560" height="315" :src="videoIdAfter" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </div>
   `,
   props: {
-    url: { //影片代碼
+    videoId: { //影片ID
       type: String,
       default: "p6qjpdi8XuE"
     },
-    start: Number, //開始時間
+    start: { //開始時間
+      type: Number,
+      default: 0
+    },
     autoplay: Boolean, //自動播放
     loop: Boolean, //自動循環
     noControl: Boolean, //移除控制介面
   },
   computed: {
-    urlAfter: function(){
-      let urlTemp = `https://www.youtube.com/embed/${this.url}?`;
-      if(this.start){
-        urlTemp = `${urlTemp}&start=${this.start}`;
-      }
-      if(this.autoplay){
-        urlTemp = `${urlTemp}&autoplay=1`;
-      }
-      if(this.loop){
-        urlTemp = `${urlTemp}&loop=1&playlist=${this.url}`;
-      }
-      if(this.noControl){
-        urlTemp = `${urlTemp}&controls=0`;
-      }
+    videoIdAfter: function(){
+      let urlTemp = `https://www.youtube.com/embed/${this.videoId}?`;
+      if(this.start) urlTemp = `${urlTemp}&start=${this.start}`;
+      if(this.autoplay) urlTemp = `${urlTemp}&autoplay=1`;
+      if(this.loop) urlTemp = `${urlTemp}&loop=1&playlist=${this.videoId}`;
+      if(this.noControl) urlTemp = `${urlTemp}&controls=0`;
+      console.log(urlTemp);
       return urlTemp;
-      
     }
   },
+})
+
+//回頂部
+Vue.component('c-backtop', {
+  template: `
+    <c-button @click="scrollToTop">回最頂</c-button>
+  `,
+  methods: {
+    scrollToTop: function(){
+      const c = document.documentElement.scrollTop || document.body.scrollTop;
+      if (c > 0) {
+        window.requestAnimationFrame(this.scrollToTop);
+        window.scrollTo(0, c - c / 6);
+      }
+    }
+  },
+})
+
+//刮刮樂(引入套件：plugins/scratchcard/scratchcard.min.js)
+Vue.component('c-scratch', {
+  template: `
+    <div class="c-scratch">
+      <div class="sc__wrapper">
+        <div class="sc__container" :id="id"></div>
+      </div>
+    </div>
+  `,
   mounted() {
-    console.log(this.urlAfter);
+    this.initScratch();
+  },
+  props: {
+    id: { //刮刮樂id 區分複數刮刮樂
+      type: String,
+      default: "js--sc--container"
+    },
+    coverSrc: { //封面圖片
+      type: String,
+      default: "img/silver.jpg"
+    },
+    brushSrc: { //筆刷圖片
+      type: String,
+      default: "img/brush.png"
+    },
+    prizeSrc: { //獎品圖片
+      type: String,
+      default: "img/prize_01.jpg"
+    },
+    aspectRatio: { //長寬比
+      type: Number,
+      default: 1.65
+    },
+    percent: { //完成所需%數
+      type: Number,
+      default: 10
+    },
+  },
+  methods: {
+    initScratch: function(){
+      let _this = this;
+      const scContainer = document.getElementById(this.id);
+      const sc = new ScratchCard(`#${this.id}`, {
+        scratchType: SCRATCH_TYPE.BRUSH,
+        containerWidth: scContainer.offsetWidth,
+        containerHeight: scContainer.offsetWidth/this.aspectRatio,
+        brushSrc: this.brushSrc,
+        imageForwardSrc: this.coverSrc,
+        imageBackgroundSrc: this.prizeSrc,
+        percentToFinish: this.percent,
+        callback: function () {
+          _this.$emit("finish"); //刮完事件
+        }
+      })
+      sc.init().then(() => {
+        sc.canvas.addEventListener('scratch.move', () => {
+          _this.$emit("move", Math.floor(sc.getPercent())); //移動中事件(帶百分比)
+        })
+      }).catch((error) => {
+        alert(error.message);
+      });
+    }
   },
 })
