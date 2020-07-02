@@ -115,12 +115,12 @@
         margin-bottom: 5px;
         font-size: 14px; }
 
-.c-video-youtube .video-wrapper, .c-video-yt .video-wrapper {
+.c-youtube .video-wrapper, .c-youtube-api .video-wrapper {
   position: relative;
   padding-bottom: 56.25%;
   height: 0;
   overflow: hidden; }
-  .c-video-youtube .video-wrapper iframe, .c-video-youtube .video-wrapper object, .c-video-youtube .video-wrapper embed, .c-video-yt .video-wrapper iframe, .c-video-yt .video-wrapper object, .c-video-yt .video-wrapper embed {
+  .c-youtube .video-wrapper iframe, .c-youtube .video-wrapper object, .c-youtube .video-wrapper embed, .c-youtube-api .video-wrapper iframe, .c-youtube-api .video-wrapper object, .c-youtube-api .video-wrapper embed {
     position: absolute;
     top: 0;
     left: 0;

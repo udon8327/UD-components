@@ -245,8 +245,8 @@ Vue.component('c-image-upload-multiple', {
     }
 });
 //播放Youtube影片(無控制版)
-Vue.component('c-video-youtube', {
-    template: "\n    <div class=\"c-video-youtube\">\n      <div class=\"video-wrapper\">\n        <iframe width=\"560\" height=\"315\" :src=\"videoIdAfter\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n      </div>\n    </div>\n  ",
+Vue.component('c-youtube', {
+    template: "\n    <div class=\"c-youtube\">\n      <div class=\"video-wrapper\">\n        <iframe width=\"560\" height=\"315\" :src=\"videoIdAfter\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n      </div>\n    </div>\n  ",
     props: {
         videoId: {
             type: String,
@@ -276,48 +276,75 @@ Vue.component('c-video-youtube', {
     },
 });
 //播放Youtube影片(可控制版)
-Vue.component('c-video-yt', {
-    template: "\n    <div class=\"c-video-yt\">\n      <div class=\"video-wrapper\">\n        <div ref=\"player\"></div>\n      </div>\n    </div>\n  ",
+Vue.component('c-youtube-api', {
+    template: "\n    <div class=\"c-youtube-api\">\n      <div class=\"video-wrapper\">\n        <div :id=\"videoId\" ref=\"player\"></div>\n      </div>\n    </div>\n  ",
     props: {
         videoId: {
             type: String,
             default: "KnWMMgEDva0"
         },
-        uniqId: {
-            type: String,
-            default: "YouTubeVideoPlayer"
+        start: {
+            type: Number,
+            default: 0
         },
+        width: {
+            type: Number,
+            default: 560
+        },
+        height: {
+            type: Number,
+            default: 315
+        },
+        autoplay: Boolean,
+        loop: Boolean,
+        noControl: Boolean,
+        mute: Boolean //開始時靜音
     },
     data: function () {
         return {
             player: {}
         };
     },
+    computed: {
+        control: function () {
+            return this.noControl ? 0 : 1;
+        }
+    },
     mounted: function () {
         var _this = this;
+        var tag = document.createElement('script');
+        var player;
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        tag.src = "https://www.youtube.com/iframe_api";
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         window.onYouTubeIframeAPIReady = function () {
-            new YT.Player(_this.$refs.player, {
+            player = new YT.Player(_this.videoId, {
                 videoId: _this.videoId,
-                width: 560,
-                height: 316,
+                width: _this.width,
+                height: _this.height,
                 playerVars: {
-                    autoplay: 1,
-                    controls: 1,
-                    showinfo: 0,
-                    modestbranding: 1,
-                    loop: 1,
-                    fs: 0,
-                    cc_load_policty: 0,
-                    iv_load_policy: 3,
-                    autohide: 0,
+                    autoplay: _this.autoplay,
+                    controls: _this.control,
+                    start: _this.start //開始時間
+                    // loop: _this.loop, //讓影片循環播放
                 },
                 events: {
-                    onReady: function (e) {
-                        e.target.mute();
-                    }
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange,
                 }
             });
         };
+        function onPlayerReady(e) {
+            if (_this.mute)
+                e.target.mute();
+        }
+        ;
+        function onPlayerStateChange(e) {
+            if (e.data === YT.PlayerState.ENDED) {
+                player.playVideo();
+            }
+        }
+        ;
     },
     methods: {},
 });

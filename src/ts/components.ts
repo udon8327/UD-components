@@ -356,9 +356,9 @@ Vue.component('c-image-upload-multiple', {
 })
 
 //播放Youtube影片(無控制版)
-Vue.component('c-video-youtube', {
+Vue.component('c-youtube', {
   template: `
-    <div class="c-video-youtube">
+    <div class="c-youtube">
       <div class="video-wrapper">
         <iframe width="560" height="315" :src="videoIdAfter" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
@@ -389,56 +389,79 @@ Vue.component('c-video-youtube', {
   },
 })
 
-
 //播放Youtube影片(可控制版)
-Vue.component('c-video-yt', {
+Vue.component('c-youtube-api', {
   template: `
-    <div class="c-video-yt">
+    <div class="c-youtube-api">
       <div class="video-wrapper">
-        <div ref="player"></div>
+        <div :id="videoId" ref="player"></div>
       </div>
     </div>
   `,
   props: {
-    videoId: {
+    videoId: { //影片id
       type: String,
       default: "KnWMMgEDva0"
     },
-    uniqId: {
-      type: String,
-      default: "YouTubeVideoPlayer"
+    start: { //開始時間
+      type: Number,
+      default: 0
     },
+    width: {
+      type: Number,
+      default: 560
+    },
+    height: {
+      type: Number,
+      default: 315
+    },
+    autoplay: Boolean, //自動播放
+    loop: Boolean, //自動循環
+    noControl: Boolean, //移除控制介面
+    mute: Boolean //開始時靜音
   },
   data() {
     return {
       player: {}
     }
   },
+  computed: {
+    control: function(){
+      return this.noControl ? 0 : 1;
+    }
+  },
   mounted() {
     let _this = this;
+    let tag = document.createElement('script');
+    let player;
+    let firstScriptTag = document.getElementsByTagName('script')[0];
+    tag.src = "https://www.youtube.com/iframe_api";
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     window.onYouTubeIframeAPIReady = function(){
-      new YT.Player(_this.$refs.player, {
-        videoId: _this.videoId, // YouTube 影片ID
-        width: 560,               // 播放器寬度 (px)
-        height: 316,              // 播放器高度 (px)
+      player = new YT.Player(_this.videoId, {
+        videoId: _this.videoId, //YouTube 影片ID
+        width: _this.width, //播放器寬度 (px)
+        height: _this.height, //播放器高度 (px)
         playerVars: {
-          autoplay: 1,        // 在讀取時自動播放影片
-          controls: 1,        // 在播放器顯示暫停／播放按鈕
-          showinfo: 0,        // 隱藏影片標題
-          modestbranding: 1,  // 隱藏YouTube Logo
-          loop: 1,            // 讓影片循環播放
-          fs: 0,              // 隱藏全螢幕按鈕
-          cc_load_policty: 0, // 隱藏字幕
-          iv_load_policy: 3,  // 隱藏影片註解
-          autohide: 0,         // 當播放影片時隱藏影片控制列
+          autoplay: _this.autoplay, //在讀取時自動播放影片
+          controls: _this.control, //在播放器顯示暫停／播放按鈕
+          start: _this.start //開始時間
+          // loop: _this.loop, //讓影片循環播放
         },
         events: {
-          onReady: function(e) {
-            e.target.mute();
-          }
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange,
         }
       });
     }
+    function onPlayerReady(e) {
+      if(_this.mute) e.target.mute();
+    };
+    function onPlayerStateChange(e) {
+      if (e.data === YT.PlayerState.ENDED) {
+        player.playVideo(); 
+      }
+    };
   },
   methods: {
 
