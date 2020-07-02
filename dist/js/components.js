@@ -275,6 +275,52 @@ Vue.component('c-video-youtube', {
         }
     },
 });
+//播放Youtube影片(可控制版)
+Vue.component('c-video-yt', {
+    template: "\n    <div class=\"c-video-yt\">\n      <div class=\"video-wrapper\">\n        <div ref=\"player\"></div>\n      </div>\n    </div>\n  ",
+    props: {
+        videoId: {
+            type: String,
+            default: "KnWMMgEDva0"
+        },
+        uniqId: {
+            type: String,
+            default: "YouTubeVideoPlayer"
+        },
+    },
+    data: function () {
+        return {
+            player: {}
+        };
+    },
+    mounted: function () {
+        var _this = this;
+        window.onYouTubeIframeAPIReady = function () {
+            new YT.Player(_this.$refs.player, {
+                videoId: _this.videoId,
+                width: 560,
+                height: 316,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 1,
+                    showinfo: 0,
+                    modestbranding: 1,
+                    loop: 1,
+                    fs: 0,
+                    cc_load_policty: 0,
+                    iv_load_policy: 3,
+                    autohide: 0,
+                },
+                events: {
+                    onReady: function (e) {
+                        e.target.mute();
+                    }
+                }
+            });
+        };
+    },
+    methods: {},
+});
 //回頂部
 Vue.component('c-backtop', {
     template: "\n    <c-button @click=\"scrollToTop\">\u56DE\u6700\u9802</c-button>\n  ",

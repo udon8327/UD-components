@@ -389,6 +389,62 @@ Vue.component('c-video-youtube', {
   },
 })
 
+
+//播放Youtube影片(可控制版)
+Vue.component('c-video-yt', {
+  template: `
+    <div class="c-video-yt">
+      <div class="video-wrapper">
+        <div ref="player"></div>
+      </div>
+    </div>
+  `,
+  props: {
+    videoId: {
+      type: String,
+      default: "KnWMMgEDva0"
+    },
+    uniqId: {
+      type: String,
+      default: "YouTubeVideoPlayer"
+    },
+  },
+  data() {
+    return {
+      player: {}
+    }
+  },
+  mounted() {
+    let _this = this;
+    window.onYouTubeIframeAPIReady = function(){
+      new YT.Player(_this.$refs.player, {
+        videoId: _this.videoId, // YouTube 影片ID
+        width: 560,               // 播放器寬度 (px)
+        height: 316,              // 播放器高度 (px)
+        playerVars: {
+          autoplay: 1,        // 在讀取時自動播放影片
+          controls: 1,        // 在播放器顯示暫停／播放按鈕
+          showinfo: 0,        // 隱藏影片標題
+          modestbranding: 1,  // 隱藏YouTube Logo
+          loop: 1,            // 讓影片循環播放
+          fs: 0,              // 隱藏全螢幕按鈕
+          cc_load_policty: 0, // 隱藏字幕
+          iv_load_policy: 3,  // 隱藏影片註解
+          autohide: 0,         // 當播放影片時隱藏影片控制列
+        },
+        events: {
+          onReady: function(e) {
+            e.target.mute();
+          }
+        }
+      });
+    }
+  },
+  methods: {
+
+  },
+})
+
 //回頂部
 Vue.component('c-backtop', {
   template: `

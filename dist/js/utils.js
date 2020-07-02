@@ -120,7 +120,7 @@ function shuffle(_a) {
 // const foo = [1, 2, 3];
 // shuffle(foo); // [2, 3, 1], foo = [1, 2, 3]
 //精準型別判斷
-function getType(v) {
+function typeOf(v) {
     return v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
 }
 //深拷貝deepCopy

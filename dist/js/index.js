@@ -10,23 +10,9 @@ var vm = new Vue({
         showModal: false,
         percent: 0
     },
-    computed: {
-        random: function () {
-            return randomString(10);
-        }
-    },
+    computed: {},
     watch: {},
-    created: function () {
-    },
-    mounted: function () {
-    },
-    methods: {
-        finish: function () {
-            alert('完成');
-        },
-        move: function (val) {
-            this.percent = val;
-        }
-    }
+    mounted: function () { },
+    methods: {}
 });
 //# sourceMappingURL=index.js.map

@@ -25,7 +25,6 @@
           <c-modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
           </c-modal>
-          <h1>{{random}}</h1>
           <div class="box">
             <c-ellipsis :max-line="1">測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</c-ellipsis>
           </div>
@@ -33,15 +32,16 @@
           <c-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>456</c-button>
           <c-button @click="disabled = !disabled" round>開關</c-button>
           <c-input v-model="title"></c-input>
-          <div class="text-wrapper">
-            <c-video-youtube video-id="KnWMMgEDva0" autoplay :start="360"></c-video-youtube>
-            <c-video-youtube autoplay loop></c-video-youtube>
-          </div>
+          <c-image-upload></c-image-upload>
+          <c-image-upload-multiple></c-image-upload-multiple>
+          <c-video-yt video-id="p6qjpdi8XuE"></c-video-yt>
+          <c-video-yt></c-video-yt>
         </div>
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script async="" src="https://www.youtube.com/iframe_api"></script>
     <script src="js/utils.js"></script>
     <script src="js/components.js"></script>
     <script src="js/index.js"></script>

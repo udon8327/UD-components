@@ -9,21 +9,20 @@ block content
   c-button(@click="showModal = true") Show Modal
   c-modal(v-if="showModal" @close="showModal = false")
     h3(slot="header") custom header
-  h1 {{random}}
   .box
     c-ellipsis(:max-line="1") 測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字
   h2#aa {{agree ? "同意": "不同意"}}
   c-button(@click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round) 456
   c-button(@click="disabled = !disabled" round) 開關
   c-input(v-model="title")
-  //- c-image-upload
-  //- c-image-upload-multiple
-  .text-wrapper
-    c-video-youtube(video-id="KnWMMgEDva0" autoplay :start="360")
-    c-video-youtube(autoplay loop)
+  c-image-upload
+  c-image-upload-multiple
+  c-video-yt(video-id="p6qjpdi8XuE")
+  c-video-yt
 
 block js
   //- script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
+  script(async="" src="https://www.youtube.com/iframe_api")
   script(src="js/utils.js")
   script(src="js/components.js")
   script(src="js/index.js")
