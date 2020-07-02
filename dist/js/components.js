@@ -8,7 +8,7 @@ Vue.component('c-button', {
         },
         icon: {
             type: String,
-            default: ''
+            default: ""
         },
         loading: Boolean,
         disabled: Boolean,
@@ -271,7 +271,6 @@ Vue.component('c-video-youtube', {
                 urlTemp = urlTemp + "&loop=1&playlist=" + this.videoId;
             if (this.noControl)
                 urlTemp = urlTemp + "&controls=0";
-            console.log(urlTemp);
             return urlTemp;
         }
     },

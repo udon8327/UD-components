@@ -38,19 +38,18 @@
           <div class="box">
             <c-ellipsis :max-line="1">測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</c-ellipsis>
           </div>
-          <h1>{{verify}}</h1>
           <h2 id="aa">{{agree ? "同意": "不同意"}}</h2>
           <c-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>456</c-button>
           <c-button @click="disabled = !disabled" round>開關</c-button>
           <c-input v-model="title"></c-input>
-          <c-image-upload></c-image-upload>
-          <c-image-upload-multiple></c-image-upload-multiple>
-          <c-video-youtube video-id="KnWMMgEDva0" :start="360" loop></c-video-youtube>
-          <c-video-youtube loop autoplay></c-video-youtube>
-          <c-backtop></c-backtop>
+          <div class="text-wrapper">
+            <c-video-youtube video-id="KnWMMgEDva0" autoplay :start="360"></c-video-youtube>
+            <c-video-youtube autoplay loop></c-video-youtube>
+          </div>
         </div>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="js/utils.js"></script>

@@ -11,30 +11,24 @@ block modal
   button.button(type="button" onclick="modal('.modal')") OK
 
 block content
-
   c-button(@click="showModal = true") Show Modal
   c-modal(v-if="showModal" @close="showModal = false")
     h3(slot="header") custom header
   h1 {{random}}
   .box
     c-ellipsis(:max-line="1") 測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字
-  h1 {{verify}}
   h2#aa {{agree ? "同意": "不同意"}}
   c-button(@click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round) 456
   c-button(@click="disabled = !disabled" round) 開關
   c-input(v-model="title")
-  c-image-upload
-  c-image-upload-multiple
-  c-video-youtube(video-id="KnWMMgEDva0" :start="360" loop)
-  c-video-youtube(loop autoplay)
-  c-backtop
-  //- h1 {{ percent }}%
-  //- c-scratch(@finish="finish" @move="move" :percent="20")
-  //- c-scratch(@finish="finish" @move="move" prize-src="img/prize_02.jpg" id="test")
+  //- c-image-upload
+  //- c-image-upload-multiple
+  .text-wrapper
+    c-video-youtube(video-id="KnWMMgEDva0" autoplay :start="360")
+    c-video-youtube(autoplay loop)
 
 block js
   //- script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
-  //- script(src="plugins/scratchcard/scratchcard.min.js")
   script(src="js/utils.js")
   script(src="js/components.js")
   script(src="js/index.js")
