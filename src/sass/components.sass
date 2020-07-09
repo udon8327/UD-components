@@ -26,6 +26,41 @@
 
 .c-checkbox
 
+.c-notify
+  position: fixed
+  top: 68px
+  left: 50%
+  height: 36px
+  padding-right: 10px
+  line-height: 36px
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16)
+  border-radius: 3px
+  background: #fff
+  z-index: 100
+  transform: translateX(-50%)
+  animation: fade-in 0.3s
+  .icon
+    margin: 10px
+    font-size: 16px
+  .close
+    margin: 8px
+    font-size: 20px
+    color: #666
+    transition: all 0.3s
+    cursor: pointer
+    &:hover
+      color: #ff296a
+  &.success
+    color: #1bc7b1
+  &.fail
+    color: #ff296a
+  &.info
+    color: #1593ff
+  &.warn
+    color: #f89300
+  &.close
+    animation: fade-out 0.3s
+
 .c-captcha
   flex: 0 0 100px
   border: 1px solid #ccc

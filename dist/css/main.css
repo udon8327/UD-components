@@ -95,7 +95,7 @@ a {
     -ms-transform: scale(1.05);
     transform: scale(1.05); }
 
-.d-none {
+.d-none, [v-cloak] {
   display: none; }
 
 .animated {

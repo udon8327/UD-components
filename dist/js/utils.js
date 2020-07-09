@@ -184,6 +184,14 @@ function round(n, decimals) {
     return Number(Math.round(n + "e" + decimals) + "e-" + decimals);
 }
 // round(1.235, 2); // 1.24
+//瞬間滾動至頂部
+function toTop() {
+    window.scrollTo(0, 0);
+}
+//瞬間滾動至底部
+function toBottom() {
+    window.scrollTo(0, document.body.scrollHeight);
+}
 //平滑滾動至頂部
 function scrollToTop() {
     var c = document.documentElement.scrollTop || document.body.scrollTop;
@@ -275,5 +283,11 @@ function isIP(str) {
 //校驗是否為IPv6地址
 function isIPv6(str) {
     return Boolean(str.match(/:/g) ? str.match(/:/g).length <= 7 : false && /::/.test(str) ? /^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(str) : /^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str));
+}
+//動態載入插件
+function insertPlugin(src) {
+    var script = document.createElement('script');
+    script.setAttribute('src', src);
+    document.head.appendChild(script);
 }
 //# sourceMappingURL=utils.js.map

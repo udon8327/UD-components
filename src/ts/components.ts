@@ -98,6 +98,48 @@ Vue.component('c-radio', {
   },
 })
 
+//通用通知
+Vue.component('c-notify', {
+  template: `
+    <div :class="type" class="c-notify">
+      <i :class="iconClass" class="icon fl"/>
+      <span>{{ msg }}</span>
+      <span class="close fr eqf-no" @click="close"></span>
+    </div>
+  `,
+  props: {
+    type: {
+      type: String,
+      default: ''
+    },
+    msg: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    iconClass() {
+      switch (this.type) {
+        case 'success':
+          return 'eqf-info-f'
+        case 'fail':
+          return 'eqf-no-f'
+        case 'info':
+          return 'eqf-info-f'
+        case 'warn':
+          return 'eqf-alert-f'
+      }
+    }
+  },
+  mounted() {
+    setTimeout(() => this.close(), 4000)
+  },
+  methods: {
+    close() {
+    }
+  }
+})
+
 //圖形驗證碼
 Vue.component('c-captcha', {
   template: `
@@ -545,6 +587,78 @@ Vue.component('c-scratch', {
       }).catch((error) => {
         alert(error.message);
       });
+    }
+  },
+})
+
+//倒數計時(有期限)
+// Vue.component('c-countdown-deadline', {
+//   template: `
+//     <div>距離5月13號 15點0分0秒 還有</div>
+//     <i></i>
+//     <i></i>
+//     <i></i>
+//   `,
+//   mounted() {
+//     let aI = document.getElementsByTagName("i");
+//     setInterval(function() {  // 設置倒數計時: 結束時間 - 當前時間
+//       // 當前時間
+//       let time = new Date();
+//       let nowTime = time.getTime(); // 獲取當前毫秒數
+//       // 設置結束時間 : 5月13號 15點0分0秒
+//       time.setMonth(4); //   獲取當前 月份 (從 '0' 開始算)
+//       time.setDate(13); //   獲取當前 日
+//       time.setHours(15); //   獲取當前 時
+//       time.setMinutes(0); //   獲取當前 分
+//       time.setSeconds(0);
+//       let endTime = time.getTime();
+//       // 倒數計時: 差值
+//       let offsetTime = (endTime - nowTime) / 1000; // ** 以秒為單位
+//       let sec = parseInt(offsetTime % 60); // 秒
+//       let min = parseInt((offsetTime / 60) % 60); // 分 ex: 90秒
+//       let hr = parseInt(offsetTime / 60 / 60); // 時
+
+//       aI[0].textContent = hr + "時";
+//       aI[1].textContent = min + "分";
+//       aI[2].textContent = sec + "秒";
+//     }, 1000);
+//   },
+// })
+
+//倒數計時(無期限)
+Vue.component('c-countdown', {
+  template: `
+    <span class="c-countdown" ref="count">{{cTime}}</span>
+  `,
+  props: {
+    time: {
+      type: Number,
+      default: 60
+    },
+    delay: Boolean
+  },
+  data() {
+    return {
+      cTime: this.time
+    }
+  },
+  mounted() {
+    if(!this.delay) this.countdown();
+  },
+  methods: {
+    countdown: function(){
+      let _this = this;
+      let countdown = setInterval(function(){
+        _this.cTime -= 1;
+        if(_this.cTime <= 0){
+          _this.$emit("timeup");
+          clearInterval(countdown);
+        }
+      }, 1000);
+    },
+    reset: function(){
+      this.cTime = 10;
+      this.countdown();
     }
   },
 })

@@ -14,6 +14,24 @@ let vm = new Vue({
   },
   computed: {},
   watch: {},
-  mounted: function () {},
-  methods: {}
+  mounted: function () {
+    // insertPlugin('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js')
+    this.sa();
+  },
+  methods: {
+    timeup: function(){
+      console.log('時間到!!');
+    },
+    timereset: function(){
+      this.$refs.count.reset();
+    },
+    sa: function(){
+      Swal.fire({
+        title: 'Error!',
+        text: 'Do you want to continue',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
 });

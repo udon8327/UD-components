@@ -25,6 +25,48 @@
   .c-button--round {
     border-radius: 50px; }
 
+.c-notify {
+  position: fixed;
+  top: 68px;
+  left: 50%;
+  height: 36px;
+  padding-right: 10px;
+  line-height: 36px;
+  -webkit-box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 3px;
+  background: #fff;
+  z-index: 100;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  -webkit-animation: fade-in 0.3s;
+  animation: fade-in 0.3s; }
+  .c-notify .icon {
+    margin: 10px;
+    font-size: 16px; }
+  .c-notify .close {
+    margin: 8px;
+    font-size: 20px;
+    color: #666;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    cursor: pointer; }
+    .c-notify .close:hover {
+      color: #ff296a; }
+  .c-notify.success {
+    color: #1bc7b1; }
+  .c-notify.fail {
+    color: #ff296a; }
+  .c-notify.info {
+    color: #1593ff; }
+  .c-notify.warn {
+    color: #f89300; }
+  .c-notify.close {
+    -webkit-animation: fade-out 0.3s;
+    animation: fade-out 0.3s; }
+
 .c-captcha {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100px;

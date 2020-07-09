@@ -21,12 +21,13 @@
     <div id="app">
       <div class="container">
         <div class="wrapper">
+          <c-notify type="success" msg="這是通知"></c-notify>
           <c-button @click="showModal = true">Show Modal</c-button>
           <c-modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
           </c-modal>
           <div class="box">
-            <c-ellipsis :max-line="1">測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</c-ellipsis>
+            <c-ellipsis :max-line="1">文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</c-ellipsis>
           </div>
           <h2 id="aa">{{agree ? "同意": "不同意"}}</h2>
           <c-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>456</c-button>
@@ -34,7 +35,11 @@
           <c-input v-model="title"></c-input>
           <c-image-upload></c-image-upload>
           <c-image-upload-multiple></c-image-upload-multiple>
-          <c-youtube-api video-id="p6qjpdi8XuE" autoplay :start="4" mute></c-youtube-api>
+          <c-youtube-api video-id="p6qjpdi8XuE" :start="4" mute></c-youtube-api>
+          <p>還剩
+            <c-countdown :time="10" @timeup="timeup"></c-countdown>秒
+          </p>
+          <c-button @click="timereset">重新計時</c-button>
         </div>
       </div>
     </div>

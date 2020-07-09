@@ -200,6 +200,22 @@ function round(n, decimals = 0){
 }
   // round(1.235, 2); // 1.24
 
+//瞬間滾動至頂部
+function anchorTop(){
+  window.scrollTo(0,0);
+}
+
+//瞬間滾動至指定元素
+function anchorElement(targetId){
+  let target = document.getElementById(targetId);
+  window.scrollTo(0,target.offsetTop);
+}
+
+//瞬間滾動至底部
+function anchorBottom(){
+  window.scrollTo(0,document.body.scrollHeight);
+}
+
 //平滑滾動至頂部
 function scrollToTop(){
   const c = document.documentElement.scrollTop || document.body.scrollTop;
@@ -250,6 +266,16 @@ function loadStyle(url) {
     let head = document.getElementsByTagName("head")[0];
     head.appendChild(cssLink);
   }
+}
+
+//取得LocalStorage的值
+function getLocalStorage(key) {
+  return localStorage.getItem(key);
+}
+
+//設定LocalStorage的值
+function setLocalStorage(key, val) {
+  localStorage.setItem(key, val);
 }
 
 //時間個性化輸出功能
@@ -306,4 +332,11 @@ function isIP(str) {
 //校驗是否為IPv6地址
 function isIPv6(str){
   return Boolean(str.match(/:/g)?str.match(/:/g).length<=7:false && /::/.test(str)?/^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(str):/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str));
+}
+
+//動態載入插件
+function insertPlugin(src){
+  let script = document.createElement('script');
+  script.setAttribute('src', src);
+  document.head.appendChild(script);
 }
