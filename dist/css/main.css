@@ -70,10 +70,10 @@ a {
       box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.3); }
       .modal .modal-wrapper .modal-content p {
         font-size: 14px;
-        margin: 0 0 0 40px 0;
+        margin: 0 0 40px 0;
         color: #666; }
 
-.button {
+button.button {
   display: block;
   cursor: pointer;
   position: relative;
@@ -90,7 +90,7 @@ a {
   font-size: 16px;
   min-width: 40%;
   margin: 0 auto 15px auto; }
-  .button:hover {
+  button.button:hover {
     -webkit-transform: scale(1.05);
     -ms-transform: scale(1.05);
     transform: scale(1.05); }
@@ -101,3 +101,11 @@ a {
 .animated {
   -webkit-animation-duration: 0.5s !important;
   animation-duration: 0.5s !important; }
+
+.fade-enter-active, .fade-leave-active {
+  -webkit-transition: opacity .5s;
+  -o-transition: opacity .5s;
+  transition: opacity .5s; }
+
+.fade-enter, .fade-leave-to {
+  opacity: 0; }

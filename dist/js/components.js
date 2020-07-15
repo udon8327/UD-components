@@ -1,6 +1,6 @@
 //通用按鈕
-Vue.component('c-button', {
-    template: "\n    <button \n      class=\"c-button\"\n      :class=\"{\n        'c-button--disabled': disabled,\n        'c-button--round': round,\n      }\"\n      :type=\"type\"\n      @click=\"handleClick\"\n      :disabled=\"disabled\"\n    >\n      <i class=\"fas fa-spinner fa-pulse\" v-if=\"loading\"></i>\n      <i :class=\"icon\" v-if=\"icon && !loading\"></i>\n      <span><slot>\u6309\u9215</slot></span>\n    </button>\n  ",
+Vue.component('ud-button', {
+    template: "\n    <button \n      class=\"ud-button\"\n      :class=\"{\n        'ud-button--disabled': disabled,\n        'ud-button--round': round,\n      }\"\n      :type=\"type\"\n      @click=\"handleClick\"\n      :disabled=\"disabled\"\n    >\n      <i class=\"fas fa-spinner fa-pulse\" v-if=\"loading\"></i>\n      <i :class=\"icon\" v-if=\"icon && !loading\"></i>\n      <span><slot>\u6309\u9215</slot></span>\n    </button>\n  ",
     props: {
         type: {
             type: String,
@@ -23,7 +23,7 @@ Vue.component('c-button', {
     }
 });
 //通用input表單
-Vue.component('c-input', {
+Vue.component('ud-input', {
     template: "\n    <input \n      type=\"text\" \n      :placeholder=\"placeholder\" \n      :required=\"required\" \n      :value=\"value\" \n      @input=\"$emit('input', $event.target.value)\"\n    >\n  ",
     props: {
         placeholder: {
@@ -36,8 +36,8 @@ Vue.component('c-input', {
     methods: {},
 });
 //通用checkbox表單
-Vue.component('c-checkbox', {
-    template: "\n    <input\n      class=\"c-checkbox\"\n      type=\"checkbox\"\n      :checked=\"checked\"\n      @change=\"$emit('change', $event.target.checked)\"\n    >\n  ",
+Vue.component('ud-checkbox', {
+    template: "\n    <input\n      class=\"ud-checkbox\"\n      type=\"checkbox\"\n      :checked=\"checked\"\n      @change=\"$emit('change', $event.target.checked)\"\n    >\n  ",
     model: {
         prop: 'checked',
         event: 'change'
@@ -47,8 +47,8 @@ Vue.component('c-checkbox', {
     },
 });
 //通用radio表單
-Vue.component('c-radio', {
-    template: "\n    <input\n      class=\"c-checkbox\"\n      type=\"radio\"\n      :checked=\"checked\"\n      @change=\"$emit('change', $event.target.checked)\"\n    >\n  ",
+Vue.component('ud-radio', {
+    template: "\n    <input\n      class=\"ud-checkbox\"\n      type=\"radio\"\n      :checked=\"checked\"\n      @change=\"$emit('change', $event.target.checked)\"\n    >\n  ",
     model: {
         prop: 'checked',
         event: 'change'
@@ -58,8 +58,8 @@ Vue.component('c-radio', {
     },
 });
 //通用通知
-Vue.component('c-notify', {
-    template: "\n    <div :class=\"type\" class=\"c-notify\">\n      <i :class=\"iconClass\" class=\"icon fl\"/>\n      <span>{{ msg }}</span>\n      <span class=\"close fr eqf-no\" @click=\"close\"></span>\n    </div>\n  ",
+Vue.component('ud-notify', {
+    template: "\n    <div :class=\"type\" class=\"ud-notify\">\n      <i :class=\"iconClass\" class=\"icon fl\"/>\n      <span>{{ msg }}</span>\n      <span class=\"close fr eqf-no\" @click=\"close\"></span>\n    </div>\n  ",
     props: {
         type: {
             type: String,
@@ -94,8 +94,8 @@ Vue.component('c-notify', {
     }
 });
 //圖形驗證碼
-Vue.component('c-captcha', {
-    template: "\n    <div class=\"c-captcha\">\n      <canvas id=\"verify-canvas\" ref=\"verifyCanvas\" width=\"126\" height=\"48\"></canvas>\n      <img id=\"captcha-img\" ref=\"captchaImg\">\n      <input id=\"verify-hidden\" ref=\"verifyHidden\" type=\"hidden\" v-model=\"verify\">\n      <div id=\"refresh\" ref=\"refresh\" v-if=\"hasRefresh\">\n        <i class=\"refresh fas fa-sync-alt\"></i>\n      </div>\n    </div>\n  ",
+Vue.component('ud-captcha', {
+    template: "\n    <div class=\"ud-captcha\">\n      <canvas id=\"verify-canvas\" ref=\"verifyCanvas\" width=\"126\" height=\"48\"></canvas>\n      <img id=\"captcha-img\" ref=\"captchaImg\">\n      <input id=\"verify-hidden\" ref=\"verifyHidden\" type=\"hidden\" v-model=\"verify\">\n      <div id=\"refresh\" ref=\"refresh\" v-if=\"hasRefresh\">\n        <i class=\"refresh fas fa-synud-alt\"></i>\n      </div>\n    </div>\n  ",
     mounted: function () {
         this.captchaInit();
     },
@@ -204,8 +204,8 @@ Vue.component('c-captcha', {
     }
 });
 //文字省略
-Vue.component('c-ellipsis', {
-    template: '<p class="c-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
+Vue.component('ud-ellipsis', {
+    template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
     props: {
         maxLine: {
             type: Number,
@@ -214,12 +214,15 @@ Vue.component('c-ellipsis', {
     },
 });
 //modal彈窗
-Vue.component('c-modal', {
-    template: "\n    <transition name=\"modal\">\n      <div class=\"modal-mask c-modal\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-container\">\n            <div class=\"modal-header\">\n              <slot name=\"header\">\n                default header\n              </slot>\n            </div>\n            <div class=\"modal-body\">\n              <slot name=\"body\">\n                default body\n              </slot>\n            </div>\n            <div class=\"modal-footer\">\n              <slot name=\"footer\">\n                default footer\n                <c-button class=\"modal-default-button\" @click=\"$emit('close')\">\n                  OK\n                </c-button>\n              </slot>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
+Vue.component('ud-modal', {
+    template: "\n    <transition name=\"fade\">\n      <div class=\"ud-modal\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-content\">\n            <slot></slot>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
+});
+Vue.component('ud-modal-2', {
+    template: "\n    <transition name=\"modal\">\n      <div class=\"modal-mask ud-modal-2\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-container\">\n            <div class=\"modal-header\">\n              <slot name=\"header\">\n                default header\n              </slot>\n            </div>\n            <div class=\"modal-body\">\n              <slot name=\"body\">\n                default body\n              </slot>\n            </div>\n            <div class=\"modal-footer\">\n              <slot name=\"footer\">\n                default footer\n                <ud-button class=\"modal-default-button\" @click=\"$emit('close')\">\n                  OK\n                </ud-button>\n              </slot>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
 });
 //圖片上傳預覽
-Vue.component('c-image-upload', {
-    template: "\n    <div class=\"c-image-upload\">\n      <input type=\"file\" accept=\"image/*\" ref=\"input\" @change=\"previewImage\">\n      <template v-if=\"preview\">\n        <div class=\"image-preview\">\n          <img :src=\"preview\" class=\"img-fluid\" />\n          <div class=\"image-info\">\n            <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image.name }}</p>\n            <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image.size/1024) }}KB</p>\n          </div>\n        </div>\n        <c-button @click=\"reset\">\u522A\u9664\u5716\u7247</c-button>\n      </template>\n    </div>\n  ",
+Vue.component('ud-image-upload', {
+    template: "\n    <div class=\"ud-image-upload\">\n      <input type=\"file\" accept=\"image/*\" ref=\"input\" @change=\"previewImage\">\n      <template v-if=\"preview\">\n        <div class=\"image-preview\">\n          <img :src=\"preview\" class=\"img-fluid\" />\n          <div class=\"image-info\">\n            <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image.name }}</p>\n            <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image.size/1024) }}KB</p>\n          </div>\n        </div>\n        <ud-button @click=\"reset\">\u522A\u9664\u5716\u7247</ud-button>\n      </template>\n    </div>\n  ",
     data: function () {
         return {
             preview: "",
@@ -247,8 +250,8 @@ Vue.component('c-image-upload', {
     }
 });
 //圖片上傳預覽(多張)
-Vue.component('c-image-upload-multiple', {
-    template: "\n    <div class=\"c-image-upload-multiple\">\n      <input type=\"file\" accept=\"image/*\" multiple=\"multiple\" ref=\"input\" @change=\"previewMultiImage\">\n      <template v-if=\"preview_list.length\">\n        <div class=\"image-preview\">\n          <div v-for=\"item, index in preview_list\" :key=\"index\">\n            <img :src=\"item\"/>\n            <div class=\"image-info\">\n              <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image_list[index].name }}</p>\n              <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image_list[index].size/1024) }}KB</p>\n            </div>\n          </div>\n          <c-button @click=\"reset\">\u522A\u9664\u5716\u7247</c-button>\n        </div>\n      </template>\n    </div>\n  ",
+Vue.component('ud-image-upload-multiple', {
+    template: "\n    <div class=\"ud-image-upload-multiple\">\n      <input type=\"file\" accept=\"image/*\" multiple=\"multiple\" ref=\"input\" @change=\"previewMultiImage\">\n      <template v-if=\"preview_list.length\">\n        <div class=\"image-preview\">\n          <div v-for=\"item, index in preview_list\" :key=\"index\">\n            <img :src=\"item\"/>\n            <div class=\"image-info\">\n              <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image_list[index].name }}</p>\n              <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image_list[index].size/1024) }}KB</p>\n            </div>\n          </div>\n          <ud-button @click=\"reset\">\u522A\u9664\u5716\u7247</ud-button>\n        </div>\n      </template>\n    </div>\n  ",
     data: function () {
         return {
             preview_list: [],
@@ -281,8 +284,8 @@ Vue.component('c-image-upload-multiple', {
     }
 });
 //播放Youtube影片(無控制版)
-Vue.component('c-youtube', {
-    template: "\n    <div class=\"c-youtube\">\n      <div class=\"video-wrapper\">\n        <iframe width=\"560\" height=\"315\" :src=\"videoIdAfter\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n      </div>\n    </div>\n  ",
+Vue.component('ud-youtube', {
+    template: "\n    <div class=\"ud-youtube\">\n      <div class=\"video-wrapper\">\n        <iframe width=\"560\" height=\"315\" :src=\"videoIdAfter\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n      </div>\n    </div>\n  ",
     props: {
         videoId: {
             type: String,
@@ -312,8 +315,8 @@ Vue.component('c-youtube', {
     },
 });
 //播放Youtube影片(可控制版)
-Vue.component('c-youtube-api', {
-    template: "\n    <div class=\"c-youtube-api\">\n      <div class=\"video-wrapper\">\n        <div :id=\"videoId\" ref=\"player\"></div>\n      </div>\n    </div>\n  ",
+Vue.component('ud-youtube-api', {
+    template: "\n    <div class=\"ud-youtube-api\">\n      <div class=\"video-wrapper\">\n        <div :id=\"videoId\" ref=\"player\"></div>\n      </div>\n    </div>\n  ",
     props: {
         videoId: {
             type: String,
@@ -385,8 +388,8 @@ Vue.component('c-youtube-api', {
     methods: {},
 });
 //回頂部
-Vue.component('c-backtop', {
-    template: "\n    <c-button @click=\"scrollToTop\">\u56DE\u6700\u9802</c-button>\n  ",
+Vue.component('ud-backtop', {
+    template: "\n    <ud-button @click=\"scrollToTop\">\u56DE\u6700\u9802</ud-button>\n  ",
     methods: {
         scrollToTop: function () {
             var c = document.documentElement.scrollTop || document.body.scrollTop;
@@ -398,15 +401,15 @@ Vue.component('c-backtop', {
     },
 });
 //刮刮樂(引入套件：plugins/scratchcard/scratchcard.min.js)
-Vue.component('c-scratch', {
-    template: "\n    <div class=\"c-scratch\">\n      <div class=\"sc__wrapper\">\n        <div class=\"sc__container\" :id=\"id\"></div>\n      </div>\n    </div>\n  ",
+Vue.component('ud-scratch', {
+    template: "\n    <div class=\"ud-scratch\">\n      <div class=\"sc__wrapper\">\n        <div class=\"sc__container\" :id=\"id\"></div>\n      </div>\n    </div>\n  ",
     mounted: function () {
         this.initScratch();
     },
     props: {
         id: {
             type: String,
-            default: "js--sc--container"
+            default: "js--sud--container"
         },
         coverSrc: {
             type: String,
@@ -456,7 +459,7 @@ Vue.component('c-scratch', {
     },
 });
 //倒數計時(有期限)
-// Vue.component('c-countdown-deadline', {
+// Vue.component('ud-countdown-deadline', {
 //   template: `
 //     <div>距離5月13號 15點0分0秒 還有</div>
 //     <i></i>
@@ -488,8 +491,8 @@ Vue.component('c-scratch', {
 //   },
 // })
 //倒數計時(無期限)
-Vue.component('c-countdown', {
-    template: "\n    <span class=\"c-countdown\" ref=\"count\">{{cTime}}</span>\n  ",
+Vue.component('ud-countdown', {
+    template: "\n    <span class=\"ud-countdown\" ref=\"count\">{{cTime}}</span>\n  ",
     props: {
         time: {
             type: Number,
@@ -522,5 +525,21 @@ Vue.component('c-countdown', {
             this.countdown();
         }
     },
+});
+Vue.component('ud-loading', {
+    template: "\n    <transition name=\"loading\" >\n      <div class=\"mask\" @touchmove.stop.prevent v-show=\"visible\">\n        <div class=\"showContent\">\n          <i class=\"fas fa-spinner fa-pulse\" v-if=\"loading\"></i>\n          <image src=\"../static/img/loading1.gif\" class=\"loadingImg\"></image>\n          <text class=\"lable\">{{label}}</text>\n        </div>\n      </div>\n    </transition>\n  ",
+    name: 'loading',
+    data: function () {
+        return {
+            visible: false
+        };
+    },
+    props: {
+        type: {},
+        label: {
+            default: "加載中...",
+            type: String
+        }
+    }
 });
 //# sourceMappingURL=components.js.map

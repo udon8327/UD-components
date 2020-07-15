@@ -1,11 +1,11 @@
 //通用按鈕
-Vue.component('c-button', {
+Vue.component('ud-button', {
   template: `
     <button 
-      class="c-button"
+      class="ud-button"
       :class="{
-        'c-button--disabled': disabled,
-        'c-button--round': round,
+        'ud-button--disabled': disabled,
+        'ud-button--round': round,
       }"
       :type="type"
       @click="handleClick"
@@ -38,7 +38,7 @@ Vue.component('c-button', {
 })
 
 //通用input表單
-Vue.component('c-input', {
+Vue.component('ud-input', {
   template: `
     <input 
       type="text" 
@@ -61,10 +61,10 @@ Vue.component('c-input', {
 })
 
 //通用checkbox表單
-Vue.component('c-checkbox', {
+Vue.component('ud-checkbox', {
   template: `
     <input
-      class="c-checkbox"
+      class="ud-checkbox"
       type="checkbox"
       :checked="checked"
       @change="$emit('change', $event.target.checked)"
@@ -80,10 +80,10 @@ Vue.component('c-checkbox', {
 })
 
 //通用radio表單
-Vue.component('c-radio', {
+Vue.component('ud-radio', {
   template: `
     <input
-      class="c-checkbox"
+      class="ud-checkbox"
       type="radio"
       :checked="checked"
       @change="$emit('change', $event.target.checked)"
@@ -99,9 +99,9 @@ Vue.component('c-radio', {
 })
 
 //通用通知
-Vue.component('c-notify', {
+Vue.component('ud-notify', {
   template: `
-    <div :class="type" class="c-notify">
+    <div :class="type" class="ud-notify">
       <i :class="iconClass" class="icon fl"/>
       <span>{{ msg }}</span>
       <span class="close fr eqf-no" @click="close"></span>
@@ -141,14 +141,14 @@ Vue.component('c-notify', {
 })
 
 //圖形驗證碼
-Vue.component('c-captcha', {
+Vue.component('ud-captcha', {
   template: `
-    <div class="c-captcha">
+    <div class="ud-captcha">
       <canvas id="verify-canvas" ref="verifyCanvas" width="126" height="48"></canvas>
       <img id="captcha-img" ref="captchaImg">
       <input id="verify-hidden" ref="verifyHidden" type="hidden" v-model="verify">
       <div id="refresh" ref="refresh" v-if="hasRefresh">
-        <i class="refresh fas fa-sync-alt"></i>
+        <i class="refresh fas fa-synud-alt"></i>
       </div>
     </div>
   `,
@@ -262,8 +262,8 @@ Vue.component('c-captcha', {
 })
 
 //文字省略
-Vue.component('c-ellipsis', {
-  template: '<p class="c-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
+Vue.component('ud-ellipsis', {
+  template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
   props: {
     maxLine: {
       type: Number,
@@ -273,10 +273,24 @@ Vue.component('c-ellipsis', {
 })
 
 //modal彈窗
-Vue.component('c-modal', {
+Vue.component('ud-modal', {
+  template: `
+    <transition name="fade">
+      <div class="ud-modal">
+        <div class="modal-wrapper">
+          <div class="modal-content">
+            <slot></slot>
+          </div>
+        </div>
+      </div>
+    </transition>
+  `,
+
+})
+Vue.component('ud-modal-2', {
   template: `
     <transition name="modal">
-      <div class="modal-mask c-modal">
+      <div class="modal-mask ud-modal-2">
         <div class="modal-wrapper">
           <div class="modal-container">
             <div class="modal-header">
@@ -292,9 +306,9 @@ Vue.component('c-modal', {
             <div class="modal-footer">
               <slot name="footer">
                 default footer
-                <c-button class="modal-default-button" @click="$emit('close')">
+                <ud-button class="modal-default-button" @click="$emit('close')">
                   OK
-                </c-button>
+                </ud-button>
               </slot>
             </div>
           </div>
@@ -305,9 +319,9 @@ Vue.component('c-modal', {
 })
 
 //圖片上傳預覽
-Vue.component('c-image-upload', {
+Vue.component('ud-image-upload', {
   template: `
-    <div class="c-image-upload">
+    <div class="ud-image-upload">
       <input type="file" accept="image/*" ref="input" @change="previewImage">
       <template v-if="preview">
         <div class="image-preview">
@@ -317,7 +331,7 @@ Vue.component('c-image-upload', {
             <p>檔案大小：{{ parseInt(image.size/1024) }}KB</p>
           </div>
         </div>
-        <c-button @click="reset">刪除圖片</c-button>
+        <ud-button @click="reset">刪除圖片</ud-button>
       </template>
     </div>
   `,
@@ -348,9 +362,9 @@ Vue.component('c-image-upload', {
 })
 
 //圖片上傳預覽(多張)
-Vue.component('c-image-upload-multiple', {
+Vue.component('ud-image-upload-multiple', {
   template: `
-    <div class="c-image-upload-multiple">
+    <div class="ud-image-upload-multiple">
       <input type="file" accept="image/*" multiple="multiple" ref="input" @change="previewMultiImage">
       <template v-if="preview_list.length">
         <div class="image-preview">
@@ -361,7 +375,7 @@ Vue.component('c-image-upload-multiple', {
               <p>檔案大小：{{ parseInt(image_list[index].size/1024) }}KB</p>
             </div>
           </div>
-          <c-button @click="reset">刪除圖片</c-button>
+          <ud-button @click="reset">刪除圖片</ud-button>
         </div>
       </template>
     </div>
@@ -398,9 +412,9 @@ Vue.component('c-image-upload-multiple', {
 })
 
 //播放Youtube影片(無控制版)
-Vue.component('c-youtube', {
+Vue.component('ud-youtube', {
   template: `
-    <div class="c-youtube">
+    <div class="ud-youtube">
       <div class="video-wrapper">
         <iframe width="560" height="315" :src="videoIdAfter" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
@@ -432,9 +446,9 @@ Vue.component('c-youtube', {
 })
 
 //播放Youtube影片(可控制版)
-Vue.component('c-youtube-api', {
+Vue.component('ud-youtube-api', {
   template: `
-    <div class="c-youtube-api">
+    <div class="ud-youtube-api">
       <div class="video-wrapper">
         <div :id="videoId" ref="player"></div>
       </div>
@@ -511,9 +525,9 @@ Vue.component('c-youtube-api', {
 })
 
 //回頂部
-Vue.component('c-backtop', {
+Vue.component('ud-backtop', {
   template: `
-    <c-button @click="scrollToTop">回最頂</c-button>
+    <ud-button @click="scrollToTop">回最頂</ud-button>
   `,
   methods: {
     scrollToTop: function(){
@@ -527,9 +541,9 @@ Vue.component('c-backtop', {
 })
 
 //刮刮樂(引入套件：plugins/scratchcard/scratchcard.min.js)
-Vue.component('c-scratch', {
+Vue.component('ud-scratch', {
   template: `
-    <div class="c-scratch">
+    <div class="ud-scratch">
       <div class="sc__wrapper">
         <div class="sc__container" :id="id"></div>
       </div>
@@ -541,7 +555,7 @@ Vue.component('c-scratch', {
   props: {
     id: { //刮刮樂id 區分複數刮刮樂
       type: String,
-      default: "js--sc--container"
+      default: "js--sud--container"
     },
     coverSrc: { //封面圖片
       type: String,
@@ -592,7 +606,7 @@ Vue.component('c-scratch', {
 })
 
 //倒數計時(有期限)
-// Vue.component('c-countdown-deadline', {
+// Vue.component('ud-countdown-deadline', {
 //   template: `
 //     <div>距離5月13號 15點0分0秒 還有</div>
 //     <i></i>
@@ -626,9 +640,9 @@ Vue.component('c-scratch', {
 // })
 
 //倒數計時(無期限)
-Vue.component('c-countdown', {
+Vue.component('ud-countdown', {
   template: `
-    <span class="c-countdown" ref="count">{{cTime}}</span>
+    <span class="ud-countdown" ref="count">{{cTime}}</span>
   `,
   props: {
     time: {
@@ -661,4 +675,33 @@ Vue.component('c-countdown', {
       this.countdown();
     }
   },
+})
+
+Vue.component('ud-loading', {
+  template: `
+    <transition name="loading" >
+      <div class="mask" @touchmove.stop.prevent v-show="visible">
+        <div class="showContent">
+          <i class="fas fa-spinner fa-pulse" v-if="loading"></i>
+          <image src="../static/img/loading1.gif" class="loadingImg"></image>
+          <text class="lable">{{label}}</text>
+        </div>
+      </div>
+    </transition>
+  `,
+  name:'loading',
+  data() {
+    return {
+      visible:false
+    }
+  },
+  props: {
+    type:{
+
+    },
+    label:{
+      default: "加載中...",
+      type: String
+    }
+  }
 })

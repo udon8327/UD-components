@@ -12,34 +12,31 @@
     <link href="css/main.css" rel="stylesheet">
     <link href="css/components.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body>
     <div id="app">
       <div class="container">
         <div class="wrapper">
-          <c-notify type="success" msg="這是通知"></c-notify>
-          <c-button @click="showModal = true">Show Modal</c-button>
-          <c-modal v-if="showModal" @close="showModal = false">
+          <ud-loading></ud-loading>
+          <ud-notify type="success" msg="這是通知"></ud-notify>
+          <ud-button @click="showModal = true">Show Modal</ud-button>
+          <ud-modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
-          </c-modal>
+          </ud-modal>
           <div class="box">
-            <c-ellipsis :max-line="1">文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</c-ellipsis>
+            <ud-ellipsis :max-line="1">文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</ud-ellipsis>
           </div>
           <h2 id="aa">{{agree ? "同意": "不同意"}}</h2>
-          <c-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>456</c-button>
-          <c-button @click="disabled = !disabled" round>開關</c-button>
-          <c-input v-model="title"></c-input>
-          <c-image-upload></c-image-upload>
-          <c-image-upload-multiple></c-image-upload-multiple>
-          <c-youtube-api video-id="p6qjpdi8XuE" :start="4" mute></c-youtube-api>
+          <ud-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>456</ud-button>
+          <ud-button @click="disabled = !disabled" round>開關</ud-button>
+          <ud-input v-model="title"></ud-input>
+          <ud-image-upload></ud-image-upload>
+          <ud-image-upload-multiple></ud-image-upload-multiple>
+          <ud-youtube-api video-id="p6qjpdi8XuE" :start="4" mute></ud-youtube-api>
           <p>還剩
-            <c-countdown :time="10" @timeup="timeup"></c-countdown>秒
+            <ud-countdown :time="10" @timeup="timeup"></ud-countdown>秒
           </p>
-          <c-button @click="timereset">重新計時</c-button>
+          <ud-button @click="timereset">重新計時</ud-button>
         </div>
       </div>
     </div>
