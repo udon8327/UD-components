@@ -1,20 +1,37 @@
 var vm = new Vue({
     el: "#app",
     data: {
-        title: "標題",
+        title: "",
         agree: true,
         data: [],
+        radio: "A",
+        radio2: "A",
         checkList: ["选中且禁用", "复选框 A"],
         go: false,
         disabled: false,
         showModal: false,
-        percent: 0
+        percent: 0,
+        options: [{
+                value: '選項1',
+                label: '黄金糕'
+            }, {
+                value: '選項2',
+                label: '双皮奶'
+            }, {
+                value: '選項3',
+                label: '蚵仔煎'
+            }, {
+                value: '選項4',
+                label: '龙须面'
+            }, {
+                value: '選項5',
+                label: '北京烤鸭'
+            }],
+        test: ''
     },
     computed: {},
     watch: {},
     mounted: function () {
-        // insertPlugin('https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js')
-        this.sa();
     },
     methods: {
         timeup: function () {
@@ -23,14 +40,10 @@ var vm = new Vue({
         timereset: function () {
             this.$refs.count.reset();
         },
-        sa: function () {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Do you want to continue',
-                icon: 'error',
-                confirmButtonText: 'Cool'
-            });
-        }
+        alert: function () {
+            alert('ok');
+        },
     }
 });
+//# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

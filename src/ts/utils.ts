@@ -1,3 +1,83 @@
+/* 工具函數目錄
+Basic
+  Layout 布局
+  Container 布局容器
+  Color 色彩
+  Typography 字體
+  Border 邊框
+  Icon 圖標
+  Button 按鈕 -------------------------> ud-button
+  Link 文字鏈接
+
+Form
+  Radio 單選框 ------------------------> ud-radio
+  Checkbox 多選框 ---------------------> ud-checkbox
+  Input 輸入框 ------------------------> ud-input
+  InputNumber 計數器
+  Select 選擇器 -----------------------> ud-select
+  Cascader 級聯選擇器
+  Switch 開關 -------------------------> ud-switch
+  Slider 滑塊
+  TimePicker 時間選擇器
+  DatePicker 日期選擇器
+  DateTimePicker 日期時間選擇器
+  Upload 上傳 -------------------------> ud-upload
+  Rate 評分
+  ColorPicker 顏色選擇器
+  Transfer 穿梭框
+  Form 表單 ---------------------------> ud-form
+
+Data
+  Table 表格 --------------------------> ud-table
+  Tag 標簽
+  Progress 進度條
+  Tree 樹形控件
+  Pagination 分頁 ---------------------> ud-table
+  Badge 標記
+  Avatar 頭像
+
+Notice
+  Alert 警告 --------------------------> ud-alert
+  Loading 加載 ------------------------> ud-loading
+  Message 消息提示 ---------------------> ud-message
+  MessageBox 彈框 ---------------------> ud-messagebox
+  Notification 通知 -------------------> ud-notification
+
+Navigation
+  NavMenu 導航菜單
+  Tabs 標簽頁
+  Breadcrumb 面包屑
+  PageHeader 頁頭
+  Dropdown 下拉菜單
+  Steps 步驟條
+
+Others
+  Dialog 對話框 ------------------------> ud-dialog
+  Tooltip 文字提示
+  Popover 彈出框 -----------------------> ud-popover
+  Popconfirm 氣泡確認框 -----------------> ud-popconfirm
+  Card 卡片
+  Carousel 走馬燈
+  Collapse 折疊面板
+  Timeline 時間線
+  Divider 分割線
+  Calendar 日歷
+  Image 圖片
+  Backtop 回到頂部 ----------------------> ud-backtop
+  InfiniteScroll 無限滾動
+  Drawer 抽屜
+
+Personal
+  Captcha 圖形驗證碼 ---------------------> ud-captcha
+  Ellipsis 文字省略 ----------------------> ud-ellipsis
+  Youtube 水管播放 -----------------------> ud-youtube
+  YoutubeApi 水管播放(控制版) -------------> ud-youtube-api
+  Scratch 刮刮樂 -------------------------> ud-scratch
+  CountdownDeadline 倒數計時(有時限) ------> ud-countdown-deadline
+  Countdown 倒數計時(無時限) --------------> ud-countdown
+*/
+
+
 //-----------------------字串相關-----------------------
 //將字串內換行符\n轉為<br>
 function nl2br(str) {
@@ -20,6 +100,16 @@ function randomString(len) {
     str += chars.charAt(Math.floor(Math.random() * maxPos));
   }
   return str;
+}
+
+//金錢加入千分位逗號
+function formatMoney(val){
+  let num = val.toString();
+  let pattern = /(-?\d+)(\d{3})/;
+  while(pattern.test(num)){
+    num = num.replace(pattern, "$1,$2");
+  }
+  return num;
 }
 
 //複製文字至剪貼簿

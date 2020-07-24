@@ -1,37 +1,142 @@
+/* Vue組件目錄
+Basic
+  Layout 布局
+  Container 布局容器
+  Color 色彩
+  Typography 字體
+  Border 邊框
+  Icon 圖標
+  Button 按鈕 -------------------------> ud-button
+  Link 文字鏈接
+
+Form
+  Radio 單選框 ------------------------> ud-radio
+  Checkbox 多選框 ---------------------> ud-checkbox
+  Input 輸入框 ------------------------> ud-input
+  InputNumber 計數器
+  Select 選擇器 -----------------------> ud-select
+  Cascader 級聯選擇器
+  Switch 開關 -------------------------> ud-switch
+  Slider 滑塊
+  TimePicker 時間選擇器
+  DatePicker 日期選擇器
+  DateTimePicker 日期時間選擇器
+  Upload 上傳 -------------------------> ud-upload
+  Rate 評分
+  ColorPicker 顏色選擇器
+  Transfer 穿梭框
+  Form 表單 ---------------------------> ud-form
+
+Data
+  Table 表格 --------------------------> ud-table
+  Tag 標簽
+  Progress 進度條
+  Tree 樹形控件
+  Pagination 分頁 ---------------------> ud-table
+  Badge 標記
+  Avatar 頭像
+
+Notice
+  Alert 警告 --------------------------> ud-alert
+  Loading 加載 ------------------------> ud-loading
+  Message 消息提示 ---------------------> ud-message
+  MessageBox 彈框 ---------------------> ud-messagebox
+  Notification 通知 -------------------> ud-notification
+
+Navigation
+  NavMenu 導航菜單
+  Tabs 標簽頁
+  Breadcrumb 面包屑
+  PageHeader 頁頭
+  Dropdown 下拉菜單
+  Steps 步驟條
+
+Others
+  Dialog 對話框 ------------------------> ud-dialog
+  Tooltip 文字提示
+  Popover 彈出框 -----------------------> ud-popover
+  Popconfirm 氣泡確認框 -----------------> ud-popconfirm
+  Card 卡片
+  Carousel 走馬燈
+  Collapse 折疊面板
+  Timeline 時間線
+  Divider 分割線
+  Calendar 日歷
+  Image 圖片
+  Backtop 回到頂部 ----------------------> ud-backtop
+  InfiniteScroll 無限滾動
+  Drawer 抽屜
+
+Personal
+  Captcha 圖形驗證碼 ---------------------> ud-captcha
+  Ellipsis 文字省略 ----------------------> ud-ellipsis
+  Youtube 水管播放 -----------------------> ud-youtube
+  YoutubeApi 水管播放(控制版) -------------> ud-youtube-api
+  Scratch 刮刮樂 -------------------------> ud-scratch
+  CountdownDeadline 倒數計時(有時限) ------> ud-countdown-deadline
+  Countdown 倒數計時(無時限) --------------> ud-countdown
+*/
+
 //通用按鈕
 Vue.component('ud-button', {
+  name: 'UdButton',
   template: `
-    <button 
+    <button
       class="ud-button"
-      :class="{
-        'ud-button--disabled': disabled,
-        'ud-button--round': round,
-      }"
-      :type="type"
       @click="handleClick"
-      :disabled="disabled"
+      :disabled="disabled || loading"
+      :type="nativeType"
+      :class="[
+        type ? 'ud-button--' + type : '',
+        {
+          'is-disabled': disabled,
+          'is-loading': loading,
+          'is-plain': plain,
+          'is-round': round,
+          'is-circle': circle,
+          'is-block': block,
+        }
+      ]"
+      :style="{
+        'border-radius': radius + 'px',
+        'min-width': minWidth + 'px',
+      }"
     >
       <i class="fas fa-spinner fa-pulse" v-if="loading"></i>
       <i :class="icon" v-if="icon && !loading"></i>
-      <span><slot>按鈕</slot></span>
+      <span v-if="$slots.default"><slot></slot></span>
     </button>
   `,
   props: {
     type: {
       type: String,
-      default: "button"
+      default: 'default'
     },
     icon: {
       type: String,
-      default: ""
+      default: ''
+    },
+    nativeType: {
+      type: String,
+      default: 'button'
+    },
+    radius: {
+      type: Number,
+      default: 5,
+    },
+    minWidth: {
+      type: Number,
+      default: 0,
     },
     loading: Boolean,
     disabled: Boolean,
+    plain: Boolean,
     round: Boolean,
+    circle: Boolean,
+    block: Boolean
   },
   methods: {
     handleClick(evt) {
-      if(this.disabled) return;
       this.$emit('click', evt);
     }
   }
@@ -39,12 +144,15 @@ Vue.component('ud-button', {
 
 //通用input表單
 Vue.component('ud-input', {
+  name: 'UdInput',
   template: `
-    <input 
-      type="text" 
-      :placeholder="placeholder" 
-      :required="required" 
-      :value="value" 
+    <input
+      class="ud-input"
+      type="text"
+      :placeholder="placeholder"
+      :required="required"
+      :value="value"
+      :name="name"
       @input="$emit('input', $event.target.value)"
     >
   `,
@@ -53,39 +161,139 @@ Vue.component('ud-input', {
       type: String,
       default: "請輸入此欄位"
     },
-    value: String,
+    value: {
+      type: [String, Number],
+    },
+    name: {
+      type: String
+    },
     required: Boolean
   },
   methods: {
   },
 })
 
-//通用checkbox表單
-Vue.component('ud-checkbox', {
+//通用textarea表單
+Vue.component('ud-textarea', {
+  name: "UdTextarea",
   template: `
-    <input
-      class="ud-checkbox"
-      type="checkbox"
-      :checked="checked"
-      @change="$emit('change', $event.target.checked)"
+    <textarea
+      class="ud-textarea"
+      :cols="cols"
+      :rows="rows"
+      :placeholder="placeholder"
+      :required="required"
+      :value="value"
+      :name="name"
+      @input="$emit('input', $event.target.value)"
     >
+    </textarea>
   `,
-  model: {
-    prop: 'checked',
-    event: 'change'
-  },
   props: {
-    checked: Boolean
+    placeholder: {
+      type: String,
+      default: "請輸入此欄位"
+    },
+    value: {
+      type: [String, Number],
+    },
+    rows: {
+      type: Number,
+    },
+    cols: {
+      type: Number,
+    },
+    name: {
+      type: String
+    },
+    required: Boolean
+  },
+  methods: {
   },
 })
 
 //通用radio表單
 Vue.component('ud-radio', {
+  name: "UdRadio",
+  template: `
+    <label class="ud-radio">
+      <input
+        type="radio"
+        :checked="checked"
+        :value="label"
+        @change="$emit('change', $event.target.checked)"
+      >
+      <slot></slot>
+      <template v-if="!$slots.default">{{ label }}</template>
+    </label>
+  `,
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: ['label', 'checked']
+})
+
+//通用radio表單
+Vue.component('hm-radio', {
+  template: `
+    <label class="hm-radio" :class="{'is-checked': model === label}">
+      <span class="hm-radio__input">
+        <span class="hm-radio__inner"></span>
+        <input
+          class="hm-radio__original"
+          type="radio"
+          :name="name"
+          value="label"
+          v-model="model"
+        >
+      </span>
+      <span class="hm-radio__label">
+        <slot></slot>
+        <template v-if="!$slots.default">{{label}}</template>
+      </span>
+    </label>
+  `,
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    label: {
+      type: String,
+      default: ''
+    },
+    name: {
+      type: String,
+      default: ''
+    },
+    value: {
+      type: [String, Boolean, Number],
+      default: ''
+    }
+  },
+  computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    }
+  },
+})
+
+
+//通用checkbox表單
+Vue.component('ud-checkbox', {
+  name: "UdCheckbox",
   template: `
     <input
       class="ud-checkbox"
-      type="radio"
+      type="checkbox"
       :checked="checked"
+      :name="name"
       @change="$emit('change', $event.target.checked)"
     >
   `,
@@ -94,6 +302,37 @@ Vue.component('ud-radio', {
     event: 'change'
   },
   props: {
+    name: {
+      type: String
+    },
+    checked: Boolean
+  },
+})
+
+//通用select表單
+Vue.component('ud-select', {
+  name: "UdSelect",
+  template: `
+    <select
+      class="ud-select"
+      type="select"
+      :checked="checked"
+      :name="name"
+      @change="$emit('change', $event.target.selected)"
+    >
+      <option value="A">選項A</option>
+      <option value="B">選項B</option>
+      <option value="C">選項C</option>
+    </select>
+  `,
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    name: {
+      type: String
+    },
     checked: Boolean
   },
 })

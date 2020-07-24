@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width initial-scale=1 shrink-to-fit=no maximum-scale=1 user-scalable=no">
     <meta name="format-detection" content="telephone=no">
+    <meta property="og:image" content="http://static.naver.jp/line_lp/img/ogp.png">
+    <meta property="og:title" content="frontend">
+    <meta property="og:description" content="frontend">
     <link href="img/favicon.ico" rel="shortcut icon">
     <title>frontend</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
@@ -14,29 +17,20 @@
     <link href="css/index.css" rel="stylesheet">
   </head>
   <body>
+    <noscript>Your browser does not support JavaScript!</noscript>
     <div id="app">
       <div class="container">
         <div class="wrapper">
-          <ud-loading></ud-loading>
-          <ud-notify type="success" msg="這是通知"></ud-notify>
-          <ud-button @click="showModal = true">Show Modal</ud-button>
-          <ud-modal v-if="showModal" @close="showModal = false">
-            <h3 slot="header">custom header</h3>
-          </ud-modal>
-          <div class="box">
-            <ud-ellipsis :max-line="1">文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</ud-ellipsis>
-          </div>
-          <h2 id="aa">{{agree ? "同意": "不同意"}}</h2>
-          <ud-button @click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round>456</ud-button>
-          <ud-button @click="disabled = !disabled" round>開關</ud-button>
-          <ud-input v-model="title"></ud-input>
-          <ud-image-upload></ud-image-upload>
-          <ud-image-upload-multiple></ud-image-upload-multiple>
-          <ud-youtube-api video-id="p6qjpdi8XuE" :start="4" mute></ud-youtube-api>
-          <p>還剩
-            <ud-countdown :time="10" @timeup="timeup"></ud-countdown>秒
-          </p>
-          <ud-button @click="timereset">重新計時</ud-button>
+          <h1>{{ title }}</h1>
+          <ud-input v-model="title" name="test"></ud-input>
+          <ud-textarea :rows="5" v-model="title"></ud-textarea>
+          <ud-button icon="fas fa-plus" circle disabled @click="alert"></ud-button>
+          <ud-button icon="fas fa-angle-left" block round @click="alert" plain :min-width="200">回上一頁</ud-button>
+          <ud-button icon="fas fa-angle-left" @click="alert" :min-width="200">回上一頁</ud-button>
+          <ud-button icon="fas fa-angle-left" :radius="5" loading @click="alert">確定</ud-button>
+          <h1>{{ radio }}</h1>
+          <hm-radio v-model="radio" label="A">選項1</hm-radio>
+          <hm-radio v-model="radio" label="B">選項2</hm-radio>
         </div>
       </div>
     </div>
