@@ -6,7 +6,7 @@ let vm = new Vue({
     title: "",
     agree: true,
     data: [],
-    radio: "A",
+    radio: "1",
     radio2: "A",
     checkList: ["选中且禁用", "复选框 A"],
     go: false,

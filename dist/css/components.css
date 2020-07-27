@@ -435,3 +435,41 @@
 
 .hm-radio.is-checked .hm-radio__label {
   color: #409eff; }
+
+.ui-radio {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #4693fe;
+  display: inline-block;
+  position: relative; }
+  .ui-radio .ui-radio.disabled {
+    border-color: #ccc; }
+  .ui-radio .ui-radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -5px 0 0 -5px;
+    background-color: #4693fe;
+    -webkit-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+    opacity: 0;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0); }
+  .ui-radio .ui-radio.disabled::after {
+    background-color: #ccc; }
+  .ui-radio .ui-radio.checked::after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); }
+  .ui-radio .ui-radio input[type=radio] {
+    opacity: 0;
+    margin: 0; }

@@ -894,5 +894,39 @@ Vue.component('hm-radio', {
         }
     },
 });
+Vue.component('ui-radio', {
+    template: "\n    <label class=\"ui-radio\" :class=\"{'checked':model==value,'disabled':disabled}\">\n      <input type=\"radio\" ref=\"radio\" :value=\"value\" @click=\"updateVal\" :disabled=\"disabled\">\n    </label>\n  ",
+    model: {
+        prop: 'model',
+        event: 'change'
+    },
+    props: {
+        value: {
+            type: [String, Number],
+            require: true
+        },
+        model: {
+            type: [String, Number],
+            require: true
+        },
+        checked: {
+            type: Boolean,
+            default: false
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        }
+    },
+    mounted: function () {
+        if (this.checked === true)
+            this.updateVal();
+    },
+    methods: {
+        updateVal: function () {
+            this.$emit('change', this.$refs.radio.value);
+        }
+    }
+});
 //# sourceMappingURL=components.js.map
 //# sourceMappingURL=components.js.map
