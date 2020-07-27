@@ -6,42 +6,43 @@ Basic
   Typography 字體
   Border 邊框
   Icon 圖標
-  Button 按鈕 -------------------------> ud-button
+  Button 按鈕 -----> ud-button
   Link 文字鏈接
 
 Form
-  Radio 單選框 ------------------------> ud-radio
-  Checkbox 多選框 ---------------------> ud-checkbox
-  Input 輸入框 ------------------------> ud-input
+  Radio 單選框 -----> ud-radio
+  Checkbox 多選框 -----> ud-checkbox
+  Input 輸入框 -----> ud-input
+  Textarea 多行輸入框 -----> ud-textarea
   InputNumber 計數器
-  Select 選擇器 -----------------------> ud-select
+  Select 選擇器 -----> ud-select
   Cascader 級聯選擇器
-  Switch 開關 -------------------------> ud-switch
+  Switch 開關 -----> ud-switch
   Slider 滑塊
   TimePicker 時間選擇器
   DatePicker 日期選擇器
   DateTimePicker 日期時間選擇器
-  Upload 上傳 -------------------------> ud-upload
+  Upload 上傳 -----> ud-upload
   Rate 評分
   ColorPicker 顏色選擇器
   Transfer 穿梭框
-  Form 表單 ---------------------------> ud-form
+  Form 表單 -----> ud-form
 
 Data
-  Table 表格 --------------------------> ud-table
+  Table 表格 -----> ud-table
   Tag 標簽
   Progress 進度條
   Tree 樹形控件
-  Pagination 分頁 ---------------------> ud-table
+  Pagination 分頁 -----> ud-pagination
   Badge 標記
   Avatar 頭像
 
 Notice
-  Alert 警告 --------------------------> ud-alert
-  Loading 加載 ------------------------> ud-loading
-  Message 消息提示 ---------------------> ud-message
-  MessageBox 彈框 ---------------------> ud-messagebox
-  Notification 通知 -------------------> ud-notification
+  Alert 警告 -----> ud-alert
+  Loading 加載 -----> ud-loading
+  Message 消息提示 -----> ud-message
+  MessageBox 彈框 -----> ud-messagebox
+  Notification 通知 -----> ud-notification
 
 Navigation
   NavMenu 導航菜單
@@ -52,32 +53,35 @@ Navigation
   Steps 步驟條
 
 Others
-  Dialog 對話框 ------------------------> ud-dialog
+  Dialog 對話框 -----> ud-dialog
   Tooltip 文字提示
-  Popover 彈出框 -----------------------> ud-popover
-  Popconfirm 氣泡確認框 -----------------> ud-popconfirm
+  Popover 彈出框 -----> ud-popover
+  Popconfirm 氣泡確認框 -----> ud-popconfirm
   Card 卡片
-  Carousel 走馬燈
+  Carousel 走馬燈 -----> ud-carousel
   Collapse 折疊面板
   Timeline 時間線
   Divider 分割線
   Calendar 日歷
   Image 圖片
-  Backtop 回到頂部 ----------------------> ud-backtop
+  Backtop 回到頂部 -----> ud-backtop
   InfiniteScroll 無限滾動
   Drawer 抽屜
 
 Personal
-  Captcha 圖形驗證碼 ---------------------> ud-captcha
-  Ellipsis 文字省略 ----------------------> ud-ellipsis
-  Youtube 水管播放 -----------------------> ud-youtube
-  YoutubeApi 水管播放(控制版) -------------> ud-youtube-api
-  Scratch 刮刮樂 -------------------------> ud-scratch
-  CountdownDeadline 倒數計時(有時限) ------> ud-countdown-deadline
-  Countdown 倒數計時(無時限) --------------> ud-countdown
+  Captcha 圖形驗證碼 -----> ud-captcha
+  Ellipsis 文字省略 -----> ud-ellipsis
+  Youtube 水管播放 -----> ud-youtube
+  YoutubeApi 水管播放(控制版) -----> ud-youtube-api
+  Scratch 刮刮樂 -----> ud-scratch
+  CountdownDeadline 倒數計時(有時限) -----> ud-countdown-deadline
+  Countdown 倒數計時(無時限) -----> ud-countdown
+  DateSelect 日期下拉選擇 -----> ud-date-select
+  AddressSelect 地址下拉選擇 -----> ud-address-select
 */
 
-//通用按鈕
+//-----------------------Basic-----------------------
+//Button 按鈕
 Vue.component('ud-button', {
   name: 'UdButton',
   template: `
@@ -142,7 +146,54 @@ Vue.component('ud-button', {
   }
 })
 
-//通用input表單
+//-----------------------Form-----------------------
+//Radio 單選框
+Vue.component('ud-radio', {
+  name: "UdRadio",
+  template: `
+    <label class="ud-radio">
+      <input
+        type="radio"
+        :checked="checked"
+        :value="label"
+        @change="$emit('change', $event.target.checked)"
+      >
+      <slot></slot>
+      <template v-if="!$slots.default">{{ label }}</template>
+    </label>
+  `,
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: ['label', 'checked']
+})
+
+//Checkbox 多選框
+Vue.component('ud-checkbox', {
+  name: "UdCheckbox",
+  template: `
+    <input
+      class="ud-checkbox"
+      type="checkbox"
+      :checked="checked"
+      :name="name"
+      @change="$emit('change', $event.target.checked)"
+    >
+  `,
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    name: {
+      type: String
+    },
+    checked: Boolean
+  },
+})
+
+//Input 輸入框
 Vue.component('ud-input', {
   name: 'UdInput',
   template: `
@@ -173,7 +224,7 @@ Vue.component('ud-input', {
   },
 })
 
-//通用textarea表單
+//Textarea 多行輸入框
 Vue.component('ud-textarea', {
   name: "UdTextarea",
   template: `
@@ -212,103 +263,6 @@ Vue.component('ud-textarea', {
   },
 })
 
-//通用radio表單
-Vue.component('ud-radio', {
-  name: "UdRadio",
-  template: `
-    <label class="ud-radio">
-      <input
-        type="radio"
-        :checked="checked"
-        :value="label"
-        @change="$emit('change', $event.target.checked)"
-      >
-      <slot></slot>
-      <template v-if="!$slots.default">{{ label }}</template>
-    </label>
-  `,
-  model: {
-    prop: 'checked',
-    event: 'change'
-  },
-  props: ['label', 'checked']
-})
-
-//通用radio表單
-Vue.component('hm-radio', {
-  template: `
-    <label class="hm-radio" :class="{'is-checked': model === label}">
-      <span class="hm-radio__input">
-        <span class="hm-radio__inner"></span>
-        <input
-          class="hm-radio__original"
-          type="radio"
-          :name="name"
-          value="label"
-          v-model="model"
-        >
-      </span>
-      <span class="hm-radio__label">
-        <slot></slot>
-        <template v-if="!$slots.default">{{label}}</template>
-      </span>
-    </label>
-  `,
-  model: {
-    prop: 'checked',
-    event: 'change'
-  },
-  props: {
-    label: {
-      type: String,
-      default: ''
-    },
-    name: {
-      type: String,
-      default: ''
-    },
-    value: {
-      type: [String, Boolean, Number],
-      default: ''
-    }
-  },
-  computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
-    }
-  },
-})
-
-
-//通用checkbox表單
-Vue.component('ud-checkbox', {
-  name: "UdCheckbox",
-  template: `
-    <input
-      class="ud-checkbox"
-      type="checkbox"
-      :checked="checked"
-      :name="name"
-      @change="$emit('change', $event.target.checked)"
-    >
-  `,
-  model: {
-    prop: 'checked',
-    event: 'change'
-  },
-  props: {
-    name: {
-      type: String
-    },
-    checked: Boolean
-  },
-})
-
 //通用select表單
 Vue.component('ud-select', {
   name: "UdSelect",
@@ -337,47 +291,202 @@ Vue.component('ud-select', {
   },
 })
 
-//通用通知
-Vue.component('ud-notify', {
+//Switch 開關
+Vue.component('ud-switch', {
+  name: "UdSwitch",
   template: `
-    <div :class="type" class="ud-notify">
-      <i :class="iconClass" class="icon fl"/>
-      <span>{{ msg }}</span>
-      <span class="close fr eqf-no" @click="close"></span>
-    </div>
+
   `,
   props: {
-    type: {
-      type: String,
-      default: ''
+    
+  },
+})
+
+//Upload 上傳
+Vue.component('ud-upload', {
+  name: "UdLoad",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//Form 表單
+Vue.component('ud-form', {
+  name: "UdForm",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//-----------------------Data-----------------------
+//Table 表格
+Vue.component('ud-table', {
+  name: "UdTable",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//Pagination 分頁
+Vue.component('ud-pagination', {
+  name: "UdPagination",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//-----------------------Notice-----------------------
+//Alert 警告
+Vue.component('ud-alert', {
+  name: "UdAlert",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//Loading 加載
+Vue.component('ud-loading', {
+  name: "UdLoading",
+  template: `
+    <transition name="loading" >
+      <div class="mask" @touchmove.stop.prevent v-show="visible">
+        <div class="showContent">
+          <i class="fas fa-spinner fa-pulse" v-if="loading"></i>
+          <image src="../static/img/loading1.gif" class="loadingImg"></image>
+          <text class="lable">{{label}}</text>
+        </div>
+      </div>
+    </transition>
+  `,
+  data() {
+    return {
+      visible:false
+    }
+  },
+  props: {
+    type:{
+
     },
-    msg: {
-      type: String,
-      default: ''
-    }
-  },
-  computed: {
-    iconClass() {
-      switch (this.type) {
-        case 'success':
-          return 'eqf-info-f'
-        case 'fail':
-          return 'eqf-no-f'
-        case 'info':
-          return 'eqf-info-f'
-        case 'warn':
-          return 'eqf-alert-f'
-      }
-    }
-  },
-  mounted() {
-    setTimeout(() => this.close(), 4000)
-  },
-  methods: {
-    close() {
+    label:{
+      default: "加載中...",
+      type: String
     }
   }
 })
+
+//Message 消息提示
+Vue.component('ud-message', {
+  name: "UdMessage",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//MessageBox 彈框
+Vue.component('ud-messagebox', {
+  name: "UdMessage",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//Notification 通知
+Vue.component('ud-notification', {
+  name: "UdNotification",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//-----------------------Navigation-----------------------
+
+//-----------------------Others-----------------------
+//Dialog 對話框
+Vue.component('ud-dialog', {
+  name: "UdDialog",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//Popover 彈出框
+Vue.component('ud-popover', {
+  name: "UdPopover",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//Popconfirm 氣泡確認框
+Vue.component('ud-popconfirm', {
+  name: "Udpopconfirm",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//Carousel 走馬燈
+Vue.component('ud-carousel', {
+  name: "UdCarousel",
+  template: `
+
+  `,
+  props: {
+    
+  },
+})
+
+//Backtop 回到頂部
+Vue.component('ud-backtop', {
+  name: "UdBacktop",
+  template: `
+    <ud-button @click="scrollToTop">回最頂</ud-button>
+  `,
+  methods: {
+    scrollToTop: function(){
+      const c = document.documentElement.scrollTop || document.body.scrollTop;
+      if (c > 0) {
+        window.requestAnimationFrame(this.scrollToTop);
+        window.scrollTo(0, c - c / 6);
+      }
+    }
+  },
+})
+
+//-----------------------Personal-----------------------
 
 //圖形驗證碼
 Vue.component('ud-captcha', {
@@ -509,6 +618,424 @@ Vue.component('ud-ellipsis', {
       default: 1,
     }
   },
+})
+
+//Youtube 水管播放
+Vue.component('ud-youtube', {
+  template: `
+    <div class="ud-youtube">
+      <div class="video-wrapper">
+        <iframe width="560" height="315" :src="videoIdAfter" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  `,
+  props: {
+    videoId: { //影片ID
+      type: String,
+      default: "p6qjpdi8XuE"
+    },
+    start: { //開始時間
+      type: Number,
+      default: 0
+    },
+    autoplay: Boolean, //自動播放
+    loop: Boolean, //自動循環
+    noControl: Boolean, //移除控制介面
+  },
+  computed: {
+    videoIdAfter: function(){
+      let urlTemp = `https://www.youtube.com/embed/${this.videoId}?`;
+      if(this.start) urlTemp = `${urlTemp}&start=${this.start}`;
+      if(this.autoplay) urlTemp = `${urlTemp}&autoplay=1`;
+      if(this.loop) urlTemp = `${urlTemp}&loop=1&playlist=${this.videoId}`;
+      if(this.noControl) urlTemp = `${urlTemp}&controls=0`;
+      return urlTemp;
+    }
+  },
+})
+
+//YoutubeApi 水管播放(控制版)
+Vue.component('ud-youtube-api', {
+  template: `
+    <div class="ud-youtube-api">
+      <div class="video-wrapper">
+        <div :id="videoId" ref="player"></div>
+      </div>
+    </div>
+  `,
+  props: {
+    videoId: { //影片id
+      type: String,
+      default: "KnWMMgEDva0"
+    },
+    start: { //開始時間
+      type: Number,
+      default: 0
+    },
+    width: {
+      type: Number,
+      default: 560
+    },
+    height: {
+      type: Number,
+      default: 315
+    },
+    autoplay: Boolean, //自動播放
+    loop: Boolean, //自動循環
+    noControl: Boolean, //移除控制介面
+    mute: Boolean //開始時靜音
+  },
+  data() {
+    return {
+      player: {}
+    }
+  },
+  computed: {
+    control: function(){
+      return this.noControl ? 0 : 1;
+    }
+  },
+  mounted() {
+    let _this = this;
+    let tag = document.createElement('script');
+    let player;
+    let firstScriptTag = document.getElementsByTagName('script')[0];
+    tag.src = "https://www.youtube.com/iframe_api";
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    window.onYouTubeIframeAPIReady = function(){
+      player = new YT.Player(_this.videoId, {
+        videoId: _this.videoId, //YouTube 影片ID
+        width: _this.width, //播放器寬度 (px)
+        height: _this.height, //播放器高度 (px)
+        playerVars: {
+          autoplay: _this.autoplay, //在讀取時自動播放影片
+          controls: _this.control, //在播放器顯示暫停／播放按鈕
+          start: _this.start //開始時間
+          // loop: _this.loop, //讓影片循環播放
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange,
+        }
+      });
+    }
+    function onPlayerReady(e) {
+      if(_this.mute) e.target.mute();
+    };
+    function onPlayerStateChange(e) {
+      if (e.data === YT.PlayerState.ENDED) {
+        player.playVideo(); 
+      }
+    };
+  },
+  methods: {
+
+  },
+})
+
+//Scratch 刮刮樂
+//dependencies："plugins/scratchcard/scratchcard.min.js"(https://github.com/Masth0/ScratchCard)
+Vue.component('ud-scratch', {
+  template: `
+    <div class="ud-scratch">
+      <div class="sc__wrapper">
+        <div class="sc__container" :id="id"></div>
+      </div>
+    </div>
+  `,
+  mounted() {
+    this.initScratch();
+  },
+  props: {
+    id: { //刮刮樂id 區分複數刮刮樂
+      type: String,
+      default: "js--sud--container"
+    },
+    coverSrc: { //封面圖片
+      type: String,
+      default: "img/silver.jpg"
+    },
+    brushSrc: { //筆刷圖片
+      type: String,
+      default: "img/brush.png"
+    },
+    prizeSrc: { //獎品圖片
+      type: String,
+      default: "img/prize_01.jpg"
+    },
+    aspectRatio: { //長寬比
+      type: Number,
+      default: 1.65
+    },
+    percent: { //完成所需%數
+      type: Number,
+      default: 10
+    },
+  },
+  methods: {
+    initScratch: function(){
+      let _this = this;
+      const scContainer = document.getElementById(this.id);
+      const sc = new ScratchCard(`#${this.id}`, {
+        scratchType: SCRATCH_TYPE.BRUSH,
+        containerWidth: scContainer.offsetWidth,
+        containerHeight: scContainer.offsetWidth/this.aspectRatio,
+        brushSrc: this.brushSrc,
+        imageForwardSrc: this.coverSrc,
+        imageBackgroundSrc: this.prizeSrc,
+        percentToFinish: this.percent,
+        callback: function () {
+          _this.$emit("finish"); //刮完事件
+        }
+      })
+      sc.init().then(() => {
+        sc.canvas.addEventListener('scratch.move', () => {
+          _this.$emit("move", Math.floor(sc.getPercent())); //移動中事件(帶百分比)
+        })
+      }).catch((error) => {
+        alert(error.message);
+      });
+    }
+  },
+})
+
+//CountdownDeadline 倒數計時(有時限)
+Vue.component('ud-countdown-deadline', {
+  template: `
+    <div>距離5月13號 15點0分0秒 還有</div>
+    <i></i>
+    <i></i>
+    <i></i>
+  `,
+  mounted() {
+    let aI = document.getElementsByTagName("i");
+    setInterval(function() {  // 設置倒數計時: 結束時間 - 當前時間
+      // 當前時間
+      let time = new Date();
+      let nowTime = time.getTime(); // 獲取當前毫秒數
+      // 設置結束時間 : 5月13號 15點0分0秒
+      time.setMonth(4); //   獲取當前 月份 (從 '0' 開始算)
+      time.setDate(13); //   獲取當前 日
+      time.setHours(15); //   獲取當前 時
+      time.setMinutes(0); //   獲取當前 分
+      time.setSeconds(0);
+      let endTime = time.getTime();
+      // 倒數計時: 差值
+      let offsetTime = (endTime - nowTime) / 1000; // ** 以秒為單位
+      let sec = parseInt(offsetTime % 60); // 秒
+      let min = parseInt((offsetTime / 60) % 60); // 分 ex: 90秒
+      let hr = parseInt(offsetTime / 60 / 60); // 時
+
+      aI[0].textContent = hr + "時";
+      aI[1].textContent = min + "分";
+      aI[2].textContent = sec + "秒";
+    }, 1000);
+  },
+})
+
+//Countdown 倒數計時(無時限)
+Vue.component('ud-countdown', {
+  template: `
+    <span class="ud-countdown" ref="count">{{cTime}}</span>
+  `,
+  props: {
+    time: {
+      type: Number,
+      default: 60
+    },
+    delay: Boolean
+  },
+  data() {
+    return {
+      cTime: this.time
+    }
+  },
+  mounted() {
+    if(!this.delay) this.countdown();
+  },
+  methods: {
+    countdown: function(){
+      let _this = this;
+      let countdown = setInterval(function(){
+        _this.cTime -= 1;
+        if(_this.cTime <= 0){
+          _this.$emit("timeup");
+          clearInterval(countdown);
+        }
+      }, 1000);
+    },
+    reset: function(){
+      this.cTime = 10;
+      this.countdown();
+    }
+  },
+})
+
+//DateSelect 日期下拉選擇
+Vue.component('ud-date-select', {
+  name: "UdDateSelect",
+  template: `
+    <div class="ud-date-select">
+      <select name="year" ref="year"></select>
+      <p>年</p>
+      <select name="month" ref="month"></select>
+      <p>月</p>
+      <select name="date" ref="date"></select>
+      <p>日</p>
+    </div>
+  `,
+  props: {
+    roc: Boolean
+  },
+  mounted() {
+    this.dateSelect();
+  },
+  methods: {
+    dateSelect: function() {
+      let _this = this;
+      let time = new Date();
+      let year = time.getFullYear();
+      let selectYear = this.$refs.year;
+      let selectMonth = this.$refs.month;
+      let selectDate = this.$refs.date;
+      if (this.roc) {
+        for (let i = 0; i < year - 1911; i++) {
+          selectYear.insertAdjacentHTML("beforeEnd",`<option value=${year - 1911 - i}>${year - 1911 - i}</option>`);
+        }
+      } else {
+        for (let i = 0; i <= 120; i++) {
+          selectYear.insertAdjacentHTML("beforeEnd",`<option value=${year - i}>${year - i}</option>`);
+        }
+      }
+      selectYear.insertAdjacentHTML("afterbegin","<option value='' disabled selected></option>");
+      for (let i = 1; i <= 12; i++) {
+        selectMonth.insertAdjacentHTML("beforeEnd",`<option value=${i}>${i}</option>`);
+      }
+      selectMonth.insertAdjacentHTML("afterbegin","<option value='' disabled selected></option>");
+      selectYear.addEventListener("change", () => {
+        changeDate();
+      });
+      selectMonth.addEventListener("change", () => {
+        changeDate();
+      });
+    
+      function changeDate() {
+        let year = parseInt(selectYear.value);
+        let month = parseInt(selectMonth.value);
+        let day = new Date(_this.roc?year + 1911:year,month,0).getDate();
+        dateOption(day);
+    
+        function dateOption(n) {
+          selectDate.innerHTML = "";
+          for (let i = 1; i <= n; i++) {
+            selectDate.insertAdjacentHTML("beforeEnd",`<option value=${i}>${i}</option>`);
+          }
+          selectDate.insertAdjacentHTML("afterbegin","<option value='' disabled selected></option>");
+        }
+      }
+    }
+  },
+})
+
+//AddressSelect 地址下拉選擇
+Vue.component('ud-address-select', {
+  template: `
+    <div class="ud-address-select">
+      <p>縣市</p>
+      <select name="county" ref="county" v-model="currentCounty">
+        <option disabled selected value="">請選擇縣市</option>
+        <option v-for="county in countyList" :value="county" :key="county">{{ county }}</option>
+      </select>
+      <p>鄉填市區</p>
+      <select name="district" ref="district">
+        <option disabled selected value="">請選擇鄉填市區</option>
+        <option v-for="district in curretnDistrictList" :value="district" :key="district">{{ district }}</option>
+      </select>
+    </div>
+  `,
+  data() {
+    return {
+      currentCounty: "",
+      countyList: ["台北市","基隆市","新北市","宜蘭縣","桃園市","新竹市","新竹縣","苗栗縣","台中市","彰化縣","南投縣","嘉義市","嘉義縣","雲林縣","台南市","高雄市","澎湖縣","金門縣","屏東縣","台東縣","花蓮縣","連江縣"],
+      districtList: [
+        ["中正區","大同區","中山區","松山區","大安區","萬華區","信義區","士林區","北投區","內湖區","南港區","文山區",],
+        ["仁愛區","信義區","中正區","中山區","安樂區","暖暖區","七堵區",],
+        ["萬里區","金山區","板橋區","汐止區","深坑區","石碇區","瑞芳區","平溪區","雙溪區","貢寮區","新店區","坪林區","烏來區","永和區","中和區","土城區","三峽區","樹林區","鶯歌區","三重區","新莊區","泰山區","林口區","蘆洲區","五股區","八里區","淡水區","三芝區","石門區",],
+        ["宜蘭市","頭城鎮","礁溪鄉","壯圍鄉","員山鄉","羅東鎮","三星鄉","大同鄉","五結鄉","冬山鄉","蘇澳鎮","南澳鄉","釣魚台列嶼",],
+        ["中壢區","平鎮區","龍潭區","楊梅區","新屋區","觀音區","桃園區","龜山區","八德區","大溪區","復興區","大園區","蘆竹區",],
+        ["東區","北區","香山區",],
+        ["竹北市","湖口鄉","新豐鄉","新埔鎮","關西鎮","芎林鄉","寶山鄉","竹東鎮","五峰鄉","橫山鄉","尖石鄉","北埔鄉","峨眉鄉",],
+        ["竹南鎮","頭份市","三灣鄉","南庄鄉","獅潭鄉","後龍鎮","通霄鎮","苑裡鎮","苗栗市","造橋鄉","頭屋鄉","公館鄉","大湖鄉","泰安鄉","銅鑼鄉","三義鄉","西湖鄉","卓蘭鎮",],
+        ["中區","東區","南區","西區","北區","北屯區","西屯區","南屯區","太平區","大里區","霧峰區","烏日區","豐原區","后里區","石岡區","東勢區","和平區","新社區","潭子區","大雅區","神岡區","大肚區","沙鹿區","龍井區","梧棲區","清水區","大甲區","外埔區","大安區",],
+        ["彰化市","芬園鄉","花壇鄉","秀水鄉","鹿港鎮","福興鄉","線西鄉","和美鎮","伸港鄉","員林市","社頭鄉","永靖鄉","埔心鄉","溪湖鎮","大村鄉","埔鹽鄉","田中鎮","北斗鎮","田尾鄉","埤頭鄉","溪州鄉","竹塘鄉","二林鎮","大城鄉","芳苑鄉","二水鄉",],
+        ["南投市","中寮鄉","草屯鎮","國姓鄉","埔里鎮","仁愛鄉","名間鄉","集集鎮","水里鄉","魚池鄉","信義鄉","竹山鎮","鹿谷鄉",],
+        ["東區","西區",],
+        ["番路鄉","梅山鄉","竹崎鄉","阿里山","中埔鄉","大埔鄉","水上鄉","鹿草鄉","太保市","朴子市","東石鄉","六腳鄉","新港鄉","民雄鄉","大林鎮","溪口鄉","義竹鄉","布袋鎮",],
+        ["斗南鎮","大埤鄉","虎尾鎮","土庫鎮","褒忠鄉","東勢鄉","台西鄉","崙背鄉","麥寮鄉","斗六市","林內鄉","古坑鄉","莿桐鄉","西螺鎮","二崙鄉","北港鎮","水林鄉","口湖鄉","四湖鄉","元長鄉",],
+        ["中西區","東區","南區","北區","安平區","安南區","永康區","歸仁區","新化區","左鎮區","玉井區","楠西區","南化區","仁德區","關廟區","龍崎區","官田區","麻豆區","佳里區","西港區","七股區","將軍區","學甲區","北門區","新營區","後壁區","白河區","東山區","六甲區","下營區","柳營區","鹽水區","善化區","大內區","山上區","新市區","安定區",],
+        ["新興區","前金區","苓雅區","鹽埕區","鼓山區","旗津區","前鎮區","三民區","楠梓區","小港區","左營區","仁武區","大社區","東沙群島","南沙群島","岡山區","路竹區","阿蓮區","田寮區","燕巢區","橋頭區","梓官區","彌陀區","永安區","湖內區","鳳山區","大寮區","林園區","鳥松區","大樹區","旗山區","美濃區","六龜區","內門區","杉林區","甲仙區","桃源區","那瑪夏區","茂林區","茄萣區",],
+        ["馬公市", "西嶼鄉", "望安鄉", "七美鄉", "白沙鄉", "湖西鄉",],
+        ["金沙鎮", "金湖鎮", "金寧鄉", "金城鎮", "烈嶼鄉", "烏坵鄉",],
+        ["屏東市","三地門鄉","霧台鄉","瑪家鄉","九如鄉","里港鄉","高樹鄉","鹽埔鄉","長治鄉","麟洛鄉","竹田鄉","內埔鄉","萬丹鄉","潮州鎮","泰武鄉","來義鄉","萬巒鄉","崁頂鄉","新埤鄉","南州鄉","林邊鄉","東港鎮","琉球鄉","佳冬鄉","新園鄉","枋寮鄉","枋山鄉","春日鄉","獅子鄉","車城鄉","牡丹鄉","恆春鎮","滿州鄉",],
+        ["台東市","綠島鄉","蘭嶼鄉","延平鄉","卑南鄉","鹿野鄉","關山鎮","海端鄉","池上鄉","東河鄉","成功鎮","長濱鄉","太麻里","金峰鄉","大武鄉","達仁鄉",],
+        ["花蓮市","新城鄉","秀林鄉","吉安鄉","壽豐鄉","鳳林鎮","光復鄉","豐濱鄉","瑞穗鄉","萬榮鄉","玉里鎮","卓溪鄉","富里鄉",],
+        ["南竿鄉", "北竿鄉", "莒光鄉", "東引鄉",]
+      ]
+    }
+  },
+  computed: {
+    curretnDistrictList: function(){
+      let countyIndex = this.countyList.indexOf(this.currentCounty);
+      return this.districtList[countyIndex];
+    }
+  },
+  methods: {
+
+  },
+})
+
+
+//-----------------------開發區-----------------------
+//通用通知
+Vue.component('ud-notify', {
+  template: `
+    <div :class="type" class="ud-notify">
+      <i :class="iconClass" class="icon fl"/>
+      <span>{{ msg }}</span>
+      <span class="close fr eqf-no" @click="close"></span>
+    </div>
+  `,
+  props: {
+    type: {
+      type: String,
+      default: ''
+    },
+    msg: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    iconClass() {
+      switch (this.type) {
+        case 'success':
+          return 'eqf-info-f'
+        case 'fail':
+          return 'eqf-no-f'
+        case 'info':
+          return 'eqf-info-f'
+        case 'warn':
+          return 'eqf-alert-f'
+      }
+    }
+  },
+  mounted() {
+    setTimeout(() => this.close(), 4000)
+  },
+  methods: {
+    close() {
+    }
+  }
 })
 
 //modal彈窗
@@ -650,297 +1177,48 @@ Vue.component('ud-image-upload-multiple', {
   }
 })
 
-//播放Youtube影片(無控制版)
-Vue.component('ud-youtube', {
+//hm-radio
+Vue.component('hm-radio', {
   template: `
-    <div class="ud-youtube">
-      <div class="video-wrapper">
-        <iframe width="560" height="315" :src="videoIdAfter" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
+    <label class="hm-radio" :class="{'is-checked': model === label}">
+      <span class="hm-radio__input">
+        <span class="hm-radio__inner"></span>
+        <input
+          class="hm-radio__original"
+          type="radio"
+          :name="name"
+          value="label"
+          v-model="model"
+        >
+      </span>
+      <span class="hm-radio__label">
+        <slot></slot>
+        <template v-if="!$slots.default">{{label}}</template>
+      </span>
+    </label>
   `,
   props: {
-    videoId: { //影片ID
+    label: {
       type: String,
-      default: "p6qjpdi8XuE"
+      default: ''
     },
-    start: { //開始時間
-      type: Number,
-      default: 0
-    },
-    autoplay: Boolean, //自動播放
-    loop: Boolean, //自動循環
-    noControl: Boolean, //移除控制介面
-  },
-  computed: {
-    videoIdAfter: function(){
-      let urlTemp = `https://www.youtube.com/embed/${this.videoId}?`;
-      if(this.start) urlTemp = `${urlTemp}&start=${this.start}`;
-      if(this.autoplay) urlTemp = `${urlTemp}&autoplay=1`;
-      if(this.loop) urlTemp = `${urlTemp}&loop=1&playlist=${this.videoId}`;
-      if(this.noControl) urlTemp = `${urlTemp}&controls=0`;
-      return urlTemp;
-    }
-  },
-})
-
-//播放Youtube影片(可控制版)
-Vue.component('ud-youtube-api', {
-  template: `
-    <div class="ud-youtube-api">
-      <div class="video-wrapper">
-        <div :id="videoId" ref="player"></div>
-      </div>
-    </div>
-  `,
-  props: {
-    videoId: { //影片id
+    name: {
       type: String,
-      default: "KnWMMgEDva0"
+      default: ''
     },
-    start: { //開始時間
-      type: Number,
-      default: 0
-    },
-    width: {
-      type: Number,
-      default: 560
-    },
-    height: {
-      type: Number,
-      default: 315
-    },
-    autoplay: Boolean, //自動播放
-    loop: Boolean, //自動循環
-    noControl: Boolean, //移除控制介面
-    mute: Boolean //開始時靜音
-  },
-  data() {
-    return {
-      player: {}
+    value: {
+      type: [String, Boolean, Number],
+      default: ''
     }
   },
   computed: {
-    control: function(){
-      return this.noControl ? 0 : 1;
-    }
-  },
-  mounted() {
-    let _this = this;
-    let tag = document.createElement('script');
-    let player;
-    let firstScriptTag = document.getElementsByTagName('script')[0];
-    tag.src = "https://www.youtube.com/iframe_api";
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    window.onYouTubeIframeAPIReady = function(){
-      player = new YT.Player(_this.videoId, {
-        videoId: _this.videoId, //YouTube 影片ID
-        width: _this.width, //播放器寬度 (px)
-        height: _this.height, //播放器高度 (px)
-        playerVars: {
-          autoplay: _this.autoplay, //在讀取時自動播放影片
-          controls: _this.control, //在播放器顯示暫停／播放按鈕
-          start: _this.start //開始時間
-          // loop: _this.loop, //讓影片循環播放
-        },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange,
-        }
-      });
-    }
-    function onPlayerReady(e) {
-      if(_this.mute) e.target.mute();
-    };
-    function onPlayerStateChange(e) {
-      if (e.data === YT.PlayerState.ENDED) {
-        player.playVideo(); 
-      }
-    };
-  },
-  methods: {
-
-  },
-})
-
-//回頂部
-Vue.component('ud-backtop', {
-  template: `
-    <ud-button @click="scrollToTop">回最頂</ud-button>
-  `,
-  methods: {
-    scrollToTop: function(){
-      const c = document.documentElement.scrollTop || document.body.scrollTop;
-      if (c > 0) {
-        window.requestAnimationFrame(this.scrollToTop);
-        window.scrollTo(0, c - c / 6);
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
       }
     }
   },
-})
-
-//刮刮樂(引入套件：plugins/scratchcard/scratchcard.min.js)
-Vue.component('ud-scratch', {
-  template: `
-    <div class="ud-scratch">
-      <div class="sc__wrapper">
-        <div class="sc__container" :id="id"></div>
-      </div>
-    </div>
-  `,
-  mounted() {
-    this.initScratch();
-  },
-  props: {
-    id: { //刮刮樂id 區分複數刮刮樂
-      type: String,
-      default: "js--sud--container"
-    },
-    coverSrc: { //封面圖片
-      type: String,
-      default: "img/silver.jpg"
-    },
-    brushSrc: { //筆刷圖片
-      type: String,
-      default: "img/brush.png"
-    },
-    prizeSrc: { //獎品圖片
-      type: String,
-      default: "img/prize_01.jpg"
-    },
-    aspectRatio: { //長寬比
-      type: Number,
-      default: 1.65
-    },
-    percent: { //完成所需%數
-      type: Number,
-      default: 10
-    },
-  },
-  methods: {
-    initScratch: function(){
-      let _this = this;
-      const scContainer = document.getElementById(this.id);
-      const sc = new ScratchCard(`#${this.id}`, {
-        scratchType: SCRATCH_TYPE.BRUSH,
-        containerWidth: scContainer.offsetWidth,
-        containerHeight: scContainer.offsetWidth/this.aspectRatio,
-        brushSrc: this.brushSrc,
-        imageForwardSrc: this.coverSrc,
-        imageBackgroundSrc: this.prizeSrc,
-        percentToFinish: this.percent,
-        callback: function () {
-          _this.$emit("finish"); //刮完事件
-        }
-      })
-      sc.init().then(() => {
-        sc.canvas.addEventListener('scratch.move', () => {
-          _this.$emit("move", Math.floor(sc.getPercent())); //移動中事件(帶百分比)
-        })
-      }).catch((error) => {
-        alert(error.message);
-      });
-    }
-  },
-})
-
-//倒數計時(有期限)
-// Vue.component('ud-countdown-deadline', {
-//   template: `
-//     <div>距離5月13號 15點0分0秒 還有</div>
-//     <i></i>
-//     <i></i>
-//     <i></i>
-//   `,
-//   mounted() {
-//     let aI = document.getElementsByTagName("i");
-//     setInterval(function() {  // 設置倒數計時: 結束時間 - 當前時間
-//       // 當前時間
-//       let time = new Date();
-//       let nowTime = time.getTime(); // 獲取當前毫秒數
-//       // 設置結束時間 : 5月13號 15點0分0秒
-//       time.setMonth(4); //   獲取當前 月份 (從 '0' 開始算)
-//       time.setDate(13); //   獲取當前 日
-//       time.setHours(15); //   獲取當前 時
-//       time.setMinutes(0); //   獲取當前 分
-//       time.setSeconds(0);
-//       let endTime = time.getTime();
-//       // 倒數計時: 差值
-//       let offsetTime = (endTime - nowTime) / 1000; // ** 以秒為單位
-//       let sec = parseInt(offsetTime % 60); // 秒
-//       let min = parseInt((offsetTime / 60) % 60); // 分 ex: 90秒
-//       let hr = parseInt(offsetTime / 60 / 60); // 時
-
-//       aI[0].textContent = hr + "時";
-//       aI[1].textContent = min + "分";
-//       aI[2].textContent = sec + "秒";
-//     }, 1000);
-//   },
-// })
-
-//倒數計時(無期限)
-Vue.component('ud-countdown', {
-  template: `
-    <span class="ud-countdown" ref="count">{{cTime}}</span>
-  `,
-  props: {
-    time: {
-      type: Number,
-      default: 60
-    },
-    delay: Boolean
-  },
-  data() {
-    return {
-      cTime: this.time
-    }
-  },
-  mounted() {
-    if(!this.delay) this.countdown();
-  },
-  methods: {
-    countdown: function(){
-      let _this = this;
-      let countdown = setInterval(function(){
-        _this.cTime -= 1;
-        if(_this.cTime <= 0){
-          _this.$emit("timeup");
-          clearInterval(countdown);
-        }
-      }, 1000);
-    },
-    reset: function(){
-      this.cTime = 10;
-      this.countdown();
-    }
-  },
-})
-
-Vue.component('ud-loading', {
-  template: `
-    <transition name="loading" >
-      <div class="mask" @touchmove.stop.prevent v-show="visible">
-        <div class="showContent">
-          <i class="fas fa-spinner fa-pulse" v-if="loading"></i>
-          <image src="../static/img/loading1.gif" class="loadingImg"></image>
-          <text class="lable">{{label}}</text>
-        </div>
-      </div>
-    </transition>
-  `,
-  name:'loading',
-  data() {
-    return {
-      visible:false
-    }
-  },
-  props: {
-    type:{
-
-    },
-    label:{
-      default: "加載中...",
-      type: String
-    }
-  }
 })

@@ -1,84 +1,86 @@
 /* 工具函數目錄
-Basic
-  Layout 布局
-  Container 布局容器
-  Color 色彩
-  Typography 字體
-  Border 邊框
-  Icon 圖標
-  Button 按鈕 -------------------------> ud-button
-  Link 文字鏈接
+String
+  將字串內換行符\n轉為<br> -----> nl2br
+  取得隨機十六進制顏色 -----> randomHexColorCode
+  取得隨機字串 -----> randomString
+  金錢加入千分位逗號 -----> formatMoney
+  複製文字至剪貼簿 -----> copyTextToClipboard
+  複製文字至剪貼簿2 -----> copyTxt
+  轉義HTML(防XSS攻擊) -----> escapeHTML
 
-Form
-  Radio 單選框 ------------------------> ud-radio
-  Checkbox 多選框 ---------------------> ud-checkbox
-  Input 輸入框 ------------------------> ud-input
-  InputNumber 計數器
-  Select 選擇器 -----------------------> ud-select
-  Cascader 級聯選擇器
-  Switch 開關 -------------------------> ud-switch
-  Slider 滑塊
-  TimePicker 時間選擇器
-  DatePicker 日期選擇器
-  DateTimePicker 日期時間選擇器
-  Upload 上傳 -------------------------> ud-upload
-  Rate 評分
-  ColorPicker 顏色選擇器
-  Transfer 穿梭框
-  Form 表單 ---------------------------> ud-form
+Number
+  取得範圍內隨機數 -----> getRandom
+  四捨五入到指定位數 -----> round
 
-Data
-  Table 表格 --------------------------> ud-table
-  Tag 標簽
-  Progress 進度條
-  Tree 樹形控件
-  Pagination 分頁 ---------------------> ud-table
-  Badge 標記
-  Avatar 頭像
+Image
+  預載圖片 -----> imagePreload
 
-Notice
-  Alert 警告 --------------------------> ud-alert
-  Loading 加載 ------------------------> ud-loading
-  Message 消息提示 ---------------------> ud-message
-  MessageBox 彈框 ---------------------> ud-messagebox
-  Notification 通知 -------------------> ud-notification
+Array
+  陣列是否有重複值 -----> isRepeat
+  移除陣列中的重複元素 -----> uniqArray
+  二維陣列扁平化(第二參數可指定深度) -----> flatArray
+  返回陣列中某值的所有索引 -----> indexOfAll
+  兩陣列的交集 -----> intersection
+  洗牌陣列 -----> shuffle
 
-Navigation
-  NavMenu 導航菜單
-  Tabs 標簽頁
-  Breadcrumb 面包屑
-  PageHeader 頁頭
-  Dropdown 下拉菜單
-  Steps 步驟條
+Object
+  精準型別判斷 -----> typeOf
+  深拷貝 -----> deepCopy
 
-Others
-  Dialog 對話框 ------------------------> ud-dialog
-  Tooltip 文字提示
-  Popover 彈出框 -----------------------> ud-popover
-  Popconfirm 氣泡確認框 -----------------> ud-popconfirm
-  Card 卡片
-  Carousel 走馬燈
-  Collapse 折疊面板
-  Timeline 時間線
-  Divider 分割線
-  Calendar 日歷
-  Image 圖片
-  Backtop 回到頂部 ----------------------> ud-backtop
-  InfiniteScroll 無限滾動
-  Drawer 抽屜
+Time
+  返回當前24小時制時間的字符串 -----> getColonTimeFromDate
+  返回日期間的天數 -----> getDaysDiffBetweenDates
+  檢查是否在某日期後 -----> isAfterDate
+  檢查是否在某日期前 -----> isBeforeDate
+  返回幾天前後的日期 -----> getDiffDate
+  時間個性化輸出功能 -----> timeFormat
+  隨機數時間戳 -----> uniqueId
 
-Personal
-  Captcha 圖形驗證碼 ---------------------> ud-captcha
-  Ellipsis 文字省略 ----------------------> ud-ellipsis
-  Youtube 水管播放 -----------------------> ud-youtube
-  YoutubeApi 水管播放(控制版) -------------> ud-youtube-api
-  Scratch 刮刮樂 -------------------------> ud-scratch
-  CountdownDeadline 倒數計時(有時限) ------> ud-countdown-deadline
-  Countdown 倒數計時(無時限) --------------> ud-countdown
+DOM
+  瞬間滾動至頂部 -----> anchorTop
+  瞬間滾動至指定元素 -----> anchorElement
+  瞬間滾動至底部 -----> anchorBottom
+  平滑滾動至頂部 -----> scrollToTop
+  平滑滾動到指定元素區域 -----> smoothScroll
+  返回當前的滾動位置 -----> getScrollPosition
+  獲取移動設備初始化大小 -----> getInitZoom
+  獲取頁面高度 -----> getPageHeight
+  獲取頁面scrollLeft -----> getPageScrollLeft
+  獲取頁面scrollTop -----> getPageScrollTop
+  獲取頁面可視高度 -----> getPageViewHeight
+  獲取頁面可視寬度 -----> getPageViewWidth
+  獲取頁面寬度 -----> getPageWidth
+  獲取移動設備螢幕寬度 -----> getScreenWidth
+  獲取網頁被捲去的位置 -----> getScrollXY
+  獲取窗體可見範圍的寬與高 -----> getViewSize
+  獲取移動設備最大化大小 -----> getZoom
+
+Verify
+  校驗是否為網址 -----> isURL
+  校驗是否為不含端口號的IP地址 -----> isIP
+  校驗是否為IPv6地址 -----> isIPv6
+
+Browser
+  動態加載css文件 -----> loadStyle
+  取得LocalStorage的值 -----> getLocalStorage
+  設定LocalStorage的值 -----> setLocalStorage
+  取得Cookie的值 -----> getCookie
+  設置cookie值 -----> setCookie
+  動態載入插件 -----> insertPlugin
+
+Web
+  查詢網址所帶參數 -----> queryString
+  HTTP跳轉HTTPS -----> httpsRedirect
+  檢驗URL連接是否有效 -----> getUrlState
+
+Device
+  判斷是否移動裝置訪問 -----> isMobileUserAgent
+  判斷是否蘋果移動裝置訪問 -----> isAppleMobileDevice
+  判斷是否安卓移動裝置訪問 -----> isAndroidMobileDevice
 */
 
 
-//-----------------------字串相關-----------------------
+//-----------------------String-----------------------
 //將字串內換行符\n轉為<br>
 function nl2br(str) {
   return str.replace(/([^>])\n/g, "$1<br/>\n");
@@ -123,6 +125,7 @@ function copyTextToClipboard(id) {
 	alert('複製成功');
 }
 
+//複製文字至剪貼簿2
 function copyTxt()
 {
   let Url2=document.getElementById("aa");
@@ -144,7 +147,7 @@ function escapeHTML(str){
 }
   // escapeHTML('<a href="#">Me & you</a>'); // '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
 
-//-----------------------數字相關-----------------------
+//-----------------------Number-----------------------
 //取得範圍內隨機數
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -156,14 +159,14 @@ function round(n, decimals = 0){
 }
   // round(1.235, 2); // 1.24
 
-//-----------------------圖片相關-----------------------
+//-----------------------Image-----------------------
 //預載圖片
 function imagePreload(src) {
   let img = new Image();
   img.src = src;
 }
 
-//-----------------------陣列相關-----------------------
+//-----------------------Array-----------------------
 //陣列是否有重複值
 function isRepeat(arr){
   let arrStr = JSON.stringify(arr);
@@ -214,13 +217,13 @@ function shuffle([...arr]){
   // const foo = [1, 2, 3];
   // shuffle(foo); // [2, 3, 1], foo = [1, 2, 3]
 
-//-----------------------物件相關-----------------------
+//-----------------------Object-----------------------
 //精準型別判斷
 function typeOf(v){
   return v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
 }
 
-//深拷貝deepCopy
+//深拷貝
 function deepCopy(data) {
   const dataType = typeOf(data);
   let newData;
@@ -243,7 +246,7 @@ function deepCopy(data) {
   return newData;
 }
 
-//-----------------------時間相關-----------------------
+//-----------------------Time-----------------------
 //返回當前24小時制時間的字符串
 function getColonTimeFromDate(date){
   return date.toTimeString().slice(0, 8);
@@ -318,7 +321,7 @@ function uniqueId() {
   );
 }
 
-//-----------------------DOM相關-----------------------
+//-----------------------DOM-----------------------
 //瞬間滾動至頂部
 function anchorTop(){
   window.scrollTo(0,0);
@@ -476,7 +479,7 @@ function getZoom() {
   }
 }
 
-//-----------------------校驗相關-----------------------
+//-----------------------Verify-----------------------
 //校驗是否為網址
 function isURL(str) {
   return /^(https:\/\/|http:\/\/|ftp:\/\/|rtsp:\/\/|mms:\/\/)?[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/.test(str);
@@ -492,7 +495,7 @@ function isIPv6(str){
   return Boolean(str.match(/:/g)?str.match(/:/g).length<=7:false && /::/.test(str)?/^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(str):/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str));
 }
 
-//-----------------------瀏覽器相關-----------------------
+//-----------------------Browser-----------------------
 //動態加載css文件
 function loadStyle(url) {
   try {
@@ -548,7 +551,7 @@ function insertPlugin(src){
   document.head.appendChild(script);
 }
 
-//-----------------------網路相關-----------------------
+//-----------------------Web-----------------------
 //查詢網址所帶參數
 function queryString(key) {
   let url = location.href;
@@ -586,7 +589,7 @@ function getUrlState(URL) {
   }
 }
 
-//-----------------------裝置相關-----------------------
+//-----------------------Device-----------------------
 //判斷是否移動裝置訪問
 function isMobileUserAgent() {
   return /iphone|ipod|android.*mobile|windows.*phone|blackberry.*mobile/i.test(

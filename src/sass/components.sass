@@ -1,5 +1,87 @@
 @import '_color.sass'
 
+// Vue組件樣式目錄
+// Basic
+//   Layout 布局
+//   Container 布局容器
+//   Color 色彩
+//   Typography 字體
+//   Border 邊框
+//   Icon 圖標
+//   Button 按鈕 -----> ud-button
+//   Link 文字鏈接
+
+// Form
+//   Radio 單選框 -----> ud-radio
+//   Checkbox 多選框 -----> ud-checkbox
+//   Input 輸入框 -----> ud-input
+//   Textarea 多行輸入框 -----> ud-textarea
+//   InputNumber 計數器
+//   Select 選擇器 -----> ud-select
+//   Cascader 級聯選擇器
+//   Switch 開關 -----> ud-switch
+//   Slider 滑塊
+//   TimePicker 時間選擇器
+//   DatePicker 日期選擇器
+//   DateTimePicker 日期時間選擇器
+//   Upload 上傳 -----> ud-upload
+//   Rate 評分
+//   ColorPicker 顏色選擇器
+//   Transfer 穿梭框
+//   Form 表單 -----> ud-form
+
+// Data
+//   Table 表格 -----> ud-table
+//   Tag 標簽
+//   Progress 進度條
+//   Tree 樹形控件
+//   Pagination 分頁 -----> ud-pagination
+//   Badge 標記
+//   Avatar 頭像
+
+// Notice
+//   Alert 警告 -----> ud-alert
+//   Loading 加載 -----> ud-loading
+//   Message 消息提示 -----> ud-message
+//   MessageBox 彈框 -----> ud-messagebox
+//   Notification 通知 -----> ud-notification
+
+// Navigation
+//   NavMenu 導航菜單
+//   Tabs 標簽頁
+//   Breadcrumb 面包屑
+//   PageHeader 頁頭
+//   Dropdown 下拉菜單
+//   Steps 步驟條
+
+// Others
+//   Dialog 對話框 -----> ud-dialog
+//   Tooltip 文字提示
+//   Popover 彈出框 -----> ud-popover
+//   Popconfirm 氣泡確認框 -----> ud-popconfirm
+//   Card 卡片
+//   Carousel 走馬燈 -----> ud-carousel
+//   Collapse 折疊面板
+//   Timeline 時間線
+//   Divider 分割線
+//   Calendar 日歷
+//   Image 圖片
+//   Backtop 回到頂部 -----> ud-backtop
+//   InfiniteScroll 無限滾動
+//   Drawer 抽屜
+
+// Personal
+//   Captcha 圖形驗證碼 -----> ud-captcha
+//   Ellipsis 文字省略 -----> ud-ellipsis
+//   Youtube 水管播放 -----> ud-youtube
+//   YoutubeApi 水管播放(控制版) -----> ud-youtube-api
+//   Scratch 刮刮樂 -----> ud-scratch
+//   CountdownDeadline 倒數計時(有時限) -----> ud-countdown-deadline
+//   Countdown 倒數計時(無時限) -----> ud-countdown
+//   DateSelect 日期下拉選擇 -----> ud-dateselect
+
+//-----------------------Basic-----------------------
+//Button 按鈕
 .ud-button
   display: inline-block
   white-space: nowrap
@@ -38,9 +120,327 @@
     width: 100%
     margin: 0 0 10px 0
 
+//-----------------------Form-----------------------
+// Radio 單選框
+.ud-radio
+
+// Checkbox 多選框
+.ud-checkbox
+
+// Input 輸入框
 .ud-input
   &::placeholder
     color: #ccc
+
+// Textarea 多行輸入框
+.ud-textarea
+  &::placeholder
+    color: #ccc
+
+// Select 選擇器
+.ud-select
+
+// Switch 開關
+.ud-switch
+
+// Upload 上傳
+.ud-upload
+
+// Form 表單
+.ud-form
+
+//-----------------------Data-----------------------
+// Table 表格
+.ud-table
+
+// Pagination 分頁
+.ud-pagination
+
+//-----------------------Notice-----------------------
+// Alert 警告
+.ud-alert
+
+// Loading 加載
+.ud-loading
+
+// Message 消息提示
+.ud-message
+
+// MessageBox 彈框
+.ud-messagebox
+
+// Notification 通知
+.ud-notification
+
+//-----------------------Navigation-----------------------
+
+//-----------------------Others-----------------------
+// Dialog 對話框
+.ud-dialog
+
+// Popover 彈出框
+.ud-popover
+
+// Popconfirm 氣泡確認框
+.ud-popconfirm
+
+// Carousel 走馬燈
+.ud-carousel
+
+// Backtop 回到頂部
+.ud-backtop
+
+//-----------------------Personal-----------------------
+// Captcha 圖形驗證碼
+.ud-captcha
+  flex: 0 0 100px
+  border: 1px solid #ccc
+  margin-right: 10px
+  position: relative
+  #refresh
+    position: absolute
+    right: 0
+    flex: 0 0 auto
+
+// Ellipsis 文字省略
+.ud-ellipsis
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+  display: -webkit-box
+  -webkit-line-clamp: 3
+  -webkit-box-orient: vertical
+  white-space: normal
+
+// Youtube 水管播放
+// YoutubeApi 水管播放(控制版)
+.ud-youtube,.ud-youtube-api
+  .video-wrapper
+    position: relative
+    padding-bottom: 56.25%
+    // padding-top: 30px
+    height: 0
+    overflow: hidden
+    iframe, object, embed
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+
+// Scratch 刮刮樂
+.ud-scratch
+  .sc__wrapper
+    cursor: pointer
+    display: block
+    width: 100%
+    margin: 0 auto
+    .sc__container
+      position: relative
+      overflow: hidden
+    .sc__container > img
+      position: relative
+      top: 0
+      left: 0
+      width: 100%
+      height: auto
+    .sc__container canvas
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: auto
+
+// CountdownDeadline 倒數計時(有時限)
+.ud-countdown-deadline
+
+// Countdown 倒數計時(無時限)
+.ud-countdown
+
+// DateSelect 日期下拉選擇
+.ud-date-select
+  display: flex
+  justify-content: space-between
+  align-items: center
+  select
+    flex: 1 1 auto
+  p
+    flex: 0 0 auto
+    margin: 0
+    padding: 0 8px
+    &:nth-of-type(3)
+      padding: 0 0px 0 8px
+    @media (max-width: 340px)
+      padding: 0 3px
+      &:nth-of-type(3)
+        padding: 0 0px 0 3px
+
+// AddressSelect 地址下拉選擇
+.ud-address-select
+  display: flex
+  justify-content: space-between
+  align-items: center
+  select
+    flex: 1 1 auto
+  p
+    flex: 0 0 auto
+    margin: 0
+    padding: 0 8px
+    @media (max-width: 340px)
+      padding: 0 3px
+
+//-----------------------Global-----------------------
+// transition
+.loading-enter,.loading-leave-active
+  transition: opacity .3s linear
+  opacity: 0
+
+
+
+//-----------------------開發區-----------------------
+.ud-notify
+  position: fixed
+  top: 68px
+  left: 50%
+  height: 36px
+  padding-right: 10px
+  line-height: 36px
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16)
+  border-radius: 3px
+  background: #fff
+  z-index: 100
+  transform: translateX(-50%)
+  animation: fade-in 0.3s
+  .icon
+    margin: 10px
+    font-size: 16px
+  .close
+    margin: 8px
+    font-size: 20px
+    color: #666
+    transition: all 0.3s
+    cursor: pointer
+    &:hover
+      color: #ff296a
+  &.success
+    color: #1bc7b1
+  &.fail
+    color: #ff296a
+  &.info
+    color: #1593ff
+  &.warn
+    color: #f89300
+  &.close
+    animation: fade-out 0.3s
+
+.ud-modal
+  position: fixed
+  z-index: 200
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  background-color: rgba(0,0,0,0.7)
+  .modal-wrapper
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    .modal-content
+      width: 90%
+      max-width: 460px
+      position: relative
+      background-color: #fff
+      max-height: 90%
+      overflow-y: auto
+      text-align: center
+      padding: 15px 15px 15px 15px
+      box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.3)
+      p
+        font-size: 14px
+        margin: 0 0 40px 0
+        color: $text2
+
+.ud-modal-2
+  position: fixed
+  z-index: 9998
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.5)
+  display: table
+  transition: opacity 0.3s ease
+  .modal-wrapper
+    display: table-cell
+    vertical-align: middle
+  .modal-container
+    width: 300px
+    margin: 0px auto
+    padding: 20px 30px
+    background-color: #fff
+    border-radius: 2px
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33)
+    transition: all 0.3s ease
+    font-family: Helvetica, Arial, sans-serif
+  .modal-header h3
+    margin-top: 0
+    color: #42b983
+  .modal-body
+    margin: 20px 0
+  .modal-default-button
+    float: right
+.modal-enter, .modal-leave-active
+  opacity: 0
+.modal-enter .modal-container, .modal-leave-active .modal-container
+  -webkit-transform: scale(1.1)
+  transform: scale(1.1)
+
+.ud-image-upload,.ud-image-upload-multiple
+  input
+    width: 100%
+    max-width: 100%
+    margin-bottom: 5px
+  .image-preview
+    border: 1px solid #ccc
+    padding: 10px
+    border-radius: 5px
+    margin-bottom: 15px
+    >div
+      margin-bottom: 10px
+      .image-info
+        display: flex
+        justify-content: space-between
+        p
+          margin-bottom: 5px
+          font-size: 14px
+
+.mask
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  background-color: rgba(0, 0, 0, 0.5)
+  display: flex
+  justify-content: center
+  align-items: center
+  .showContent
+    width: 160px
+    height: 160px
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 10px
+  .loadingImg
+    width: 70px
+    height: 70px
+  .lable
+    font-size: 28px
+    color: #ffffff
+    margin-top: 15px
 
 .hm-radio
   color: #606266
@@ -108,217 +508,3 @@
         transform: translate(-50%,-50%) scale(1)
   .hm-radio__label
     color: #409eff
-
-.ud-textarea
-  &::placeholder
-    color: #ccc
-
-.ud-radio
-
-.ud-checkbox
-
-.ud-select
-
-.ud-notify
-  position: fixed
-  top: 68px
-  left: 50%
-  height: 36px
-  padding-right: 10px
-  line-height: 36px
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16)
-  border-radius: 3px
-  background: #fff
-  z-index: 100
-  transform: translateX(-50%)
-  animation: fade-in 0.3s
-  .icon
-    margin: 10px
-    font-size: 16px
-  .close
-    margin: 8px
-    font-size: 20px
-    color: #666
-    transition: all 0.3s
-    cursor: pointer
-    &:hover
-      color: #ff296a
-  &.success
-    color: #1bc7b1
-  &.fail
-    color: #ff296a
-  &.info
-    color: #1593ff
-  &.warn
-    color: #f89300
-  &.close
-    animation: fade-out 0.3s
-
-.ud-captcha
-  flex: 0 0 100px
-  border: 1px solid #ccc
-  margin-right: 10px
-  position: relative
-  #refresh
-    position: absolute
-    right: 0
-    flex: 0 0 auto
-
-.ud-ellipsis
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
-  display: -webkit-box
-  -webkit-line-clamp: 3
-  -webkit-box-orient: vertical
-  white-space: normal
-
-.ud-modal-2
-  position: fixed
-  z-index: 9998
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  background-color: rgba(0, 0, 0, 0.5)
-  display: table
-  transition: opacity 0.3s ease
-  .modal-wrapper
-    display: table-cell
-    vertical-align: middle
-  .modal-container
-    width: 300px
-    margin: 0px auto
-    padding: 20px 30px
-    background-color: #fff
-    border-radius: 2px
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33)
-    transition: all 0.3s ease
-    font-family: Helvetica, Arial, sans-serif
-  .modal-header h3
-    margin-top: 0
-    color: #42b983
-  .modal-body
-    margin: 20px 0
-  .modal-default-button
-    float: right
-.modal-enter, .modal-leave-active
-  opacity: 0
-.modal-enter .modal-container, .modal-leave-active .modal-container
-  -webkit-transform: scale(1.1)
-  transform: scale(1.1)
-
-.ud-modal
-  position: fixed
-  z-index: 200
-  left: 0
-  top: 0
-  width: 100%
-  height: 100%
-  overflow: auto
-  background-color: rgba(0,0,0,0.7)
-  .modal-wrapper
-    width: 100%
-    height: 100%
-    display: flex
-    justify-content: center
-    align-items: center
-    .modal-content
-      width: 90%
-      max-width: 460px
-      position: relative
-      background-color: #fff
-      max-height: 90%
-      overflow-y: auto
-      text-align: center
-      padding: 15px 15px 15px 15px
-      box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.3)
-      p
-        font-size: 14px
-        margin: 0 0 40px 0
-        color: $text2
-
-.ud-image-upload,.ud-image-upload-multiple
-  input
-    width: 100%
-    max-width: 100%
-    margin-bottom: 5px
-  .image-preview
-    border: 1px solid #ccc
-    padding: 10px
-    border-radius: 5px
-    margin-bottom: 15px
-    >div
-      margin-bottom: 10px
-      .image-info
-        display: flex
-        justify-content: space-between
-        p
-          margin-bottom: 5px
-          font-size: 14px
-
-.ud-youtube,.ud-youtube-api
-  .video-wrapper
-    position: relative
-    padding-bottom: 56.25%
-    // padding-top: 30px
-    height: 0
-    overflow: hidden
-    iframe, object, embed
-      position: absolute
-      top: 0
-      left: 0
-      width: 100%
-      height: 100%
-
-.ud-scratch
-  .sc__wrapper
-    cursor: pointer
-    display: block
-    width: 100%
-    margin: 0 auto
-    .sc__container
-      position: relative
-      overflow: hidden
-    .sc__container > img
-      position: relative
-      top: 0
-      left: 0
-      width: 100%
-      height: auto
-    .sc__container canvas
-      position: absolute
-      top: 0
-      left: 0
-      width: 100%
-      height: auto
-
-.mask
-  position: fixed
-  top: 0
-  left: 0
-  bottom: 0
-  right: 0
-  background-color: rgba(0, 0, 0, 0.5)
-  display: flex
-  justify-content: center
-  align-items: center
-  .showContent
-    width: 160px
-    height: 160px
-    display: flex
-    justify-content: center
-    align-items: center
-    padding: 10px
-  .loadingImg
-    width: 70px
-    height: 70px
-  .lable
-    font-size: 28px
-    color: #ffffff
-    margin-top: 15px
-
-/*過渡效果*/
-.loading-enter,.loading-leave-active
-  transition: opacity .3s linear
-  opacity: 0
