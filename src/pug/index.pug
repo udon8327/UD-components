@@ -3,6 +3,7 @@ extends _layout.pug
 block css
   //- link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
   link(href='css/components.css' rel='stylesheet')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' rel='stylesheet')
   link(href='css/index.css' rel='stylesheet')
 
 block content
@@ -29,6 +30,9 @@ block content
   ud-date-select(roc)
   ud-date-select
   ud-address-select
+  h1 {{test}}
+  ud-select2(:option-list="testArr" v-model="test")
+  //- ud-google-map
   //- h1 {{ radio2 }}
   //- label
   //-   input(type="radio" v-model="radio2" value="A") 
@@ -57,4 +61,5 @@ block js
   //- script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js')
   script(src="js/utils.js")
   script(src="js/components.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js")
   script(src="js/index.js")

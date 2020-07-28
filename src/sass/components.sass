@@ -79,6 +79,7 @@
 //   CountdownDeadline 倒數計時(有時限) -----> ud-countdown-deadline
 //   Countdown 倒數計時(無時限) -----> ud-countdown
 //   DateSelect 日期下拉選擇 -----> ud-dateselect
+//   GoogleMap 估狗地圖 -----> ud-google-map
 
 //-----------------------Basic-----------------------
 //Button 按鈕
@@ -289,13 +290,28 @@
     @media (max-width: 340px)
       padding: 0 3px
 
+// GoogleMap 估狗地圖
+.ud-google-map
+  position: relative
+  padding-bottom: 65.25%
+  height: 0
+  overflow: hidden
+  iframe
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+
+//Select2 搜尋下拉框套件
+.ud-select2
+  width: 100%
+
 //-----------------------Global-----------------------
 // transition
 .loading-enter,.loading-leave-active
   transition: opacity .3s linear
   opacity: 0
-
-
 
 //-----------------------開發區-----------------------
 .ud-notify

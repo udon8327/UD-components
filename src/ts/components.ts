@@ -73,11 +73,13 @@ Personal
   Ellipsis 文字省略 -----> ud-ellipsis
   Youtube 水管播放 -----> ud-youtube
   YoutubeApi 水管播放(控制版) -----> ud-youtube-api
-  Scratch 刮刮樂 -----> ud-scratch
+  Scratch *刮刮樂 -----> ud-scratch
   CountdownDeadline 倒數計時(有時限) -----> ud-countdown-deadline
   Countdown 倒數計時(無時限) -----> ud-countdown
   DateSelect 日期下拉選擇 -----> ud-date-select
   AddressSelect 地址下拉選擇 -----> ud-address-select
+  GoogleMap 估狗地圖 -----> ud-google-map
+  Select2 *搜尋下拉框 -----> ud-select2
 */
 
 //-----------------------Basic-----------------------
@@ -304,7 +306,7 @@ Vue.component('ud-switch', {
 
 //Upload 上傳
 Vue.component('ud-upload', {
-  name: "UdLoad",
+  name: "UdUpload",
   template: `
 
   `,
@@ -490,6 +492,7 @@ Vue.component('ud-backtop', {
 
 //圖形驗證碼
 Vue.component('ud-captcha', {
+  name: "UdCaptcha",
   template: `
     <div class="ud-captcha">
       <canvas id="verify-canvas" ref="verifyCanvas" width="126" height="48"></canvas>
@@ -611,6 +614,7 @@ Vue.component('ud-captcha', {
 
 //文字省略
 Vue.component('ud-ellipsis', {
+  name: "UdEllipsis",
   template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
   props: {
     maxLine: {
@@ -622,6 +626,7 @@ Vue.component('ud-ellipsis', {
 
 //Youtube 水管播放
 Vue.component('ud-youtube', {
+  name: "UdYoutube",
   template: `
     <div class="ud-youtube">
       <div class="video-wrapper">
@@ -656,6 +661,7 @@ Vue.component('ud-youtube', {
 
 //YoutubeApi 水管播放(控制版)
 Vue.component('ud-youtube-api', {
+  name: "UdYoutubeApi",
   template: `
     <div class="ud-youtube-api">
       <div class="video-wrapper">
@@ -734,8 +740,9 @@ Vue.component('ud-youtube-api', {
 })
 
 //Scratch 刮刮樂
-//dependencies："plugins/scratchcard/scratchcard.min.js"(https://github.com/Masth0/ScratchCard)
+//dependencies:"plugins/scratchcard/scratchcard.min.js"(https://github.com/Masth0/ScratchCard)
 Vue.component('ud-scratch', {
+  name: "UdScratch",
   template: `
     <div class="ud-scratch">
       <div class="sc__wrapper">
@@ -801,6 +808,7 @@ Vue.component('ud-scratch', {
 
 //CountdownDeadline 倒數計時(有時限)
 Vue.component('ud-countdown-deadline', {
+  name: "UdCountDownDeadline",
   template: `
     <div>距離5月13號 15點0分0秒 還有</div>
     <i></i>
@@ -835,6 +843,7 @@ Vue.component('ud-countdown-deadline', {
 
 //Countdown 倒數計時(無時限)
 Vue.component('ud-countdown', {
+  name: "UdCountDown",
   template: `
     <span class="ud-countdown" ref="count">{{cTime}}</span>
   `,
@@ -939,6 +948,7 @@ Vue.component('ud-date-select', {
 
 //AddressSelect 地址下拉選擇
 Vue.component('ud-address-select', {
+  name: "UdAddressSelect",
   template: `
     <div class="ud-address-select">
       <p>縣市</p>
@@ -994,6 +1004,76 @@ Vue.component('ud-address-select', {
   },
 })
 
+//GoogleMap 嵌入估狗地圖
+Vue.component('ud-google-map', {
+  name: "UdGoogleMap",
+  template: `
+    <div class="ud-google-map" :style="{'padding-bottom': ratio + '%'}">
+      <iframe :src="src" :width="width" :height="height" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    </div>
+  `,
+  props: {
+    src: {
+      type: String,
+      default: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1807.3065648309268!2d121.51520065825689!3d25.04719989599153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9727e339109%3A0xc34a31ce3a4abecb!2z6Ie65YyX6LuK56uZ!5e0!3m2!1szh-TW!2stw!4v1595920460513!5m2!1szh-TW!2stw"
+    },
+    width: {
+      type: Number,
+      default: 600
+    },
+    height: {
+      type: Number,
+      default: 450
+    },
+    ratio: {
+      type: Number,
+      default: 65.25
+    }
+  },
+})
+
+//Select2 搜尋下拉框套件
+//dependencies:
+//  "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+//  "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+//  "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+//reference:
+//  https://select2.org
+Vue.component('ud-select2', {
+  name: "UdSelect2",
+  template: `
+    <select class="ud-select2" ref="select2" :value="value">
+      <option v-for="option in optionList" :value="option">{{option}}</option>
+    </select>
+  `,
+  props: {
+    value: String,
+    optionList: {
+      type: Array,
+      default: ()=>{
+        return ["A", "AB", "ABC", "ABCD", "ABCDE"]
+      }
+    },
+    placeholder: {
+      type: String,
+      default: "請選擇一個選項"
+    }
+  },
+  mounted() {
+    let _this = this;
+    $(this.$refs.select2).select2({
+      placeholder: _this.placeholder
+    });
+    $(this.$refs.select2).on('change',(e)=>{
+      _this.$emit('input', e.target.value);
+    });
+  },
+  methods: {
+    handleChange: function(e){
+      alert(e.target.value)
+    }
+  },
+})
 
 //-----------------------開發區-----------------------
 //通用通知

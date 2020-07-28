@@ -73,11 +73,13 @@ Personal
   Ellipsis 文字省略 -----> ud-ellipsis
   Youtube 水管播放 -----> ud-youtube
   YoutubeApi 水管播放(控制版) -----> ud-youtube-api
-  Scratch 刮刮樂 -----> ud-scratch
+  Scratch *刮刮樂 -----> ud-scratch
   CountdownDeadline 倒數計時(有時限) -----> ud-countdown-deadline
   Countdown 倒數計時(無時限) -----> ud-countdown
   DateSelect 日期下拉選擇 -----> ud-date-select
   AddressSelect 地址下拉選擇 -----> ud-address-select
+  GoogleMap 估狗地圖 -----> ud-google-map
+  Select2 *搜尋下拉框 -----> ud-select2
 */
 //-----------------------Basic-----------------------
 //Button 按鈕
@@ -211,7 +213,7 @@ Vue.component('ud-switch', {
 });
 //Upload 上傳
 Vue.component('ud-upload', {
-    name: "UdLoad",
+    name: "UdUpload",
     template: "\n\n  ",
     props: {},
 });
@@ -319,6 +321,7 @@ Vue.component('ud-backtop', {
 //-----------------------Personal-----------------------
 //圖形驗證碼
 Vue.component('ud-captcha', {
+    name: "UdCaptcha",
     template: "\n    <div class=\"ud-captcha\">\n      <canvas id=\"verify-canvas\" ref=\"verifyCanvas\" width=\"126\" height=\"48\"></canvas>\n      <img id=\"captcha-img\" ref=\"captchaImg\">\n      <input id=\"verify-hidden\" ref=\"verifyHidden\" type=\"hidden\" v-model=\"verify\">\n      <div id=\"refresh\" ref=\"refresh\" v-if=\"hasRefresh\">\n        <i class=\"refresh fas fa-synud-alt\"></i>\n      </div>\n    </div>\n  ",
     mounted: function () {
         this.captchaInit();
@@ -429,6 +432,7 @@ Vue.component('ud-captcha', {
 });
 //文字省略
 Vue.component('ud-ellipsis', {
+    name: "UdEllipsis",
     template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
     props: {
         maxLine: {
@@ -439,6 +443,7 @@ Vue.component('ud-ellipsis', {
 });
 //Youtube 水管播放
 Vue.component('ud-youtube', {
+    name: "UdYoutube",
     template: "\n    <div class=\"ud-youtube\">\n      <div class=\"video-wrapper\">\n        <iframe width=\"560\" height=\"315\" :src=\"videoIdAfter\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n      </div>\n    </div>\n  ",
     props: {
         videoId: {
@@ -470,6 +475,7 @@ Vue.component('ud-youtube', {
 });
 //YoutubeApi 水管播放(控制版)
 Vue.component('ud-youtube-api', {
+    name: "UdYoutubeApi",
     template: "\n    <div class=\"ud-youtube-api\">\n      <div class=\"video-wrapper\">\n        <div :id=\"videoId\" ref=\"player\"></div>\n      </div>\n    </div>\n  ",
     props: {
         videoId: {
@@ -542,8 +548,9 @@ Vue.component('ud-youtube-api', {
     methods: {},
 });
 //Scratch 刮刮樂
-//dependencies："plugins/scratchcard/scratchcard.min.js"(https://github.com/Masth0/ScratchCard)
+//dependencies:"plugins/scratchcard/scratchcard.min.js"(https://github.com/Masth0/ScratchCard)
 Vue.component('ud-scratch', {
+    name: "UdScratch",
     template: "\n    <div class=\"ud-scratch\">\n      <div class=\"sc__wrapper\">\n        <div class=\"sc__container\" :id=\"id\"></div>\n      </div>\n    </div>\n  ",
     mounted: function () {
         this.initScratch();
@@ -602,6 +609,7 @@ Vue.component('ud-scratch', {
 });
 //CountdownDeadline 倒數計時(有時限)
 Vue.component('ud-countdown-deadline', {
+    name: "UdCountDownDeadline",
     template: "\n    <div>\u8DDD\u96E25\u670813\u865F 15\u9EDE0\u52060\u79D2 \u9084\u6709</div>\n    <i></i>\n    <i></i>\n    <i></i>\n  ",
     mounted: function () {
         var aI = document.getElementsByTagName("i");
@@ -629,6 +637,7 @@ Vue.component('ud-countdown-deadline', {
 });
 //Countdown 倒數計時(無時限)
 Vue.component('ud-countdown', {
+    name: "UdCountDown",
     template: "\n    <span class=\"ud-countdown\" ref=\"count\">{{cTime}}</span>\n  ",
     props: {
         time: {
@@ -720,6 +729,7 @@ Vue.component('ud-date-select', {
 });
 //AddressSelect 地址下拉選擇
 Vue.component('ud-address-select', {
+    name: "UdAddressSelect",
     template: "\n    <div class=\"ud-address-select\">\n      <p>\u7E23\u5E02</p>\n      <select name=\"county\" ref=\"county\" v-model=\"currentCounty\">\n        <option disabled selected value=\"\">\u8ACB\u9078\u64C7\u7E23\u5E02</option>\n        <option v-for=\"county in countyList\" :value=\"county\" :key=\"county\">{{ county }}</option>\n      </select>\n      <p>\u9109\u586B\u5E02\u5340</p>\n      <select name=\"district\" ref=\"district\">\n        <option disabled selected value=\"\">\u8ACB\u9078\u64C7\u9109\u586B\u5E02\u5340</option>\n        <option v-for=\"district in curretnDistrictList\" :value=\"district\" :key=\"district\">{{ district }}</option>\n      </select>\n    </div>\n  ",
     data: function () {
         return {
@@ -758,6 +768,67 @@ Vue.component('ud-address-select', {
         }
     },
     methods: {},
+});
+//GoogleMap 嵌入估狗地圖
+Vue.component('ud-google-map', {
+    name: "UdGoogleMap",
+    template: "\n    <div class=\"ud-google-map\" :style=\"{'padding-bottom': ratio + '%'}\">\n      <iframe :src=\"src\" :width=\"width\" :height=\"height\" frameborder=\"0\" style=\"border:0;\" allowfullscreen=\"\" aria-hidden=\"false\" tabindex=\"0\"></iframe>\n    </div>\n  ",
+    props: {
+        src: {
+            type: String,
+            default: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1807.3065648309268!2d121.51520065825689!3d25.04719989599153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9727e339109%3A0xc34a31ce3a4abecb!2z6Ie65YyX6LuK56uZ!5e0!3m2!1szh-TW!2stw!4v1595920460513!5m2!1szh-TW!2stw"
+        },
+        width: {
+            type: Number,
+            default: 600
+        },
+        height: {
+            type: Number,
+            default: 450
+        },
+        ratio: {
+            type: Number,
+            default: 65.25
+        }
+    },
+});
+//Select2 搜尋下拉框套件
+//dependencies:
+//  "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+//  "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+//  "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+//reference:
+//  https://select2.org
+Vue.component('ud-select2', {
+    name: "UdSelect2",
+    template: "\n    <select class=\"ud-select2\" ref=\"select2\" :value=\"value\">\n      <option v-for=\"option in optionList\" :value=\"option\">{{option}}</option>\n    </select>\n  ",
+    props: {
+        value: String,
+        optionList: {
+            type: Array,
+            default: function () {
+                return ["A", "AB", "ABC", "ABCD", "ABCDE"];
+            }
+        },
+        placeholder: {
+            type: String,
+            default: "請選擇一個選項"
+        }
+    },
+    mounted: function () {
+        var _this = this;
+        $(this.$refs.select2).select2({
+            placeholder: _this.placeholder
+        });
+        $(this.$refs.select2).on('change', function (e) {
+            _this.$emit('input', e.target.value);
+        });
+    },
+    methods: {
+        handleChange: function (e) {
+            alert(e.target.value);
+        }
+    },
 });
 //-----------------------開發區-----------------------
 //通用通知

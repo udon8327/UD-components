@@ -173,6 +173,21 @@
       .ud-address-select p {
         padding: 0 3px; } }
 
+.ud-google-map {
+  position: relative;
+  padding-bottom: 65.25%;
+  height: 0;
+  overflow: hidden; }
+  .ud-google-map iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+
+.ud-select2 {
+  width: 100%; }
+
 .loading-enter, .loading-leave-active {
   -webkit-transition: opacity .3s linear;
   -o-transition: opacity .3s linear;

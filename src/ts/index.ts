@@ -29,7 +29,12 @@ let vm = new Vue({
       value: '選項5',
       label: '北京烤鸭'
     }],
-    test: ''
+    test: '',
+    testArr: [
+      "高高對",
+      "五對高",
+      "五高四",
+    ]
   },
   computed: {},
   watch: {},
