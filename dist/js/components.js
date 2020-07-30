@@ -1,3 +1,5 @@
+//@prepros-prepend "components_dev.ts"
+//@prepros-prepend "utils.ts"
 /* Vue組件目錄
 Basic
   Layout 布局
@@ -124,25 +126,27 @@ Vue.component('ud-button', {
 //Radio 單選框
 Vue.component('ud-radio', {
     name: "UdRadio",
-    template: "\n    <label class=\"ud-radio\">\n      <input\n        type=\"radio\"\n        :checked=\"checked\"\n        :value=\"label\"\n        @change=\"$emit('change', $event.target.checked)\"\n      >\n      <slot></slot>\n      <template v-if=\"!$slots.default\">{{ label }}</template>\n    </label>\n  ",
+    template: "\n    <label class=\"ud-radio\">\n      <input\n        type=\"radio\"\n        :checked=\"checked\"\n        :value=\"label\"\n        @change=\"handleChange\"\n      >\n      <slot></slot>\n      <template v-if=\"!$slots.default\">{{ label }}</template>\n    </label>\n  ",
     model: {
         prop: 'checked',
         event: 'change'
     },
-    props: ['label', 'checked']
+    props: ['label', 'checked'],
+    methods: {
+        handleChange: function (e) {
+            this.$emit('change', e.target.value);
+        }
+    },
 });
 //Checkbox 多選框
 Vue.component('ud-checkbox', {
     name: "UdCheckbox",
-    template: "\n    <input\n      class=\"ud-checkbox\"\n      type=\"checkbox\"\n      :checked=\"checked\"\n      :name=\"name\"\n      @change=\"$emit('change', $event.target.checked)\"\n    >\n  ",
+    template: "\n    <input\n      class=\"ud-checkbox\"\n      type=\"checkbox\"\n      :checked=\"checked\"\n      @change=\"$emit('change', $event.target.checked)\"\n    >\n  ",
     model: {
         prop: 'checked',
         event: 'change'
     },
     props: {
-        name: {
-            type: String
-        },
         checked: Boolean
     },
 });
@@ -801,202 +805,34 @@ Vue.component('ud-google-map', {
 //  https://select2.org
 Vue.component('ud-select2', {
     name: "UdSelect2",
-    template: "\n    <select class=\"ud-select2\" ref=\"select2\" :value=\"value\">\n      <option v-for=\"option in optionList\" :value=\"option\">{{option}}</option>\n    </select>\n  ",
-    props: {
-        value: String,
-        optionList: {
-            type: Array,
-            default: function () {
-                return ["A", "AB", "ABC", "ABCD", "ABCDE"];
-            }
-        },
-        placeholder: {
-            type: String,
-            default: "請選擇一個選項"
-        }
-    },
+    template: "\n    <select2 :options=\"options\" v-model=\"selected\">\n      <option disabled value=\"0\">Select one</option>\n    </select2>\n  ",
+    props: ["options", "value"],
     mounted: function () {
-        var _this = this;
-        $(this.$refs.select2).select2({
-            placeholder: _this.placeholder
-        });
-        $(this.$refs.select2).on('change', function (e) {
-            _this.$emit('input', e.target.value);
+        var vm = this;
+        $(this.$el)
+            .select2({ data: this.options })
+            .val(this.value)
+            .trigger("change")
+            .on("change", function () {
+            vm.$emit("input", this.value);
         });
     },
-    methods: {
-        handleChange: function (e) {
-            alert(e.target.value);
-        }
-    },
-});
-//-----------------------開發區-----------------------
-//通用通知
-Vue.component('ud-notify', {
-    template: "\n    <div :class=\"type\" class=\"ud-notify\">\n      <i :class=\"iconClass\" class=\"icon fl\"/>\n      <span>{{ msg }}</span>\n      <span class=\"close fr eqf-no\" @click=\"close\"></span>\n    </div>\n  ",
-    props: {
-        type: {
-            type: String,
-            default: ''
+    watch: {
+        value: function (value) {
+            $(this.$el)
+                .val(value)
+                .trigger("change");
         },
-        msg: {
-            type: String,
-            default: ''
+        options: function (options) {
+            $(this.$el)
+                .empty()
+                .select2({ data: options });
         }
     },
-    computed: {
-        iconClass: function () {
-            switch (this.type) {
-                case 'success':
-                    return 'eqf-info-f';
-                case 'fail':
-                    return 'eqf-no-f';
-                case 'info':
-                    return 'eqf-info-f';
-                case 'warn':
-                    return 'eqf-alert-f';
-            }
-        }
-    },
-    mounted: function () {
-        var _this = this;
-        setTimeout(function () { return _this.close(); }, 4000);
-    },
-    methods: {
-        close: function () {
-        }
-    }
-});
-//modal彈窗
-Vue.component('ud-modal', {
-    template: "\n    <transition name=\"fade\">\n      <div class=\"ud-modal\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-content\">\n            <slot></slot>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
-});
-Vue.component('ud-modal-2', {
-    template: "\n    <transition name=\"modal\">\n      <div class=\"modal-mask ud-modal-2\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-container\">\n            <div class=\"modal-header\">\n              <slot name=\"header\">\n                default header\n              </slot>\n            </div>\n            <div class=\"modal-body\">\n              <slot name=\"body\">\n                default body\n              </slot>\n            </div>\n            <div class=\"modal-footer\">\n              <slot name=\"footer\">\n                default footer\n                <ud-button class=\"modal-default-button\" @click=\"$emit('close')\">\n                  OK\n                </ud-button>\n              </slot>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
-});
-//圖片上傳預覽
-Vue.component('ud-image-upload', {
-    template: "\n    <div class=\"ud-image-upload\">\n      <input type=\"file\" accept=\"image/*\" ref=\"input\" @change=\"previewImage\">\n      <template v-if=\"preview\">\n        <div class=\"image-preview\">\n          <img :src=\"preview\" class=\"img-fluid\" />\n          <div class=\"image-info\">\n            <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image.name }}</p>\n            <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image.size/1024) }}KB</p>\n          </div>\n        </div>\n        <ud-button @click=\"reset\">\u522A\u9664\u5716\u7247</ud-button>\n      </template>\n    </div>\n  ",
-    data: function () {
-        return {
-            preview: "",
-            image: "",
-        };
-    },
-    methods: {
-        previewImage: function (event) {
-            var _this = this;
-            var input = event.target;
-            if (input.files) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    _this.preview = e.target.result;
-                };
-                this.image = input.files[0];
-                reader.readAsDataURL(input.files[0]);
-            }
-        },
-        reset: function () {
-            this.image = "";
-            this.preview = "";
-            this.$refs.input.value = "";
-        }
-    }
-});
-//圖片上傳預覽(多張)
-Vue.component('ud-image-upload-multiple', {
-    template: "\n    <div class=\"ud-image-upload-multiple\">\n      <input type=\"file\" accept=\"image/*\" multiple=\"multiple\" ref=\"input\" @change=\"previewMultiImage\">\n      <template v-if=\"preview_list.length\">\n        <div class=\"image-preview\">\n          <div v-for=\"item, index in preview_list\" :key=\"index\">\n            <img :src=\"item\"/>\n            <div class=\"image-info\">\n              <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image_list[index].name }}</p>\n              <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image_list[index].size/1024) }}KB</p>\n            </div>\n          </div>\n          <ud-button @click=\"reset\">\u522A\u9664\u5716\u7247</ud-button>\n        </div>\n      </template>\n    </div>\n  ",
-    data: function () {
-        return {
-            preview_list: [],
-            image_list: []
-        };
-    },
-    methods: {
-        previewMultiImage: function (event) {
-            var _this = this;
-            var input = event.target;
-            var count = input.files.length;
-            var index = 0;
-            if (input.files) {
-                while (count--) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        _this.preview_list.push(e.target.result);
-                    };
-                    this.image_list.push(input.files[index]);
-                    reader.readAsDataURL(input.files[index]);
-                    index++;
-                }
-            }
-        },
-        reset: function () {
-            this.image_list = [];
-            this.preview_list = [];
-            this.$refs.input.value = "";
-        }
-    }
-});
-//hm-radio
-Vue.component('hm-radio', {
-    template: "\n    <label class=\"hm-radio\" :class=\"{'is-checked': model === label}\">\n      <span class=\"hm-radio__input\">\n        <span class=\"hm-radio__inner\"></span>\n        <input\n          class=\"hm-radio__original\"\n          type=\"radio\"\n          :name=\"name\"\n          value=\"label\"\n          v-model=\"model\"\n        >\n      </span>\n      <span class=\"hm-radio__label\">\n        <slot></slot>\n        <template v-if=\"!$slots.default\">{{label}}</template>\n      </span>\n    </label>\n  ",
-    props: {
-        label: {
-            type: String,
-            default: ''
-        },
-        name: {
-            type: String,
-            default: ''
-        },
-        value: {
-            type: [String, Boolean, Number],
-            default: ''
-        }
-    },
-    computed: {
-        model: {
-            get: function () {
-                return this.value;
-            },
-            set: function (value) {
-                this.$emit('input', value);
-            }
-        }
-    },
-});
-Vue.component('ui-radio', {
-    template: "\n    <label class=\"ui-radio\" :class=\"{'checked':model==value,'disabled':disabled}\">\n      <input type=\"radio\" ref=\"radio\" :value=\"value\" @click=\"updateVal\" :disabled=\"disabled\">\n    </label>\n  ",
-    model: {
-        prop: 'model',
-        event: 'change'
-    },
-    props: {
-        value: {
-            type: [String, Number],
-            require: true
-        },
-        model: {
-            type: [String, Number],
-            require: true
-        },
-        checked: {
-            type: Boolean,
-            default: false
-        },
-        disabled: {
-            type: Boolean,
-            default: false
-        }
-    },
-    mounted: function () {
-        if (this.checked === true)
-            this.updateVal();
-    },
-    methods: {
-        updateVal: function () {
-            this.$emit('change', this.$refs.radio.value);
-        }
+    destroyed: function () {
+        $(this.$el)
+            .off()
+            .select2("destroy");
     }
 });
 //# sourceMappingURL=components.js.map

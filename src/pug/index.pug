@@ -3,63 +3,30 @@ extends _layout.pug
 block css
   //- link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
   link(href='css/components.css' rel='stylesheet')
-  link(href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/snow.min.css' rel='stylesheet')
   link(href='css/index.css' rel='stylesheet')
 
 block content
-  //- ud-loading
-  //- ud-modal-2
-  //- ud-modal
-  //-   h6 彈出標題
-  //-   p 彈出訊息
-  //-   ud-button OK
-  //- ud-notify(type="success" msg="這是通知")
   h1 {{ title }}
-  ud-input(v-model="title" name="test")
-  ud-textarea(:rows="5" v-model="title")
-  ud-button(icon="fas fa-plus" circle disabled @click="alert")
-  ud-button(icon="fas fa-angle-left" block round @click="alert" plain :min-width="200") 回上一頁
-  ud-button(icon="fas fa-angle-left" @click="alert" :min-width="200") 回上一頁
-  ud-button(icon="fas fa-angle-left" :radius="5" loading @click="alert") 確定
-  //- ud-checkbox(v-model="checkList")
-  //- h1 {{ test }}
-  //- ud-select(v-model="test")
-  h1 {{ radio }}
-  hm-radio(v-model="radio" label="1") 選項1
-  hm-radio(v-model="radio" label="2") 選項2
-  ud-date-select(roc)
-  ud-date-select
-  ud-address-select
-  h1 {{test}}
-  ud-select2(:option-list="testArr" v-model="test")
-  //- ud-google-map
-  //- h1 {{ radio2 }}
-  //- label
-  //-   input(type="radio" v-model="radio2" value="A") 
-  //-   | 選項1
-  //-   input(type="radio" v-model="radio2" value="B")
-  //-   | 選項2
-  //- ud-button(@click="showModal = true") Show Modal
-  //- ud-modal(v-if="showModal" @close="showModal = false")
-  //-   h3(slot="header") custom header
-  //- .box
-  //-   ud-ellipsis(:max-line="1") 文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字
-  //- h2#aa {{agree ? "同意": "不同意"}}
-  //- ud-button(@click="agree = !agree" icon="fab fa-adobe" :disabled="disabled" round) 456
-  //- ud-button(@click="disabled = !disabled" round) 開關
-  //- ud-input(v-model="title")
-  //- ud-image-upload
-  //- ud-image-upload-multiple
-  //- ud-youtube-api(video-id="p6qjpdi8XuE" :start="4" mute)
-  //- ud-countdown-deadline
-  //- p 還剩#[ud-countdown(:time="10" @timeup="timeup")]秒
-  //- ud-button(@click="timereset") 重新計時
-
+  //- ud-vf(type="textarea" required-msg="幹不能為空啦幹")
+  h1 {{form}}
+  formulate-form(v-model="form" @submit="alert")
+    ud-vfinput(name="email")
+    formulate-input(type="text" label="姓名" name="name" validation="required" :validation-messages="{required: '姓名不可為空'}")
+    formulate-input(type="checkbox" label="主推" name="osi" :options="testOptions" validation="required" :validation-messages="{required: '主推不可為空'}")
+    formulate-input(type="submit")
+  h1 {{form2}}
+  formulate-form(v-model="form2" @submit="alert")
+    ud-vfinput(name="email")
+    formulate-input(type="text" label="姓名" name="name" validation="required" :validation-messages="{required: '姓名不可為空'}")
+    formulate-input(type="checkbox" label="主推" name="osi" :options="testOptions" validation="required" :validation-messages="{required: '主推不可為空'}")
+    formulate-input(type="submit")
 block js
   //- script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
   //- script(async="" src="https://www.youtube.com/iframe_api")
   //- script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js')
+  script(src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js")
   script(src="js/utils.js")
   script(src="js/components.js")
-  script(src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js")
+  script(src="js/components_dev.js")
   script(src="js/index.js")

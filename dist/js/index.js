@@ -1,37 +1,43 @@
+Vue.use(VueFormulate);
 var vm = new Vue({
     el: "#app",
     data: {
         title: "",
-        agree: true,
-        data: [],
-        radio: "1",
-        radio2: "A",
-        checkList: ["选中且禁用", "复选框 A"],
-        go: false,
-        disabled: false,
-        showModal: false,
-        percent: 0,
-        options: [{
-                value: '選項1',
-                label: '黄金糕'
-            }, {
-                value: '選項2',
-                label: '双皮奶'
-            }, {
-                value: '選項3',
-                label: '蚵仔煎'
-            }, {
-                value: '選項4',
-                label: '龙须面'
-            }, {
-                value: '選項5',
-                label: '北京烤鸭'
-            }],
-        test: '',
-        testArr: [
-            "高高對",
-            "五對高",
-            "五高四",
+        value: 0,
+        test: [],
+        form: {
+            name: "UDON",
+            email: "sfsdf"
+        },
+        form2: {},
+        testOptions: {
+            "nico": "妮可",
+            "maru": "花丸",
+            "pomu": "步夢",
+            "rin": "凜",
+            "kasukasu": "阿霞",
+        },
+        testOptionsArr: [
+            {
+                value: "nico",
+                label: "妮可",
+                id: 0
+            },
+            {
+                value: "maru",
+                label: "花丸",
+                id: 1
+            },
+            {
+                value: "pomu",
+                label: "步夢",
+                id: 2
+            },
+            {
+                value: "rin",
+                label: "凜",
+                id: 3
+            },
         ]
     },
     computed: {},
@@ -39,12 +45,6 @@ var vm = new Vue({
     mounted: function () {
     },
     methods: {
-        timeup: function () {
-            console.log('時間到!!');
-        },
-        timereset: function () {
-            this.$refs.count.reset();
-        },
         alert: function () {
             alert('ok');
         },

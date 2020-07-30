@@ -14,7 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/components.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/snow.min.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
   </head>
   <body>
@@ -23,29 +23,30 @@
       <div class="container">
         <div class="wrapper">
           <h1>{{ title }}</h1>
-          <ud-input v-model="title" name="test"></ud-input>
-          <ud-textarea :rows="5" v-model="title"></ud-textarea>
-          <ud-button icon="fas fa-plus" circle disabled @click="alert"></ud-button>
-          <ud-button icon="fas fa-angle-left" block round @click="alert" plain :min-width="200">回上一頁</ud-button>
-          <ud-button icon="fas fa-angle-left" @click="alert" :min-width="200">回上一頁</ud-button>
-          <ud-button icon="fas fa-angle-left" :radius="5" loading @click="alert">確定</ud-button>
-          <h1>{{ radio }}</h1>
-          <hm-radio v-model="radio" label="1">選項1</hm-radio>
-          <hm-radio v-model="radio" label="2">選項2</hm-radio>
-          <ud-date-select roc></ud-date-select>
-          <ud-date-select></ud-date-select>
-          <ud-address-select></ud-address-select>
-          <h1>{{test}}</h1>
-          <ud-select2 :option-list="testArr" v-model="test"></ud-select2>
+          <h1>{{form}}</h1>
+          <formulate-form v-model="form" @submit="alert">
+            <ud-vfinput name="email"></ud-vfinput>
+            <formulate-input type="text" label="姓名" name="name" validation="required" :validation-messages="{required: '姓名不可為空'}"></formulate-input>
+            <formulate-input type="checkbox" label="主推" name="osi" :options="testOptions" validation="required" :validation-messages="{required: '主推不可為空'}"></formulate-input>
+            <formulate-input type="submit"></formulate-input>
+          </formulate-form>
+          <h1>{{form2}}</h1>
+          <formulate-form v-model="form2" @submit="alert">
+            <ud-vfinput name="email"></ud-vfinput>
+            <formulate-input type="text" label="姓名" name="name" validation="required" :validation-messages="{required: '姓名不可為空'}"></formulate-input>
+            <formulate-input type="checkbox" label="主推" name="osi" :options="testOptions" validation="required" :validation-messages="{required: '主推不可為空'}"></formulate-input>
+            <formulate-input type="submit"></formulate-input>
+          </formulate-form>
         </div>
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/components.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="js/components_dev.js"></script>
     <script src="js/index.js"></script>
   </body>
 </html>
