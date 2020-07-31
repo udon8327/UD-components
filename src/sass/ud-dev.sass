@@ -1,0 +1,250 @@
+@import '_color.sass'
+
+.ud-notify
+  position: fixed
+  top: 68px
+  left: 50%
+  height: 36px
+  padding-right: 10px
+  line-height: 36px
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16)
+  border-radius: 3px
+  background: #fff
+  z-index: 100
+  transform: translateX(-50%)
+  animation: fade-in 0.3s
+  .icon
+    margin: 10px
+    font-size: 16px
+  .close
+    margin: 8px
+    font-size: 20px
+    color: #666
+    transition: all 0.3s
+    cursor: pointer
+    &:hover
+      color: #ff296a
+  &.success
+    color: #1bc7b1
+  &.fail
+    color: #ff296a
+  &.info
+    color: #1593ff
+  &.warn
+    color: #f89300
+  &.close
+    animation: fade-out 0.3s
+
+.ud-modal
+  position: fixed
+  z-index: 200
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  background-color: rgba(0,0,0,0.7)
+  .modal-wrapper
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    .modal-content
+      width: 90%
+      max-width: 460px
+      position: relative
+      background-color: #fff
+      max-height: 90%
+      overflow-y: auto
+      text-align: center
+      padding: 15px 15px 15px 15px
+      box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.3)
+      p
+        font-size: 14px
+        margin: 0 0 40px 0
+        color: $text2
+
+.ud-modal-2
+  position: fixed
+  z-index: 9998
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.5)
+  display: table
+  transition: opacity 0.3s ease
+  .modal-wrapper
+    display: table-cell
+    vertical-align: middle
+  .modal-container
+    width: 300px
+    margin: 0px auto
+    padding: 20px 30px
+    background-color: #fff
+    border-radius: 2px
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33)
+    transition: all 0.3s ease
+    font-family: Helvetica, Arial, sans-serif
+  .modal-header h3
+    margin-top: 0
+    color: #42b983
+  .modal-body
+    margin: 20px 0
+  .modal-default-button
+    float: right
+.modal-enter, .modal-leave-active
+  opacity: 0
+.modal-enter .modal-container, .modal-leave-active .modal-container
+  -webkit-transform: scale(1.1)
+  transform: scale(1.1)
+
+.ud-image-upload,.ud-image-upload-multiple
+  input
+    width: 100%
+    max-width: 100%
+    margin-bottom: 5px
+  .image-preview
+    border: 1px solid #ccc
+    padding: 10px
+    border-radius: 5px
+    margin-bottom: 15px
+    >div
+      margin-bottom: 10px
+      .image-info
+        display: flex
+        justify-content: space-between
+        p
+          margin-bottom: 5px
+          font-size: 14px
+
+.mask
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  background-color: rgba(0, 0, 0, 0.5)
+  display: flex
+  justify-content: center
+  align-items: center
+  .showContent
+    width: 160px
+    height: 160px
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 10px
+  .loadingImg
+    width: 70px
+    height: 70px
+  .lable
+    font-size: 28px
+    color: #ffffff
+    margin-top: 15px
+
+.hm-radio
+  color: #606266
+  font-weight: 500
+  line-height: 1
+  position: relative
+  cursor: pointer
+  display: inline-block
+  white-space: nowrap
+  outline: none
+  font-size: 14px
+  margin-right: 30px
+  -moz-user-select: none
+  -webkit-user-select: none
+  -ms-user-select: none
+  .hm-radio__input
+    white-space: nowrap
+    cursor: pointer
+    outline: none
+    display: inline-block
+    line-height: 1
+    position: relative
+    vertical-align: middle
+    .hm-radio__inner
+      border: 1px solid #dcdfe6
+      border-radius: 100%
+      width: 14px
+      height: 14px
+      background-color: #fff
+      position: relative
+      cursor: pointer
+      display: inline-block
+      box-sizing: border-box
+      &::after
+        width: 4px
+        height: 4px
+        border-radius: 100%
+        background-color: #fff
+        content: ""
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%,-50%) scale(0)
+        transition: transform .15s ease-in
+    .hm-radio__original
+      opacity: 0
+      outline: none
+      position: absolute
+      z-index: -1
+      top: 0
+      left: 0px
+      right: 0
+      bottom: 0
+      margin: 0
+  .hm-radio__label
+    font-size: 14px
+    padding-left: 10px
+
+.hm-radio.is-checked
+  .hm-radio__input
+    .hm-radio__inner
+      border-color: #409eff
+      background: #409eff
+      &::after
+        transform: translate(-50%,-50%) scale(1)
+  .hm-radio__label
+    color: #409eff
+
+.ui-radio
+  width: 14px
+  height: 14px
+  border-radius: 50%
+  border: 1px solid #4693fe
+  display: inline-block
+  position: relative
+  .ui-radio.disabled
+    border-color: #ccc
+  .ui-radio::after
+    content: ''
+    width: 10px
+    height: 10px
+    border-radius: 50%
+    display: inline-block
+    position: absolute
+    left: 50%
+    top: 50%
+    margin: -5px 0 0 -5px
+    background-color: #4693fe
+    transition: all .5s ease
+    opacity: 0
+    transform: scale(0)
+  .ui-radio.disabled::after
+    background-color: #ccc
+  .ui-radio.checked::after
+    opacity: 1
+    transform: scale(1)
+  .ui-radio input[type=radio]
+    opacity: 0
+    margin: 0
+
+.ud-contenteditable
+  text-align: left
+  padding: 2px 5px
+  border: 1px solid #aaa
+  border-radius: 5px

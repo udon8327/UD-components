@@ -1,7 +1,7 @@
 declare var $: (selector: string) => any;
 
 /*
-==================== Vue組件目錄 Components ====================
+==================== Vue組件目錄 ====================
 Basic
   Layout 布局
   Container 布局容器
@@ -87,7 +87,7 @@ Personal
 
 
 
-==================== 工具函數目錄 Utils ====================
+==================== 工具函數目錄 ====================
 String
   將字串內換行符\n轉為<br> -----> nl2br
   取得隨機十六進制顏色 -----> randomHexColorCode
@@ -1689,9 +1689,4 @@ function isAppleMobileDevice() {
 //判斷是否安卓移動裝置訪問
 function isAndroidMobileDevice() {
   return /android/i.test(navigator.userAgent.toLowerCase());
-}
-
-let aa = [1,2,3]
-for(let i of aa){
-  console.log(i);
 }
