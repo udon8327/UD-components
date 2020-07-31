@@ -606,7 +606,3 @@ function isAppleMobileDevice() {
 function isAndroidMobileDevice() {
   return /android/i.test(navigator.userAgent.toLowerCase());
 }
-
-function test(){
-  alert("高高高高高")
-}

@@ -1,4 +1,4 @@
-// @prepros-append ud-utils.ts
+// @prepros-prepend ud-utils.ts
 
 /* Vue組件目錄
 Basic
