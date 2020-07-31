@@ -1,5 +1,5 @@
-//@prepros-prepend "components_dev.ts"
-//@prepros-prepend "utils.ts"
+// @prepros-append ud-utils.ts
+
 /* Vue組件目錄
 Basic
   Layout 布局
