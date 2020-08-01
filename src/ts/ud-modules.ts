@@ -92,7 +92,7 @@ String
   將字串內換行符\n轉為<br> -----> nl2br
   取得隨機十六進制顏色 -----> randomHexColorCode
   取得隨機字串 -----> randomString
-  金錢加入千分位逗號 -----> formatMoney
+  金錢加入千分位逗號 -----> formatNumber
   複製文字至剪貼簿 -----> copyTextToClipboard
   複製文字至剪貼簿2 -----> copyTxt
   轉義HTML(防XSS攻擊) -----> escapeHTML
@@ -1189,7 +1189,7 @@ function randomString(len) {
 }
 
 //金錢加入千分位逗號
-function formatMoney(val){
+function formatNumber(val){
   let num = val.toString();
   let pattern = /(-?\d+)(\d{3})/;
   while(pattern.test(num)){
@@ -1306,6 +1306,16 @@ function shuffle([...arr]){
 function typeOf(v){
   return v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
 }
+
+//過濾物件鍵值
+function filterObj(obj,arr){
+  let tempObj = JSON.parse(JSON.stringify(obj));
+  for(let i in tempObj){
+    if(arr.indexOf(i) === -1) delete tempObj[i];
+  }
+  return tempObj;
+}
+  // filterObj(test,["name","gender"]);
 
 //深拷貝
 function deepCopy(data) {

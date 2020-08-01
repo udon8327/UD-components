@@ -25,16 +25,14 @@
           <h1>{{ title }}</h1>
           <h1>{{form}}</h1>
           <formulate-form v-model="form" @submit="alert">
-            <ud-vfinput name="email"></ud-vfinput>
-            <formulate-input type="text" label="姓名" name="name" validation="required" :validation-messages="{required: '姓名不可為空'}"></formulate-input>
-            <formulate-input type="checkbox" label="主推" name="osi" :options="testOptions" validation="required" :validation-messages="{required: '主推不可為空'}"></formulate-input>
-            <formulate-input type="submit"></formulate-input>
-          </formulate-form>
-          <h1>{{form2}}</h1>
-          <formulate-form v-model="form2" @submit="alert">
-            <ud-vfinput name="email"></ud-vfinput>
-            <formulate-input type="text" label="姓名" name="name" validation="required" :validation-messages="{required: '姓名不可為空'}"></formulate-input>
-            <formulate-input type="checkbox" label="主推" name="osi" :options="testOptions" validation="required" :validation-messages="{required: '主推不可為空'}"></formulate-input>
+            <formulate-input type="text" label="文字框" name="text" placeholder="請輸入姓名" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
+            <formulate-input type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
+            <formulate-input type="radio" label="單選" name="radio" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
+            <formulate-input type="checkbox" label="我同意使用者條款" name="agree" validation="required" :validation-messages="{required: '請先同意使用者條款'}"></formulate-input>
+            <formulate-input type="checkbox" label="多選" name="checkbox" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
+            <formulate-input type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
+            <formulate-input type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="mime:application/pdf" multiple></formulate-input>
+            <formulate-input type="range" label="範圍條" name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live"></formulate-input>
             <formulate-input type="submit"></formulate-input>
           </formulate-form>
         </div>

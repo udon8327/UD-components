@@ -6,39 +6,20 @@ var vm = new Vue({
         value: 0,
         test: [],
         form: {
-            name: "UDON",
-            email: "sfsdf"
+            radio: 3
         },
-        form2: {},
         testOptions: {
+            // "1": "妮可",
+            // "2": "花丸",
+            // "0": "步夢",
+            // "3": "凜",
+            // "5": "阿霞",
             "nico": "妮可",
             "maru": "花丸",
             "pomu": "步夢",
             "rin": "凜",
             "kasukasu": "阿霞",
         },
-        testOptionsArr: [
-            {
-                value: "nico",
-                label: "妮可",
-                id: 0
-            },
-            {
-                value: "maru",
-                label: "花丸",
-                id: 1
-            },
-            {
-                value: "pomu",
-                label: "步夢",
-                id: 2
-            },
-            {
-                value: "rin",
-                label: "凜",
-                id: 3
-            },
-        ]
     },
     computed: {},
     watch: {},

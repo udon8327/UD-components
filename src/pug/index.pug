@@ -12,15 +12,14 @@ block content
   //- ud-vf(type="textarea" required-msg="幹不能為空啦幹")
   h1 {{form}}
   formulate-form(v-model="form" @submit="alert")
-    ud-vfinput(name="email")
-    formulate-input(type="text" label="姓名" name="name" validation="required" :validation-messages="{required: '姓名不可為空'}")
-    formulate-input(type="checkbox" label="主推" name="osi" :options="testOptions" validation="required" :validation-messages="{required: '主推不可為空'}")
-    formulate-input(type="submit")
-  h1 {{form2}}
-  formulate-form(v-model="form2" @submit="alert")
-    ud-vfinput(name="email")
-    formulate-input(type="text" label="姓名" name="name" validation="required" :validation-messages="{required: '姓名不可為空'}")
-    formulate-input(type="checkbox" label="主推" name="osi" :options="testOptions" validation="required" :validation-messages="{required: '主推不可為空'}")
+    formulate-input(type="text" label="文字框" name="text" placeholder="請輸入姓名" validation="required" :validation-messages="{required: '此欄不可為空'}")
+    formulate-input(type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}")
+    formulate-input(type="radio" label="單選" name="radio" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
+    formulate-input(type="checkbox" label="我同意使用者條款" name="agree" validation="required" :validation-messages="{required: '請先同意使用者條款'}")
+    formulate-input(type="checkbox" label="多選" name="checkbox" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
+    formulate-input(type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
+    formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="mime:application/pdf" multiple)
+    formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
     formulate-input(type="submit")
 block js
   //- script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
