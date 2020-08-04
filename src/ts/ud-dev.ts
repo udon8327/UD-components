@@ -359,3 +359,30 @@ Vue.component('ud-vfform', {
     }
   }
 })
+
+Vue.component('ud-submit', {
+  template: `
+    <formulate-input type="submit"></formulate-input>
+  `,
+  methods: {
+    handleClick: function(){
+      this.$emit('submit')
+    }
+  },
+})
+
+Vue.component('ud-vftest', {
+  template: `
+    <formulate-input
+      type="text"
+      label="文字框"
+      name="text2"
+      placeholder="請輸入姓名"
+      validation="required"
+      :validation-messages="{required: '此欄不可為空'}"
+    ></formulate-input>
+  `,
+  props: {
+
+  }
+})

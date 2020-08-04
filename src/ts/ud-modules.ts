@@ -117,6 +117,8 @@ Object
   深拷貝 -----> deepCopy
 
 Time
+  檢查是否為閏年 -----> isLeapYear
+  檢查日期是否存在 -----> isExistDate
   返回當前24小時制時間的字符串 -----> getColonTimeFromDate
   返回日期間的天數 -----> getDaysDiffBetweenDates
   檢查是否在某日期後 -----> isAfterDate
@@ -1341,6 +1343,25 @@ function deepCopy(data) {
 }
 
 //-----------------------Time-----------------------
+//檢查是否為閏年
+function isLeapYear(year){
+  return new Date(year, 1, 29).getDate() === 29;
+}
+
+//檢查日期是否存在
+function isExistDate(dateStr, split = "/") {
+  let dateObj = dateStr.split(split); // yyyy/mm/dd
+  let limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let theYear = parseInt(dateObj[0]);
+  let theMonth = parseInt(dateObj[1]);
+  let theDay = parseInt(dateObj[2]);
+  let isLeap = new Date(theYear, 1, 29).getDate() === 29; 
+  if (isLeap) {
+    limitInMonth[1] = 29;
+  }
+  return theDay <= limitInMonth[theMonth - 1];
+}
+
 //返回當前24小時制時間的字符串
 function getColonTimeFromDate(date){
   return date.toTimeString().slice(0, 8);

@@ -9,7 +9,6 @@ let vm = new Vue({
     value: 0,
     test: [],
     form: {
-      radio: 3
     },
     testOptions: {
       // "1": "妮可",
@@ -34,5 +33,8 @@ let vm = new Vue({
     alert: function(){
       alert('ok');
     },
+    reset: function(){
+      this.$formulate.reset('my-form');
+    }
   }
 });

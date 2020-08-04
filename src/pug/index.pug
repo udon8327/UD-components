@@ -11,16 +11,18 @@ block content
   h1 {{ title }}
   //- ud-vf(type="textarea" required-msg="幹不能為空啦幹")
   h1 {{form}}
-  formulate-form(v-model="form" @submit="alert")
+  formulate-form(v-model="form" @submit="alert" name="my-form")
     formulate-input(type="text" label="文字框" name="text" placeholder="請輸入姓名" validation="required" :validation-messages="{required: '此欄不可為空'}")
+    formulate-input(type="search" label="時間" name="date" placeholder="請輸入時間" validation="required" :validation-messages="{required: '此欄不可為空'}")
     formulate-input(type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}")
     formulate-input(type="radio" label="單選" name="radio" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
     formulate-input(type="checkbox" label="我同意使用者條款" name="agree" validation="required" :validation-messages="{required: '請先同意使用者條款'}")
     formulate-input(type="checkbox" label="多選" name="checkbox" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
     formulate-input(type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
-    formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="mime:application/pdf" multiple)
+    formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="required|mime:application/pdf" multiple :validation-messages="{required: '此欄不可為空'}")
     formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
-    formulate-input(type="submit")
+    formulate-input(type="button" data-ghost label="取消" @click="reset")
+    formulate-input(type="submit" label="送出")
 block js
   //- script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
   //- script(async="" src="https://www.youtube.com/iframe_api")

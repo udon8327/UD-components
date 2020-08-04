@@ -318,12 +318,14 @@
 .formulate-input
   margin-bottom: 20px
   position: relative
-  .formulate-input-label
-    display: block
-    line-height: 1.5
-    font-size: 14px
-    @media (min-width: 640px)
-      font-size: 16px
+  .formulate-input-wrapper
+    .formulate-input-label
+      display: block
+      line-height: 1.5
+      font-size: 14px
+      margin-bottom: 1px
+      @media (min-width: 640px)
+        font-size: 16px
   .formulate-input-help
     font-size: 14px
     color: #aaa
@@ -333,48 +335,36 @@
     margin: 0
     position: absolute
     left: 0
-    bottom: -22px
-  .formulate-file-upload-error, .formulate-input-error
-    color: $danger
-    font-size: 14px
-
+    bottom: -20px
+    .formulate-file-upload-error, .formulate-input-error
+      color: $danger
+      font-size: 14px
   &:last-child
     margin-bottom: 0
+  &[data-is-showing-errors=true]
+    input,textarea,select
+      border: 1px solid $danger !important
 
   &[data-classification=text]
     input
-      -webkit-appearance: none
-      -moz-appearance: none
       appearance: none
-      border-radius: .3em
-      border: 1px solid #cecece
+      border-radius: $vfradius
+      border: 1px solid $vfborder
+      font-size: 14px
+      padding: 8px 10px
+      width: 100%
       box-sizing: border-box
       background-color: transparent
-      font-size: .9em
-      padding: .75em
-      display: block
-      width: 100%
-      font-weight: 400
-      line-height: 1.2em
-      margin: 0
-
-      &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder, &::placeholder
-        color: #a8a8a8
-        line-height: normal
-
+      &::placeholder
+        color: #aaa
       &:focus
         outline: 0
-        border: 1px solid #41b883
-
-    .formulate-input-element--date input, .formulate-input-element--datetime-local input, .formulate-input-element--month input, .formulate-input-element--week input
-      min-height: 2.2em
-
+        border: 1px solid $vftheme
     .formulate-input-element--search
       position: relative
-
       &:before
         content: ""
-        width: 2em
+        width: 30px
         height: 100%
         position: absolute
         left: 0
@@ -384,16 +374,13 @@
         background-repeat: no-repeat
         background-position: 50%
         pointer-events: none
-
       input
-        padding-left: 2em
-
+        padding-left: 30px
     input[type=color]
       height: 1.1em
       box-sizing: content-box
       width: auto
       min-width: 5em
-
       &::-webkit-color-swatch-wrapper
         padding: 0 0 0 1.5em
         display: flex
@@ -402,7 +389,6 @@
         background-repeat: no-repeat
         background-size: .9em .9em
         background-position: left .1em
-
       &::-webkit-color-swatch, &::-moz-color-swatch
         display: block
         height: 1em
@@ -410,124 +396,35 @@
         border: 0
         flex: auto
 
-  &[data-classification=slider]
-    .formulate-input-element--range
-      display: flex
-      align-items: center
-
-    .formulate-input-element-range-value
-      font-size: .9em
-      line-height: 1
-      margin-left: .5em
-      background-color: #efefef
-      padding: .25em .3em
-      border-radius: .25em
-      color: #6d6d6d
-      font-variant-numeric: tabular-nums
-
-    input
-      -webkit-appearance: none
-      -moz-appearance: none
+  &[data-classification=textarea]
+    textarea
       appearance: none
+      border-radius: $vfradius
+      border: 1px solid $vfborder
+      box-sizing: border-box
+      background-color: transparent
+      font-size: 14px
+      padding: 6px 10px
       width: 100%
-      font-size: 1em
-      padding: .5em 0
-
+      &::placeholder
+        color: #aaa
       &:focus
         outline: 0
-
-      &::-webkit-slider-thumb
-        cursor: pointer
-        -webkit-appearance: none
-        appearance: none
-        width: 1em
-        height: 1em
-        border-radius: 1em
-        border: 0
-        background-color: #41b883
-        margin-top: calc(-.5em + 2px)
-
-      &::-moz-range-thumb
-        cursor: pointer
-        -moz-appearance: none
-        appearance: none
-        width: 1em
-        height: 1em
-        border-radius: 1em
-        border: 0
-        background-color: #41b883
-        margin-top: calc(-.5em + 2px)
-
-      &::-ms-thumb
-        cursor: pointer
-        appearance: none
-        width: 1em
-        height: 1em
-        border-radius: 1em
-        border: 0
-        background-color: #41b883
-        margin-top: calc(-.5em + 2px)
-
-      &::-webkit-slider-runnable-track
-        -webkit-appearance: none
-        appearance: none
-        width: 100%
-        height: 4px
-        background-color: #efefef
-        border-radius: 3px
-        margin: 0
-        padding: 0
-
-      &::-moz-range-track
-        -moz-appearance: none
-        appearance: none
-        width: 100%
-        height: 4px
-        background-color: #efefef
-        border-radius: 3px
-        margin: 0
-        padding: 0
-
-  &[data-classification=textarea] textarea
-    -webkit-appearance: none
-    -moz-appearance: none
-    appearance: none
-    border-radius: .3em
-    border: 1px solid #cecece
-    box-sizing: border-box
-    background-color: transparent
-    font-size: .9em
-    padding: .75em
-    display: block
-    width: 100%
-    font-weight: 400
-    line-height: 1.2em
-    margin: 0
-
-    &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder, &::placeholder
-      color: #a8a8a8
-      line-height: normal
-
-    &:focus
-      outline: 0
-      border: 1px solid #41b883
+        border: 1px solid $vftheme
 
   &[data-classification=button] button
-    -webkit-appearance: none
-    -moz-appearance: none
     appearance: none
-    border-radius: .3em
+    border-radius: $vfradius
     box-sizing: border-box
     background-color: transparent
-    font-size: .9em
+    font-size: 14px
     padding: .75em
     display: block
     width: 100%
-    font-weight: 400
     line-height: 1.2em
     margin: 0
-    border: 1px solid #41b883
-    background-color: #41b883
+    border: 1px solid $vftheme
+    background-color: $vftheme
     color: #fff
     min-width: 0
     width: auto
@@ -535,80 +432,60 @@
     cursor: pointer
     display: inline-flex
     align-items: center
-
     &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder, &::placeholder
       color: #a8a8a8
       line-height: normal
-
     &:focus
       outline: 0
       border: 1px solid #41b883
-
     &[disabled]
       background-color: #cecece
       border-color: #cecece
-
     &[data-ghost]
       color: #41b883
       background-color: transparent
       border-color: currentColor
-
     &[data-minor]
       font-size: .75em
       display: inline-block
-
     &[data-danger]
       background-color: $danger
       border-color: $danger
-
       &[data-ghost]
         color: $danger
         background-color: transparent
-
     &:active
-      background-color: #64c89b
-      border-color: #64c89b
+      background-color: lighten($vftheme, 10%)
+      border-color: lighten($vftheme, 10%)
 
   &[data-classification=select]
     .formulate-input-element
       position: relative
-
       &:before
         content: ""
         width: 0
         height: 0
-        border-color: #cecece transparent transparent
+        border-color: $vfborder transparent transparent
         border-style: solid
         border-width: .3em .3em 0
         top: 50%
         margin-top: -.1em
         right: 1em
         position: absolute
-
     select
-      -webkit-appearance: none
-      -moz-appearance: none
       appearance: none
-      border-radius: .3em
-      border: 1px solid #cecece
-      box-sizing: border-box
-      background-color: transparent
-      font-size: .9em
-      display: block
+      border-radius: $vfradius
+      border: 1px solid $vfborder
+      font-size: 14px
+      padding: 6px 10px
       width: 100%
-      font-weight: 400
-      line-height: 1.2em
       margin: 0
-      padding: .75em 2em .75em .75em
-
-      &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder, &::placeholder
+      &::placeholder
         color: #a8a8a8
         line-height: normal
-
       &:focus
         outline: 0
-        border: 1px solid #41b883
-
+        border: 1px solid $vftheme
       &[data-placeholder-selected]
         color: #a8a8a8
 
@@ -616,26 +493,22 @@
     .formulate-input-wrapper
       display: flex
       align-items: center
-
     .formulate-input-element
       overflow: hidden
       display: flex
       align-items: center
-
       input
         position: absolute
         left: -999px
         opacity: 0
         pointer-events: none
-
     .formulate-input-element-decorator
       display: block
       width: 1em
       height: 1em
       border-radius: .25em
-      border: 1px solid #cecece
+      border: 1px solid $vfborder
       position: relative
-
       &:before
         content: ""
         display: block
@@ -647,73 +520,59 @@
         position: absolute
         top: .0625em
         left: .0625em
-
     .formulate-input-element
       &[data-type=radio] .formulate-input-element-decorator
         border-radius: 1em
-
         &:before
           border-radius: 1em
           width: calc(100% - .5em)
           height: calc(100% - .5em)
           top: .25em
           left: .25em
-
       input
         &[type=checkbox]:checked ~ .formulate-input-element-decorator
-          border-color: #41b883
-
+          border-color: $vftheme
           &:before
-            background-color: #41b883
+            background-color: $vftheme
             -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>')
             mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>')
-
         &[type=radio]:checked ~ .formulate-input-element-decorator
-          border-color: #41b883
-
+          border-color: $vftheme
           &:before
-            background-color: #41b883
-
+            background-color: $vftheme
         &:focus ~ .formulate-input-element-decorator
-          border-color: #41b883
-
+          border-color: $vftheme
     .formulate-input-label--after
       margin-left: .5em
-
     .formulate-input-label--before
       margin-right: .5em
 
   &[data-classification=group]
     .formulate-input-group-item, > .formulate-input-wrapper > .formulate-input-label
       margin-bottom: .5em
-
     [data-is-repeatable]
       padding: 1em
       border: 1px solid #efefef
       border-radius: .3em
-
       .formulate-input-grouping
         margin: -1em -1em 0
-
       .formulate-input-group-repeatable
         padding: 1em 3em 1em 1em
         border-bottom: 1px solid #efefef
         position: relative
-
       .formulate-input-group-repeatable-remove
         position: absolute
         display: block
         top: calc(50% - .15em)
         width: 1.3em
         height: 1.3em
-        background-color: #cecece
+        background-color: $vfborder
         right: .85em
         border-radius: 1.3em
         cursor: pointer
         transition: background-color .2s
         overflow: hidden
         text-indent: -1000px
-
         &:after, &:before
           content: ""
           position: absolute
@@ -725,7 +584,6 @@
           background-color: #fff
           transform-origin: center center
           transition: transform .25s
-
       .formulate-input-group-repeatable:last-child
         margin-bottom: 1em
 
@@ -734,11 +592,8 @@
       width: 100%
       position: relative
       padding: 2em 0
-
       input
         cursor: pointer
-        -webkit-appearance: none
-        -moz-appearance: none
         appearance: none
         opacity: 0
         position: absolute
@@ -749,13 +604,10 @@
         width: 100%
         height: 100%
         z-index: 5
-
       &[data-has-files]
         padding: 0
-
         input
           display: none
-
     .formulate-input-upload-area-mask
       border-radius: .4em
       pointer-events: none
@@ -769,7 +621,6 @@
       bottom: 0
       border: 2px dashed #a8a8a8
       z-index: 2
-
       &:before
         content: ""
         background-color: #a8a8a8
@@ -783,21 +634,17 @@
         height: 2em
         position: absolute
         pointer-events: none
-
     .formulate-input-upload-area input
       &:focus ~ .formulate-input-upload-area-mask, &:hover ~ .formulate-input-upload-area-mask, &[data-is-drag-hover] ~ .formulate-input-upload-area-mask
-        border-color: #41b883
-
+        border-color: $vftheme
       &:focus ~ .formulate-input-upload-area-mask:before, &:hover ~ .formulate-input-upload-area-mask:before, &[data-is-drag-hover] ~ .formulate-input-upload-area-mask:before
-        background-color: #41b883
-
+        background-color: $vftheme
     .formulate-files
       list-style-type: none
       margin: 0
       padding: 0
-
       .formulate-file-progress
-        background-color: #cecece
+        background-color: $vfborder
         height: .3em
         border-radius: 1.25em
         width: 5em
@@ -807,7 +654,6 @@
         right: .75em
         transition: height .25s,width .25s,flex-basis .25s
         z-index: 2
-
         &:before
           content: ""
           position: absolute
@@ -828,17 +674,14 @@
           -webkit-mask-position: center
           mask-position: center
           z-index: 3
-
         &[data-just-finished]
           width: 1.25em
           height: 1.25em
           flex: 0 0 1.25em
-
           &:before
             transition: transform .25s .2s,opacity .25s .2s
             transform: scale(1)
             opacity: 1
-
         &[data-is-finished]
           transition: height .25s,width .25s,left .25s,top,.25s,border-radius .25s
           width: .3em
@@ -846,20 +689,17 @@
           height: 100%
           right: 0
           border-radius: 0 .23em .23em 0
-
           &:before
             transition: opacity .1s
             opacity: 0
-
         .formulate-file-progress-inner
-          background-color: #41b883
+          background-color: $vftheme
           width: 1%
           position: absolute
           left: 0
           bottom: 0
           top: 0
           z-index: 2
-
       .formulate-file-name
         padding-left: 1.5em
         padding-right: 2em
@@ -867,7 +707,6 @@
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
-
         &:before
           position: absolute
           left: .7em
@@ -885,7 +724,6 @@
           height: 1.25em
           display: inline-block
           margin-right: .5em
-
       .formulate-file-remove
         width: 1.25em
         height: 1.25em
@@ -905,25 +743,18 @@
         right: .75em
         z-index: 1
         transition: transform .25s
-
       li
         display: block
-
         &[data-has-error] .formulate-file-progress
           background-color: #dc2c2c
-
         &[data-has-preview] .formulate-file-name:before
           display: none
-
         + li
           margin-top: .5em
-
       .formulate-file
-        -webkit-appearance: none
-        -moz-appearance: none
         appearance: none
         border-radius: .3em
-        border: 1px solid #cecece
+        border: 1px solid $vfborder
         box-sizing: border-box
         background-color: transparent
         font-size: .9em
@@ -937,22 +768,18 @@
         justify-content: flex-start
         align-items: center
         position: relative
-
         &::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder, &::placeholder
           color: #a8a8a8
           line-height: normal
-
         &:focus
           outline: 0
-          border: 1px solid #41b883
-
+          border: 1px solid $vftheme
         \::-webkit-progress-bar
           -webkit-appearance: none
           appearance: none
           height: .5em
           border-radius: .5em
           overflow: hidden
-
       .formulate-file-image-preview
         width: 3em
         height: 3em
@@ -962,7 +789,6 @@
         left: -1px
         box-shadow: 0 0 0 1px #efefef
         transition: transform .25s,box-shadow .25s,background-color .25s
-
         img
           display: block
           position: absolute
@@ -975,52 +801,74 @@
           -o-object-fit: contain
           object-fit: contain
           transition: all .25s
-
     [data-type=image] .formulate-input-upload-area .formulate-input-upload-area-mask:before
       -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 71.05"><path d="M82.89,0H7.1A7.12,7.12,0,0,0,0,7.11V64a7.11,7.11,0,0,0,7.1,7.1H82.9A7.11,7.11,0,0,0,90,64V7.11A7.12,7.12,0,0,0,82.89,0ZM69.28,39.35a5.44,5.44,0,0,0-8,0L50.58,50.74,32.38,30.88a5.31,5.31,0,0,0-7.92,0L4.74,52.4V7.11A2.37,2.37,0,0,1,7.11,4.74H82.9a2.37,2.37,0,0,1,2.36,2.37V56.3Z"/><circle cx="67.74" cy="22.26" r="8.53"/></svg>')
       mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 71.05"><path d="M82.89,0H7.1A7.12,7.12,0,0,0,0,7.11V64a7.11,7.11,0,0,0,7.1,7.1H82.9A7.11,7.11,0,0,0,90,64V7.11A7.12,7.12,0,0,0,82.89,0ZM69.28,39.35a5.44,5.44,0,0,0-8,0L50.58,50.74,32.38,30.88a5.31,5.31,0,0,0-7.92,0L4.74,52.4V7.11A2.37,2.37,0,0,1,7.11,4.74H82.9a2.37,2.37,0,0,1,2.36,2.37V56.3Z"/><circle cx="67.74" cy="22.26" r="8.53"/></svg>')
 
-@media (pointer: fine)
-  .formulate-input[data-classification=group] [data-is-repeatable] .formulate-input-group-repeatable-remove:hover
-    background-color: #dc2c2c
-
-    &:after, &:before
-      height: .2em
-      width: .75em
-      left: .25em
-      top: calc(50% - .075em)
-
-    &:after
-      transform: rotate(45deg)
-
-    &:before
-      transform: rotate(-45deg)
-
-@media (pointer: fine)
-  .formulate-input[data-classification=file] .formulate-files .formulate-file-remove:hover
-    transform: scale(1.5)
-
-@media (pointer: fine)
-  .formulate-input[data-classification=file] .formulate-files .formulate-file-image-preview:hover
-    transition-delay: .2s
-    transform: scale(3)
-    background-color: #fff
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1)
-
-.formulate-form-errors
-  margin: .75em 0
-  padding: 0
-  list-style-type: none
-
-  &:first-child
-    margin-top: 0
-
-  &:last-child
-    margin-bottom: 0
-
-  .formulate-form-error
-    color: $danger
-    font-size: .9em
-    font-weight: 300
-    line-height: 1.5
-    margin-bottom: .25em
+  &[data-classification=slider]
+    .formulate-input-element--range
+      display: flex
+      align-items: center
+    .formulate-input-element-range-value
+      font-size: .9em
+      line-height: 1
+      margin-left: .5em
+      background-color: #efefef
+      padding: .25em .3em
+      border-radius: .25em
+      color: #6d6d6d
+      font-variant-numeric: tabular-nums
+    input
+      appearance: none
+      width: 100%
+      font-size: 1em
+      padding: .5em 0
+      &:focus
+        outline: 0
+      &::-webkit-slider-thumb
+        cursor: pointer
+        -webkit-appearance: none
+        appearance: none
+        width: 1em
+        height: 1em
+        border-radius: 1em
+        border: 0
+        background-color: $vftheme
+        margin-top: calc(-.5em + 2px)
+      &::-moz-range-thumb
+        cursor: pointer
+        -moz-appearance: none
+        appearance: none
+        width: 1em
+        height: 1em
+        border-radius: 1em
+        border: 0
+        background-color: $vftheme
+        margin-top: calc(-.5em + 2px)
+      &::-ms-thumb
+        cursor: pointer
+        appearance: none
+        width: 1em
+        height: 1em
+        border-radius: 1em
+        border: 0
+        background-color: $vftheme
+        margin-top: calc(-.5em + 2px)
+      &::-webkit-slider-runnable-track
+        -webkit-appearance: none
+        appearance: none
+        width: 100%
+        height: 4px
+        background-color: #efefef
+        border-radius: 3px
+        margin: 0
+        padding: 0
+      &::-moz-range-track
+        -moz-appearance: none
+        appearance: none
+        width: 100%
+        height: 4px
+        background-color: #efefef
+        border-radius: 3px
+        margin: 0
+        padding: 0

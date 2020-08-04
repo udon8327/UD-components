@@ -5,9 +5,7 @@ var vm = new Vue({
         title: "",
         value: 0,
         test: [],
-        form: {
-            radio: 3
-        },
+        form: {},
         testOptions: {
             // "1": "妮可",
             // "2": "花丸",
@@ -29,6 +27,9 @@ var vm = new Vue({
         alert: function () {
             alert('ok');
         },
+        reset: function () {
+            this.$formulate.reset('my-form');
+        }
     }
 });
 //# sourceMappingURL=index.js.map
