@@ -147,9 +147,7 @@ DOM
   獲取移動設備最大化大小 -----> getZoom
 
 Verify
-  校驗是否為網址 -----> isURL
-  校驗是否為不含端口號的IP地址 -----> isIP
-  校驗是否為IPv6地址 -----> isIPv6
+  各種校驗綜合函式 -----> validate
 
 Browser
   動態加載css文件 -----> loadStyle
@@ -158,6 +156,7 @@ Browser
   取得Cookie的值 -----> getCookie
   設置cookie值 -----> setCookie
   動態載入插件 -----> insertPlugin
+  跳頁後強制刷新 -----> pageReload
 
 Web
   查詢網址所帶參數 -----> queryString
@@ -1359,7 +1358,7 @@ function isExistDate(dateStr, split = "/") {
   if (isLeap) {
     limitInMonth[1] = 29;
   }
-  return theDay <= limitInMonth[theMonth - 1];
+  return theDay > 0 && theDay <= limitInMonth[theMonth - 1];
 }
 
 //返回當前24小時制時間的字符串
@@ -1595,19 +1594,42 @@ function getZoom() {
 }
 
 //-----------------------Verify-----------------------
-//校驗是否為網址
-function isURL(str) {
-  return /^(https:\/\/|http:\/\/|ftp:\/\/|rtsp:\/\/|mms:\/\/)?[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/.test(str);
-}
-
-//校驗是否為不含端口號的IP地址
-function isIP(str) {
-  return /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/.test(str);
-}
-
-//校驗是否為IPv6地址
-function isIPv6(str){
-  return Boolean(str.match(/:/g)?str.match(/:/g).length<=7:false && /::/.test(str)?/^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(str):/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str));
+//各種校驗綜合函式
+function validate(type, str, regex){
+  switch (type) {
+    //校驗是否為姓名(不含符號)
+    case "name":
+      return /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(str);
+      break;
+    //校驗是否為手機號碼
+    case "phone":
+      return /^09\d{8}$/.test(str);
+      break;
+    //校驗是否為電子郵件
+    case "email":
+      return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(str);
+      break;
+    //校驗是否為身分證字號
+    case "id":
+      return /^[A-Z]\d{9}$/.test(str);
+      break;
+    //校驗是否為西元日期格式(1996-08-06)
+    case "date":
+      return /^\d{4}-\d{2}-\d{2}$/.test(str);
+      break;
+    //校驗是否為網址
+    case "url":
+      return /^(https:\/\/|http:\/\/|ftp:\/\/|rtsp:\/\/|mms:\/\/)?[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/.test(str);
+      break;
+    //校驗是否為不含端口號的IP地址
+    case "ip":
+      return /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/.test(str);
+      break;
+    //校驗是否為IPv6地址
+    case "ipv6":
+      return Boolean(str.match(/:/g)?str.match(/:/g).length<=7:false && /::/.test(str)?/^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(str):/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str));
+      break;
+  }
 }
 
 //-----------------------Browser-----------------------
@@ -1664,6 +1686,15 @@ function insertPlugin(src){
   let script = document.createElement('script');
   script.setAttribute('src', src);
   document.head.appendChild(script);
+}
+
+//跳頁後強制刷新
+function pageReload(){
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+      window.location.reload() 
+    }
+  };
 }
 
 //-----------------------Web-----------------------
