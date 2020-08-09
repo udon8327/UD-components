@@ -89,13 +89,14 @@ Personal
 
 ==================== 工具函數目錄 ====================
 String
-  將字串內換行符\n轉為<br> -----> nl2br
+  將字串內換行符\n轉為<br> -----> convertNl
   取得隨機十六進制顏色 -----> randomHexColorCode
   取得隨機字串 -----> randomString
   金錢加入千分位逗號 -----> formatNumber
   複製文字至剪貼簿 -----> copyTextToClipboard
   複製文字至剪貼簿2 -----> copyTxt
   轉義HTML(防XSS攻擊) -----> escapeHTML
+  駝峰式轉換 -----> convertCamelCase
 
 Number
   取得範圍內隨機數 -----> getRandom
@@ -1167,7 +1168,7 @@ Vue.component('ud-select2', {
 
 //-----------------------String-----------------------
 //將字串內換行符\n轉為<br>
-function nl2br(str) {
+function convertNl(str) {
   return str.replace(/([^>])\n/g, "$1<br/>\n");
 }
 
@@ -1190,6 +1191,7 @@ function randomString(len) {
 }
 
 //金錢加入千分位逗號
+  //formatNumber(99999); -> 99,999
 function formatNumber(val){
   let num = val.toString();
   let pattern = /(-?\d+)(\d{3})/;
@@ -1220,6 +1222,7 @@ function copyTxt()
 }
 
 //轉義HTML(防XSS攻擊)
+  //escapeHTML('<a href="#">Me & you</a>'); -> '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
 function escapeHTML(str){
   return str.replace(/[&<>'"]/g,tag =>({
     '&': '&amp;',
@@ -1230,7 +1233,12 @@ function escapeHTML(str){
     }[tag] || tag)
   );
 }
-  // escapeHTML('<a href="#">Me & you</a>'); // '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
+
+//駝峰式轉換
+  //convertCamelCase("camelCase"); -> camel-case
+function convertCamelCase(str){
+  return str.replace(/([A-Z])/g, '-$1').toLowerCase();
+}
 
 //-----------------------Number-----------------------
 //取得範圍內隨機數
@@ -1239,10 +1247,10 @@ function getRandom(min, max) {
 }
 
 //四捨五入到指定位數
+  //round(1.235, 2); -> 1.24
 function round(n, decimals = 0){
   return Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
 }
-  // round(1.235, 2); // 1.24
 
 //-----------------------Image-----------------------
 //預載圖片
@@ -1270,27 +1278,30 @@ function uniqArray(arr) {
 }
 
 //二維陣列扁平化(第二參數可指定深度)
+  //flatArray([1, [2], 3, 4]); -> [1, 2, 3, 4]
+  //flatArray([1, [2, [3, [4, 5], 6], 7], 8], 2); -> [1, 2, 3, [4, 5], 6, 7, 8]
 function flatArray(arr, depth = 1){
   return arr.reduce((a, v) => a.concat(depth > 1 && Array.isArray(v) ? flatArray(v, depth - 1) : v), []);
 }
-  // flatArray([1, [2], 3, 4]); // [1, 2, 3, 4]
-  // flatArray([1, [2, [3, [4, 5], 6], 7], 8], 2); // [1, 2, 3, [4, 5], 6, 7, 8]
 
 //返回陣列中某值的所有索引
+  //indexOfAll([1, 2, 3, 1, 2, 3], 1); -> [0,3]
+  //indexOfAll([1, 2, 3], 4); -> []
 function indexOfAll(arr, val){
   return arr.reduce((acc, el, i) => (el === val ? [...acc, i] : acc), []);
 }
-  // indexOfAll([1, 2, 3, 1, 2, 3], 1); // [0,3]
-  // indexOfAll([1, 2, 3], 4); // []
 
 //兩陣列的交集
+  //intersection([1, 2, 3], [4, 3, 2]); -> [2, 3]
 function intersection(a, b){
   const s = new Set(b);
   return a.filter(x => s.has(x));
 };
-  // intersection([1, 2, 3], [4, 3, 2]); // [2, 3]
 
 //洗牌陣列
+  //const foo = [1, 2, 3];
+  //shuffle(foo); -> [2, 3, 1];
+  //foo = [1, 2, 3];
 function shuffle([...arr]){
   let m = arr.length;
   while (m) {
@@ -1299,8 +1310,6 @@ function shuffle([...arr]){
   }
   return arr;
 };
-  // const foo = [1, 2, 3];
-  // shuffle(foo); // [2, 3, 1], foo = [1, 2, 3]
 
 //-----------------------Object-----------------------
 //精準型別判斷
@@ -1309,6 +1318,7 @@ function typeOf(v){
 }
 
 //過濾物件鍵值
+  //filterObj(test,["name","gender"]);
 function filterObj(obj,arr){
   let tempObj = JSON.parse(JSON.stringify(obj));
   for(let i in tempObj){
@@ -1316,7 +1326,6 @@ function filterObj(obj,arr){
   }
   return tempObj;
 }
-  // filterObj(test,["name","gender"]);
 
 //深拷貝
 function deepCopy(data) {
@@ -1362,38 +1371,38 @@ function isExistDate(dateStr, split = "/") {
 }
 
 //返回當前24小時制時間的字符串
+  //getColonTimeFromDate(new Date()); -> "08:38:00"
 function getColonTimeFromDate(date){
   return date.toTimeString().slice(0, 8);
 }
-  // getColonTimeFromDate(new Date()); // "08:38:00"
 
 //返回日期間的天數
+  //getDaysDiffBetweenDates(new Date('2019-01-01'), new Date('2019-10-14')); -> 286
 function getDaysDiffBetweenDates(dateInitial, dateFinal){
   return (dateFinal - dateInitial) / (1000 * 3600 * 24);
 }
-  // getDaysDiffBetweenDates(new Date('2019-01-01'), new Date('2019-10-14')); // 286
 
 //檢查是否在某日期後
+  //isAfterDate(new Date(2010, 10, 21), new Date(2010, 10, 20)); -> true
 function isAfterDate(dateA, dateB){
   return dateA > dateB;
 }
-  // isAfterDate(new Date(2010, 10, 21), new Date(2010, 10, 20)); // true
 
 //檢查是否在某日期前
+  //isBeforeDate(new Date(2010, 10, 20), new Date(2010, 10, 21)); -> true
 function isBeforeDate(dateA, dateB){
   return dateA < dateB;
 }
-  // isBeforeDate(new Date(2010, 10, 20), new Date(2010, 10, 21)); // true
 
 //返回幾天前後的日期
+  //getDiffDate(1); -> "2020-07-01"
+  //getDiffDate(0); -> "2020-06-30"
+  //getDiffDate(-2); -> "2020-06-28"
 function getDiffDate(days){
   let t = new Date();
   t.setDate(t.getDate() + days);
   return t.toISOString().split('T')[0];
 };
-  //getDiffDate(1) // "2020-07-01"
-  //getDiffDate(0) // "2020-06-30"
-  //getDiffDate(-2) // "2020-06-28"
 
 //時間個性化輸出功能
 function timeFormat(time) {
