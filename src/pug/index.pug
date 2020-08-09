@@ -1,7 +1,7 @@
 extends _layout.pug
 
 block css
-  //- link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
   link(href='css/ud-dev.css' rel='stylesheet')
   link(href='css/ud-modules.css' rel='stylesheet')
   //- link(href='https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/snow.min.css' rel='stylesheet')
@@ -9,6 +9,8 @@ block css
 
 block content
   h1 {{ title }}
+  el-button(type="primary" icon="el-icon-search" round size="small") 搜索
+  el-button(type="danger" icon="el-icon-delete" round size="small") 刪除
   //- ud-vf(type="textarea" required-msg="幹不能為空啦幹")
   h1 {{form}}
   formulate-form(v-model="form" @submit="alert" name="my-form")

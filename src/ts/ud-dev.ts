@@ -1,5 +1,5 @@
 //通用通知
-Vue.component('ud-notify', {
+Vue.component("ud-notify", {
   template: `
     <div :class="type" class="ud-notify">
       <i :class="iconClass" class="icon fl"/>
@@ -10,38 +10,37 @@ Vue.component('ud-notify', {
   props: {
     type: {
       type: String,
-      default: ''
+      default: ""
     },
     msg: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   computed: {
     iconClass() {
       switch (this.type) {
-        case 'success':
-          return 'eqf-info-f'
-        case 'fail':
-          return 'eqf-no-f'
-        case 'info':
-          return 'eqf-info-f'
-        case 'warn':
-          return 'eqf-alert-f'
+        case "success":
+          return "eqf-info-f";
+        case "fail":
+          return "eqf-no-f";
+        case "info":
+          return "eqf-info-f";
+        case "warn":
+          return "eqf-alert-f";
       }
     }
   },
   mounted() {
-    setTimeout(() => this.close(), 4000)
+    setTimeout(() => this.close(), 4000);
   },
   methods: {
-    close() {
-    }
+    close() {}
   }
-})
+});
 
 //modal彈窗
-Vue.component('ud-modal', {
+Vue.component("ud-modal", {
   template: `
     <transition name="fade">
       <div class="ud-modal">
@@ -52,10 +51,9 @@ Vue.component('ud-modal', {
         </div>
       </div>
     </transition>
-  `,
-
-})
-Vue.component('ud-modal-2', {
+  `
+});
+Vue.component("ud-modal-2", {
   template: `
     <transition name="modal">
       <div class="modal-mask ud-modal-2">
@@ -83,11 +81,11 @@ Vue.component('ud-modal-2', {
         </div>
       </div>
     </transition>
-  `,
-})
+  `
+});
 
 //圖片上傳預覽
-Vue.component('ud-image-upload', {
+Vue.component("ud-image-upload", {
   template: `
     <div class="ud-image-upload">
       <input type="file" accept="image/*" ref="input" @change="previewImage">
@@ -103,34 +101,34 @@ Vue.component('ud-image-upload', {
       </template>
     </div>
   `,
-  data: function() {
+  data: function () {
     return {
       preview: "",
-      image: "",
+      image: ""
     };
   },
   methods: {
-    previewImage: function(event) {
+    previewImage: function (event) {
       let input = event.target;
       if (input.files) {
         let reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.preview = e.target.result;
-        }
-        this.image=input.files[0];
+        };
+        this.image = input.files[0];
         reader.readAsDataURL(input.files[0]);
       }
     },
-    reset: function() {
+    reset: function () {
       this.image = "";
       this.preview = "";
       this.$refs.input.value = "";
     }
   }
-})
+});
 
 //圖片上傳預覽(多張)
-Vue.component('ud-image-upload-multiple', {
+Vue.component("ud-image-upload-multiple", {
   template: `
     <div class="ud-image-upload-multiple">
       <input type="file" accept="image/*" multiple="multiple" ref="input" @change="previewMultiImage">
@@ -148,39 +146,39 @@ Vue.component('ud-image-upload-multiple', {
       </template>
     </div>
   `,
-  data: function() {
+  data: function () {
     return {
       preview_list: [],
       image_list: []
     };
   },
   methods: {
-    previewMultiImage: function(event) {
+    previewMultiImage: function (event) {
       let input = event.target;
       let count = input.files.length;
       let index = 0;
       if (input.files) {
-        while(count --) {
+        while (count--) {
           let reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             this.preview_list.push(e.target.result);
-          }
+          };
           this.image_list.push(input.files[index]);
           reader.readAsDataURL(input.files[index]);
-          index ++;
+          index++;
         }
       }
     },
-    reset: function() {
+    reset: function () {
       this.image_list = [];
       this.preview_list = [];
       this.$refs.input.value = "";
     }
   }
-})
+});
 
 //hm-radio
-Vue.component('hm-radio', {
+Vue.component("hm-radio", {
   template: `
     <label class="hm-radio" :class="{'is-checked': model === label}">
       <span class="hm-radio__input">
@@ -202,70 +200,76 @@ Vue.component('hm-radio', {
   props: {
     label: {
       type: String,
-      default: ''
+      default: ""
     },
     name: {
       type: String,
-      default: ''
+      default: ""
     },
     value: {
       type: [String, Boolean, Number],
-      default: ''
+      default: ""
     }
   },
   computed: {
     model: {
-      get () {
-        return this.value
+      get() {
+        return this.value;
       },
-      set (value) {
-        this.$emit('input', value)
+      set(value) {
+        this.$emit("input", value);
       }
     }
-  },
-})
+  }
+});
 
-Vue.component('ui-radio', {
+Vue.component("ui-radio", {
   template: `
     <label class="ui-radio" :class="{'checked':model==value,'disabled':disabled}">
       <input type="radio" ref="radio" :value="value" @click="updateVal" :disabled="disabled">
     </label>
   `,
-  model: {//自定义 v-model的 prop和event,这个定义的意思就是使用change事件更新model的值,以此来实时更新v-model的值
-    prop: 'model',
-    event: 'change'
+  model: {
+    //自定义 v-model的 prop和event,这个定义的意思就是使用change事件更新model的值,以此来实时更新v-model的值
+    prop: "model",
+    event: "change"
   },
-  props:{
-    value:{//radio的value属性
-      type:[String,Number],
-      require:true
+  props: {
+    value: {
+      //radio的value属性
+      type: [String, Number],
+      require: true
     },
-    model:{//这里的model指的是上面定义的v-model的prop
-      type:[String,Number],
-      require:true
+    model: {
+      //这里的model指的是上面定义的v-model的prop
+      type: [String, Number],
+      require: true
     },
-    checked:{//是否默认选中
-      type:Boolean,
-      default:false
+    checked: {
+      //是否默认选中
+      type: Boolean,
+      default: false
     },
-    disabled:{//是否禁用
-      type:Boolean,
-      default:false
+    disabled: {
+      //是否禁用
+      type: Boolean,
+      default: false
     }
   },
-  mounted:function(){//当dom渲染完成,判断组件是否默认选中
-    if(this.checked===true)
-      this.updateVal();
+  mounted: function () {
+    //当dom渲染完成,判断组件是否默认选中
+    if (this.checked === true) this.updateVal();
   },
-  methods:{
-    updateVal:function(){//当用户点击radio时,触发change事件更新v-model
-      this.$emit('change',this.$refs.radio.value);
+  methods: {
+    updateVal: function () {
+      //当用户点击radio时,触发change事件更新v-model
+      this.$emit("change", this.$refs.radio.value);
     }
   }
-})
+});
 
 //Checkbox 多選框
-Vue.component('test-radio', {
+Vue.component("test-radio", {
   name: "TestRadio",
   template: `
     <input
@@ -274,11 +278,11 @@ Vue.component('test-radio', {
       :value="value"
     >
   `,
-  props: ['value']
-})
+  props: ["value"]
+});
 
-Vue.component('ud-radio-group', {
-  props: ['name', 'value', 'options',],
+Vue.component("ud-radio-group", {
+  props: ["name", "value", "options"],
   template: `
     <div class="ud-radio-group">
       <label v-for="optionName, optionValue in options" >
@@ -292,30 +296,30 @@ Vue.component('ud-radio-group', {
         {{ optionName }}
       </label>
     </div>
-  `,
+  `
 });
 
-Vue.component('ud-contenteditable', {
+Vue.component("ud-contenteditable", {
   name: "UdContenteditable",
   template: `
     <div contenteditable="contenteditable" @input="updateInput" class="ud-contenteditable">
       {{ content }}
     </div>
   `,
-  prop: ['value'],
-  data () {
-    return { 
+  prop: ["value"],
+  data() {
+    return {
       content: ""
-    }
+    };
   },
   methods: {
-    updateInput () {
-      this.$emit('input', this.content);
+    updateInput() {
+      this.$emit("input", this.content);
     }
   }
-})
+});
 
-Vue.component('ud-vfinput', {
+Vue.component("ud-vfinput", {
   template: `
     <formulate-input
       :type="type"
@@ -327,51 +331,51 @@ Vue.component('ud-vfinput', {
   props: {
     requiredMsg: {
       type: String,
-      default: '電子郵件不可為空'
+      default: "電子郵件不可為空"
     },
     type: {
       type: String,
-      default: 'text'
+      default: "text"
     },
     name: {
       type: String,
       default: "name"
     }
   }
-})
+});
 
-Vue.component('ud-vfform', {
+Vue.component("ud-vfform", {
   template: `
     <formulate-form></formulate-form>
   `,
   props: {
     requiredMsg: {
       type: String,
-      default: '電子郵件不可為空'
+      default: "電子郵件不可為空"
     },
     type: {
       type: String,
-      default: 'text'
+      default: "text"
     },
     name: {
       type: String,
       default: "name"
     }
   }
-})
+});
 
-Vue.component('ud-submit', {
+Vue.component("ud-submit", {
   template: `
     <formulate-input type="submit"></formulate-input>
   `,
   methods: {
-    handleClick: function(){
-      this.$emit('submit')
+    handleClick: function () {
+      this.$emit("submit");
     }
-  },
-})
+  }
+});
 
-Vue.component('ud-vftest', {
+Vue.component("ud-vftest", {
   template: `
     <formulate-input
       type="text"
@@ -382,7 +386,72 @@ Vue.component('ud-vftest', {
       :validation-messages="{required: '此欄不可為空'}"
     ></formulate-input>
   `,
-  props: {
+  props: {}
+});
 
+Vue.component("el-button", {
+  template: `
+    <button 
+      class="el-button"
+      :class="[
+        type ? 'el-button--' + type : '',
+        size ? 'el-button--' + size : '',
+        {
+          'is-plain': plain,
+          'is-round': round,
+          'is-circle': circle,
+          'is-disabled': disabled,
+          'is-loading': loading,
+        }
+      ]"
+      :autofocus="autofocus"
+      :disabled="disabled || loading"
+      @click="handleClick"
+    >
+      <el-i class="el-icon-loading" v-if="loading"></el-i>
+      <el-i :class="icon" v-if="icon && !loading"></el-i>
+      <span v-if="$slots.default"><slot></slot></span>
+    </button>
+  `,
+  name: "Button",
+  props: {
+    type: {
+      type: String,
+      default: "default"
+    },
+    size: String,
+    plain: Boolean,
+    round: Boolean,
+    circle: Boolean,
+    icon: {
+      type: String,
+      default: ""
+    },
+    autofocus: Boolean,
+    disabled: Boolean,
+    loading: Boolean
+  },
+  methods: {
+    handleClick(evt) {
+      this.$emit("click", evt);
+    }
+  }
+});
+
+Vue.component('el-button-group', {
+  template: `
+    <div class="el-button-group">
+      <slot></slot>
+    </div>
+  `
+})
+
+Vue.component('el-i', {
+  template: `
+    <i :class="'el-icon-' + name"></i>
+  `,
+  name: 'ElIcon',
+  props: {
+    name: String
   }
 })

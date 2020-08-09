@@ -1629,6 +1629,11 @@ function validate(type, str, regex){
     case "ipv6":
       return Boolean(str.match(/:/g)?str.match(/:/g).length<=7:false && /::/.test(str)?/^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(str):/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str));
       break;
+    //校驗是否為指定正則表達式
+    case "regex":
+      let regexMode = new RegExp(regex);
+      return regexMode.test(str);
+      break;
   }
 }
 

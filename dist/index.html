@@ -13,6 +13,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css" rel="stylesheet">
     <link href="css/ud-dev.css" rel="stylesheet">
     <link href="css/ud-modules.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
@@ -23,6 +24,8 @@
       <div class="container">
         <div class="wrapper">
           <h1>{{ title }}</h1>
+          <el-button type="primary" icon="el-icon-search" round size="small">搜索</el-button>
+          <el-button type="danger" icon="el-icon-delete" round size="small">刪除</el-button>
           <h1>{{form}}</h1>
           <formulate-form v-model="form" @submit="alert" name="my-form">
             <formulate-input type="text" label="文字框" name="text" placeholder="請輸入姓名" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
