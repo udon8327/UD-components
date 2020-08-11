@@ -375,18 +375,79 @@ Vue.component("ud-submit", {
   }
 });
 
-Vue.component("ud-vftest", {
+Vue.component("ud-vf", {
+  template: `
+    <formulate-input
+      :type=type
+      :label=label
+      :name=name
+      :placeholder=placeholder
+      :validation=validation
+      :validation-messages="{required: '此欄不可為空'}"
+    >
+    </formulate-input>
+  `,
+  props: {
+    type: {
+      type: String,
+      default: "text"
+    },
+    label: {
+      type: String,
+      default: ""
+    },
+    name: {
+      type: String,
+      default: "wtf"
+    },
+    placeholder: {
+      type: String,
+      default: "請輸入此欄位"
+    },
+    validation: {
+      type: String,
+      default: "required"
+    }
+  }
+});
+
+Vue.component("ud-vf-name", {
   template: `
     <formulate-input
       type="text"
-      label="文字框"
-      name="text2"
+      name="name"
       placeholder="請輸入姓名"
-      validation="required"
-      :validation-messages="{required: '此欄不可為空'}"
-    ></formulate-input>
+      validation="^required|matches:/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/"
+      :validation-messages="{required: '姓名不可為空', matches: '姓名不接受特殊符號'}"
+    >
+    </formulate-input>
   `,
-  props: {}
+});
+
+Vue.component("ud-vf-email", {
+  template: `
+    <formulate-input
+      type="text"
+      name="email"
+      placeholder="請輸入E-mail"
+      validation="^required|email"
+      :validation-messages="{required: 'E-mail不可為空',email: '只接受正確E-mail格式，需包含@'}"
+    >
+    </formulate-input>
+  `,
+});
+
+Vue.component("ud-vf-phone", {
+  template: `
+    <formulate-input
+      type="tel"
+      name="phone"
+      placeholder="請輸入手機號碼"
+      validation="^required|matches:/^09[0-9]{8}$/"
+      :validation-messages="{required: '手機不可為空', matches: '只接受正確手機格式，例：0912345678'}"
+    >
+    </formulate-input>
+  `,
 });
 
 Vue.component("el-button", {

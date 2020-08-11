@@ -83,8 +83,8 @@ Personal
   AddressSelect 地址下拉選擇 -----> ud-address-select
   GoogleMap 估狗地圖 -----> ud-google-map
   Select2 *搜尋下拉框 -----> ud-select2
-
-
+  TextConvert 文案轉換器 -----> ud-text-convert
+  Editor 文案編輯器 -----> ud-editor
 
 
 ==================== 工具函數目錄 ====================
@@ -1165,11 +1165,39 @@ Vue.component('ud-select2', {
   }
 })
 
+//Nl2br 換行符轉換器
+Vue.component('ud-nl2br', {
+  template: `
+    <p v-html="nl2br(text)"></p>
+  `,
+  props: {
+    text: String,
+  },
+  methods: {
+    nl2br: function(str, is_xhtml) {
+      if (typeof str === 'undefined' || str === null) {
+          return '';
+      }
+      let breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+      return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+    }
+  }
+})
+
+//Editor 文案編輯器
+Vue.component('ud-editor', {
+  template: '<h1>文案編輯器</h1>'
+})
+
 
 //-----------------------String-----------------------
 //將字串內換行符\n轉為<br>
-function convertNl(str) {
-  return str.replace(/([^>])\n/g, "$1<br/>\n");
+function nl2br(str, is_xhtml) {
+  if (typeof str === 'undefined' || str === null) {
+      return '';
+  }
+  let breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 
 //取得隨機十六進制顏色

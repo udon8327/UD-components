@@ -2,10 +2,20 @@ Vue.use(VueFormulate);
 var vm = new Vue({
     el: "#app",
     data: {
-        title: "",
+        text: "<span>111</span>\n<span>222</span>",
+        title: "UDON",
         value: 0,
         test: [],
-        form: {},
+        form: {
+            phone: "0929864747"
+        },
+        testArr: {
+            a: {
+                aa: "aaa",
+                bb: "bbb",
+                cc: "ccc"
+            }
+        },
         testOptions: {
             // "1": "妮可",
             // "2": "花丸",
@@ -20,7 +30,14 @@ var vm = new Vue({
         },
     },
     computed: {},
-    watch: {},
+    watch: {
+        "testArr.a": {
+            deep: true,
+            handler: function (newValue, oldValue) {
+                alert("\u6539\u8B8A!" + newValue + "\uFF0C" + oldValue);
+            }
+        }
+    },
     mounted: function () {
     },
     methods: {
@@ -29,6 +46,9 @@ var vm = new Vue({
         },
         reset: function () {
             this.$formulate.reset('my-form');
+        },
+        convertNl: function (txt) {
+            return convertNl(txt);
         }
     }
 });
