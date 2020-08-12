@@ -157,12 +157,13 @@ Browser
   取得Cookie的值 -----> getCookie
   設置cookie值 -----> setCookie
   動態載入插件 -----> insertPlugin
-  跳頁後強制刷新 -----> pageReload
 
 Web
   查詢網址所帶參數 -----> queryString
   HTTP跳轉HTTPS -----> httpsRedirect
   檢驗URL連接是否有效 -----> getUrlState
+  跳頁後強制刷新 -----> pageReload
+  網址跳轉 -----> toUrl
 
 Device
   判斷是否移動裝置訪問 -----> isMobileUserAgent
@@ -231,7 +232,7 @@ Vue.component('ud-button', {
   },
   methods: {
     handleClick(evt) {
-      this.$emit('click', evt);
+      this.nativeType === "submit" ? this.$emit('submit', evt) : this.$emit('click', evt);
     }
   }
 })
@@ -1355,6 +1356,16 @@ function filterObj(obj,arr){
   return tempObj;
 }
 
+//刪除物件鍵值
+  //deleteObj(test,["name","gender"]);
+function deleteObj(obj,arr){
+  let tempObj = JSON.parse(JSON.stringify(obj));
+  for(let i in tempObj){
+    if(arr.indexOf(i) !== -1) delete tempObj[i];
+  }
+  return tempObj;
+}
+
 //深拷貝
 function deepCopy(data) {
   const dataType = typeOf(data);
@@ -1730,15 +1741,6 @@ function insertPlugin(src){
   document.head.appendChild(script);
 }
 
-//跳頁後強制刷新
-function pageReload(){
-  window.onpageshow = function(event) {
-    if (event.persisted) {
-      window.location.reload() 
-    }
-  };
-}
-
 //-----------------------Web-----------------------
 //查詢網址所帶參數
 function queryString(key) {
@@ -1775,6 +1777,20 @@ function getUrlState(URL) {
       return false;
     }
   }
+}
+
+//跳頁後強制刷新
+function pageReload(){
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+      window.location.reload() 
+    }
+  };
+}
+
+//網址跳轉
+function toUrl(url){
+  window.location.href = url;
 }
 
 //-----------------------Device-----------------------

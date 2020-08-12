@@ -1,7 +1,7 @@
 extends _layout.pug
 
 block css
-  link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
+  //- link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
   link(href='css/ud-dev.css' rel='stylesheet')
   link(href='css/ud-modules.css' rel='stylesheet')
   //- link(href='https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/snow.min.css' rel='stylesheet')
@@ -21,8 +21,12 @@ block content
       ud-vf-email
     ud-vf-item(label="身分證字號")
       ud-vf-idcard
+    ud-vf-item(label="開始日期")
+      ud-vf-date(name="startAt")
+    ud-vf-item(label="結束日期")
+      ud-vf-date(name="endAt")
     ud-vf-accept
-      p 我同意#[a(href="https://goo.gl/") 使用者條款]!
+      p 我同意酷必資訊#[a(href="https://goo.gl/") 使用者條款]!
     //- formulate-input(type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="radio" label="單選" name="radio" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="checkbox" label="多選" name="checkbox" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
@@ -30,9 +34,8 @@ block content
     //- formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="required|mime:application/pdf" multiple :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
     formulate-input(type="button" data-ghost label="清空" @click="reset")
-    formulate-input(type="submit" label="送出")
-    ud-vf-submit
-    ud-button(@click="console") 送出
+    ud-button(@click="random" plain) 送出
+    ud-button(native-type="submit") 送出
 block js
   //- script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
   //- script(async="" src="https://www.youtube.com/iframe_api")
