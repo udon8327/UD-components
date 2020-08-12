@@ -2,6 +2,17 @@ declare var $: (selector: string) => any;
 
 Vue.use(VueFormulate);
 
+Vue.component('ud-submit', {
+  template: `
+    <button @click="submit">送出</button>
+  `,
+  methods: {
+    submit(){
+      this.$emit('submit');
+    }
+  }
+})
+
 let vm = new Vue({
   el: "#app",
   data: {
@@ -10,7 +21,6 @@ let vm = new Vue({
     value: 0,
     test: [],
     form: {
-      phone: "0929864747"
     },
     testArr: {
       a: {
@@ -52,8 +62,8 @@ let vm = new Vue({
     reset: function(){
       this.$formulate.reset('my-form');
     },
-    convertNl: function(txt){
-      return convertNl(txt);
+    console(){
+      console.log(getRandom());
     }
   }
 });

@@ -24,25 +24,30 @@
       <div class="container">
         <div class="wrapper">
           <h1>{{ title }}</h1>
-          <ud-nl2br :text="text"></ud-nl2br>
-          <el-button type="primary" icon="el-icon-search" round size="small">搜索</el-button>
-          <el-button type="danger" icon="el-icon-delete" round size="small">刪除</el-button>
-          <h1>{{form}}</h1>
+          <h1>{{ form }}</h1>
           <formulate-form v-model="form" @submit="alert" name="my-form">
-            <ud-vf-name></ud-vf-name>
-            <ud-vf-email></ud-vf-email>
-            <ud-vf-phone></ud-vf-phone>
-            <formulate-input type="text" v-model="title"></formulate-input>
-            <formulate-input type="text" label="文字框" name="text" placeholder="請輸入姓名" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
-            <formulate-input type="search" label="時間" name="date" placeholder="請輸入時間" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
-            <formulate-input type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
-            <formulate-input type="radio" label="單選" name="radio" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
-            <formulate-input type="checkbox" label="我同意使用者條款" name="agree" validation="required" :validation-messages="{required: '請先同意使用者條款'}"></formulate-input>
-            <formulate-input type="checkbox" label="多選" name="checkbox" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
-            <formulate-input type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
-            <formulate-input type="range" label="範圍條" name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live"></formulate-input>
-            <formulate-input type="button" data-ghost label="取消" @click="reset"></formulate-input>
+            <ud-vf-item label="姓名">
+              <ud-vf-name></ud-vf-name>
+            </ud-vf-item>
+            <ud-vf-item label="性別">
+              <ud-vf-gender></ud-vf-gender>
+            </ud-vf-item>
+            <ud-vf-item label="手機">
+              <ud-vf-phone></ud-vf-phone>
+            </ud-vf-item>
+            <ud-vf-item label="E-mail">
+              <ud-vf-email></ud-vf-email>
+            </ud-vf-item>
+            <ud-vf-item label="身分證字號">
+              <ud-vf-idcard></ud-vf-idcard>
+            </ud-vf-item>
+            <ud-vf-accept>
+              <p>我同意<a href="https://goo.gl/">使用者條款</a>!</p>
+            </ud-vf-accept>
+            <formulate-input type="button" data-ghost label="清空" @click="reset"></formulate-input>
             <formulate-input type="submit" label="送出"></formulate-input>
+            <ud-vf-submit></ud-vf-submit>
+            <ud-button @click="console">送出</ud-button>
           </formulate-form>
         </div>
       </div>

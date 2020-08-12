@@ -418,7 +418,7 @@ Vue.component("ud-vf-name", {
       name="name"
       placeholder="請輸入姓名"
       validation="^required|matches:/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/"
-      :validation-messages="{required: '姓名不可為空', matches: '姓名不接受特殊符號'}"
+      :validation-messages="{required: '姓名不可為空', matches: '姓名格式有誤，不接受特殊符號'}"
     >
     </formulate-input>
   `,
@@ -431,7 +431,7 @@ Vue.component("ud-vf-email", {
       name="email"
       placeholder="請輸入E-mail"
       validation="^required|email"
-      :validation-messages="{required: 'E-mail不可為空',email: '只接受正確E-mail格式，需包含@'}"
+      :validation-messages="{required: 'E-mail不可為空',email: 'E-mail格式有誤，需包含@'}"
     >
     </formulate-input>
   `,
@@ -444,10 +444,90 @@ Vue.component("ud-vf-phone", {
       name="phone"
       placeholder="請輸入手機號碼"
       validation="^required|matches:/^09[0-9]{8}$/"
-      :validation-messages="{required: '手機不可為空', matches: '只接受正確手機格式，例：0912345678'}"
+      :validation-messages="{required: '手機不可為空', matches: '手機格式有誤，例：0912345678'}"
     >
     </formulate-input>
   `,
+});
+
+Vue.component("ud-vf-idcard", {
+  template: `
+    <formulate-input
+      type="text"
+      name="idcard"
+      placeholder="請輸入身分證號碼"
+      validation="^required|matches:/^[A-Z]{1}[0-9]{9}$/"
+      :validation-messages="{required: '身分證號碼不可為空', matches: '身分證號碼格式有誤，例：A123456789'}"
+    >
+    </formulate-input>
+  `,
+});
+
+Vue.component("ud-vf-gender", {
+  template: `
+    <formulate-input
+      type="select"
+      name="gender"
+      :options="options"
+      placeholder="請選擇性別"
+      validation="^required"
+      :validation-messages="{required: '性別不可為空'}"
+    >
+    </formulate-input>
+  `,
+  data() {
+    return {
+      options: {
+        0: "男",
+        1: "女"
+      }
+    }
+  },
+});
+
+Vue.component("ud-vf-accept", {
+  template: `
+    <div class="ud-vf-accept">
+      <formulate-input
+        type="checkbox"
+        name="accept"
+        validation="required"
+        :validation-messages="{required: '請先同意使用者條款'}"
+      >
+      </formulate-input>
+      <p v-if="!$slots.default">我同意使用者條款</p>
+      <slot></slot>
+    </div>
+  `,
+});
+
+Vue.component("ud-vf-submit", {
+  template: `
+    <ud-button @click="handleClick">送出</ud-button>
+  `,
+  methods: {
+    handleClick: function(){
+      this.$emit('submit');
+      console.log(getRandom());
+    }
+  },
+});
+
+Vue.component("ud-vf-item", {
+  template: `
+    <div class="ud-vf-item">
+      <div class="ud-vf-item--label">{{ label }}</div>
+      <div class="ud-vf-item--input">
+        <slot></slot>
+      </div>
+    </div>
+  `,
+  props: {
+    label: {
+      type: String,
+      default: ""
+    }
+  }
 });
 
 Vue.component("el-button", {

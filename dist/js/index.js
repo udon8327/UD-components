@@ -1,4 +1,12 @@
 Vue.use(VueFormulate);
+Vue.component('ud-submit', {
+    template: "\n    <button @click=\"submit\">\u9001\u51FA</button>\n  ",
+    methods: {
+        submit: function () {
+            this.$emit('submit');
+        }
+    }
+});
 var vm = new Vue({
     el: "#app",
     data: {
@@ -6,9 +14,7 @@ var vm = new Vue({
         title: "UDON",
         value: 0,
         test: [],
-        form: {
-            phone: "0929864747"
-        },
+        form: {},
         testArr: {
             a: {
                 aa: "aaa",
@@ -47,8 +53,8 @@ var vm = new Vue({
         reset: function () {
             this.$formulate.reset('my-form');
         },
-        convertNl: function (txt) {
-            return convertNl(txt);
+        console: function () {
+            console.log(getRandom());
         }
     }
 });

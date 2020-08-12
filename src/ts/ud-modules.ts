@@ -1270,7 +1270,7 @@ function convertCamelCase(str){
 
 //-----------------------Number-----------------------
 //取得範圍內隨機數
-function getRandom(min, max) {
+function getRandom(min = 0, max = 100) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
