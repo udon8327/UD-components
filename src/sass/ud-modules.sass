@@ -1,88 +1,62 @@
 @import '_color.sass'
 
 // ==================== Vue組件目錄 ====================
-// Basic
-//   Layout 布局
-//   Container 布局容器
-//   Color 色彩
-//   Typography 字體
-//   Border 邊框
-//   Icon 圖標
-//   Button 按鈕 -----> ud-button
-//   Link 文字鏈接
-
 // Form
+//   Button 按鈕 -----> ud-button
 //   Radio 單選框 -----> ud-radio
 //   Checkbox 多選框 -----> ud-checkbox
 //   Input 輸入框 -----> ud-input
 //   Textarea 多行輸入框 -----> ud-textarea
-//   InputNumber 計數器
 //   Select 選擇器 -----> ud-select
-//   Cascader 級聯選擇器
 //   Switch 開關 -----> ud-switch
-//   Slider 滑塊
-//   TimePicker 時間選擇器
-//   DatePicker 日期選擇器
-//   DateTimePicker 日期時間選擇器
 //   Upload 上傳 -----> ud-upload
-//   Rate 評分
-//   ColorPicker 顏色選擇器
-//   Transfer 穿梭框
+//   ImageUpload 圖片上傳預覽 -----> ud-image-upload
+//   ImageMultiUpload 圖片上傳預覽(多張) -----> ud-image-multi-upload
 //   Form 表單 -----> ud-form
+
+// Validation
+//   VfItem 表單容器 -----> ud-vf-item
+//   VfName 姓名驗證 -----> ud-name
+//   VfGender 性別驗證 -----> ud-gender
+//   VfPhone 電話驗證 -----> ud-phone
+//   VfMail 郵件驗證 -----> ud-mail
+//   VfIdcard 身分證驗證 -----> ud-idcard
+//   VfDate 日期驗證 -----> ud-date
+//   VfAccept 條款驗證 -----> ud-accept
+//   VfCaptcha 圖形碼驗證 -----> ud-captcha
+//   VfDateGroup 日期群組驗證 -----> ud-date-group
+//   VfAddressGroup 地址群組驗證 -----> ud-address-group
 
 // Data
 //   Table 表格 -----> ud-table
-//   Tag 標簽
-//   Progress 進度條
-//   Tree 樹形控件
 //   Pagination 分頁 -----> ud-pagination
-//   Badge 標記
-//   Avatar 頭像
 
 // Notice
-//   Alert 警告 -----> ud-alert
-//   Loading 加載 -----> ud-loading
-//   Message 消息提示 -----> ud-message
-//   MessageBox 彈框 -----> ud-messagebox
-//   Notification 通知 -----> ud-notification
+//   Alert 警告彈窗 -----> ud-alert
+//   Confirm 確認彈窗 -----> ud-confirm
+//   Modal 通用彈窗 -----> ud-modal
+//   Loading 加載中 -----> ud-loading
+//   Notify 通知訊息 -----> ud-notify
+//   Popover 氣泡框 -----> ud-popover
 
-// Navigation
-//   NavMenu 導航菜單
-//   Tabs 標簽頁
-//   Breadcrumb 面包屑
-//   PageHeader 頁頭
-//   Dropdown 下拉菜單
-//   Steps 步驟條
-
-// Others
-//   Dialog 對話框 -----> ud-dialog
-//   Tooltip 文字提示
-//   Popover 彈出框 -----> ud-popover
-//   Popconfirm 氣泡確認框 -----> ud-popconfirm
-//   Card 卡片
-//   Carousel 走馬燈 -----> ud-carousel
-//   Collapse 折疊面板
-//   Timeline 時間線
-//   Divider 分割線
-//   Calendar 日歷
-//   Image 圖片
+// Tools
+//   Nl2br 換行符轉換 -----> ud-nl2br
 //   Backtop 回到頂部 -----> ud-backtop
-//   InfiniteScroll 無限滾動
-//   Drawer 抽屜
-
-// Personal
-//   Captcha 圖形驗證碼 -----> ud-captcha
 //   Ellipsis 文字省略 -----> ud-ellipsis
+//   CountdownExpire 倒數計時(時限) -----> ud-countdown-expire
+//   Countdown 倒數計時 -----> ud-countdown
+
+// Appication
+//   Carousel 走馬燈 -----> ud-carousel
 //   Youtube 水管播放 -----> ud-youtube
 //   YoutubeApi 水管播放(控制版) -----> ud-youtube-api
-//   Scratch 刮刮樂 -----> ud-scratch
-//   CountdownDeadline 倒數計時(有時限) -----> ud-countdown-deadline
-//   Countdown 倒數計時(無時限) -----> ud-countdown
-//   DateSelect 日期下拉選擇 -----> ud-dateselect
 //   GoogleMap 估狗地圖 -----> ud-google-map
-//   Select2 *搜尋下拉框 -----> ud-select2
+//   Select2 搜尋下拉框 -----> ud-select2
+//   Scratch 刮刮樂 -----> ud-scratch
+//   Editor 文字編輯器 -----> ud-editor
 
-//-----------------------Basic-----------------------
+
+//-----------------------Form-----------------------
 //Button 按鈕
 .ud-button
   display: inline-block
@@ -121,7 +95,6 @@
     width: 100%
     margin: 0 0 10px 0
 
-//-----------------------Form-----------------------
 // Radio 單選框
 .ud-radio
 
@@ -147,52 +120,95 @@
 // Upload 上傳
 .ud-upload
 
+// ImageUpload 圖片上傳預覽
+.ud-image-upload
+  input
+    width: 100%
+    max-width: 100%
+    margin-bottom: 5px
+  .image-preview
+    border: 1px solid #ccc
+    padding: 10px
+    border-radius: 5px
+    margin-bottom: 15px
+    >div
+      margin-bottom: 10px
+      .image-info
+        display: flex
+        justify-content: space-between
+        p
+          margin-bottom: 5px
+          font-size: 14px
+
+// ImageMultiUpload 圖片上傳預覽(多張)
+.ud-image-multi-upload
+  input
+    width: 100%
+    max-width: 100%
+    margin-bottom: 5px
+    .image-preview
+      border: 1px solid #ccc
+      padding: 10px
+      border-radius: 5px
+      margin-bottom: 15px
+      >div
+        margin-bottom: 10px
+        .image-info
+          display: flex
+          justify-content: space-between
+          p
+            margin-bottom: 5px
+            font-size: 14px
+
 // Form 表單
 .ud-form
 
-//-----------------------Data-----------------------
-// Table 表格
-.ud-table
+//-----------------------Validation-----------------------
+// VfItem 表單容器
+.ud-vf-item
+  width: 100%
+  display: flex
+  margin-bottom: 20px
+  align-items: center
+  .ud-vf-item__label
+    flex: 0 0 25%
+    text-align: right
+    margin-right: 8px
+  .ud-vf-item__input
+    flex: 1 1 0
 
-// Pagination 分頁
-.ud-pagination
+// VfName 姓名驗證
+.ud-name
 
-//-----------------------Notice-----------------------
-// Alert 警告
-.ud-alert
+// VfGender 性別驗證
+.ud-gender
 
-// Loading 加載
-.ud-loading
+// VfPhone 電話驗證
+.ud-phone
 
-// Message 消息提示
-.ud-message
+// VfMail 郵件驗證
+.ud-mail
 
-// MessageBox 彈框
-.ud-messagebox
+// VfIdcard 身分證驗證
+.ud-idcard
 
-// Notification 通知
-.ud-notification
+// VfDate 日期驗證
+.ud-date
 
-//-----------------------Navigation-----------------------
+// VfAccept 條款驗證
+.ud-accept
+  width: 100%
+  display: flex
+  margin-bottom: 20px
+  align-items: center
+  .formulate-input
+    margin: 0 5px 0 0
+  p
+    margin: 0
+  .formulate-input-error
+    white-space: nowrap
 
-//-----------------------Others-----------------------
-// Dialog 對話框
-.ud-dialog
-
-// Popover 彈出框
-.ud-popover
-
-// Popconfirm 氣泡確認框
-.ud-popconfirm
-
-// Carousel 走馬燈
-.ud-carousel
-
-// Backtop 回到頂部
-.ud-backtop
-
-//-----------------------Personal-----------------------
-// Captcha 圖形驗證碼
+// VfCaptcha 圖形碼驗證
 .ud-captcha
   flex: 0 0 100px
   border: 1px solid #ccc
@@ -203,19 +219,128 @@
     right: 0
     flex: 0 0 auto
 
+// VfDateGroup 日期群組驗證
+.ud-date-group
+  display: flex
+  justify-content: space-between
+  align-items: center
+  select
+    flex: 1 1 auto
+  p
+    flex: 0 0 auto
+    margin: 0
+    padding: 0 8px
+    &:nth-of-type(3)
+      padding: 0 0px 0 8px
+    @media (max-width: 340px)
+      padding: 0 3px
+      &:nth-of-type(3)
+        padding: 0 0px 0 3px
+
+// VfAddressGroup 地址群組驗證
+.ud-address-group
+  display: flex
+  justify-content: space-between
+  align-items: center
+  select
+    flex: 1 1 auto
+  p
+    flex: 0 0 auto
+    margin: 0
+    padding: 0 8px
+    @media (max-width: 340px)
+      padding: 0 3px
+
+//-----------------------Data-----------------------
+// Table 表格
+.ud-table
+
+// Pagination 分頁
+.ud-pagination
+
+//-----------------------Notice-----------------------
+// Alert 警告彈窗
+.ud-alert
+
+// Confirm 確認彈窗
+.ud-confirm
+
+// Modal 通用彈窗
+.ud-modal
+  position: fixed
+  z-index: 100
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  background-color: rgba(0,0,0,0.7)
+  .modal-wrapper
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    .modal-content
+      width: 90%
+      max-width: 460px
+      position: relative
+      background-color: #fff
+      max-height: 90%
+      overflow-y: auto
+      text-align: center
+      padding: 15px
+      box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.3)
+      .modal-close
+        position: absolute
+        padding: 10px 15px
+        right: 0px
+        top: 0px
+        cursor: pointer
+        &:hover
+          i
+            color: #333
+        i
+          transition: all 0.2s ease
+          font-size: 18px
+          color: #777
+      p
+        font-size: 16px
+        margin-bottom: 20px
+        color: $text2
+        display: inline-block
+
+// Loading 加載中
+.ud-loading
+
+// Notify 通知訊息
+.ud-notify
+
+// Popover 氣泡框
+.ud-popover
+
+//-----------------------Tools-----------------------
+// Nl2br 換行符轉換
+.ud-nl2br
+
+// Backtop 回到頂部
+.ud-backtop
+
 // Ellipsis 文字省略
 .ud-ellipsis
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
-  display: -webkit-box
-  -webkit-line-clamp: 3
-  -webkit-box-orient: vertical
-  white-space: normal
+
+// CountdownExpire 倒數計時(時限)
+.ud-countdown-expire
+
+// Countdown 倒數計時
+.ud-countdown
+
+//-----------------------Appication-----------------------
+// Carousel 走馬燈
+.ud-carousel
 
 // Youtube 水管播放
-// YoutubeApi 水管播放(控制版)
-.ud-youtube,.ud-youtube-api
+.ud-youtube
   .video-wrapper
     position: relative
     padding-bottom: 56.25%
@@ -228,6 +353,38 @@
       left: 0
       width: 100%
       height: 100%
+
+// YoutubeApi 水管播放(控制版)
+.ud-youtube-api
+  .video-wrapper
+    position: relative
+    padding-bottom: 56.25%
+    // padding-top: 30px
+    height: 0
+    overflow: hidden
+    iframe, object, embed
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+
+// GoogleMap 估狗地圖
+.ud-google-map
+  position: relative
+  padding-bottom: 65.25%
+  height: 0
+  overflow: hidden
+  iframe
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+
+// Select2 搜尋下拉框
+.ud-select2
+  width: 100%
 
 // Scratch 刮刮樂
 .ud-scratch
@@ -252,60 +409,8 @@
       width: 100%
       height: auto
 
-// CountdownDeadline 倒數計時(有時限)
-.ud-countdown-deadline
-
-// Countdown 倒數計時(無時限)
-.ud-countdown
-
-// DateSelect 日期下拉選擇
-.ud-date-select
-  display: flex
-  justify-content: space-between
-  align-items: center
-  select
-    flex: 1 1 auto
-  p
-    flex: 0 0 auto
-    margin: 0
-    padding: 0 8px
-    &:nth-of-type(3)
-      padding: 0 0px 0 8px
-    @media (max-width: 340px)
-      padding: 0 3px
-      &:nth-of-type(3)
-        padding: 0 0px 0 3px
-
-// AddressSelect 地址下拉選擇
-.ud-address-select
-  display: flex
-  justify-content: space-between
-  align-items: center
-  select
-    flex: 1 1 auto
-  p
-    flex: 0 0 auto
-    margin: 0
-    padding: 0 8px
-    @media (max-width: 340px)
-      padding: 0 3px
-
-// GoogleMap 估狗地圖
-.ud-google-map
-  position: relative
-  padding-bottom: 65.25%
-  height: 0
-  overflow: hidden
-  iframe
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-
-//Select2 搜尋下拉框套件
-.ud-select2
-  width: 100%
+// Editor 文字編輯器
+.ud-editor
 
 //-----------------------Global-----------------------
 // transition
@@ -314,6 +419,9 @@
   opacity: 0
 
 //-----------------------Vue Formulate-----------------------
+input,select,textarea
+  min-height: 42px
+
 .formulate-input
   margin-bottom: 20px
   position: relative

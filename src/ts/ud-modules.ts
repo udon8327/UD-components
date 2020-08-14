@@ -12,7 +12,7 @@ Form
   Switch 開關 -----> ud-switch
   Upload 上傳 -----> ud-upload
   ImageUpload 圖片上傳預覽 -----> ud-image-upload
-  ImageMultiUpload 圖片上傳預覽(多張) -----> ud-image-upload
+  ImageMultiUpload 圖片上傳預覽(多張) -----> ud-image-multi-upload
   Form 表單 -----> ud-form
 
 Validation
