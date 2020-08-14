@@ -3,8 +3,12 @@ var vm = new Vue({
     el: "#app",
     data: {
         title: "UDON",
+        isAlertShow: 0,
+        isConfirmShow: 0,
         isModalShow: 0,
-        modalMessage: "啊啊啊",
+        alertMessage: "這是alertMessage",
+        confirmMessage: "這是confirmMessage",
+        modalMessage: "這是modalMessage",
         value: 0,
         test: [],
         form: {},
@@ -56,6 +60,14 @@ var vm = new Vue({
         },
         random: function () {
             console.log(getRandom());
+        },
+        showAlert: function (msg) {
+            this.isAlertShow = 1;
+            this.alertMessage = msg;
+        },
+        showConfirm: function (msg) {
+            this.isConfirmShow = 1;
+            this.confirmMessage = msg;
         },
         showModal: function (msg) {
             this.isModalShow = 1;

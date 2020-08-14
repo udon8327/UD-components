@@ -5,13 +5,17 @@ block css
   link(href='css/index.css' rel='stylesheet')
 
 block modal
-  ud-modal(:is-modal-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
+  ud-alert(:is-show="isAlertShow" mask-cancel :message="alertMessage" @cancel="isAlertShow = 0")
+  ud-confirm(:is-show="isConfirmShow" mask-cancel :message="confirmMessage" @cancel="isConfirmShow = 0" @confirm="$formulate.submit('my-form')")
+  ud-modal(:is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
+    img(src="https://imgur.com/DIC7dRT.jpg", alt="")
 
 block content
-  ud-button(@click="showModal('開了')") modal
-  h1 {{ title }}
+  ud-button(@click="showAlert('alert開了')") alert
+  ud-button(@click="showConfirm('confirm開了')") confirm
+  ud-button(@click="showModal('modal開了')") modal
   h1 {{ form }}
-  h1 {{ generate }}
+  //- h1 {{ generate }}
   formulate-form(v-model="form" @submit="alert" name="my-form")
     ud-vf-item(label="姓名")
       ud-name
@@ -25,8 +29,8 @@ block content
       ud-idcard
     ud-vf-item(label="開始日期")
       ud-date(name="startAt")
-    ud-vf-item(label="結束日期")
-      ud-date(name="endAt")
+    ud-vf-item(label="地址")
+      ud-address-group
     ud-accept
       p 我同意酷必資訊#[a(href="https://goo.gl/") 使用者條款]!
     //- formulate-input(type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}")

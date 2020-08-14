@@ -20,13 +20,15 @@
   <body>
     <noscript>Your browser does not support JavaScript!</noscript>
     <div id="app">
-      <ud-modal :is-modal-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
+      <ud-alert :is-show="isAlertShow" mask-cancel :message="alertMessage" @cancel="isAlertShow = 0"></ud-alert>
+      <ud-confirm :is-show="isConfirmShow" mask-cancel :message="confirmMessage" @cancel="isConfirmShow = 0" @confirm="$formulate.submit('my-form')"></ud-confirm>
+      <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"><img src="https://imgur.com/DIC7dRT.jpg" alt=""></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-button @click="showModal('開了')">modal</ud-button>
-          <h1>{{ title }}</h1>
+          <ud-button @click="showAlert('alert開了')">alert</ud-button>
+          <ud-button @click="showConfirm('confirm開了')">confirm</ud-button>
+          <ud-button @click="showModal('modal開了')">modal</ud-button>
           <h1>{{ form }}</h1>
-          <h1>{{ generate }}</h1>
           <formulate-form v-model="form" @submit="alert" name="my-form">
             <ud-vf-item label="姓名">
               <ud-name></ud-name>
@@ -46,8 +48,8 @@
             <ud-vf-item label="開始日期">
               <ud-date name="startAt"></ud-date>
             </ud-vf-item>
-            <ud-vf-item label="結束日期">
-              <ud-date name="endAt"></ud-date>
+            <ud-vf-item label="地址">
+              <ud-address-group></ud-address-group>
             </ud-vf-item>
             <ud-accept>
               <p>我同意酷必資訊<a href="https://goo.gl/">使用者條款</a>!</p>

@@ -261,9 +261,93 @@
 //-----------------------Notice-----------------------
 // Alert 警告彈窗
 .ud-alert
+  position: fixed
+  z-index: 100
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  background-color: rgba(0,0,0,0.7)
+  .modal-wrapper
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    .modal-content
+      width: 90%
+      max-width: 460px
+      position: relative
+      background-color: #fff
+      max-height: 90%
+      overflow-y: auto
+      text-align: center
+      padding: 15px
+      box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.3)
+      .modal-close
+        position: absolute
+        padding: 10px 15px
+        right: 0px
+        top: 0px
+        cursor: pointer
+        &:hover
+          i
+            color: #333
+        i
+          transition: all 0.2s ease
+          font-size: 18px
+          color: #777
+      p
+        font-size: 16px
+        margin-bottom: 20px
+        color: $text2
+        display: inline-block
 
 // Confirm 確認彈窗
 .ud-confirm
+  position: fixed
+  z-index: 100
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  background-color: rgba(0,0,0,0.7)
+  .modal-wrapper
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    .modal-content
+      width: 90%
+      max-width: 460px
+      position: relative
+      background-color: #fff
+      max-height: 90%
+      overflow-y: auto
+      text-align: center
+      padding: 15px
+      box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.3)
+      .modal-close
+        position: absolute
+        padding: 10px 15px
+        right: 0px
+        top: 0px
+        cursor: pointer
+        &:hover
+          i
+            color: #333
+        i
+          transition: all 0.2s ease
+          font-size: 18px
+          color: #777
+      p
+        font-size: 16px
+        margin-bottom: 20px
+        color: $text2
+        display: inline-block
 
 // Modal 通用彈窗
 .ud-modal

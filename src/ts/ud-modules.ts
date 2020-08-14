@@ -910,7 +910,7 @@ Vue.component("ud-alert", {
   name: "UdAlert",
   template: `
   <transition name="fade">
-    <div class="ud-modal" v-show="isModalShow" v-cloak>
+    <div class="ud-alert" v-show="isShow" v-cloak>
       <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
         <div class="modal-content">
           <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')"><i class="fas fa-times"></i></div>
@@ -934,14 +934,14 @@ Vue.component("ud-alert", {
   props: {
     title: {
       type: String,
-      default: "訊息標題"
+      default: "警告彈窗標題"
     },
     message: {
       type: String,
-      default: "訊息本文"
+      default: "警告彈窗訊息"
     },
-    isModalShow: {
-      type: Number,
+    isShow: {
+      type: [Number,Boolean],
       default: 0
     },
     maskCancel: Boolean,
@@ -954,7 +954,7 @@ Vue.component("ud-confirm", {
   name: "UdConfirm",
   template: `
   <transition name="fade">
-    <div class="ud-modal" v-show="isModalShow" v-cloak>
+    <div class="ud-confirm" v-show="isShow" v-cloak>
       <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
         <div class="modal-content">
           <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')"><i class="fas fa-times"></i></div>
@@ -967,7 +967,8 @@ Vue.component("ud-confirm", {
           </div>
           <div class="modal-footer">
             <div class="button-area">
-              <ud-button @click="$emit('cancel')">OK</ud-button>
+              <ud-button plain @click="$emit('cancel')">取消</ud-button>
+              <ud-button @click="$emit('confirm')">確定</ud-button>
             </div>
           </div>
         </div>
@@ -978,14 +979,14 @@ Vue.component("ud-confirm", {
   props: {
     title: {
       type: String,
-      default: "訊息標題"
+      default: "確認彈窗標題"
     },
     message: {
       type: String,
-      default: "訊息本文"
+      default: "確認彈窗訊息"
     },
-    isModalShow: {
-      type: Number,
+    isShow: {
+      type: [Number,Boolean],
       default: 0
     },
     maskCancel: Boolean,
@@ -998,7 +999,7 @@ Vue.component("ud-modal", {
   name: "UdModal",
   template: `
   <transition name="fade">
-    <div class="ud-modal" v-show="isModalShow" v-cloak>
+    <div class="ud-modal" v-show="isShow" v-cloak>
       <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
         <div class="modal-content">
           <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')"><i class="fas fa-times"></i></div>
@@ -1022,14 +1023,14 @@ Vue.component("ud-modal", {
   props: {
     title: {
       type: String,
-      default: "訊息標題"
+      default: "通用彈窗標題"
     },
     message: {
       type: String,
-      default: "訊息本文"
+      default: "通用彈窗訊息"
     },
-    isModalShow: {
-      type: Number,
+    isShow: {
+      type: [Number,Boolean],
       default: 0
     },
     maskCancel: Boolean,
