@@ -14,20 +14,20 @@ block content
   h1 {{ generate }}
   formulate-form(v-model="form" @submit="alert" name="my-form")
     ud-vf-item(label="姓名")
-      ud-vf-name
+      ud-name
     ud-vf-item(label="性別")
-      ud-vf-gender
+      ud-gender
     ud-vf-item(label="手機")
-      ud-vf-phone
+      ud-phone
     ud-vf-item(label="E-mail")
-      ud-vf-email
+      ud-mail
     ud-vf-item(label="身分證字號")
-      ud-vf-idcard
+      ud-idcard
     ud-vf-item(label="開始日期")
-      ud-vf-date(name="startAt")
+      ud-date(name="startAt")
     ud-vf-item(label="結束日期")
-      ud-vf-date(name="endAt")
-    ud-vf-accept
+      ud-date(name="endAt")
+    ud-accept
       p 我同意酷必資訊#[a(href="https://goo.gl/") 使用者條款]!
     //- formulate-input(type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="radio" label="單選" name="radio" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
@@ -35,8 +35,8 @@ block content
     //- formulate-input(type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="required|mime:application/pdf" multiple :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
-    ud-button(plain @click="reset") 清除
-    ud-button(native-type="submit") 送出
+  ud-button(plain @click="$formulate.reset('my-form')") 清除
+  ud-button(@click="$formulate.submit('my-form')") 送出
   //- formulate-form(v-model="generate" :schema="schema")
 block js
   //- script(async="" src="https://www.youtube.com/iframe_api")

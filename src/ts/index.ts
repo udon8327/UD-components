@@ -59,9 +59,6 @@ let vm = new Vue({
     alert: function(){
       alert('表單成功送出');
     },
-    reset: function(){
-      this.$formulate.reset('my-form');
-    },
     random: function(){
       console.log(getRandom());
     },

@@ -3,73 +3,44 @@ declare var $: (selector: string) => any;
 /*
 ==================== Vue組件目錄 ====================
 Basic
-  Layout 布局
-  Container 布局容器
-  Color 色彩
-  Typography 字體
-  Border 邊框
-  Icon 圖標
   Button 按鈕 -----> ud-button
-  Link 文字鏈接
 
 Form
   Radio 單選框 -----> ud-radio
   Checkbox 多選框 -----> ud-checkbox
   Input 輸入框 -----> ud-input
   Textarea 多行輸入框 -----> ud-textarea
-  InputNumber 計數器
   Select 選擇器 -----> ud-select
-  Cascader 級聯選擇器
   Switch 開關 -----> ud-switch
-  Slider 滑塊
-  TimePicker 時間選擇器
-  DatePicker 日期選擇器
-  DateTimePicker 日期時間選擇器
   Upload 上傳 -----> ud-upload
-  Rate 評分
-  ColorPicker 顏色選擇器
-  Transfer 穿梭框
   Form 表單 -----> ud-form
+
+Validation
+  VfItem 表單容器 -----> ud-vf-item
+  VfName 姓名驗證 -----> ud-name
+  VfGender 性別驗證 -----> ud-gender
+  VfPhone 電話驗證 -----> ud-phone
+  VfMail 郵件驗證 -----> ud-mail
+  VfIdcard 身分證驗證 -----> ud-idcard
+  VfDate 日期驗證 -----> ud-date
+  VfAccept 條款驗證 -----> ud-accept
 
 Data
   Table 表格 -----> ud-table
-  Tag 標簽
-  Progress 進度條
-  Tree 樹形控件
   Pagination 分頁 -----> ud-pagination
-  Badge 標記
-  Avatar 頭像
 
 Notice
-  Alert 警告 -----> ud-alert
+  Alert 警告彈窗 -----> ud-alert
+  Confirm 確認彈窗 -----> ud-confirm
+  Modal 通用彈窗 -----> ud-modal
   Loading 加載 -----> ud-loading
-  Message 消息提示 -----> ud-message
-  MessageBox 彈框 -----> ud-messagebox
-  Notification 通知 -----> ud-notification
-
-Navigation
-  NavMenu 導航菜單
-  Tabs 標簽頁
-  Breadcrumb 面包屑
-  PageHeader 頁頭
-  Dropdown 下拉菜單
-  Steps 步驟條
 
 Others
   Dialog 對話框 -----> ud-dialog
-  Tooltip 文字提示
   Popover 彈出框 -----> ud-popover
   Popconfirm 氣泡確認框 -----> ud-popconfirm
-  Card 卡片
   Carousel 走馬燈 -----> ud-carousel
-  Collapse 折疊面板
-  Timeline 時間線
-  Divider 分割線
-  Calendar 日歷
-  Image 圖片
   Backtop 回到頂部 -----> ud-backtop
-  InfiniteScroll 無限滾動
-  Drawer 抽屜
 
 Personal
   Captcha 圖形驗證碼 -----> ud-captcha
@@ -416,6 +387,161 @@ Vue.component('ud-form', {
   },
 })
 
+//-----------------------Validation-----------------------
+//VfItem 表單容器
+Vue.component("ud-vf-item", {
+  name: "UdVfItem",
+  template: `
+    <div class="ud-vf-item">
+      <div class="ud-vf-item__label">{{ label }}</div>
+      <div class="ud-vf-item__input">
+        <slot></slot>
+      </div>
+    </div>
+  `,
+  props: {
+    label: {
+      type: String,
+      default: ""
+    }
+  }
+});
+
+//VfName 姓名驗證
+Vue.component("ud-name", {
+  name: "UdVfName",
+  template: `
+    <formulate-input
+      type="text"
+      name="name"
+      placeholder="請輸入姓名"
+      validation="^required|^matches:/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/"
+      :validation-messages="{required: '姓名不可為空', matches: '姓名格式有誤，不接受特殊符號'}"
+    >
+    </formulate-input>
+  `,
+});
+
+//VfGender 性別驗證
+Vue.component("ud-gender", {
+  name: "UdVfGender",
+  template: `
+    <formulate-input
+      type="select"
+      name="gender"
+      :options="options"
+      placeholder="請選擇性別"
+      validation="^required"
+      :validation-messages="{required: '性別不可為空'}"
+    >
+    </formulate-input>
+  `,
+  data() {
+    return {
+      options: {
+        0: "男",
+        1: "女"
+      }
+    }
+  },
+});
+
+//VfPhone 電話驗證
+Vue.component("ud-phone", {
+  name: "UdVfPhone",
+  template: `
+    <formulate-input
+      type="tel"
+      name="phone"
+      placeholder="請輸入手機號碼"
+      validation="^required|matches:/^09[0-9]{8}$/"
+      :validation-messages="{required: '手機不可為空', matches: '手機格式有誤，例：0912345678'}"
+    >
+    </formulate-input>
+  `,
+});
+
+//VfMail 郵件驗證
+Vue.component("ud-mail", {
+  name: "UdVfMail",
+  template: `
+    <formulate-input
+      type="text"
+      name="email"
+      placeholder="請輸入E-mail"
+      validation="^required|email"
+      :validation-messages="{required: 'E-mail不可為空',email: 'E-mail格式有誤，需包含@'}"
+    >
+    </formulate-input>
+  `,
+});
+
+//VfIdcard 身分證驗證
+Vue.component("ud-idcard", {
+  name: "UdVfIdcard",
+  template: `
+    <formulate-input
+      type="text"
+      name="idcard"
+      placeholder="請輸入身分證號碼"
+      validation="^required|matches:/^[A-Z]{1}[0-9]{9}$/"
+      :validation-messages="{required: '身分證號碼不可為空', matches: '身分證號碼格式有誤，例：A123456789'}"
+    >
+    </formulate-input>
+  `,
+});
+
+//VfDate 日期驗證
+Vue.component("ud-date", {
+  name: "UdVfDate",
+  template: `
+    <formulate-input
+      type="date"
+      :name="name"
+      placeholder="請輸入日期"
+      validation="^required|^date:YYYY-MM-DD|exist"
+      :validation-rules="{
+        exist: ({ value }) => {
+          let dateArr = value.split('-');
+          let limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+          let theYear = parseInt(dateArr[0]);
+          let theMonth = parseInt(dateArr[1]);
+          let theDay = parseInt(dateArr[2]);
+          let isLeap = new Date(theYear, 1, 29).getDate() === 29; 
+          if (isLeap) limitInMonth[1] = 29;
+          return theDay > 0 && theDay <= limitInMonth[theMonth - 1];
+        }
+      }"
+      :validation-messages="{required: '日期不可為空', date: '日期格式有誤，例：2020-01-31', exist: '日期不存在，請重新選擇'}"
+    >
+    </formulate-input>
+  `,
+  props: {
+    name: {
+      type: String,
+      defalt: "date"
+    },
+  }
+});
+
+//VfAccept 條款驗證
+Vue.component("ud-accept", {
+  name: "UdVfAccept",
+  template: `
+    <label class="ud-accept">
+      <formulate-input
+        type="checkbox"
+        name="accept"
+        validation="accepted"
+        :validation-messages="{accepted: '請先同意使用者條款'}"
+      >
+      </formulate-input>
+      <p v-if="!$slots.default">我同意使用者條款</p>
+      <slot></slot>
+    </label>
+  `,
+});
+
 //-----------------------Data-----------------------
 //Table 表格
 Vue.component('ud-table', {
@@ -440,16 +566,137 @@ Vue.component('ud-pagination', {
 })
 
 //-----------------------Notice-----------------------
-//Alert 警告
-Vue.component('ud-alert', {
+//Alert 警告彈窗
+Vue.component("ud-alert", {
   name: "UdAlert",
   template: `
-
+  <transition name="fade">
+    <div class="ud-modal" v-show="isModalShow" v-cloak>
+      <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
+        <div class="modal-content">
+          <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')"><i class="fas fa-times"></i></div>
+          <div class="modal-header">
+            <p>{{ title }}</p>
+          </div>
+          <div class="modal-body">
+            <p>{{ message }}</p>
+            <slot></slot>
+          </div>
+          <div class="modal-footer">
+            <div class="button-area">
+              <ud-button @click="$emit('cancel')">OK</ud-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
   `,
   props: {
-    
+    title: {
+      type: String,
+      default: "訊息標題"
+    },
+    message: {
+      type: String,
+      default: "訊息本文"
+    },
+    isModalShow: {
+      type: Number,
+      default: 0
+    },
+    maskCancel: Boolean,
+    hasCancel: Boolean,
   },
-})
+});
+
+//Confirm 確認彈窗
+Vue.component("ud-confirm", {
+  name: "UdConfirm",
+  template: `
+  <transition name="fade">
+    <div class="ud-modal" v-show="isModalShow" v-cloak>
+      <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
+        <div class="modal-content">
+          <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')"><i class="fas fa-times"></i></div>
+          <div class="modal-header">
+            <p>{{ title }}</p>
+          </div>
+          <div class="modal-body">
+            <p>{{ message }}</p>
+            <slot></slot>
+          </div>
+          <div class="modal-footer">
+            <div class="button-area">
+              <ud-button @click="$emit('cancel')">OK</ud-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+  `,
+  props: {
+    title: {
+      type: String,
+      default: "訊息標題"
+    },
+    message: {
+      type: String,
+      default: "訊息本文"
+    },
+    isModalShow: {
+      type: Number,
+      default: 0
+    },
+    maskCancel: Boolean,
+    hasCancel: Boolean,
+  },
+});
+
+//Modal 通用彈窗
+Vue.component("ud-modal", {
+  name: "UdModal",
+  template: `
+  <transition name="fade">
+    <div class="ud-modal" v-show="isModalShow" v-cloak>
+      <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
+        <div class="modal-content">
+          <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')"><i class="fas fa-times"></i></div>
+          <div class="modal-header">
+            <p>{{ title }}</p>
+          </div>
+          <div class="modal-body">
+            <p>{{ message }}</p>
+            <slot></slot>
+          </div>
+          <div class="modal-footer">
+            <div class="button-area">
+              <ud-button @click="$emit('cancel')">OK</ud-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+  `,
+  props: {
+    title: {
+      type: String,
+      default: "訊息標題"
+    },
+    message: {
+      type: String,
+      default: "訊息本文"
+    },
+    isModalShow: {
+      type: Number,
+      default: 0
+    },
+    maskCancel: Boolean,
+    hasCancel: Boolean,
+  },
+});
 
 //Loading 加載
 Vue.component('ud-loading', {
@@ -513,8 +760,6 @@ Vue.component('ud-notification', {
     
   },
 })
-
-//-----------------------Navigation-----------------------
 
 //-----------------------Others-----------------------
 //Dialog 對話框

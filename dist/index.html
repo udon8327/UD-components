@@ -29,32 +29,32 @@
           <h1>{{ generate }}</h1>
           <formulate-form v-model="form" @submit="alert" name="my-form">
             <ud-vf-item label="姓名">
-              <ud-vf-name></ud-vf-name>
+              <ud-name></ud-name>
             </ud-vf-item>
             <ud-vf-item label="性別">
-              <ud-vf-gender></ud-vf-gender>
+              <ud-gender></ud-gender>
             </ud-vf-item>
             <ud-vf-item label="手機">
-              <ud-vf-phone></ud-vf-phone>
+              <ud-phone></ud-phone>
             </ud-vf-item>
             <ud-vf-item label="E-mail">
-              <ud-vf-email></ud-vf-email>
+              <ud-mail></ud-mail>
             </ud-vf-item>
             <ud-vf-item label="身分證字號">
-              <ud-vf-idcard></ud-vf-idcard>
+              <ud-idcard></ud-idcard>
             </ud-vf-item>
             <ud-vf-item label="開始日期">
-              <ud-vf-date name="startAt"></ud-vf-date>
+              <ud-date name="startAt"></ud-date>
             </ud-vf-item>
             <ud-vf-item label="結束日期">
-              <ud-vf-date name="endAt"></ud-vf-date>
+              <ud-date name="endAt"></ud-date>
             </ud-vf-item>
-            <ud-vf-accept>
+            <ud-accept>
               <p>我同意酷必資訊<a href="https://goo.gl/">使用者條款</a>!</p>
-            </ud-vf-accept>
-            <ud-button plain @click="reset">清除</ud-button>
-            <ud-button native-type="submit">送出</ud-button>
+            </ud-accept>
           </formulate-form>
+          <ud-button plain @click="$formulate.reset('my-form')">清除</ud-button>
+          <ud-button @click="$formulate.submit('my-form')">送出</ud-button>
         </div>
       </div>
     </div>

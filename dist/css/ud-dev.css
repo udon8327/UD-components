@@ -136,7 +136,7 @@
     -ms-flex: 1 1 0px;
     flex: 1 1 0; }
 
-.ud-vf-accept {
+.ud-accept {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -145,11 +145,11 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center; }
-  .ud-vf-accept .formulate-input {
+  .ud-accept .formulate-input {
     margin: 0 5px 0 0; }
-  .ud-vf-accept p {
+  .ud-accept p {
     margin: 0; }
-  .ud-vf-accept .formulate-input-error {
+  .ud-accept .formulate-input-error {
     white-space: nowrap; }
 
 input, select, textarea {
