@@ -15,6 +15,8 @@ let vm = new Vue({
     value: 0,
     test: [],
     form: {
+      county: "台北市",
+      district: "中正區"
     },
     testOptions: {
       nico: "妮可",

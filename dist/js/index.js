@@ -11,7 +11,10 @@ var vm = new Vue({
         modalMessage: "這是modalMessage",
         value: 0,
         test: [],
-        form: {},
+        form: {
+            county: "台北市",
+            district: "中正區"
+        },
         testOptions: {
             nico: "妮可",
             maru: "花丸",

@@ -827,22 +827,34 @@ Vue.component('ud-date-group', {
 Vue.component('ud-address-group', {
   name: "UdAddressGroup",
   template: `
-    <div class="ud-address-group">
-      <p>縣市</p>
-      <select name="county" ref="county" v-model="currentCounty">
-        <option disabled selected value="">請選擇縣市</option>
-        <option v-for="county in countyList" :value="county" :key="county">{{ county }}</option>
-      </select>
-      <p>鄉填市區</p>
-      <select name="district" ref="district">
-        <option disabled selected value="">請選擇鄉填市區</option>
-        <option v-for="district in curretnDistrictList" :value="district" :key="district">{{ district }}</option>
-      </select>
+    <div class="ud-address-group inline-wrapper">
+      <formulate-input 
+        type="select"
+        name="county"
+        placeholder="請選擇縣市"
+        :options="countyObj"
+        validation="required"
+        :validation-messages="{required: '縣市不可為空'}"
+        @input="test"
+        ref="county"
+        v-model="county"
+      >
+      </formulate-input>
+      <formulate-input
+        type="select"
+        name="district"
+        placeholder="請選擇鄉填市區"
+        :options="districtOptions"
+        validation="required"
+        :validation-messages="{required: '鄉鎮市區不可為空'}"
+        ref="district"
+      >
+      </formulate-input>
     </div>
   `,
   data() {
     return {
-      currentCounty: "",
+      county: "",
       countyList: ["台北市","基隆市","新北市","宜蘭縣","桃園市","新竹市","新竹縣","苗栗縣","台中市","彰化縣","南投縣","嘉義市","嘉義縣","雲林縣","台南市","高雄市","澎湖縣","金門縣","屏東縣","台東縣","花蓮縣","連江縣"],
       districtList: [
         ["中正區","大同區","中山區","松山區","大安區","萬華區","信義區","士林區","北投區","內湖區","南港區","文山區",],
@@ -871,13 +883,32 @@ Vue.component('ud-address-group', {
     }
   },
   computed: {
-    curretnDistrictList: function(){
-      let countyIndex = this.countyList.indexOf(this.currentCounty);
-      return this.districtList[countyIndex];
+    countyObj: function(){
+      let tempObj = {};
+      for(let i of this.countyList){
+        tempObj[i] = i;
+      }
+      return tempObj;
+    },
+    districtOptions: function(){
+      let tempObj = {};
+      let index = this.countyList.indexOf(this.county);
+      if(index != -1){
+        let currentArr = this.districtList[index];
+        for(let i of currentArr){
+          tempObj[i] = i;
+        }
+      }
+      return tempObj;
     }
   },
+  watch: {
+    
+  },
   methods: {
-
+    test: function(){
+      console.log(this.$refs.county);
+    }
   },
 })
 
@@ -910,10 +941,10 @@ Vue.component("ud-alert", {
   name: "UdAlert",
   template: `
   <transition name="fade">
-    <div class="ud-alert" v-show="isShow" v-cloak>
-      <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
+    <div class="ud-alert" v-show="value" v-cloak>
+      <div class="modal-wrapper" @click.self="maskCancel && $emit('input')">
         <div class="modal-content">
-          <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')"><i class="fas fa-times"></i></div>
+          <div class="modal-close" v-if="hasCancel" @click="$emit('input')"><i class="fas fa-times"></i></div>
           <div class="modal-header">
             <p>{{ title }}</p>
           </div>
@@ -923,7 +954,7 @@ Vue.component("ud-alert", {
           </div>
           <div class="modal-footer">
             <div class="button-area">
-              <ud-button @click="$emit('cancel')">OK</ud-button>
+              <ud-button @click="$emit('input')">OK</ud-button>
             </div>
           </div>
         </div>
@@ -940,9 +971,9 @@ Vue.component("ud-alert", {
       type: String,
       default: "警告彈窗訊息"
     },
-    isShow: {
-      type: [Number,Boolean],
-      default: 0
+    value: {
+      type: [Boolean, Number],
+      default: false
     },
     maskCancel: Boolean,
     hasCancel: Boolean,

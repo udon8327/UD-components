@@ -432,11 +432,27 @@
   transition: opacity .3s linear;
   opacity: 0; }
 
+.inline-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .inline-wrapper > div + div {
+    margin-left: 10px;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto; }
+
 input, select, textarea {
   min-height: 42px; }
 
 .formulate-input {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   position: relative; }
   .formulate-input .formulate-input-wrapper .formulate-input-label {
     display: block;
@@ -459,8 +475,6 @@ input, select, textarea {
     .formulate-input .formulate-input-errors .formulate-file-upload-error, .formulate-input .formulate-input-errors .formulate-input-error {
       color: #dc3545;
       font-size: 14px; }
-  .formulate-input:last-child {
-    margin-bottom: 0; }
   .formulate-input[data-is-showing-errors=true] input, .formulate-input[data-is-showing-errors=true] textarea, .formulate-input[data-is-showing-errors=true] select {
     border: 1px solid #dc3545 !important; }
   .formulate-input[data-classification=text] input {

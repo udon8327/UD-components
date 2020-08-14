@@ -20,7 +20,7 @@
   <body>
     <noscript>Your browser does not support JavaScript!</noscript>
     <div id="app">
-      <ud-alert :is-show="isAlertShow" mask-cancel :message="alertMessage" @cancel="isAlertShow = 0"></ud-alert>
+      <ud-alert v-model="isAlertShow" mask-cancel :message="alertMessage"></ud-alert>
       <ud-confirm :is-show="isConfirmShow" mask-cancel :message="confirmMessage" @cancel="isConfirmShow = 0" @confirm="$formulate.submit('my-form')"></ud-confirm>
       <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"><img src="https://imgur.com/DIC7dRT.jpg" alt=""></ud-modal>
       <div class="container">

@@ -502,12 +502,20 @@
   transition: opacity .3s linear
   opacity: 0
 
+.inline-wrapper
+  display: flex
+  justify-content: center
+  align-items: center
+  >div + div
+    margin-left: 10px
+    flex: 1 1 auto
+
 //-----------------------Vue Formulate-----------------------
 input,select,textarea
   min-height: 42px
 
 .formulate-input
-  margin-bottom: 20px
+  margin-bottom: 0px
   position: relative
   .formulate-input-wrapper
     .formulate-input-label
@@ -530,8 +538,6 @@ input,select,textarea
     .formulate-file-upload-error, .formulate-input-error
       color: $danger
       font-size: 14px
-  &:last-child
-    margin-bottom: 0
   &[data-is-showing-errors=true]
     input,textarea,select
       border: 1px solid $danger !important
