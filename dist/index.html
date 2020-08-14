@@ -12,6 +12,7 @@
     <title>frontend</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/ud-modules.css" rel="stylesheet">
     <link href="css/ud-dev.css" rel="stylesheet">
@@ -25,7 +26,10 @@
       <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"><img src="https://imgur.com/DIC7dRT.jpg" alt=""></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <h1>{{test || "幹"}}</h1>
+          <h1>{{test || "Select"}}</h1>
+          <h1>{{testVal || "Checkbox"}}</h1>
+          <ud-radio v-model="agree" :options="testArr"></ud-radio>
+          <ud-checkbox v-model="testVal" :options="testArr"></ud-checkbox>
           <ud-select v-model="test" :options="testOptions"></ud-select>
           <ud-button @click="showAlert('alert開了')">alert</ud-button>
           <ud-button @click="showConfirm('confirm開了')">confirm</ud-button>

@@ -11,7 +11,10 @@ block modal
     img(src="https://imgur.com/DIC7dRT.jpg", alt="")
 
 block content
-  h1 {{test || "幹"}}
+  h1 {{test || "Select"}}
+  h1 {{testVal || "Checkbox"}}
+  ud-radio(v-model="agree" :options="testArr")
+  ud-checkbox(v-model="testVal" :options="testArr")
   ud-select(v-model="test" :options="testOptions")
   ud-button(@click="showAlert('alert開了')") alert
   ud-button(@click="showConfirm('confirm開了')") confirm

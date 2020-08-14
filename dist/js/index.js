@@ -10,7 +10,10 @@ var vm = new Vue({
         confirmMessage: "這是confirmMessage",
         modalMessage: "這是modalMessage",
         value: 0,
+        agree: true,
         test: "",
+        testVal: [],
+        testArr: ['AAA', 'BBB', 'CCC'],
         form: {
             county: "台北市",
             district: "中正區"

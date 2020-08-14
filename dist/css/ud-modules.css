@@ -439,7 +439,7 @@ select:invalid {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto; }
 
-input, select, textarea {
+.formulate-input input, .formulate-input select, .formulate-input textarea {
   min-height: 42px; }
 
 .formulate-input {

@@ -238,19 +238,29 @@ Vue.component('ud-radio', {
 Vue.component('ud-checkbox', {
   name: "UdCheckbox",
   template: `
-    <input
-      class="ud-checkbox"
-      type="checkbox"
-      :checked="checked"
-      @change="$emit('change', $event.target.checked)"
-    >
+    <div class="ud-checkbox">
+      <label v-for="item in options">
+        <input
+          type="checkbox"
+          :value="item"
+          v-model="checkedValue"
+        > {{ item }}
+      </label>
+    </div>
   `,
-  model: {
-    prop: 'checked',
-    event: 'change'
-  },
   props: {
-    checked: Boolean
+    value: null,
+    options: null,
+  },
+  computed: {
+    checkedValue: {
+      get: function(){
+        return this.value;
+      },
+      set: function(val){
+        this.$emit('input',val);
+      }
+    }
   },
 })
 
