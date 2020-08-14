@@ -4,11 +4,11 @@ declare var $: (selector: string) => any;
 ==================== Vue組件目錄 ====================
 Form
   Button 按鈕 -----> ud-button
-  Radio 單選框 -----> ud-radio
-  Checkbox 多選框 -----> ud-checkbox
   Input 輸入框 -----> ud-input
   Textarea 多行輸入框 -----> ud-textarea
-  Select 選擇器 -----> ud-select
+  Radio 單選框 -----> ud-radio
+  Checkbox 多選框 -----> ud-checkbox
+  Select 下拉框 -----> ud-select
   Switch 開關 -----> ud-switch
   Upload 上傳 -----> ud-upload
   ImageUpload 圖片上傳預覽 -----> ud-image-upload
@@ -207,6 +207,77 @@ Vue.component('ud-button', {
   }
 })
 
+//Input 輸入框
+Vue.component('ud-input', {
+  name: 'UdInput',
+  template: `
+    <div class="ud-input">
+      <input
+        :type="type"
+        v-model="inputVal"
+        :placeholder="placeholder"
+      >
+    </div>
+  `,
+  props: {
+    value: null,
+    type: {
+      type: String,
+      default: "text"
+    },
+    placeholder: {
+      type: String,
+      default: "請輸入此欄位"
+    },
+  },
+  computed: {
+    inputVal: {
+      get: function(){
+        return this.value;
+      },
+      set: function(val){
+        this.$emit('input', val)
+      }
+    }
+  },
+})
+
+//Textarea 多行輸入框
+Vue.component('ud-textarea', {
+  name: "UdTextarea",
+  template: `
+    <div class="ud-textarea">
+      <textarea
+        type="text"
+        v-model="textareaVal"
+        :cols="cols"
+        :rows="rows"
+        :placeholder="placeholder"
+      >
+      </textarea>
+    </div>
+  `,
+  props: {
+    value: null,
+    placeholder: {
+      type: String,
+      default: "請輸入此欄位"
+    },
+    rows: null,
+    cols: null,
+  },
+  computed: {
+    textareaVal: {
+      get: function(){
+        return this.value;
+      },
+      set: function(val){
+        this.$emit('input', val);
+      }
+    }
+  },
+})
+
 //Radio 單選框
 Vue.component('ud-radio', {
   name: "UdRadio",
@@ -242,18 +313,32 @@ Vue.component('ud-checkbox', {
   name: "UdCheckbox",
   template: `
     <div class="ud-checkbox">
-      <label v-for="item in options">
-        <input
-          type="checkbox"
-          :value="item"
-          v-model="checkedValue"
-        > {{ item }}
-      </label>
+      <template v-if="options">
+        <label v-for="(value, key) in options" :key="key">
+          <input
+            type="checkbox"
+            :value="key"
+            v-model="checkedValue"
+          > {{ value }}
+        </label>
+      </template>
+      <template v-else>
+        <label>
+          <input
+            type="checkbox"
+            v-model="checkedValue"
+          > {{ label }}
+        </label>
+      </template>
     </div>
   `,
   props: {
     value: null,
     options: null,
+    label: {
+      type: String,
+      default: "我同意使用者條款"
+    }
   },
   computed: {
     checkedValue: {
@@ -267,77 +352,7 @@ Vue.component('ud-checkbox', {
   },
 })
 
-//Input 輸入框
-Vue.component('ud-input', {
-  name: 'UdInput',
-  template: `
-    <input
-      class="ud-input"
-      type="text"
-      :placeholder="placeholder"
-      :required="required"
-      :value="value"
-      :name="name"
-      @input="$emit('input', $event.target.value)"
-    >
-  `,
-  props: {
-    placeholder: {
-      type: String,
-      default: "請輸入此欄位"
-    },
-    value: {
-      type: [String, Number],
-    },
-    name: {
-      type: String
-    },
-    required: Boolean
-  },
-  methods: {
-  },
-})
-
-//Textarea 多行輸入框
-Vue.component('ud-textarea', {
-  name: "UdTextarea",
-  template: `
-    <textarea
-      class="ud-textarea"
-      :cols="cols"
-      :rows="rows"
-      :placeholder="placeholder"
-      :required="required"
-      :value="value"
-      :name="name"
-      @input="$emit('input', $event.target.value)"
-    >
-    </textarea>
-  `,
-  props: {
-    placeholder: {
-      type: String,
-      default: "請輸入此欄位"
-    },
-    value: {
-      type: [String, Number],
-    },
-    rows: {
-      type: Number,
-    },
-    cols: {
-      type: Number,
-    },
-    name: {
-      type: String
-    },
-    required: Boolean
-  },
-  methods: {
-  },
-})
-
-//通用select表單
+//Select 下拉框
 Vue.component('ud-select', {
   name: "UdSelect",
   template: `

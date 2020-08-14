@@ -14,23 +14,22 @@ let vm = new Vue({
     modalMessage: "這是modalMessage",
     value: 0,
 
+    inputVal: "",
+    textareaVal: "",
     radioVal: "",
-    radioObj: {
-      nico: "妮可",
-      maru: "花丸",
-      pomu: "步夢",
-    },
-
+    acceptVal: false,
     checkboxVal: [],
-    checkboxArr: ['AAA','BBB','CCC'],
-
     selectVal: "",
-    selectObj: {
+    
+    accept: {
+      accept: "我同意使用者條款",
+    },
+    formObj: {
       nico: "妮可",
       maru: "花丸",
       pomu: "步夢",
       rin: "凜",
-      kasukasu: "阿霞",
+      kasumin: "阿霞"
     },
 
     form: {

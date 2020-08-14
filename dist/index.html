@@ -26,14 +26,23 @@
       <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"><img src="https://imgur.com/DIC7dRT.jpg" alt=""></ud-modal>
       <div class="container">
         <div class="wrapper">
+          <p>inputVal: {{ inputVal }}</p>
+          <ud-input v-model="inputVal"></ud-input>
+          <hr>
+          <p>textareaVal: {{ textareaVal }}</p>
+          <ud-textarea v-model="textareaVal"></ud-textarea>
+          <hr>
           <p>radioVal: {{ radioVal }}</p>
-          <ud-radio v-model="radioVal" :options="radioObj"></ud-radio>
+          <ud-radio v-model="radioVal" :options="formObj"></ud-radio>
+          <hr>
+          <p>acceptVal: {{ acceptVal }}</p>
+          <ud-checkbox v-model="acceptVal"></ud-checkbox>
           <hr>
           <p>checkboxVal: {{ checkboxVal }}</p>
-          <ud-checkbox v-model="checkboxVal" :options="checkboxArr"></ud-checkbox>
+          <ud-checkbox v-model="checkboxVal" :options="formObj"></ud-checkbox>
           <hr>
           <p>selectVal: {{ selectVal }}</p>
-          <ud-select v-model="selectVal" :options="selectObj"></ud-select>
+          <ud-select v-model="selectVal" :options="formObj"></ud-select>
           <hr>
           <ud-button @click="showAlert('alert開了')">alert</ud-button>
           <ud-button @click="showConfirm('confirm開了')">confirm</ud-button>

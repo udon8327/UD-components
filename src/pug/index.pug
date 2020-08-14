@@ -11,14 +11,23 @@ block modal
     img(src="https://imgur.com/DIC7dRT.jpg", alt="")
 
 block content
+  p inputVal: {{ inputVal }}
+  ud-input(v-model="inputVal")
+  hr
+  p textareaVal: {{ textareaVal }}
+  ud-textarea(v-model="textareaVal")
+  hr
   p radioVal: {{ radioVal }}
-  ud-radio(v-model="radioVal" :options="radioObj")
+  ud-radio(v-model="radioVal" :options="formObj")
+  hr
+  p acceptVal: {{ acceptVal }}
+  ud-checkbox(v-model="acceptVal")
   hr
   p checkboxVal: {{ checkboxVal }}
-  ud-checkbox(v-model="checkboxVal" :options="checkboxArr")
+  ud-checkbox(v-model="checkboxVal" :options="formObj")
   hr
   p selectVal: {{ selectVal }}
-  ud-select(v-model="selectVal" :options="selectObj")
+  ud-select(v-model="selectVal" :options="formObj")
   hr
   ud-button(@click="showAlert('alert開了')") alert
   ud-button(@click="showConfirm('confirm開了')") confirm

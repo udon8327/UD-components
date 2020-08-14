@@ -3,10 +3,10 @@
 // ==================== Vue組件目錄 ====================
 // Form
 //   Button 按鈕 -----> ud-button
-//   Radio 單選框 -----> ud-radio
-//   Checkbox 多選框 -----> ud-checkbox
 //   Input 輸入框 -----> ud-input
 //   Textarea 多行輸入框 -----> ud-textarea
+//   Radio 單選框 -----> ud-radio
+//   Checkbox 多選框 -----> ud-checkbox
 //   Select 選擇器 -----> ud-select
 //   Switch 開關 -----> ud-switch
 //   Upload 上傳 -----> ud-upload
@@ -95,21 +95,25 @@
     width: 100%
     margin: 0 0 10px 0
 
+// Input 輸入框
+.ud-input
+  input
+    width: 100%
+    &::placeholder
+      color: #ccc
+
+// Textarea 多行輸入框
+.ud-textarea
+  textarea
+    width: 100%
+    &::placeholder
+      color: #ccc
+
 // Radio 單選框
 .ud-radio
 
 // Checkbox 多選框
 .ud-checkbox
-
-// Input 輸入框
-.ud-input
-  &::placeholder
-    color: #ccc
-
-// Textarea 多行輸入框
-.ud-textarea
-select:invalid
-  color: red !important
 
 // Select 選擇器
 .ud-select

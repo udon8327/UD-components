@@ -39,20 +39,27 @@
     width: 100%;
     margin: 0 0 10px 0; }
 
-.ud-input::-webkit-input-placeholder {
-  color: #ccc; }
+.ud-input input {
+  width: 100%; }
+  .ud-input input::-webkit-input-placeholder {
+    color: #ccc; }
+  .ud-input input:-ms-input-placeholder {
+    color: #ccc; }
+  .ud-input input::-ms-input-placeholder {
+    color: #ccc; }
+  .ud-input input::placeholder {
+    color: #ccc; }
 
-.ud-input:-ms-input-placeholder {
-  color: #ccc; }
-
-.ud-input::-ms-input-placeholder {
-  color: #ccc; }
-
-.ud-input::placeholder {
-  color: #ccc; }
-
-select:invalid {
-  color: red !important; }
+.ud-textarea textarea {
+  width: 100%; }
+  .ud-textarea textarea::-webkit-input-placeholder {
+    color: #ccc; }
+  .ud-textarea textarea:-ms-input-placeholder {
+    color: #ccc; }
+  .ud-textarea textarea::-ms-input-placeholder {
+    color: #ccc; }
+  .ud-textarea textarea::placeholder {
+    color: #ccc; }
 
 .ud-image-upload input {
   width: 100%;
