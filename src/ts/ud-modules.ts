@@ -211,25 +211,28 @@ Vue.component('ud-button', {
 Vue.component('ud-radio', {
   name: "UdRadio",
   template: `
-    <label class="ud-radio">
-      <input
-        type="radio"
-        :checked="checked"
-        :value="label"
-        @change="handleChange"
-      >
-      <slot></slot>
-      <template v-if="!$slots.default">{{ label }}</template>
-    </label>
+    <div class="ud-radio">
+      <label v-for="(value, key) in options" :key="key">
+        <input
+          type="radio"
+          v-model="checkedValue"
+          :value="key"
+        > {{ value }}
+      </label>
+    </div>
   `,
-  model: {
-    prop: 'checked',
-    event: 'change'
+  props: {
+    value: null,
+    options: null
   },
-  props: ['label', 'checked'],
-  methods: {
-    handleChange: function(e){
-      this.$emit('change', e.target.value)
+  computed: {
+    checkedValue: {
+      get: function(){
+        return this.value;
+      },
+      set: function(val){
+        this.$emit('input', val);
+      }
     }
   },
 })

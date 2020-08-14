@@ -10,20 +10,25 @@ var vm = new Vue({
         confirmMessage: "這是confirmMessage",
         modalMessage: "這是modalMessage",
         value: 0,
-        agree: true,
-        test: "",
-        testVal: [],
-        testArr: ['AAA', 'BBB', 'CCC'],
-        form: {
-            county: "台北市",
-            district: "中正區"
+        radioVal: "",
+        radioObj: {
+            nico: "妮可",
+            maru: "花丸",
+            pomu: "步夢",
         },
-        testOptions: {
+        checkboxVal: [],
+        checkboxArr: ['AAA', 'BBB', 'CCC'],
+        selectVal: "",
+        selectObj: {
             nico: "妮可",
             maru: "花丸",
             pomu: "步夢",
             rin: "凜",
             kasukasu: "阿霞",
+        },
+        form: {
+            county: "台北市",
+            district: "中正區"
         },
         generate: {},
         schema: [
