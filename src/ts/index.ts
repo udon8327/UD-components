@@ -13,7 +13,7 @@ let vm = new Vue({
     confirmMessage: "這是confirmMessage",
     modalMessage: "這是modalMessage",
     value: 0,
-    test: [],
+    test: "",
     form: {
       county: "台北市",
       district: "中正區"

@@ -51,17 +51,8 @@
 .ud-input::placeholder {
   color: #ccc; }
 
-.ud-textarea::-webkit-input-placeholder {
-  color: #ccc; }
-
-.ud-textarea:-ms-input-placeholder {
-  color: #ccc; }
-
-.ud-textarea::-ms-input-placeholder {
-  color: #ccc; }
-
-.ud-textarea::placeholder {
-  color: #ccc; }
+select:invalid {
+  color: red !important; }
 
 .ud-image-upload input {
   width: 100%;

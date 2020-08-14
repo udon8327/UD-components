@@ -25,6 +25,8 @@
       <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"><img src="https://imgur.com/DIC7dRT.jpg" alt=""></ud-modal>
       <div class="container">
         <div class="wrapper">
+          <h1>{{test || "幹"}}</h1>
+          <ud-select v-model="test" :options="testOptions"></ud-select>
           <ud-button @click="showAlert('alert開了')">alert</ud-button>
           <ud-button @click="showConfirm('confirm開了')">confirm</ud-button>
           <ud-button @click="showModal('modal開了')">modal</ud-button>

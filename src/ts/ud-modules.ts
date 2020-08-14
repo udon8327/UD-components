@@ -328,27 +328,30 @@ Vue.component('ud-textarea', {
 Vue.component('ud-select', {
   name: "UdSelect",
   template: `
-    <select
-      class="ud-select"
-      type="select"
-      :checked="checked"
-      :name="name"
-      @change="$emit('change', $event.target.selected)"
-    >
-      <option value="A">選項A</option>
-      <option value="B">選項B</option>
-      <option value="C">選項C</option>
+    <select class="ud-select" v-model="selectedValue">
+      <option value="" disabled selected>{{ placeholder }}</option>
+      <option v-for="(value, key) in options" :value="key" :key="key">
+        {{ value }}
+      </option>
     </select>
   `,
-  model: {
-    prop: 'checked',
-    event: 'change'
-  },
   props: {
-    name: {
-      type: String
-    },
-    checked: Boolean
+    value: null,
+    options: null,
+    placeholder: {
+      type: String,
+      default: "請選擇一項"
+    }
+  },
+  computed: {
+    selectedValue: {
+      get: function() {
+        return this.value;
+      },
+      set: function(val) {
+        this.$emit('input', val)
+      }
+    }
   },
 })
 
