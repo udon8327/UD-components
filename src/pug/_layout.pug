@@ -14,21 +14,37 @@ html(lang='zh-Hant-TW')
     link(href='img/favicon.ico' rel='shortcut icon')
     title frontend
     link(href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css' rel='stylesheet')
-    //- link(href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css' rel='stylesheet')
     link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css' rel='stylesheet')
+    //- link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.13.2/theme-chalk/index.css' rel='stylesheet')
     link(href='css/main.css' rel='stylesheet')
+    link(href='css/ud-modules.css' rel='stylesheet')
+    link(href='css/ud-dev.css' rel='stylesheet')
     block css
 
   body
     noscript Your browser does not support JavaScript!
     #app
+      block modal
       .container
         .wrapper
           block content
 
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-    //- script(src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js')
-    //- script(src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js')
+    //- script(src='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.13.2/index.js')
+    script(src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js")
+    script.
+      !window.Vue && document.write(`
+        <link href="https://pro.fontawesome.com/releases/v5.13.1/css/fontawesome.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"><\/script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"><\/script>
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"><\/script>
+        <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js"><\/script>
+        <script src="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js"><\/script>
+      `);
+    script(src="js/ud-modules.js")
+    script(src="js/ud-dev.js")
     block js

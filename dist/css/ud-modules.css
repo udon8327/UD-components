@@ -14,7 +14,6 @@
   appearance: none;
   text-align: center;
   outline: none !important;
-  margin: 0 0 10px 0;
   -webkit-transition: .1s;
   -o-transition: .1s;
   transition: .1s; }

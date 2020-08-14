@@ -1,15 +1,17 @@
 extends _layout.pug
 
 block css
-  //- link(href='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/theme-chalk/index.css' rel='stylesheet')
-  link(href='css/ud-dev.css' rel='stylesheet')
-  link(href='css/ud-modules.css' rel='stylesheet')
   //- link(href='https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/snow.min.css' rel='stylesheet')
   link(href='css/index.css' rel='stylesheet')
 
+block modal
+  ud-modal(:is-modal-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
+
 block content
+  ud-button(@click="showModal('開了')") modal
   h1 {{ title }}
   h1 {{ form }}
+  h1 {{ generate }}
   formulate-form(v-model="form" @submit="alert" name="my-form")
     ud-vf-item(label="姓名")
       ud-vf-name
@@ -33,14 +35,9 @@ block content
     //- formulate-input(type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="required|mime:application/pdf" multiple :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
-    formulate-input(type="button" data-ghost label="清空" @click="reset")
-    ud-button(@click="random" plain) 送出
+    ud-button(plain @click="reset") 清除
     ud-button(native-type="submit") 送出
+  //- formulate-form(v-model="generate" :schema="schema")
 block js
-  //- script(src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.12.0/index.js")
   //- script(async="" src="https://www.youtube.com/iframe_api")
-  //- script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js')
-  script(src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js")
-  script(src="js/ud-dev.js")
-  script(src="js/ud-modules.js")
   script(src="js/index.js")

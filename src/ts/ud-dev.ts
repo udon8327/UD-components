@@ -1,47 +1,44 @@
 //modal彈窗
 Vue.component("ud-modal", {
   template: `
-    <transition name="fade">
-      <div class="ud-modal">
-        <div class="modal-wrapper">
-          <div class="modal-content">
+  <transition name="fade">
+    <div class="ud-modal" v-show="isModalShow" v-cloak>
+      <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
+        <div class="modal-content">
+          <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')"><i class="fas fa-times"></i></div>
+          <div class="modal-header">
+            <p>{{ title }}</p>
+          </div>
+          <div class="modal-body">
+            <p>{{ message }}</p>
             <slot></slot>
           </div>
-        </div>
-      </div>
-    </transition>
-  `
-});
-
-Vue.component("ud-modal-2", {
-  template: `
-    <transition name="modal">
-      <div class="modal-mask ud-modal-2">
-        <div class="modal-wrapper">
-          <div class="modal-container">
-            <div class="modal-header">
-              <slot name="header">
-                default header
-              </slot>
-            </div>
-            <div class="modal-body">
-              <slot name="body">
-                default body
-              </slot>
-            </div>
-            <div class="modal-footer">
-              <slot name="footer">
-                default footer
-                <ud-button class="modal-default-button" @click="$emit('close')">
-                  OK
-                </ud-button>
-              </slot>
+          <div class="modal-footer">
+            <div class="button-area">
+              <ud-button @click="$emit('cancel')">OK</ud-button>
             </div>
           </div>
         </div>
       </div>
-    </transition>
-  `
+    </div>
+  </transition>
+  `,
+  props: {
+    title: {
+      type: String,
+      default: "訊息標題"
+    },
+    message: {
+      type: String,
+      default: "訊息本文"
+    },
+    isModalShow: {
+      type: Number,
+      default: 0
+    },
+    maskCancel: Boolean,
+    hasCancel: Boolean,
+  },
 });
 
 //圖片上傳預覽
@@ -229,8 +226,8 @@ Vue.component('el-i', {
 Vue.component("ud-vf-item", {
   template: `
     <div class="ud-vf-item">
-      <div class="ud-vf-item--label">{{ label }}</div>
-      <div class="ud-vf-item--input">
+      <div class="ud-vf-item__label">{{ label }}</div>
+      <div class="ud-vf-item__input">
         <slot></slot>
       </div>
     </div>
@@ -249,7 +246,7 @@ Vue.component("ud-vf-name", {
       type="text"
       name="name"
       placeholder="請輸入姓名"
-      validation="^required|matches:/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/"
+      validation="^required|^matches:/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/"
       :validation-messages="{required: '姓名不可為空', matches: '姓名格式有誤，不接受特殊符號'}"
     >
     </formulate-input>
@@ -323,8 +320,20 @@ Vue.component("ud-vf-date", {
       type="date"
       :name="name"
       placeholder="請輸入日期"
-      validation="^required|matches:/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/"
-      :validation-messages="{required: '日期不可為空', matches: '日期格式有誤，例：2020-01-31'}"
+      validation="^required|^date:YYYY-MM-DD|exist"
+      :validation-rules="{
+        exist: ({ value }) => {
+          let dateArr = value.split('-');
+          let limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+          let theYear = parseInt(dateArr[0]);
+          let theMonth = parseInt(dateArr[1]);
+          let theDay = parseInt(dateArr[2]);
+          let isLeap = new Date(theYear, 1, 29).getDate() === 29; 
+          if (isLeap) limitInMonth[1] = 29;
+          return theDay > 0 && theDay <= limitInMonth[theMonth - 1];
+        }
+      }"
+      :validation-messages="{required: '日期不可為空', date: '日期格式有誤，例：2020-01-31', exist: '日期不存在，請重新選擇'}"
     >
     </formulate-input>
   `,
@@ -342,8 +351,8 @@ Vue.component("ud-vf-accept", {
       <formulate-input
         type="checkbox"
         name="accept"
-        validation="required"
-        :validation-messages="{required: '請先同意使用者條款'}"
+        validation="accepted"
+        :validation-messages="{accepted: '請先同意使用者條款'}"
       >
       </formulate-input>
       <p v-if="!$slots.default">我同意使用者條款</p>

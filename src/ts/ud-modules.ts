@@ -166,9 +166,9 @@ Web
   網址跳轉 -----> toUrl
 
 Device
-  判斷是否移動裝置訪問 -----> isMobileUserAgent
-  判斷是否蘋果移動裝置訪問 -----> isAppleMobileDevice
-  判斷是否安卓移動裝置訪問 -----> isAndroidMobileDevice
+  判斷是否移動裝置 -----> isMobileUserAgent
+  判斷是否蘋果移動裝置 -----> isAppleMobileDevice
+  判斷是否安卓移動裝置 -----> isAndroidMobileDevice
 */
 
 //-----------------------Basic-----------------------
@@ -232,7 +232,7 @@ Vue.component('ud-button', {
   },
   methods: {
     handleClick(evt) {
-      this.nativeType === "submit" ? this.$emit('submit', evt) : this.$emit('click', evt);
+      this.$emit('click', evt);
     }
   }
 })
@@ -1396,16 +1396,16 @@ function isLeapYear(year){
 }
 
 //檢查日期是否存在
-function isExistDate(dateStr, split = "/") {
-  let dateObj = dateStr.split(split); // yyyy/mm/dd
+  //isExistDate("2020-02-29"); -> true
+  //isExistDate("2019/02/29","/"); -> false
+function isExistDate(dateStr, split = "-") {
+  let dateArr = dateStr.split(split);
   let limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  let theYear = parseInt(dateObj[0]);
-  let theMonth = parseInt(dateObj[1]);
-  let theDay = parseInt(dateObj[2]);
+  let theYear = parseInt(dateArr[0]);
+  let theMonth = parseInt(dateArr[1]);
+  let theDay = parseInt(dateArr[2]);
   let isLeap = new Date(theYear, 1, 29).getDate() === 29; 
-  if (isLeap) {
-    limitInMonth[1] = 29;
-  }
+  if (isLeap) limitInMonth[1] = 29;
   return theDay > 0 && theDay <= limitInMonth[theMonth - 1];
 }
 
@@ -1794,19 +1794,19 @@ function toUrl(url){
 }
 
 //-----------------------Device-----------------------
-//判斷是否移動裝置訪問
+//判斷是否移動裝置
 function isMobileUserAgent() {
   return /iphone|ipod|android.*mobile|windows.*phone|blackberry.*mobile/i.test(
     window.navigator.userAgent.toLowerCase()
   );
 }
 
-//判斷是否蘋果移動裝置訪問
+//判斷是否蘋果移動裝置
 function isAppleMobileDevice() {
   return /iphone|ipod|ipad|Macintosh/i.test(navigator.userAgent.toLowerCase());
 }
 
-//判斷是否安卓移動裝置訪問
+//判斷是否安卓移動裝置
 function isAndroidMobileDevice() {
   return /android/i.test(navigator.userAgent.toLowerCase());
 }

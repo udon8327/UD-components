@@ -6,6 +6,8 @@ let vm = new Vue({
   el: "#app",
   data: {
     title: "UDON",
+    isModalShow: 0,
+    modalMessage: "啊啊啊",
     value: 0,
     test: [],
     form: {
@@ -17,6 +19,25 @@ let vm = new Vue({
       rin: "凜",
       kasukasu: "阿霞",
     },
+    generate: {},
+    schema: [
+      {
+        "component": "h3",
+        "children": "Student registration"
+      },
+      {
+        "label": "Your name",
+        "name": "name",
+        "validation": "required"
+      },
+      {
+        component: 'div',
+        children: 'sdfsdf'
+      },
+      {
+        "type": "submit"
+      }
+    ]
   },
   computed: {
     testFilter: function(){
@@ -41,8 +62,12 @@ let vm = new Vue({
     reset: function(){
       this.$formulate.reset('my-form');
     },
-    random(){
+    random: function(){
       console.log(getRandom());
+    },
+    showModal: function(msg){
+      this.isModalShow = 1;
+      this.modalMessage = msg;
     }
   }
 });
