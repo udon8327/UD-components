@@ -12,7 +12,6 @@
     <title>frontend</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/ud-modules.css" rel="stylesheet">
     <link href="css/ud-dev.css" rel="stylesheet">
@@ -27,7 +26,7 @@
       <div class="container">
         <div class="wrapper">
           <p>inputVal: {{ inputVal }}</p>
-          <ud-input v-model="inputVal"></ud-input>
+          <ud-input v-model="inputVal" placeholder="請輸入姓名"></ud-input>
           <hr>
           <p>textareaVal: {{ textareaVal }}</p>
           <ud-textarea v-model="textareaVal"></ud-textarea>

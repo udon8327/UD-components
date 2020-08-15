@@ -21,9 +21,6 @@ let vm = new Vue({
     checkboxVal: [],
     selectVal: "",
     
-    accept: {
-      accept: "我同意使用者條款",
-    },
     formObj: {
       nico: "妮可",
       maru: "花丸",
@@ -31,6 +28,7 @@ let vm = new Vue({
       rin: "凜",
       kasumin: "阿霞"
     },
+    // formObj: ["妮可","花丸","步夢","凜","阿霞"],
 
     form: {
       county: "台北市",
