@@ -55,6 +55,9 @@
 //   Scratch 刮刮樂 -----> ud-scratch
 //   Editor 文字編輯器 -----> ud-editor
 
+// VueFormulate
+//   VueFormulate 表單驗證 -----> Vue Formulate
+
 
 //-----------------------Form-----------------------
 //Button 按鈕
@@ -98,34 +101,40 @@
 // Input 輸入框
 .ud-input
   input
-    width: 100%
-    outline: none
     appearance: none
+    border-radius: $vfradius
+    border: 1px solid $vfborder
+    font-size: 14px
+    padding: 8px 10px
+    width: 100%
+    box-sizing: border-box
+    background-color: transparent
+    transition: border 0.2s ease
     min-height: 40px
-    border: 1px solid #666
-    border-radius: 5px
-    padding-left: 8px
-    transition: all 0.2s ease
-    &:focus
-      border: 1px solid #000
     &::placeholder
-      color: #ccc
+      color: #aaa
+    &:focus
+      outline: 0
+      border: 1px solid $vftheme
 
 // Textarea 多行輸入框
 .ud-textarea
   textarea
-    width: 100%
-    outline: none
     appearance: none
+    border-radius: $vfradius
+    border: 1px solid $vfborder
+    box-sizing: border-box
+    background-color: transparent
+    font-size: 14px
+    padding: 6px 10px
+    width: 100%
     min-height: 40px
-    border: 1px solid #666
-    border-radius: 5px
-    padding-left: 8px
-    transition: all 0.2s ease
-    &:focus
-      border: 1px solid #000
+    transition: border 0.2s ease
     &::placeholder
-      color: #ccc
+      color: #aaa
+    &:focus
+      outline: 0
+      border: 1px solid $vftheme
 
 // Radio 單選框
 .ud-radio
@@ -135,6 +144,38 @@
 
 // Select 選擇器
 .ud-select
+  position: relative
+  &:before
+    content: ""
+    width: 0
+    height: 0
+    border-color: $vfborder transparent transparent
+    border-style: solid
+    border-width: .3em .3em 0
+    top: 50%
+    margin-top: -.1em
+    right: 1em
+    position: absolute
+    z-index: 1
+  select
+    appearance: none
+    border-radius: $vfradius
+    border: 1px solid $vfborder
+    font-size: 14px
+    padding: 6px 10px
+    width: 100%
+    margin: 0
+    min-height: 40px
+    transition: border 0.2s ease
+    cursor: pointer
+    &::placeholder
+      color: #a8a8a8
+      line-height: normal
+    &:focus
+      outline: 0
+      border: 1px solid $vftheme
+    &[data-placeholder-selected]
+      color: #a8a8a8
 
 // Switch 開關
 .ud-switch
@@ -191,11 +232,10 @@
   width: 100%
   display: flex
   margin-bottom: 20px
-  align-items: center
   .ud-vf-item__label
     flex: 0 0 25%
     text-align: right
-    margin-right: 8px
+    margin: 8px 8px 0 0
   .ud-vf-item__input
     flex: 1 1 0
 
@@ -261,17 +301,8 @@
 
 // VfAddressGroup 地址群組驗證
 .ud-address-group
-  display: flex
-  justify-content: space-between
-  align-items: center
-  select
-    flex: 1 1 auto
-  p
-    flex: 0 0 auto
-    margin: 0
-    padding: 0 8px
-    @media (max-width: 340px)
-      padding: 0 3px
+  >div
+    margin-bottom: 5px
 
 //-----------------------Data-----------------------
 // Table 表格
@@ -524,18 +555,20 @@
   transition: opacity .3s linear
   opacity: 0
 
-.inline-wrapper
+.flex-wrapper
   display: flex
   justify-content: center
   align-items: center
+  >div
+    flex: 1 1 50%
+    max-width: 50%
   >div + div
-    margin-left: 10px
-    flex: 1 1 auto
+    margin-left: 5px
 
 //-----------------------Vue Formulate-----------------------
 .formulate-input
   input,select,textarea
-    min-height: 42px
+    min-height: 40px
 
 .formulate-input
   margin-bottom: 0px
@@ -553,11 +586,12 @@
     color: #aaa
   .formulate-input-errors
     list-style-type: none
-    padding: 0
+    padding: 0 0 0 3px
     margin: 0
     position: absolute
     left: 0
     bottom: -20px
+    z-index: 90
     .formulate-file-upload-error, .formulate-input-error
       color: $danger
       font-size: 14px
@@ -575,6 +609,7 @@
       width: 100%
       box-sizing: border-box
       background-color: transparent
+      transition: border 0.2s ease
       &::placeholder
         color: #aaa
       &:focus
@@ -626,6 +661,7 @@
       font-size: 14px
       padding: 6px 10px
       width: 100%
+      transition: border 0.2s ease
       &::placeholder
         color: #aaa
       &:focus
@@ -700,6 +736,8 @@
       padding: 6px 10px
       width: 100%
       margin: 0
+      cursor: pointer
+      transition: border 0.2s ease
       &::placeholder
         color: #a8a8a8
         line-height: normal

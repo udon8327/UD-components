@@ -32,27 +32,10 @@ let vm = new Vue({
 
     form: {
       county: "台北市",
-      district: "中正區"
+      area: "文山區",
+      address: "台北市中正區金華街30-5號2樓"
     },
-    generate: {},
-    schema: [
-      {
-        "component": "h3",
-        "children": "Student registration"
-      },
-      {
-        "label": "Your name",
-        "name": "name",
-        "validation": "required"
-      },
-      {
-        component: 'div',
-        children: 'sdfsdf'
-      },
-      {
-        "type": "submit"
-      }
-    ]
+
   },
   computed: {
     testFilter: function(){
