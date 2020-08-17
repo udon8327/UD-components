@@ -1579,14 +1579,16 @@ Vue.component("el-button", {
 });
 
 
-//Alert 警告彈窗
-Vue.component("dev-alert", {
-  name: "DevAlert",
+//Alert 警告彈窗(調用式)
+let DevAlertExtend = Vue.extend({
   template: `
     <transition name="fade">
       <div class="ud-alert" v-if="isShow">
-        <div class="modal-wrapper" @click="onMaskClose">
+        <div class="modal-wrapper" @click.self="onMaskClose">
           <div class="modal-content">
+            <div class="modal-close" v-if="btnClose" @click="destroy">
+              <i class="fas fa-times"></i>
+            </div>
             <div class="modal-header" v-if="title">
               <p>{{ title }}</p>
             </div>
@@ -1606,41 +1608,42 @@ Vue.component("dev-alert", {
   `,
   data() {
     return {
-      title: "",
-      msg: "資料傳輸失敗，請稍候再試",
-      confirmTxt: "OK",
-      maskClose: false,
-      onConfirm: function() {
-        this.uninstall();
-      },
       isShow: false,
+      isLock: false, //防止destroy重複觸發
+      title: "", //警告標題
+      msg: "資料傳輸失敗，請稍候再試", //警告訊息
+      confirmTxt: "OK", //確認鈕文字
+      maskClose: false, //有無點擊遮罩關閉
+      btnClose: false, //有無右上關閉鈕
+      onConfirm() {
+        this.destroy();
+      },
     }
   },
   mounted() {
     this.isShow = true;
   },
   methods: {
-    uninstall() {
-      this.isShow = false;
-      let _this = this;
-      setTimeout(function(){
-        _this.$destroy(true);
-        _this.$el.parentNode.removeChild(_this.$el);
-      }, 100);
-    },
     confirmHandler() {
-      (typeof this.onConfirm === 'function') && this.onConfirm()
-      this.uninstall();
+      typeof this.onConfirm === 'function' && this.onConfirm();
+      this.destroy();
     },
     onMaskClose() {
-      this.maskClose && this.uninstall();
-    }
+      this.maskClose && this.destroy();
+    },
+    destroy() {
+      if(this.isLock) return;
+      this.isLock = true;
+      this.isShow = false;
+      setTimeout(() => {
+        this.$destroy(true);
+        this.$el.parentNode.removeChild(this.$el);
+      }, 200);
+    },
   },
 });
 
-const DevAlertExtend = Vue.component('dev-alert');
-            
-const DevAlertInstance = (options) => {
+Vue.prototype.$alert = (options) => {
   let $ele = document.createElement("div");
   document.body.appendChild($ele);
   new DevAlertExtend({
@@ -1650,4 +1653,6 @@ const DevAlertInstance = (options) => {
   }).$mount($ele);
 };
 
-Vue.prototype.$alert = DevAlertInstance;
+Vue.prototype.$loading = () => {
+  console.log('載入中...');
+}

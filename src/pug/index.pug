@@ -11,9 +11,8 @@ block modal
     img(src="https://imgur.com/DIC7dRT.jpg", alt="")
 
 block content
-  ud-button(@click="alert") 警告
   .flex-wrapper
-    ud-button(@click="showAlert('alert開了')") alert
+    ud-button(@click="alert") alert
     ud-button(@click="showConfirm('confirm開了')") confirm
     ud-button(@click="showModal('modal開了')") modal
   p inputVal: {{ inputVal }}

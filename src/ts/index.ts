@@ -76,11 +76,17 @@ let vm = new Vue({
       this.$alert(
         {
           title: "警告",
-          msg: '確定要送出嗎?',
-          onConfirm: ()=>{
+          msg: `${this.title}您好，確定要送出嗎?`,
+          btnClose: true,
+          onConfirm: () => {
+            this.$formulate.submit('my-form');
             this.$alert(
               {
-                msg: "已成功送出!"
+                maskClose: true,
+                msg: "已成功送出!",
+                onConfirm: function(){
+                  this.$alert();
+                }
               }
             )
           }

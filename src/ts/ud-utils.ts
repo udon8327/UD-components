@@ -3,7 +3,7 @@ declare var $: (selector: string) => any;
 /*
 ==================== 工具函數目錄 ====================
 String
-  將字串內換行符\n轉為<br> -----> convertNl
+  將字串內換行符\n轉為<br> -----> nl2br
   取得隨機十六進制顏色 -----> randomHexColorCode
   取得隨機字串 -----> randomString
   金錢加入千分位逗號 -----> formatNumber

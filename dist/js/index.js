@@ -69,10 +69,16 @@ var vm = new Vue({
             var _this = this;
             this.$alert({
                 title: "警告",
-                msg: '確定要送出嗎?',
+                msg: this.title + "\u60A8\u597D\uFF0C\u78BA\u5B9A\u8981\u9001\u51FA\u55CE?",
+                btnClose: true,
                 onConfirm: function () {
+                    _this.$formulate.submit('my-form');
                     _this.$alert({
-                        msg: "已成功送出!"
+                        maskClose: true,
+                        msg: "已成功送出!",
+                        onConfirm: function () {
+                            this.$alert();
+                        }
                     });
                 }
             });

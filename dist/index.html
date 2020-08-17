@@ -24,9 +24,8 @@
       <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"><img src="https://imgur.com/DIC7dRT.jpg" alt=""></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-button @click="alert">警告</ud-button>
           <div class="flex-wrapper">
-            <ud-button @click="showAlert('alert開了')">alert</ud-button>
+            <ud-button @click="alert">alert</ud-button>
             <ud-button @click="showConfirm('confirm開了')">confirm</ud-button>
             <ud-button @click="showModal('modal開了')">modal</ud-button>
           </div>
