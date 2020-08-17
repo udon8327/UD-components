@@ -41,7 +41,7 @@ Notice
   Popover 氣泡框 -----> ud-popover
 
 Tools
-  Nl2br 換行符轉換 -----> ud-nl2br
+  Html 用戶自定義訊息 -----> ud-html
   Backtop 回到頂部 -----> ud-backtop
   Ellipsis 文字省略 -----> ud-ellipsis
   CountdownExpire 倒數計時(時限) -----> ud-countdown-expire
@@ -1109,13 +1109,16 @@ Vue.component('ud-popover', {
 })
 
 //-----------------------Tools-----------------------
-//Nl2br 換行符轉換
-Vue.component('ud-nl2br', {
+//Html 用戶自定義訊息
+Vue.component('ud-html', {
   template: `
-    <p v-html="nl2br(text)"></p>
+    <div class="ud-html" v-html="nl2br(text)"></div>
   `,
   props: {
-    text: String,
+    text: {
+      type: String,
+      default: "<h1>H1 用戶自定義訊息</h1><h2>H2 用戶自定義訊息</h2><h3>H3 用戶自定義訊息</h3><h4>H4 用戶自定義訊息</h4><h5>H5 用戶自定義訊息</h5><h6>H6 用戶自定義訊息</h6>\n<p>p 用戶自定義訊息</p><span>span 用戶自定義訊息</span>"
+    }
   },
   methods: {
     nl2br: function(str, is_xhtml) {
@@ -1581,10 +1584,10 @@ Vue.component("dev-alert", {
   name: "DevAlert",
   template: `
     <transition name="fade">
-      <div class="ud-alert" v-show="isShow">
-        <div class="modal-wrapper">
+      <div class="ud-alert" v-if="isShow">
+        <div class="modal-wrapper" @click="onMaskClose">
           <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" v-if="title">
               <p>{{ title }}</p>
             </div>
             <div class="modal-body">
@@ -1603,9 +1606,10 @@ Vue.component("dev-alert", {
   `,
   data() {
     return {
-      title: "警告",
-      msg: "警告訊息",
+      title: "",
+      msg: "資料傳輸失敗，請稍候再試",
       confirmTxt: "OK",
+      maskClose: false,
       onConfirm: function() {
         this.uninstall();
       },
@@ -1622,25 +1626,28 @@ Vue.component("dev-alert", {
       setTimeout(function(){
         _this.$destroy(true);
         _this.$el.parentNode.removeChild(_this.$el);
-      }, 400);
+      }, 100);
     },
     confirmHandler() {
       (typeof this.onConfirm === 'function') && this.onConfirm()
       this.uninstall();
+    },
+    onMaskClose() {
+      this.maskClose && this.uninstall();
     }
   },
 });
 
-const Profile = Vue.extend(Vue.component('dev-alert'));
+const DevAlertExtend = Vue.component('dev-alert');
             
-const PortfolioMsg = (options) => {
+const DevAlertInstance = (options) => {
   let $ele = document.createElement("div");
   document.body.appendChild($ele);
-  new Profile({
+  new DevAlertExtend({
     data() {
       return options;
     }
   }).$mount($ele);
 };
 
-Vue.prototype.$alert = PortfolioMsg;
+Vue.prototype.$alert = DevAlertInstance;

@@ -40,7 +40,7 @@
 //   Popover 氣泡框 -----> ud-popover
 
 // Tools
-//   Nl2br 換行符轉換 -----> ud-nl2br
+//   Html 用戶自定義訊息 -----> ud-html
 //   Backtop 回到頂部 -----> ud-backtop
 //   Ellipsis 文字省略 -----> ud-ellipsis
 //   CountdownExpire 倒數計時(時限) -----> ud-countdown-expire
@@ -338,6 +338,11 @@
       text-align: center
       padding: 15px
       box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.3)
+      p
+        text-align: center
+        font-size: 16px
+        margin-bottom: 20px
+        color: $text2
       .modal-close
         position: absolute
         padding: 10px 15px
@@ -351,11 +356,10 @@
           transition: all 0.2s ease
           font-size: 18px
           color: #777
-      p
-        font-size: 16px
-        margin-bottom: 20px
-        color: $text2
-        display: inline-block
+      .modal-header
+        p
+          margin-bottom: 15px
+          font-weight: bold
 
 // Confirm 確認彈窗
 .ud-confirm
@@ -457,8 +461,24 @@
 .ud-popover
 
 //-----------------------Tools-----------------------
-// Nl2br 換行符轉換
-.ud-nl2br
+// Html 用戶自定義訊息
+.ud-html
+  h1
+    font-size: 32px
+  h2
+    font-size: 24px
+  h3
+    font-size: 18px
+  h4
+    font-size: 16px
+  h5
+    font-size: 14px
+  h6
+    font-size: 12px
+  p,span,label
+    font-size: 16px
+    @media (max-width: 340px)
+      font-size: 14px
 
 // Backtop 回到頂部
 .ud-backtop
@@ -557,7 +577,7 @@
   opacity: 0
 
 .fade-enter-active, .fade-leave-active
-  transition: opacity .1s
+  transition: opacity .2s
 .fade-enter, .fade-leave-to
   opacity: 0
 

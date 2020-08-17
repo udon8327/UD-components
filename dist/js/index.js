@@ -44,6 +44,7 @@ var vm = new Vue({
         }
     },
     mounted: function () {
+        this.getData();
     },
     methods: {
         success: function () {
@@ -65,11 +66,35 @@ var vm = new Vue({
             this.modalMessage = msg;
         },
         alert: function () {
-            this.$alert({ msg: '確定要送出嗎?' });
+            var _this = this;
+            this.$alert({
+                title: "警告",
+                msg: '確定要送出嗎?',
+                onConfirm: function () {
+                    _this.$alert({
+                        msg: "已成功送出!"
+                    });
+                }
+            });
         },
         confirm: function () {
             this.$formulate.submit('my-form');
             this.isConfirmShow = 0;
+        },
+        getData: function () {
+            var _this = this;
+            var _this = this;
+            axios
+                .get('https://udon8327.synology.me/ajax/success.php')
+                .then(function (res) {
+                _this.userData = res.data.userData;
+            })
+                .catch(function (err) {
+                _this.$alert();
+            })
+                .finally(function () {
+                _this.$loading();
+            });
         }
     }
 });
