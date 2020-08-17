@@ -26,7 +26,7 @@ var vm = new Vue({
         // formObj: ["妮可","花丸","步夢","凜","阿霞"],
         form: {
             county: "台北市",
-            area: "文山區",
+            area: "中正區",
             address: "台北市中正區金華街30-5號2樓"
         },
     },
@@ -46,7 +46,7 @@ var vm = new Vue({
     mounted: function () {
     },
     methods: {
-        alert: function () {
+        success: function () {
             alert('表單成功送出');
         },
         random: function () {
@@ -63,6 +63,13 @@ var vm = new Vue({
         showModal: function (msg) {
             this.isModalShow = 1;
             this.modalMessage = msg;
+        },
+        alert: function () {
+            this.$alert({ msg: '確定要送出嗎?' });
+        },
+        confirm: function () {
+            this.$formulate.submit('my-form');
+            this.isConfirmShow = 0;
         }
     }
 });

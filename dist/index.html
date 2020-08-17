@@ -13,18 +13,23 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
-    <link href="css/ud-modules.css" rel="stylesheet">
-    <link href="css/ud-dev.css" rel="stylesheet">
+    <link href="css/ud-components.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
   </head>
   <body>
     <noscript>Your browser does not support JavaScript!</noscript>
     <div id="app">
       <ud-alert v-model="isAlertShow" mask-cancel :message="alertMessage"></ud-alert>
-      <ud-confirm :is-show="isConfirmShow" mask-cancel :message="confirmMessage" @cancel="isConfirmShow = 0" @confirm="$formulate.submit('my-form')"></ud-confirm>
+      <ud-confirm v-model="isConfirmShow" mask-cancel :message="confirmMessage" @confirm="confirm" confirm-txt="送出"></ud-confirm>
       <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"><img src="https://imgur.com/DIC7dRT.jpg" alt=""></ud-modal>
       <div class="container">
         <div class="wrapper">
+          <ud-button @click="alert">警告</ud-button>
+          <div class="flex-wrapper">
+            <ud-button @click="showAlert('alert開了')">alert</ud-button>
+            <ud-button @click="showConfirm('confirm開了')">confirm</ud-button>
+            <ud-button @click="showModal('modal開了')">modal</ud-button>
+          </div>
           <p>inputVal: {{ inputVal }}</p>
           <ud-input v-model="inputVal" placeholder="請輸入姓名"></ud-input>
           <hr>
@@ -43,11 +48,8 @@
           <p>selectVal: {{ selectVal }}</p>
           <ud-select v-model="selectVal" :options="formObj" ref="test"></ud-select>
           <hr>
-          <ud-button @click="showAlert('alert開了')">alert</ud-button>
-          <ud-button @click="showConfirm('confirm開了')">confirm</ud-button>
-          <ud-button @click="showModal('modal開了')">modal</ud-button>
           <h1>{{ form }}</h1>
-          <formulate-form v-model="form" @submit="alert" name="my-form">
+          <formulate-form v-model="form" @submit="success" name="my-form">
             <ud-vf-item label="姓名">
               <ud-name></ud-name>
             </ud-vf-item>
@@ -67,7 +69,7 @@
               <ud-date name="startAt"></ud-date>
             </ud-vf-item>
             <ud-vf-item label="地址">
-              <ud-address-group input-only></ud-address-group>
+              <ud-address-group></ud-address-group>
             </ud-vf-item>
             <ud-accept>
               <p>我同意酷必資訊<a href="https://goo.gl/">使用者條款</a>!</p>
@@ -78,24 +80,11 @@
         </div>
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js"></script>
-    <script>
-      !window.Vue && document.write(`
-        <link href="https://pro.fontawesome.com/releases/v5.13.1/css/fontawesome.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"><\/script>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"><\/script>
-        <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"><\/script>
-        <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js"><\/script>
-        <script src="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js"><\/script>
-      `);
-    </script>
-    <script src="js/ud-modules.js"></script>
-    <script src="js/ud-dev.js"></script>
+    <script src="js/ud-utils.js"></script>
+    <script src="js/ud-components.js"></script>
     <script src="js/index.js"></script>
   </body>
 </html>

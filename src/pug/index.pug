@@ -6,11 +6,16 @@ block css
 
 block modal
   ud-alert(v-model="isAlertShow" mask-cancel :message="alertMessage")
-  ud-confirm(:is-show="isConfirmShow" mask-cancel :message="confirmMessage" @cancel="isConfirmShow = 0" @confirm="$formulate.submit('my-form')")
+  ud-confirm(v-model="isConfirmShow" mask-cancel :message="confirmMessage" @confirm="confirm" confirm-txt="送出")
   ud-modal(:is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
     img(src="https://imgur.com/DIC7dRT.jpg", alt="")
 
 block content
+  ud-button(@click="alert") 警告
+  .flex-wrapper
+    ud-button(@click="showAlert('alert開了')") alert
+    ud-button(@click="showConfirm('confirm開了')") confirm
+    ud-button(@click="showModal('modal開了')") modal
   p inputVal: {{ inputVal }}
   ud-input(v-model="inputVal" placeholder="請輸入姓名")
   hr
@@ -29,12 +34,9 @@ block content
   p selectVal: {{ selectVal }}
   ud-select(v-model="selectVal" :options="formObj" ref="test")
   hr
-  ud-button(@click="showAlert('alert開了')") alert
-  ud-button(@click="showConfirm('confirm開了')") confirm
-  ud-button(@click="showModal('modal開了')") modal
   h1 {{ form }}
   //- h1 {{ generate }}
-  formulate-form(v-model="form" @submit="alert" name="my-form")
+  formulate-form(v-model="form" @submit="success" name="my-form")
     ud-vf-item(label="姓名")
       ud-name
     ud-vf-item(label="性別")
@@ -48,7 +50,7 @@ block content
     ud-vf-item(label="開始日期")
       ud-date(name="startAt")
     ud-vf-item(label="地址")
-      ud-address-group(input-only)
+      ud-address-group
     ud-accept
       p 我同意酷必資訊#[a(href="https://goo.gl/") 使用者條款]!
     //- formulate-input(type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}")

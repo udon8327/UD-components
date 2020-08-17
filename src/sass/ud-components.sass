@@ -65,7 +65,7 @@
   display: inline-block
   white-space: nowrap
   cursor: pointer
-  background-color: $primary
+  background-color: $main
   border: none
   color: #fff
   line-height: 1
@@ -78,11 +78,11 @@
   & + &
     margin-left: 10px
   &:hover,&:focus
-    background-color: lighten($primary, 10%)
+    background-color: lighten($main, 10%)
   &.is-plain
     background-color: #fff
-    border: 1px solid $primary
-    color: $primary
+    border: 1px solid $main
+    color: $main
     &:hover,&:focus
   &.is-disabled
     background-color: #ccc
@@ -551,8 +551,14 @@
 
 //-----------------------Global-----------------------
 // transition
-.loading-enter,.loading-leave-active
-  transition: opacity .3s linear
+.loading-enter-active, .loading-leave-active
+  transition: opacity .2s
+.loading-enter, .loading-leave-to
+  opacity: 0
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity .1s
+.fade-enter, .fade-leave-to
   opacity: 0
 
 .flex-wrapper
@@ -590,11 +596,13 @@
     margin: 0
     position: absolute
     left: 0
-    bottom: -20px
     z-index: 90
+    bottom: -16px
+    background-color: #fff
     .formulate-file-upload-error, .formulate-input-error
       color: $danger
       font-size: 14px
+      line-height: 14px
   &[data-is-showing-errors=true]
     input,textarea,select
       border: 1px solid $danger !important
