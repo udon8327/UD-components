@@ -1631,14 +1631,14 @@ let DevAlertExtend = Vue.extend({
     this.isShow = true;
   },
   methods: {
-    confirmHandler() {
+    confirmHandler: function() {
       typeof this.onConfirm === 'function' && this.onConfirm();
       this.destroy();
     },
-    onMaskClose() {
+    onMaskClose: function() {
       this.maskClose && this.destroy();
     },
-    destroy() {
+    destroy: function() {
       if(this.isLock) return;
       this.isLock = true;
       this.isShow = false;
@@ -1650,7 +1650,7 @@ let DevAlertExtend = Vue.extend({
   },
 });
 
-Vue.prototype.$alert = (options) => {
+Vue.prototype.$alert = options => {
   let $ele = document.createElement("div");
   document.body.appendChild($ele);
   new DevAlertExtend({
@@ -1661,5 +1661,5 @@ Vue.prototype.$alert = (options) => {
 };
 
 Vue.prototype.$loading = () => {
-  console.log('載入中...');
+  console.log('載入完成!');
 }

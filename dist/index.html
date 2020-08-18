@@ -21,7 +21,7 @@
     <div id="app">
       <ud-alert v-model="isAlertShow" mask-cancel :message="alertMessage"></ud-alert>
       <ud-confirm v-model="isConfirmShow" mask-cancel :message="confirmMessage" @confirm="confirm" confirm-txt="送出"></ud-confirm>
-      <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"><img src="https://imgur.com/DIC7dRT.jpg" alt=""></ud-modal>
+      <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
           <div class="flex-wrapper">

@@ -32,7 +32,7 @@ let vm = new Vue({
       rin: "凜",
       kasumin: "阿霞"
     },
-    // formObj: ["妮可","花丸","步夢","凜","阿霞"],
+    // formArr: ["妮可","花丸","步夢","凜","阿霞"],
 
     form: {
       county: "台北市",
@@ -41,42 +41,29 @@ let vm = new Vue({
     },
 
   },
-  computed: {
-    testFilter: function(){
-      return deleteObj(this.testOptions,['maru','rin']);
-    }
-  },
-  watch: {
-    "testArr.a": {
-      deep: true,
-      handler: function(newValue, oldValue){
-        alert(`改變!${newValue}，${oldValue}`);
-      }
-    }
-  },
-  mounted: function () {
+  mounted: function() {
     this.getData();
   },
   methods: {
-    success: function(){
+    success: function() {
       alert('表單成功送出');
     },
-    random: function(){
+    random: function() {
       console.log(getRandom());
     },
-    showAlert: function(msg){
+    showAlert: function(msg) {
       this.isAlertShow = 1;
       this.alertMessage = msg;
     },
-    showConfirm: function(msg){
+    showConfirm: function(msg) {
       this.isConfirmShow = 1;
       this.confirmMessage = msg;
     },
-    showModal: function(msg){
+    showModal: function(msg) {
       this.isModalShow = 1;
       this.modalMessage = msg;
     },
-    alert: function(){
+    alert: function() {
       this.$alert(
         {
           title: "警告",
@@ -88,7 +75,7 @@ let vm = new Vue({
               {
                 maskClose: true,
                 msg: "已成功送出!",
-                onConfirm: function(){
+                onConfirm: () => {
                   this.$alert();
                 }
               }
@@ -97,22 +84,21 @@ let vm = new Vue({
         }
       );
     },
-    confirm: function(){
+    confirm(){
       this.$formulate.submit('my-form');
       this.isConfirmShow = 0;
     },
-    getData: function(){
-      let _this = this;
+    getData(){
       axios
         .get('https://udon8327.synology.me/ajax/success.php')
         .then(res => {
           this.userData = res.data.userData;
         })
         .catch(err => {
-          _this.$alert();
+          this.$alert();
         })
         .finally(() => {
-          _this.$loading();
+          this.$loading();
         })
     }
   }

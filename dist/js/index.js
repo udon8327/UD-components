@@ -23,25 +23,12 @@ var vm = new Vue({
             rin: "凜",
             kasumin: "阿霞"
         },
-        // formObj: ["妮可","花丸","步夢","凜","阿霞"],
+        // formArr: ["妮可","花丸","步夢","凜","阿霞"],
         form: {
             county: "台北市",
             area: "中正區",
             address: "台北市中正區金華街30-5號2樓"
         },
-    },
-    computed: {
-        testFilter: function () {
-            return deleteObj(this.testOptions, ['maru', 'rin']);
-        }
-    },
-    watch: {
-        "testArr.a": {
-            deep: true,
-            handler: function (newValue, oldValue) {
-                alert("\u6539\u8B8A!" + newValue + "\uFF0C" + oldValue);
-            }
-        }
     },
     mounted: function () {
         this.getData();
@@ -77,7 +64,7 @@ var vm = new Vue({
                         maskClose: true,
                         msg: "已成功送出!",
                         onConfirm: function () {
-                            this.$alert();
+                            _this.$alert();
                         }
                     });
                 }
@@ -88,7 +75,6 @@ var vm = new Vue({
             this.isConfirmShow = 0;
         },
         getData: function () {
-            var _this = this;
             var _this = this;
             axios
                 .get('https://udon8327.synology.me/ajax/success.php')

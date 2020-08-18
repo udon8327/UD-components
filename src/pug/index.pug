@@ -8,7 +8,6 @@ block modal
   ud-alert(v-model="isAlertShow" mask-cancel :message="alertMessage")
   ud-confirm(v-model="isConfirmShow" mask-cancel :message="confirmMessage" @confirm="confirm" confirm-txt="送出")
   ud-modal(:is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
-    img(src="https://imgur.com/DIC7dRT.jpg", alt="")
 
 block content
   .flex-wrapper
