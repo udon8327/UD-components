@@ -1,4 +1,8 @@
 declare var $: (selector: string) => any;
+declare class Vue {
+  name: any;
+  constructor(name: any);
+}
 
 /*
 ==================== Vue組件目錄 ====================
@@ -1589,12 +1593,13 @@ let DevAlertExtend = Vue.extend({
             <div class="modal-close" v-if="btnClose" @click="destroy">
               <i class="fas fa-times"></i>
             </div>
-            <div class="modal-header" v-if="title">
-              <p>{{ title }}</p>
+            <div class="modal-header" v-if="title || titleHtml">
+              <ud-html :text="titleHtml" v-if="titleHtml"></ud-html>
+              <p v-else>{{ title }}</p>
             </div>
             <div class="modal-body">
-              <p>{{ msg }}</p>
-              <slot></slot>
+              <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
+              <p v-else>{{ msg }}</p>
             </div>
             <div class="modal-footer">
               <div class="button-area">
@@ -1611,7 +1616,9 @@ let DevAlertExtend = Vue.extend({
       isShow: false,
       isLock: false, //防止destroy重複觸發
       title: "", //警告標題
+      titleHtml: "", //警告標題HTML
       msg: "資料傳輸失敗，請稍候再試", //警告訊息
+      msgHtml: "", //警告訊息HTML
       confirmTxt: "OK", //確認鈕文字
       maskClose: false, //有無點擊遮罩關閉
       btnClose: false, //有無右上關閉鈕

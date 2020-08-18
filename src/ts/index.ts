@@ -1,4 +1,8 @@
 declare var $: (selector: string) => any;
+declare class Vue {
+  name: any;
+  constructor(name: any);
+}
 
 Vue.use(VueFormulate);
 
