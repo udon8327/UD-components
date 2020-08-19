@@ -55,15 +55,16 @@ var vm = new Vue({
         alert: function () {
             var _this = this;
             this.$alert({
+                confirmTxt: "幹你娘",
                 title: "警告",
                 msg: this.title + "\u60A8\u597D\uFF0C\u78BA\u5B9A\u8981\u9001\u51FA\u55CE?",
                 btnClose: true,
-                onConfirm: function () {
+                confirm: function () {
                     _this.$formulate.submit('my-form');
                     _this.$alert({
                         maskClose: true,
                         msg: "已成功送出!",
-                        onConfirm: function () {
+                        confirm: function () {
                             _this.$alert();
                         }
                     });
@@ -71,6 +72,18 @@ var vm = new Vue({
             });
         },
         confirm: function () {
+            var _this = this;
+            this.$confirm({
+                msg: "真的要送出嗎?",
+                confirm: function () {
+                    _this.$formulate.submit('my-form');
+                    _this.$alert({
+                        msg: "已送出，謝謝您的回答",
+                    });
+                },
+            });
+        },
+        submit: function () {
             this.$formulate.submit('my-form');
             this.isConfirmShow = 0;
         },

@@ -6,13 +6,13 @@ block css
 
 block modal
   ud-alert(v-model="isAlertShow" mask-cancel :message="alertMessage")
-  ud-confirm(v-model="isConfirmShow" mask-cancel :message="confirmMessage" @confirm="confirm" confirm-txt="送出")
+  ud-confirm(v-model="isConfirmShow" mask-cancel :message="confirmMessage" @confirm="submit" confirm-txt="送出")
   ud-modal(:is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
   .flex-wrapper
     ud-button(@click="alert") alert
-    ud-button(@click="showConfirm('confirm開了')") confirm
+    ud-button(@click="confirm") confirm
     ud-button(@click="showModal('modal開了')") modal
   p inputVal: {{ inputVal }}
   ud-input(v-model="inputVal" placeholder="請輸入姓名")

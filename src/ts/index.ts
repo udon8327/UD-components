@@ -1,8 +1,4 @@
 declare var $: (selector: string) => any;
-declare class Vue {
-  name: any;
-  constructor(name: any);
-}
 
 Vue.use(VueFormulate);
 
@@ -66,16 +62,17 @@ let vm = new Vue({
     alert: function() {
       this.$alert(
         {
+          confirmTxt: "幹你娘",
           title: "警告",
           msg: `${this.title}您好，確定要送出嗎?`,
           btnClose: true,
-          onConfirm: () => {
+          confirm: () => {
             this.$formulate.submit('my-form');
             this.$alert(
               {
                 maskClose: true,
                 msg: "已成功送出!",
-                onConfirm: () => {
+                confirm: () => {
                   this.$alert();
                 }
               }
@@ -84,7 +81,18 @@ let vm = new Vue({
         }
       );
     },
-    confirm(){
+    confirm: function(){
+      this.$confirm({
+        msg: "真的要送出嗎?",
+        confirm: () => {
+          this.$formulate.submit('my-form');
+          this.$alert({
+            msg: "已送出，謝謝您的回答",
+          });
+        },
+      })
+    },
+    submit(){
       this.$formulate.submit('my-form');
       this.isConfirmShow = 0;
     },

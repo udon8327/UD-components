@@ -1,8 +1,15 @@
 declare var $: (selector: string) => any;
-declare class Vue {
-  name: any;
-  constructor(name: any);
-}
+
+/*
+==================== TODO ====================
+彈窗組件支援自定義top高度
+彈窗組件支援自定義body固定
+彈窗組件支援多重彈窗
+彈窗組件支援多種動畫效果
+表單組件樣式重整
+編寫ud-loading
+封裝axios
+*/
 
 /*
 ==================== Vue組件目錄 ====================
@@ -1584,11 +1591,11 @@ Vue.component("el-button", {
 
 
 //Alert 警告彈窗(調用式)
-let DevAlertExtend = Vue.extend({
+let UdModalExtend = Vue.extend({
   template: `
     <transition name="fade">
       <div class="ud-alert" v-if="isShow">
-        <div class="modal-wrapper" @click.self="onMaskClose">
+        <div class="modal-wrapper" @click.self="maskHandler">
           <div class="modal-content">
             <div class="modal-close" v-if="btnClose" @click="destroy">
               <i class="fas fa-times"></i>
@@ -1602,8 +1609,9 @@ let DevAlertExtend = Vue.extend({
               <p v-else>{{ msg }}</p>
             </div>
             <div class="modal-footer">
-              <div class="button-area">
-                <ud-button @click="confirmHandler">{{ confirmTxt }}</ud-button>
+              <div class="button-area flex-wrapper">
+                <ud-button @click="cancelHandler" plain v-if="isConfirm">{{ cancelTxt }}</ud-button>
+                <ud-button @click="confirmHandler">{{ confirmTxtAfter }}</ud-button>
               </div>
             </div>
           </div>
@@ -1614,17 +1622,23 @@ let DevAlertExtend = Vue.extend({
   data() {
     return {
       isShow: false,
-      isLock: false, //防止destroy重複觸發
+      isConfirm: false,
+      maskClose: false, //有無點擊遮罩關閉
+      btnClose: false, //有無右上關閉鈕
       title: "", //警告標題
       titleHtml: "", //警告標題HTML
       msg: "資料傳輸失敗，請稍候再試", //警告訊息
       msgHtml: "", //警告訊息HTML
-      confirmTxt: "OK", //確認鈕文字
-      maskClose: false, //有無點擊遮罩關閉
-      btnClose: false, //有無右上關閉鈕
-      onConfirm() {
-        this.destroy();
-      },
+      cancelTxt: "取消", //取消鈕文字
+      cancel: () => {}, //取消鈕動作
+      confirmTxt: "", //確認鈕文字
+      confirm: () => {}, //確認鈕動作
+    }
+  },
+  computed: {
+    confirmTxtAfter: function(){
+      if(this.confirmTxt) return this.confirmTxt;
+      return this.isConfirm ? "確定" : "OK";
     }
   },
   mounted() {
@@ -1632,15 +1646,17 @@ let DevAlertExtend = Vue.extend({
   },
   methods: {
     confirmHandler: function() {
-      typeof this.onConfirm === 'function' && this.onConfirm();
+      typeof this.confirm === 'function' && this.confirm();
       this.destroy();
     },
-    onMaskClose: function() {
+    cancelHandler: function() {
+      typeof this.cancel === 'function' && this.cancel();
+      this.destroy();
+    },
+    maskHandler: function() {
       this.maskClose && this.destroy();
     },
     destroy: function() {
-      if(this.isLock) return;
-      this.isLock = true;
       this.isShow = false;
       setTimeout(() => {
         this.$destroy(true);
@@ -1653,7 +1669,18 @@ let DevAlertExtend = Vue.extend({
 Vue.prototype.$alert = options => {
   let $ele = document.createElement("div");
   document.body.appendChild($ele);
-  new DevAlertExtend({
+  new UdModalExtend({
+    data() {
+      return options;
+    }
+  }).$mount($ele);
+};
+
+Vue.prototype.$confirm = options => {
+  let $ele = document.createElement("div");
+  document.body.appendChild($ele);
+  options.isConfirm = true;
+  new UdModalExtend({
     data() {
       return options;
     }
