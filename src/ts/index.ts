@@ -105,7 +105,10 @@ let vm = new Vue({
           this.$alert();
         })
         .finally(() => {
-          this.$loading();
+          this.$loading.open();
+          setTimeout(() => {
+            this.$loading.close();
+          },2000)
         })
     }
   }

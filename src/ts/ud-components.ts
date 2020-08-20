@@ -7,6 +7,7 @@ declare var $: (selector: string) => any;
 彈窗組件支援多重彈窗
 彈窗組件支援多種動畫效果
 表單組件樣式重整
+表單組件支援disabled
 編寫ud-loading
 封裝axios
 */
@@ -1195,6 +1196,65 @@ Vue.component('ud-loading', {
   }
 })
 
+//Loading 載入中(調用式) ud-loading
+let UdLoadingExtend = Vue.extend({
+  template: `
+    <transition name="loading">
+      <div class="ud-loading" v-if="isShow" :class="{'theme-white': theme === 'white'}">
+        <div class="modal-wrapper">
+          <div class="modal-content">
+            <div class="modal-header">
+              <i :class="icon"></i>
+            </div>
+            <div class="modal-body">
+              <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
+              <p v-else>{{ msg }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  `,
+  data() {
+    return {
+      isShow: false,
+      theme: "", //戴入主題 [white]
+      icon: "fas fa-spinner fa-pulse", //載入icon
+      msg: "", //載入訊息
+      msgHtml: "", //載入訊息HTML
+    }
+  },
+  mounted() {
+    this.isShow = true;
+  },
+  methods: {
+    destroy: function() {
+      this.isShow = false;
+      document.body.style.overflowY = 'auto';
+      setTimeout(() => {
+        this.$destroy(true);
+        this.$el.parentNode.removeChild(this.$el);
+      }, 200);
+    },
+  },
+});
+
+Vue.prototype.$loading = {
+  open: options => {
+    let $ele = document.createElement("div");
+    document.body.appendChild($ele);
+    document.body.style.overflowY = 'hidden';
+    this.UdLoading = new UdLoadingExtend({
+      data() {
+        return options;
+      }
+    }).$mount($ele);
+  },
+  close: () => {
+    this.UdLoading.destroy();
+  }
+};
+
 //Notify 通知訊息
 Vue.component('ud-notify', {
   name: "UdNotify",
@@ -1686,62 +1746,3 @@ Vue.component("el-button", {
     }
   }
 });
-
-
-//Loading 載入中(調用式) ud-loading
-let UdLoadingExtend = Vue.extend({
-  template: `
-    <transition name="fade">
-      <div class="ud-loading" v-if="isShow" :class="{'theme-white': theme === 'white'}">
-        <div class="modal-wrapper">
-          <div class="modal-content">
-            <div class="modal-header">
-              <i :class="icon"></i>
-            </div>
-            <div class="modal-body">
-              <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
-              <p v-else>{{ msg }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-  `,
-  data() {
-    return {
-      isShow: false,
-      theme: "",
-      icon: "fas fa-spinner fa-pulse",
-      msg: "", //載入訊息
-      msgHtml: "", //載入訊息HTML
-    }
-  },
-  computed: {
-    confirmTxtAfter: function(){
-      if(this.confirmTxt) return this.confirmTxt;
-      return this.isConfirm ? "確定" : "OK";
-    }
-  },
-  mounted() {
-    this.isShow = true;
-  },
-  methods: {
-    destroy: function() {
-      this.isShow = false;
-      setTimeout(() => {
-        this.$destroy(true);
-        this.$el.parentNode.removeChild(this.$el);
-      }, 200);
-    },
-  },
-});
-
-Vue.prototype.$loading = options => {
-  let $ele = document.createElement("div");
-  document.body.appendChild($ele);
-  new UdLoadingExtend({
-    data() {
-      return options;
-    }
-  }).$mount($ele);
-};

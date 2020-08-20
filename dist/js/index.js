@@ -97,7 +97,10 @@ var vm = new Vue({
                 _this.$alert();
             })
                 .finally(function () {
-                _this.$loading();
+                _this.$loading.open();
+                setTimeout(function () {
+                    _this.$loading.close();
+                }, 2000);
             });
         }
     }
