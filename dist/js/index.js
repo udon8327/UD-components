@@ -55,7 +55,6 @@ var vm = new Vue({
         alert: function () {
             var _this = this;
             this.$alert({
-                confirmTxt: "幹你娘",
                 title: "警告",
                 msg: this.title + "\u60A8\u597D\uFF0C\u78BA\u5B9A\u8981\u9001\u51FA\u55CE?",
                 btnClose: true,

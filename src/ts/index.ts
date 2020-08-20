@@ -62,7 +62,6 @@ let vm = new Vue({
     alert: function() {
       this.$alert(
         {
-          confirmTxt: "幹你娘",
           title: "警告",
           msg: `${this.title}您好，確定要送出嗎?`,
           btnClose: true,

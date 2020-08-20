@@ -46,6 +46,7 @@ Data
 Notice
   Alert 警告彈窗 -----> ud-alert
   Confirm 確認彈窗 -----> ud-confirm
+  AlertConfirm 警告確認彈窗(調用式) -----> ud-alertConfirm
   Modal 通用彈窗 -----> ud-modal
   Loading 加載中 -----> ud-loading
   Notify 通知訊息 -----> ud-notify
@@ -1021,6 +1022,103 @@ Vue.component("ud-confirm", {
   },
 });
 
+//AlertConfirm 警告確認彈窗(調用式) ud-alertConfirm
+let UdModalExtend = Vue.extend({
+  template: `
+    <transition name="fade">
+      <div class="ud-alert" v-if="isShow">
+        <div class="modal-wrapper" @click.self="maskHandler">
+          <div class="modal-content">
+            <div class="modal-close" v-if="btnClose" @click="destroy">
+              <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-header" v-if="title || titleHtml">
+              <ud-html :text="titleHtml" v-if="titleHtml"></ud-html>
+              <p v-else>{{ title }}</p>
+            </div>
+            <div class="modal-body">
+              <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
+              <p v-else>{{ msg }}</p>
+            </div>
+            <div class="modal-footer">
+              <div class="button-area flex-wrapper">
+                <ud-button @click="cancelHandler" plain v-if="isConfirm">{{ cancelTxt }}</ud-button>
+                <ud-button @click="confirmHandler">{{ confirmTxtAfter }}</ud-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  `,
+  data() {
+    return {
+      isShow: false,
+      isConfirm: false,
+      maskClose: false, //有無點擊遮罩關閉
+      btnClose: false, //有無右上關閉鈕
+      title: "", //警告標題
+      titleHtml: "", //警告標題HTML
+      msg: "資料傳輸失敗，請稍候再試", //警告訊息
+      msgHtml: "", //警告訊息HTML
+      cancelTxt: "取消", //取消鈕文字
+      cancel: () => {}, //取消鈕動作
+      confirmTxt: "", //確認鈕文字
+      confirm: () => {}, //確認鈕動作
+    }
+  },
+  computed: {
+    confirmTxtAfter: function(){
+      if(this.confirmTxt) return this.confirmTxt;
+      return this.isConfirm ? "確定" : "OK";
+    }
+  },
+  mounted() {
+    this.isShow = true;
+  },
+  methods: {
+    confirmHandler: function() {
+      typeof this.confirm === 'function' && this.confirm();
+      this.destroy();
+    },
+    cancelHandler: function() {
+      typeof this.cancel === 'function' && this.cancel();
+      this.destroy();
+    },
+    maskHandler: function() {
+      this.maskClose && this.destroy();
+    },
+    destroy: function() {
+      this.isShow = false;
+      setTimeout(() => {
+        this.$destroy(true);
+        this.$el.parentNode.removeChild(this.$el);
+      }, 200);
+    },
+  },
+});
+
+Vue.prototype.$alert = options => {
+  let $ele = document.createElement("div");
+  document.body.appendChild($ele);
+  new UdModalExtend({
+    data() {
+      return options;
+    }
+  }).$mount($ele);
+};
+
+Vue.prototype.$confirm = options => {
+  let $ele = document.createElement("div");
+  document.body.appendChild($ele);
+  options.isConfirm = true;
+  new UdModalExtend({
+    data() {
+      return options;
+    }
+  }).$mount($ele);
+};
+
 //Modal 通用彈窗
 Vue.component("ud-modal", {
   name: "UdModal",
@@ -1590,29 +1688,19 @@ Vue.component("el-button", {
 });
 
 
-//Alert 警告彈窗(調用式)
-let UdModalExtend = Vue.extend({
+//Loading 載入中(調用式) ud-loading
+let UdLoadingExtend = Vue.extend({
   template: `
     <transition name="fade">
-      <div class="ud-alert" v-if="isShow">
-        <div class="modal-wrapper" @click.self="maskHandler">
+      <div class="ud-loading" v-if="isShow" :class="{'theme-white': theme === 'white'}">
+        <div class="modal-wrapper">
           <div class="modal-content">
-            <div class="modal-close" v-if="btnClose" @click="destroy">
-              <i class="fas fa-times"></i>
-            </div>
-            <div class="modal-header" v-if="title || titleHtml">
-              <ud-html :text="titleHtml" v-if="titleHtml"></ud-html>
-              <p v-else>{{ title }}</p>
+            <div class="modal-header">
+              <i :class="icon"></i>
             </div>
             <div class="modal-body">
               <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
               <p v-else>{{ msg }}</p>
-            </div>
-            <div class="modal-footer">
-              <div class="button-area flex-wrapper">
-                <ud-button @click="cancelHandler" plain v-if="isConfirm">{{ cancelTxt }}</ud-button>
-                <ud-button @click="confirmHandler">{{ confirmTxtAfter }}</ud-button>
-              </div>
             </div>
           </div>
         </div>
@@ -1622,17 +1710,10 @@ let UdModalExtend = Vue.extend({
   data() {
     return {
       isShow: false,
-      isConfirm: false,
-      maskClose: false, //有無點擊遮罩關閉
-      btnClose: false, //有無右上關閉鈕
-      title: "", //警告標題
-      titleHtml: "", //警告標題HTML
-      msg: "資料傳輸失敗，請稍候再試", //警告訊息
-      msgHtml: "", //警告訊息HTML
-      cancelTxt: "取消", //取消鈕文字
-      cancel: () => {}, //取消鈕動作
-      confirmTxt: "", //確認鈕文字
-      confirm: () => {}, //確認鈕動作
+      theme: "",
+      icon: "fas fa-spinner fa-pulse",
+      msg: "", //載入訊息
+      msgHtml: "", //載入訊息HTML
     }
   },
   computed: {
@@ -1645,17 +1726,6 @@ let UdModalExtend = Vue.extend({
     this.isShow = true;
   },
   methods: {
-    confirmHandler: function() {
-      typeof this.confirm === 'function' && this.confirm();
-      this.destroy();
-    },
-    cancelHandler: function() {
-      typeof this.cancel === 'function' && this.cancel();
-      this.destroy();
-    },
-    maskHandler: function() {
-      this.maskClose && this.destroy();
-    },
     destroy: function() {
       this.isShow = false;
       setTimeout(() => {
@@ -1666,27 +1736,12 @@ let UdModalExtend = Vue.extend({
   },
 });
 
-Vue.prototype.$alert = options => {
+Vue.prototype.$loading = options => {
   let $ele = document.createElement("div");
   document.body.appendChild($ele);
-  new UdModalExtend({
+  new UdLoadingExtend({
     data() {
       return options;
     }
   }).$mount($ele);
 };
-
-Vue.prototype.$confirm = options => {
-  let $ele = document.createElement("div");
-  document.body.appendChild($ele);
-  options.isConfirm = true;
-  new UdModalExtend({
-    data() {
-      return options;
-    }
-  }).$mount($ele);
-};
-
-Vue.prototype.$loading = () => {
-  console.log('載入完成!');
-}
