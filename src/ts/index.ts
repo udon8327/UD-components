@@ -1,5 +1,7 @@
 declare var $: (selector: string) => any;
 
+const baseURL = "https://udon8327.synology.me/";
+
 Vue.use(VueFormulate);
 
 let vm = new Vue({
@@ -29,7 +31,6 @@ let vm = new Vue({
       kasumin: "阿霞"
     },
     // formArr: ["妮可","花丸","步夢","凜","阿霞"],
-
     form: {
       county: "台北市",
       area: "中正區",
@@ -95,21 +96,12 @@ let vm = new Vue({
       this.$formulate.submit('my-form');
       this.isConfirmShow = 0;
     },
+    //API
     getData(){
-      axios
-        .get('https://udon8327.synology.me/ajax/success.php')
-        .then(res => {
-          this.userData = res.data.userData;
-        })
-        .catch(err => {
-          this.$alert();
-        })
-        .finally(() => {
-          this.$loading.open();
-          setTimeout(() => {
-            this.$loading.close();
-          },2000)
-        })
+      get(baseURL + 'ajax/success.php', {id: "test"})
+      .then(res => {
+        this.$alert({msg: `${res.userData.name}，傳輸成功!`})
+      })
     }
   }
 });

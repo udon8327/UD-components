@@ -1,3 +1,5 @@
+- var env = "dev";
+
 doctype html
 html(lang='zh-Hant-TW')
   head
@@ -29,7 +31,7 @@ html(lang='zh-Hant-TW')
           block content
 
     //- script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js')
+    script(src=`https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.${env==="dev"?"common.dev":"min"}.js`)
     script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js')
     //- script(src='https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.13.2/index.js')
     script(src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js")

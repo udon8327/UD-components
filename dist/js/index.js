@@ -1,3 +1,4 @@
+var baseURL = "https://udon8327.synology.me/";
 Vue.use(VueFormulate);
 var vm = new Vue({
     el: "#app",
@@ -86,21 +87,12 @@ var vm = new Vue({
             this.$formulate.submit('my-form');
             this.isConfirmShow = 0;
         },
+        //API
         getData: function () {
             var _this = this;
-            axios
-                .get('https://udon8327.synology.me/ajax/success.php')
+            get(baseURL + 'ajax/success.php', { id: "test" })
                 .then(function (res) {
-                _this.userData = res.data.userData;
-            })
-                .catch(function (err) {
-                _this.$alert();
-            })
-                .finally(function () {
-                _this.$loading.open();
-                setTimeout(function () {
-                    _this.$loading.close();
-                }, 2000);
+                _this.$alert({ msg: res.userData.name + "\uFF0C\u50B3\u8F38\u6210\u529F!" });
             });
         }
     }

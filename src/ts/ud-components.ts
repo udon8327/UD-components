@@ -8,8 +8,8 @@ declare var $: (selector: string) => any;
 彈窗組件支援多種動畫效果
 表單組件樣式重整
 表單組件支援disabled
-編寫ud-loading
 封裝axios
+編寫日期聯動組件
 */
 
 /*
@@ -1079,15 +1079,15 @@ let UdModalExtend = Vue.extend({
   },
   methods: {
     confirmHandler: function() {
-      typeof this.confirm === 'function' && this.confirm();
+      if(typeof this.confirm === 'function') this.confirm();
       this.destroy();
     },
     cancelHandler: function() {
-      typeof this.cancel === 'function' && this.cancel();
+      if(typeof this.cancel === 'function') this.cancel();
       this.destroy();
     },
     maskHandler: function() {
-      this.maskClose && this.destroy();
+      if(this.maskClose) this.destroy();
     },
     destroy: function() {
       this.isShow = false;
@@ -1100,24 +1100,24 @@ let UdModalExtend = Vue.extend({
 });
 
 Vue.prototype.$alert = options => {
-  let $ele = document.createElement("div");
-  document.body.appendChild($ele);
-  new UdModalExtend({
+  let UdAlert = new UdModalExtend({
+    el: document.createElement('div'),
     data() {
       return options;
     }
-  }).$mount($ele);
+  })
+  document.body.appendChild(UdAlert.$el);
 };
 
 Vue.prototype.$confirm = options => {
-  let $ele = document.createElement("div");
-  document.body.appendChild($ele);
   options.isConfirm = true;
-  new UdModalExtend({
+  let UdConfirm = new UdModalExtend({
+    el: document.createElement('div'),
     data() {
       return options;
     }
-  }).$mount($ele);
+  })
+  document.body.appendChild(UdConfirm.$el);
 };
 
 //Modal 通用彈窗
@@ -1170,35 +1170,6 @@ Vue.component("ud-modal", {
 Vue.component('ud-loading', {
   name: "UdLoading",
   template: `
-    <transition name="loading" >
-      <div class="mask" @touchmove.stop.prevent v-show="visible">
-        <div class="showContent">
-          <i class="fas fa-spinner fa-pulse" v-if="loading"></i>
-          <image src="../static/img/loading1.gif" class="loadingImg"></image>
-          <text class="lable">{{label}}</text>
-        </div>
-      </div>
-    </transition>
-  `,
-  data() {
-    return {
-      visible:false
-    }
-  },
-  props: {
-    type:{
-
-    },
-    label:{
-      default: "加載中...",
-      type: String
-    }
-  }
-})
-
-//Loading 載入中(調用式) ud-loading
-let UdLoadingExtend = Vue.extend({
-  template: `
     <transition name="loading">
       <div class="ud-loading" v-if="isShow" :class="{'theme-white': theme === 'white'}">
         <div class="modal-wrapper">
@@ -1217,9 +1188,44 @@ let UdLoadingExtend = Vue.extend({
   `,
   data() {
     return {
+      isShow: false
+    }
+  },
+  props: {
+    label:{
+      default: "加載中...",
+      type: String
+    }
+  }
+})
+
+//Loading 載入中(調用式) ud-loading
+let UdLoadingExtend = Vue.extend({
+  template: `
+    <transition name="loading">
+      <div class="ud-loading" v-if="isShow" :class="{'theme-white': theme === 'white'}">
+        <div class="modal-wrapper">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img v-if="customIcon" class="cutsom-icon" :src="customIcon">
+              <i v-else :class="icon"></i>
+            </div>
+            <div class="modal-body">
+              <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
+              <p v-else>{{ msg }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  `,
+  data() {
+    return {
       isShow: false,
+      fixed: false, //是否固定body
       theme: "", //戴入主題 [white]
       icon: "fas fa-spinner fa-pulse", //載入icon
+      customIcon: "",
       msg: "", //載入訊息
       msgHtml: "", //載入訊息HTML
     }
@@ -1239,19 +1245,20 @@ let UdLoadingExtend = Vue.extend({
   },
 });
 
+let UdLoading;
 Vue.prototype.$loading = {
-  open: options => {
-    let $ele = document.createElement("div");
-    document.body.appendChild($ele);
-    document.body.style.overflowY = 'hidden';
-    this.UdLoading = new UdLoadingExtend({
+  open: (options = {}) => {
+    UdLoading = new UdLoadingExtend({
+      el: document.createElement("div"),
       data() {
         return options;
       }
-    }).$mount($ele);
+    })
+    if(UdLoading.fixed) document.body.style.overflowY = 'hidden';
+    document.body.appendChild(UdLoading.$el);
   },
   close: () => {
-    this.UdLoading.destroy();
+    UdLoading.destroy();
   }
 };
 

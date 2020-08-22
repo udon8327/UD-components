@@ -29,7 +29,8 @@ Array
 
 Object
   精準型別判斷 -----> typeOf
-  深拷貝 -----> deepCopy
+  深拷貝(簡易版) -----> deepCloneSimple
+  深拷貝(完全版) -----> deepClone
 
 Time
   檢查是否為閏年 -----> isLeapYear
@@ -41,6 +42,8 @@ Time
   返回幾天前後的日期 -----> getDiffDate
   時間個性化輸出功能 -----> timeFormat
   隨機數時間戳 -----> uniqueId
+  解析時間 -----> parseTime
+  時間人性化 -----> formatTime
 
 DOM
   瞬間滾動至頂部 -----> anchorTop
@@ -84,6 +87,9 @@ Device
   判斷是否移動裝置 -----> isMobileUserAgent
   判斷是否蘋果移動裝置 -----> isAppleMobileDevice
   判斷是否安卓移動裝置 -----> isAndroidMobileDevice
+
+Animation
+  RAF通用動畫函式 -----> animate
 */
 
 //初始化執行
@@ -264,27 +270,38 @@ function deleteObj(obj,arr){
   return tempObj;
 }
 
-//深拷貝
-function deepCopy(data) {
-  const dataType = typeOf(data);
-  let newData;
-  if (dataType === "array") {
-    newData = [];
-  } else if (dataType === "object") {
-    newData = {};
-  } else {
-    return data;
+//深拷貝(簡易版)
+  //無法拷貝特殊類型值與funciton
+function deepCloneSimple(obj){
+  return JSON.parse(JSON.stringify(obj));
+}
+
+//深拷貝(完全版)
+function deepClone(obj, hash = new WeakMap()) {
+  if(obj == null){
+    return obj;
   }
-  if (dataType === "array") {
-    for (let i = 0; i < data.length; i++) {
-      newData.push(deepCopy(data[i]));
-    }
-  } else if (dataType === "object") {
-    for (let i in data) {
-      newData[i] = deepCopy(data[i]);
+  if (obj instanceof RegExp) {
+    return new RegExp(obj);
+  }
+  if (obj instanceof Date) {
+    return new Date(obj);
+  }
+  if(obj instanceof Error) {
+    return new Error(obj);
+  }
+  if(typeof obj !== 'object'){
+    return obj;
+  }
+  if(hash.get(obj)) return hash.get(obj); 
+  let cloneObj = new obj.constructor;
+  hash.set(obj, cloneObj);
+  for(let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      cloneObj[key] = deepClone(obj[key], hash);
     }
   }
-  return newData;
+  return cloneObj;
 }
 
 //-----------------------Time-----------------------
@@ -379,6 +396,89 @@ function uniqueId() {
   return (
     Number(new Date()).toString() + parseInt(10 * Math.random()) + parseInt(10 * Math.random()) + parseInt(10 * Math.random())
   );
+}
+
+//解析時間
+function parseTime(time, cFormat) {
+  if (arguments.length === 0 || !time) {
+    return null
+  }
+  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+  let date
+  if (typeof time === 'object') {
+    date = time
+  } else {
+    if ((typeof time === 'string')) {
+      if ((/^[0-9]+$/.test(time))) {
+        // support "1548221490638"
+        time = parseInt(time)
+      } else {
+        // support safari
+        // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
+        time = time.replace(new RegExp(/-/gm), '/')
+      }
+    }
+
+    if ((typeof time === 'number') && (time.toString().length === 10)) {
+      time = time * 1000
+    }
+    date = new Date(time)
+  }
+  const formatObj = {
+    y: date.getFullYear(),
+    m: date.getMonth() + 1,
+    d: date.getDate(),
+    h: date.getHours(),
+    i: date.getMinutes(),
+    s: date.getSeconds(),
+    a: date.getDay()
+  }
+  const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
+    const value = formatObj[key]
+    // Note: getDay() returns 0 on Sunday
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    return value.toString().padStart(2, '0')
+  })
+  return time_str
+}
+
+//時間人性化
+function formatTime(time, option) {
+  if (('' + time).length === 10) {
+    time = parseInt(time) * 1000
+  } else {
+    time = +time
+  }
+  const d = new Date(time)
+  const now = Date.now()
+
+  const diff = (now - d) / 1000
+
+  if (diff < 30) {
+    return '剛剛'
+  } else if (diff < 3600) {
+    // less 1 hour
+    return Math.ceil(diff / 60) + '分鐘前'
+  } else if (diff < 3600 * 24) {
+    return Math.ceil(diff / 3600) + '小時前'
+  } else if (diff < 3600 * 24 * 2) {
+    return '1天前'
+  }
+  if (option) {
+    return parseTime(time, option)
+  } else {
+    return (
+      d.getMonth() +
+      1 +
+      '月' +
+      d.getDate() +
+      '日' +
+      d.getHours() +
+      '時' +
+      d.getMinutes() +
+      '分'
+    )
+  }
 }
 
 //-----------------------DOM-----------------------
@@ -724,4 +824,131 @@ function isAppleMobileDevice() {
 //判斷是否安卓移動裝置
 function isAndroidMobileDevice() {
   return /android/i.test(navigator.userAgent.toLowerCase());
+}
+
+//-----------------------Animation-----------------------
+//RAF通用動畫函式
+  // animate({
+  //   duration: 1000,
+  //   timing(timeFraction) {
+  //     return timeFraction;
+  //   },
+  //   draw(progress) {
+  //     elem.style.width = progress * 100 + '%';
+  //   }
+  // });
+  // progress = 0 表示開始動畫狀態，progress = 1 表示結束狀態。
+function animate({timing, draw, duration}) {
+
+  let start = performance.now();
+
+  requestAnimationFrame(function animate(time) {
+    // timeFraction 從 0 增加到 1
+    let timeFraction = (time - start) / duration;
+    if (timeFraction > 1) timeFraction = 1;
+
+    // 計算當前動畫狀態
+    let progress = timing(timeFraction);
+
+    draw(progress); // 繪製
+
+    if (timeFraction < 1) {
+      requestAnimationFrame(animate);
+    }
+
+  });
+}
+
+
+
+
+
+//Axios封装
+const service = axios.create({
+  // baseURL: baseURL, // url = base url + request url
+  // withCredentials: true, // send cookies when cross-domain requests
+  timeout: 5000, // request timeout
+})
+
+// if (process.env.NODE_ENV == 'development') {
+//   axios.defaults.baseURL = '/api';
+// } else {
+//   axios.defaults.baseURL = 'http://api.123dailu.com/';
+// }
+
+// post請求頭
+service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
+// 請求攔截器
+service.interceptors.request.use(
+  config => {
+    vm.$loading.open();
+    // 每次發送請求之前判斷是否存在token，如果存在，則統一在http請求的header都加上token，不用每次請求都手動添加了
+    // 即使本地存在token，也有可能token是過期的，所以在響應攔截器中要對返回狀態進行判斷
+    // const token = "This is token^^";
+    // if(token) config.headers.Authorization = token;
+    return config;
+  },
+  error => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+)
+
+// 響應攔截器
+service.interceptors.response.use(
+  response => {
+    vm.$loading.close();
+    console.log('response: ', response);
+    if (response.status === 200) {
+      console.log('response 是200');
+      return Promise.resolve(response);
+    } else {
+      console.log('response 不是200');
+      return Promise.reject(response);
+    }
+  },
+  error => {
+    vm.$loading.close();
+    console.log('error');
+    vm.$alert({msg: error.message});
+    return Promise.reject(error)
+  }
+);
+
+/** 
+ * get方法，對應get請求
+ * @params {String} url [請求的url地址]
+ * @params {Object} params [請求時攜帶的參數]
+ */
+function get(url, params = {}){
+  return new Promise((resolve, reject) =>{
+    service.get(url, {
+      params: params
+    })
+    .then(res => {
+      resolve(res.data);
+    })
+    .catch(err => {
+      reject(err.data);
+      vm.$alert();
+    })
+  });
+}
+
+/** 
+ * post方法，對應post請求
+ * @params {String} url [請求的url地址]
+ * @params {Object} params [請求時攜帶的參數]
+ */
+function post(url, params) {
+  return new Promise((resolve, reject) => {
+    service.post(url, JSON.stringify(params))
+    .then(res => {
+      resolve(res.data);
+    })
+    .catch(err => {
+      reject(err.data);
+    })
+  });
 }
