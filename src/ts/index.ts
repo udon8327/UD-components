@@ -1,6 +1,6 @@
 declare var $: (selector: string) => any;
 
-const baseURL = "https://udon8327.synology.me/";
+const baseURL = "1https://udon8327.synology.me/";
 
 Vue.use(VueFormulate);
 
@@ -8,6 +8,7 @@ let vm = new Vue({
   el: "#app",
   data: {
     title: "UDON",
+    userData: {},
     isAlertShow: 0,
     isConfirmShow: 0,
     isModalShow: 0,
@@ -43,7 +44,7 @@ let vm = new Vue({
   },
   methods: {
     success: function() {
-      alert('表單成功送出');
+      this.$alert({msg: '表單成功送出'});
     },
     random: function() {
       console.log(getRandom());
@@ -98,9 +99,9 @@ let vm = new Vue({
     },
     //API
     getData(){
-      get(baseURL + 'ajax/success.php', {id: "test"})
+      get(baseURL + 'ajax/success.php')
       .then(res => {
-        this.$alert({msg: `${res.userData.name}，傳輸成功!`})
+        this.userData = res.userData;
       })
     }
   }

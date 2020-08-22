@@ -10,7 +10,7 @@ block modal
   ud-modal(:is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
-  h1 #{env}
+  h1 {{ userData.name }}
   .flex-wrapper
     ud-button(@click="alert") alert
     ud-button(@click="confirm") confirm

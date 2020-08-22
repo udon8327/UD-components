@@ -911,7 +911,7 @@ service.interceptors.response.use(
   error => {
     vm.$loading.close();
     console.log('error');
-    vm.$alert({msg: error.message});
+    vm.$alert({title: error.message});
     return Promise.reject(error)
   }
 );
@@ -931,7 +931,6 @@ function get(url, params = {}){
     })
     .catch(err => {
       reject(err.data);
-      vm.$alert();
     })
   });
 }

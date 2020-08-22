@@ -1060,7 +1060,7 @@ let UdModalExtend = Vue.extend({
       btnClose: false, //有無右上關閉鈕
       title: "", //警告標題
       titleHtml: "", //警告標題HTML
-      msg: "資料傳輸失敗，請稍候再試", //警告訊息
+      msg: "網路通信錯誤，請稍候再試", //警告訊息
       msgHtml: "", //警告訊息HTML
       cancelTxt: "取消", //取消鈕文字
       cancel: () => {}, //取消鈕動作

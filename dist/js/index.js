@@ -1,9 +1,10 @@
-var baseURL = "https://udon8327.synology.me/";
+var baseURL = "1https://udon8327.synology.me/";
 Vue.use(VueFormulate);
 var vm = new Vue({
     el: "#app",
     data: {
         title: "UDON",
+        userData: {},
         isAlertShow: 0,
         isConfirmShow: 0,
         isModalShow: 0,
@@ -36,7 +37,7 @@ var vm = new Vue({
     },
     methods: {
         success: function () {
-            alert('表單成功送出');
+            this.$alert({ msg: '表單成功送出' });
         },
         random: function () {
             console.log(getRandom());
@@ -90,9 +91,9 @@ var vm = new Vue({
         //API
         getData: function () {
             var _this = this;
-            get(baseURL + 'ajax/success.php', { id: "test" })
+            get(baseURL + 'ajax/success.php')
                 .then(function (res) {
-                _this.$alert({ msg: res.userData.name + "\uFF0C\u50B3\u8F38\u6210\u529F!" });
+                _this.userData = res.userData;
             });
         }
     }
