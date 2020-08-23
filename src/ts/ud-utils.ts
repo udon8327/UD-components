@@ -174,7 +174,11 @@ function convertCamelCase(str){
 }
 
 //-----------------------Number-----------------------
-//取得範圍內隨機數
+/**
+ * 取得範圍內隨機數
+ * @param {Number} min 隨機數最小值 預設為0
+ * @param {Number} max 隨機數最小值 預設為100
+ */
 function getRandom(min = 0, max = 100) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -883,10 +887,14 @@ service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencod
 service.interceptors.request.use(
   config => {
     vm.$loading.open();
+
     // 每次發送請求之前判斷是否存在token，如果存在，則統一在http請求的header都加上token，不用每次請求都手動添加了
     // 即使本地存在token，也有可能token是過期的，所以在響應攔截器中要對返回狀態進行判斷
-    // const token = "This is token^^";
-    // if(token) config.headers.Authorization = token;
+    // if(token) config.headers.Authorization = "This is token";
+  
+    // 讓每個請求攜帶token--['X-Token']為自定義key 請根據實際情況自行修改
+    // if (store.getters.token) config.headers['X-Token'] = getToken();
+
     return config;
   },
   error => {
@@ -899,7 +907,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     vm.$loading.close();
-    console.log('response: ', response);
     if (response.status === 200) {
       console.log('response 是200');
       return Promise.resolve(response);
@@ -910,16 +917,16 @@ service.interceptors.response.use(
   },
   error => {
     vm.$loading.close();
-    console.log('error');
     vm.$alert({title: error.message});
+    console.log(error);
     return Promise.reject(error)
   }
 );
 
 /** 
  * get方法，對應get請求
- * @params {String} url [請求的url地址]
- * @params {Object} params [請求時攜帶的參數]
+ * @param {String} url 請求的url地址
+ * @param {Object} params 請求時攜帶的參數
  */
 function get(url, params = {}){
   return new Promise((resolve, reject) =>{
@@ -937,8 +944,8 @@ function get(url, params = {}){
 
 /** 
  * post方法，對應post請求
- * @params {String} url [請求的url地址]
- * @params {Object} params [請求時攜帶的參數]
+ * @param {String} url 請求的url地址
+ * @param {Object} params 請求時攜帶的參數
  */
 function post(url, params) {
   return new Promise((resolve, reject) => {

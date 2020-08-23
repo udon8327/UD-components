@@ -1,6 +1,6 @@
 declare var $: (selector: string) => any;
 
-const baseURL = "1https://udon8327.synology.me/";
+const baseURL = "https://udon8327.synology.me/";
 
 Vue.use(VueFormulate);
 
@@ -99,7 +99,7 @@ let vm = new Vue({
     },
     //API
     getData(){
-      get(baseURL + 'ajax/success.php')
+      get(baseURL + `ajax/success.php?id=${getRandom()}`)
       .then(res => {
         this.userData = res.userData;
       })
