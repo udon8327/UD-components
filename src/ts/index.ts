@@ -2,8 +2,6 @@ declare var $: (selector: string) => any;
 
 const baseURL = "https://udon8327.synology.me/";
 
-Vue.use(VueFormulate);
-
 let vm = new Vue({
   el: "#app",
   data: {
@@ -99,7 +97,7 @@ let vm = new Vue({
     },
     //API
     getData(){
-      get(baseURL + `ajax/success.p1hp?id=${getRandom()}`)
+      get(baseURL + `ajax/success.php?id=${getRandom()}`)
       .then(res => {
         this.userData = res.userData;
       })

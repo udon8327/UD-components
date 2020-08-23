@@ -1,5 +1,4 @@
 var baseURL = "https://udon8327.synology.me/";
-Vue.use(VueFormulate);
 var vm = new Vue({
     el: "#app",
     data: {
@@ -91,7 +90,7 @@ var vm = new Vue({
         //API
         getData: function () {
             var _this = this;
-            get(baseURL + ("ajax/success.p1hp?id=" + getRandom()))
+            get(baseURL + ("ajax/success.php?id=" + getRandom()))
                 .then(function (res) {
                 _this.userData = res.userData;
             });
