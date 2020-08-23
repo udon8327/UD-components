@@ -99,7 +99,7 @@ let vm = new Vue({
     },
     //API
     getData(){
-      get(baseURL + `ajax/success.php?id=${getRandom()}`)
+      get(baseURL + `ajax/success.p1hp?id=${getRandom()}`)
       .then(res => {
         this.userData = res.userData;
       })
