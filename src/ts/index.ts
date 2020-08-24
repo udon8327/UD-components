@@ -38,9 +38,21 @@ let vm = new Vue({
 
   },
   mounted: function() {
+    let vm = this;
+    console.log(vm);
+    Vue.nextTick(() => {
+    })
+    showVm();
+    // console.log('vm:' + this);
+    // console.log('vm.$el:' + this.$el);
     this.getData();
+    console.log(randomString(100));
+    console.log(formatNumber(21123123123123));
   },
   methods: {
+    copyTxt: function(){
+      copyTextToClipboard('test');
+    },
     success: function() {
       this.$alert({msg: '表單成功送出'});
     },
@@ -97,10 +109,16 @@ let vm = new Vue({
     },
     //API
     getData(){
-      get(baseURL + `ajax/success.php?id=${getRandom()}`)
+      getApi(baseURL + `ajax/success.php`)
       .then(res => {
         this.userData = res.userData;
       })
-    }
+    },
+    postData(){
+      postApi(baseURL + `ajax/validate.php`, "123456")
+      .then(res => {
+        console.log('res: ', res);
+      })
+    },
   }
 });

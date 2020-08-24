@@ -10,7 +10,10 @@ block modal
   ud-modal(:is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
+  ud-button(@click="copyTxt") 複製
+  p#test udon123
   h1 {{ userData.name }}
+  ud-button(@click="postData") POST
   .flex-wrapper
     ud-button(@click="alert") alert
     ud-button(@click="confirm") confirm

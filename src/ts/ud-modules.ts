@@ -68,7 +68,6 @@ Appication
   Select2 搜尋下拉框 -----> ud-select2
   Scratch 刮刮樂 -----> ud-scratch
   Editor 文字編輯器 -----> ud-editor
-
 */
 
 /*
@@ -79,7 +78,6 @@ String
   取得隨機字串 -----> randomString
   金錢加入千分位逗號 -----> formatNumber
   複製文字至剪貼簿 -----> copyTextToClipboard
-  複製文字至剪貼簿2 -----> copyTxt
   轉義HTML(防XSS攻擊) -----> escapeHTML
   駝峰式轉換 -----> convertCamelCase
 
@@ -153,6 +151,7 @@ Web
   跳頁後強制刷新 -----> pageReload
   網址跳轉 -----> toUrl
   CDN備援 -----> cdnBackup
+  Axios封裝 -----> axiosPackage
 
 Device
   判斷是否移動裝置 -----> isMobileUserAgent
@@ -166,6 +165,9 @@ Animation
 // 初始化執行
 cdnBackup();
 Vue.use(VueFormulate);
+window.onpageshow = event => {
+  if(event.persisted) window.location.reload();
+};
 
 //-----------------------Form-----------------------
 //Button 按鈕
@@ -1780,62 +1782,66 @@ Vue.component('ud-editor', {
 
 
 //-----------------------String-----------------------
-//將字串內換行符\n轉為<br>
-function nl2br(str, is_xhtml) {
-  if (typeof str === 'undefined' || str === null) {
+/**
+ * 將字串內換行符\n轉為<br>
+ * @param  {String} val 傳入值
+ * @param  {Boolean} is_xhtml 是否為xhtml
+ */
+function nl2br(val, is_xhtml) {
+  if (typeof val === 'undefined' || val === null) {
       return '';
   }
   let breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
-  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+  return (val + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 
-//取得隨機十六進制顏色
+/**
+ * 取得隨機十六進制顏色碼
+ */
 function randomHexColorCode(){
-  let n = (Math.random() * 0xfffff * 1000000).toString(16);
-  return '#' + n.slice(0, 6);
+  let temp = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + temp.slice(0, 6);
 };
 
-//取得隨機字串
-function randomString(len) {
-  const chars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-  const maxPos = chars.length;
-  let str = "";
-  for (let i = 0; i < len; i++) {
-    str += chars.charAt(Math.floor(Math.random() * maxPos));
+/**
+ * 取得隨機字串
+ * @param  {Number} length 指定字串長度
+ */
+function randomString(length) {
+  let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  let temp = "";
+  for (let i = 0; i < length; i++) {
+    temp += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  return str;
+  return temp;
 }
 
-//金錢加入千分位逗號
-  //formatNumber(99999); -> 99,999
+/**
+ * 數字加入千分位逗號
+ * 例：formatNumber(99999) -> 99,999
+ * @param  {Number} val 傳入值
+ */
 function formatNumber(val){
-  let num = val.toString();
+  let temp = val.toString();
   let pattern = /(-?\d+)(\d{3})/;
-  while(pattern.test(num)){
-    num = num.replace(pattern, "$1,$2");
+  while(pattern.test(temp)){
+    temp = temp.replace(pattern, "$1,$2");
   }
-  return num;
+  return temp;
 }
 
-//複製文字至剪貼簿
+/**
+ * 複製文字至剪貼簿
+ * @param  {String} id 要複製文字的元素id
+ */
 function copyTextToClipboard(id) {
   let textRange = document.createRange();
-	textRange.selectNode(document.getElementById(id));
+  textRange.selectNode(document.getElementById(id));
   let sel = window.getSelection();
   sel.removeAllRanges();
   sel.addRange(textRange);
-	document.execCommand("copy");
-	alert('複製成功');
-}
-
-//複製文字至剪貼簿2
-function copyTxt()
-{
-  let Url2=document.getElementById("aa");
-  Url2.select(); // 選擇物件
-  document.execCommand("Copy"); // 執行瀏覽器複製命令
-  alert("已複製好，可貼粘。");
+  document.execCommand("copy");
+  vm.$alert({msg: '文字已複製到剪貼簿'});
 }
 
 //轉義HTML(防XSS攻擊)
@@ -2497,6 +2503,157 @@ function cdnBackup(){
   }
 }
 
+//Axios封装
+//axiosPackage
+const service = axios.create({
+  // baseURL: baseURL, // url = base url + request url
+  // withCredentials: true, // send cookies when cross-domain requests
+  timeout: 5000, // request timeout
+})
+
+// if (process.env.NODE_ENV == 'development') {
+//   axios.defaults.baseURL = '/api';
+// } else {
+//   axios.defaults.baseURL = 'http://api.123dailu.com/';
+// }
+
+// post請求頭
+// service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
+// 請求攔截器
+service.interceptors.request.use(
+  config => {
+    vm.$loading.open();
+    config.data = JSON.stringify(config.data);
+    console.log(`request: ${config.data}, type: ${typeOf(config.data)}`);
+
+    // 每次發送請求之前判斷是否存在token，如果存在，則統一在http請求的header都加上token，不用每次請求都手動添加了
+    // 即使本地存在token，也有可能token是過期的，所以在響應攔截器中要對返回狀態進行判斷
+    // if(token) config.headers.Authorization = "This is token";
+  
+    // 讓每個請求攜帶token--['X-Token']為自定義key 請根據實際情況自行修改
+    // if (store.getters.token) config.headers['X-Token'] = getToken();
+
+    return config;
+  },
+  error => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+)
+
+// 響應攔截器
+service.interceptors.response.use(
+  response => {
+    vm.$loading.close();
+    if (response.status === 200) {
+      return Promise.resolve(response);
+    } else {
+      return Promise.reject(response);
+    }
+  },
+  error => {
+    vm.$loading.close();
+    if (error && error.response) {
+      switch (error.response.status) {
+        case 404:
+          vm.$alert({title: error.message, msg: "找不到該頁面，請稍候再試"});
+          break;
+        case 500:
+          vm.$alert({title: error.message, msg: "伺服器出錯，請稍候再試"});
+          break;
+        case 503:
+          vm.$alert({title: error.message, msg: "服務失效，請稍候再試"});
+          break;
+        default:
+          vm.$alert({title: error.message, msg: `連接錯誤：${error.response.status}，請稍候再試`});
+      }
+    } else {
+      vm.$alert({title: error.message, msg: "連接到伺服器失敗，請稍候再試"});
+    }
+    return Promise.reject(error)
+  }
+);
+
+/** 
+ * getApi方法，對應get請求
+ * @param  {String} url 請求的url地址
+ * @param  {Object} params 請求時攜帶的參數
+ */
+function getApi(url, params = {}){
+  return new Promise((resolve, reject) =>{
+    service.get(url, {
+      params: params
+    })
+    .then(res => {
+      resolve(res.data);
+    })
+    .catch(err => {
+      reject(err.data);
+    })
+  });
+}
+
+/** 
+ * postApi方法，對應post請求
+ * @param  {String} url 請求的url地址
+ * @param  {Object} data 請求時攜帶的資料
+ * @param  {Object} params 請求時攜帶的參數
+ */
+function postApi(url, data = {}, params = {}) {
+  return new Promise((resolve, reject) => {
+    service.post(url, data, {
+      params: params
+    })
+    .then(res => {
+      resolve(res.data);
+    })
+    .catch(err => {
+      reject(err.data);
+    })
+  });
+}
+
+/** 
+ * putApi方法，對應put請求
+ * @param  {String} url 請求的url地址
+ * @param  {Object} data 請求時攜帶的資料
+ * @param  {Object} params 請求時攜帶的參數
+ */
+function putApi(url, data = {}, params = {}) {
+  return new Promise((resolve, reject) => {
+    service.put(url, data, {
+      params: params
+    })
+    .then(res => {
+      resolve(res.data);
+    })
+    .catch(err => {
+      reject(err.data);
+    })
+  });
+}
+
+/** 
+ * deleteApi方法，對應delete請求
+ * @param  {String} url 請求的url地址
+ * @param  {Object} data 請求時攜帶的資料
+ * @param  {Object} params 請求時攜帶的參數
+ */
+function deleteApi(url, data = {}, params = {}) {
+  return new Promise((resolve, reject) => {
+    service.delete(url, data, {
+      params: params
+    })
+    .then(res => {
+      resolve(res.data);
+    })
+    .catch(err => {
+      reject(err.data);
+    })
+  });
+}
+
 //-----------------------Device-----------------------
 //判斷是否移動裝置
 function isMobileUserAgent() {
@@ -2545,102 +2702,6 @@ function animate({timing, draw, duration}) {
       requestAnimationFrame(animate);
     }
 
-  });
-}
-
-
-
-
-
-//Axios封装
-const service = axios.create({
-  // baseURL: baseURL, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000, // request timeout
-})
-
-// if (process.env.NODE_ENV == 'development') {
-//   axios.defaults.baseURL = '/api';
-// } else {
-//   axios.defaults.baseURL = 'http://api.123dailu.com/';
-// }
-
-// post請求頭
-service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-
-// 請求攔截器
-service.interceptors.request.use(
-  config => {
-    vm.$loading.open();
-
-    // 每次發送請求之前判斷是否存在token，如果存在，則統一在http請求的header都加上token，不用每次請求都手動添加了
-    // 即使本地存在token，也有可能token是過期的，所以在響應攔截器中要對返回狀態進行判斷
-    // if(token) config.headers.Authorization = "This is token";
-  
-    // 讓每個請求攜帶token--['X-Token']為自定義key 請根據實際情況自行修改
-    // if (store.getters.token) config.headers['X-Token'] = getToken();
-
-    return config;
-  },
-  error => {
-    console.log(error);
-    return Promise.reject(error);
-  }
-)
-
-// 響應攔截器
-service.interceptors.response.use(
-  response => {
-    vm.$loading.close();
-    if (response.status === 200) {
-      console.log('response 是200');
-      return Promise.resolve(response);
-    } else {
-      console.log('response 不是200');
-      return Promise.reject(response);
-    }
-  },
-  error => {
-    vm.$loading.close();
-    vm.$alert({title: error.message});
-    console.log(error);
-    return Promise.reject(error)
-  }
-);
-
-/** 
- * get方法，對應get請求
- * @param {String} url 請求的url地址
- * @param {Object} params 請求時攜帶的參數
- */
-function get(url, params = {}){
-  return new Promise((resolve, reject) =>{
-    service.get(url, {
-      params: params
-    })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.data);
-    })
-  });
-}
-
-/** 
- * post方法，對應post請求
- * @param {String} url 請求的url地址
- * @param {Object} params 請求時攜帶的參數
- */
-function post(url, params) {
-  return new Promise((resolve, reject) => {
-    service.post(url, JSON.stringify(params))
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.data);
-    })
   });
 }
 
@@ -2715,3 +2776,7 @@ Vue.component("el-button", {
     }
   }
 });
+
+function showVm(){
+  console.log(vm);
+}

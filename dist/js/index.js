@@ -32,9 +32,21 @@ var vm = new Vue({
         },
     },
     mounted: function () {
+        var vm = this;
+        console.log(vm);
+        Vue.nextTick(function () {
+        });
+        showVm();
+        // console.log('vm:' + this);
+        // console.log('vm.$el:' + this.$el);
         this.getData();
+        console.log(randomString(100));
+        console.log(formatNumber(21123123123123));
     },
     methods: {
+        copyTxt: function () {
+            copyTextToClipboard('test');
+        },
         success: function () {
             this.$alert({ msg: '表單成功送出' });
         },
@@ -90,11 +102,17 @@ var vm = new Vue({
         //API
         getData: function () {
             var _this = this;
-            get(baseURL + ("ajax/success.php?id=" + getRandom()))
+            getApi(baseURL + "ajax/success.php")
                 .then(function (res) {
                 _this.userData = res.userData;
             });
-        }
+        },
+        postData: function () {
+            postApi(baseURL + "ajax/validate.php", "123456")
+                .then(function (res) {
+                console.log('res: ', res);
+            });
+        },
     }
 });
 //# sourceMappingURL=index.js.map
