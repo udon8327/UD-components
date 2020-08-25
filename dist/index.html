@@ -24,7 +24,7 @@
       <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-captcha-dev v-model="captcha"></ud-captcha-dev>
+          <ud-captcha v-model="captcha"></ud-captcha>
           <h1>{{ userData.name }}</h1>
           <ud-button @click="postData">POST</ud-button>
           <div class="flex-wrapper">
