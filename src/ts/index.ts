@@ -6,7 +6,9 @@ let vm = new Vue({
   el: "#app",
   data: {
     title: "UDON",
-    userData: {},
+    userData: {
+    },
+    captcha: "",
     isAlertShow: 0,
     isConfirmShow: 0,
     isModalShow: 0,

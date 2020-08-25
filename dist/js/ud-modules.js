@@ -2208,14 +2208,19 @@ Vue.component("el-button", {
 //VfCaptcha 圖形碼驗證
 Vue.component('ud-captcha-dev', {
     name: "UdCaptcha",
-    template: "\n    <div class=\"ud-captcha\">\n      <div id=\"random\">\n        <canvas id=\"verify-canvas\" width=\"126\" height=\"48\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input id=\"varifyhidden\" type=\"hidden\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
-    data: function () {
-        return {
-            verify: "",
-        };
+    template: "\n    <div class=\"ud-captcha-dev\">\n      <div id=\"random\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input id=\"varifyhidden\" type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
+    computed: {
+        inputVal: {
+            get: function () {
+                return this.value;
+            },
+            set: function (val) {
+                this.$emit('input', val);
+            }
+        }
     },
     props: {
-        value: String,
+        value: null,
     },
     mounted: function () {
         this.drawCode();
@@ -2239,8 +2244,9 @@ Vue.component('ud-captcha-dev', {
                 y[i] = Math.random() * 20 + 20;
                 context.fillText(rand[i], x[i], y[i]);
             }
-            var test = rand.join('');
-            $('#letifyhidden').val(test);
+            var temp = rand.join('');
+            // $('#varifyhidden').val(temp);
+            this.inputVal = temp;
             //画3条随机线
             for (var i = 0; i < 3; i++) {
                 this.drawline(canvas, context);
@@ -2277,7 +2283,7 @@ Vue.component('ud-captcha-dev', {
         },
         refresh: function () {
             document.getElementById('verify-canvas').remove();
-            $('#random').after('<canvas width="126" height="48" id="verify-canvas"></canvas>');
+            $('#random').after('<canvas width="100" height="48" id="verify-canvas"></canvas>');
             this.drawCode();
         }
     },

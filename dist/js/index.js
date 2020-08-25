@@ -4,6 +4,7 @@ var vm = new Vue({
     data: {
         title: "UDON",
         userData: {},
+        captcha: "",
         isAlertShow: 0,
         isConfirmShow: 0,
         isModalShow: 0,
@@ -103,5 +104,4 @@ var vm = new Vue({
         },
     }
 });
-//# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

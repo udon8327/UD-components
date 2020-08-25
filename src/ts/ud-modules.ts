@@ -2804,24 +2804,29 @@ Vue.component("el-button", {
 Vue.component('ud-captcha-dev', {
   name: "UdCaptcha",
   template: `
-    <div class="ud-captcha">
+    <div class="ud-captcha-dev">
       <div id="random">
-        <canvas id="verify-canvas" width="126" height="48"></canvas>
+        <canvas id="verify-canvas" width="100" height="48"></canvas>
         <img ref="codeimg" @click="refresh">
-        <input id="varifyhidden" type="hidden">
+        <input id="varifyhidden" type="hidden" v-model="inputVal">
       </div>
       <div class="refresh" @click="refresh">
         <i class="fas fa-sync-alt" id="refresh"></i>
       </div>
     </div>
   `,
-  data() {
-    return {
-      verify: "",
+  computed: {
+    inputVal: {
+      get: function(){
+        return this.value;
+      },
+      set: function(val){
+        this.$emit('input', val)
+      }
     }
   },
   props: {
-    value: String,
+    value: null,
   },
   mounted() {
     this.drawCode();
@@ -2845,8 +2850,9 @@ Vue.component('ud-captcha-dev', {
           y[i] = Math.random() * 20 + 20;
           context.fillText(rand[i], x[i], y[i]);
       }
-      let test = rand.join('');
-      $('#letifyhidden').val(test);
+      let temp = rand.join('');
+      // $('#varifyhidden').val(temp);
+      this.inputVal = temp;
       
       //画3条随机线
       for (let i = 0; i < 3; i++) {
@@ -2884,7 +2890,7 @@ Vue.component('ud-captcha-dev', {
     },
     refresh: function() {
       document.getElementById('verify-canvas').remove();
-      $('#random').after('<canvas width="126" height="48" id="verify-canvas"></canvas>')
+      $('#random').after('<canvas width="100" height="48" id="verify-canvas"></canvas>')
       this.drawCode();
     }
   },

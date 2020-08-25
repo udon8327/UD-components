@@ -1288,19 +1288,17 @@
       padding: 0; }
 
 .ud-captcha-dev {
-  border: 1px solid #ccc;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
   .ud-captcha-dev #random {
-    margin: 0 8px 0 12px;
-    cursor: pointer; }
+    cursor: pointer;
+    border: 1px solid #ced4da; }
     .ud-captcha-dev #random img {
-      height: 48px;
-      border: 1px solid #ced4da; }
+      height: 48px; }
   .ud-captcha-dev .refresh {
     cursor: pointer;
-    -webkit-transform: translate(0, 5px);
-    -ms-transform: translate(0, 5px);
-    transform: translate(0, 5px); }
+    -webkit-transform: translate(10px, 5px);
+    -ms-transform: translate(10px, 5px);
+    transform: translate(10px, 5px); }
