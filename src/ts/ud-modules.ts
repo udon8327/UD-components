@@ -2805,10 +2805,10 @@ Vue.component('ud-captcha-dev', {
   name: "UdCaptcha",
   template: `
     <div class="ud-captcha-dev">
-      <div id="random">
+      <div class="canvas-area" ref="canvasArea">
         <canvas id="verify-canvas" width="100" height="48"></canvas>
         <img ref="codeimg" @click="refresh">
-        <input id="varifyhidden" type="hidden" v-model="inputVal">
+        <input type="hidden" v-model="inputVal">
       </div>
       <div class="refresh" @click="refresh">
         <i class="fas fa-sync-alt" id="refresh"></i>
@@ -2832,15 +2832,15 @@ Vue.component('ud-captcha-dev', {
     this.drawCode();
   },
   methods: {
-    // 绘制验证码
+    // 繪製驗證碼
     drawCode() {
       let nums = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz".split("");
-      let canvas = document.getElementById('verify-canvas');  //获取HTML端画布
-      let context = canvas.getContext("2d");                 //获取画布2D上下文
-      context.fillStyle = "#fff";                  //画布填充色
-      context.fillRect(0, 0, canvas.width, canvas.height);   //清空画布
-      context.fillStyle = "#000";                           //设置字体颜色
-      context.font = "25px Arial";                           //设置字体
+      let canvas = document.getElementById('verify-canvas'); // 獲取HTML端畫布
+      let context = canvas.getContext("2d"); // 獲取畫布2D上下文
+      context.fillStyle = "#fff"; // 畫布填充色
+      context.fillRect(0, 0, canvas.width, canvas.height); // 清空畫布
+      context.fillStyle = "#000"; // 設置字體顏色
+      context.font = "25px Arial"; // 設置字體
       let rand = new Array();
       let x = new Array();
       let y = new Array();
@@ -2850,29 +2850,28 @@ Vue.component('ud-captcha-dev', {
           y[i] = Math.random() * 20 + 20;
           context.fillText(rand[i], x[i], y[i]);
       }
-      let temp = rand.join('');
-      // $('#varifyhidden').val(temp);
-      this.inputVal = temp;
+      let code = rand.join('');
+      this.inputVal = code;
       
-      //画3条随机线
+      // 畫3條隨機線
       for (let i = 0; i < 3; i++) {
         this.drawline(canvas, context);
       }
-      // 画30个随机点
+      // 畫30個隨機點
       for (let i = 0; i < 30; i++) {
         this.drawDot(canvas, context);
       }
       this.convertCanvasToImage(canvas);
     },
-    // 随机线
+    // 隨機線
     drawline: function(canvas, context) {
-      context.moveTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));             //随机线的起点x坐标是画布x坐标0位置，y坐标是画布高度的随机数
-      context.lineTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));  //随机线的终点x坐标是画布宽度，y坐标是画布高度的随机数
-      context.lineWidth = 0.5;                                                  //随机线宽
-      context.strokeStyle = 'rgba(100,100,100,1)';                            //随机线描边属性
-      context.stroke();                                                         //描边，即起点描到终点
+      context.moveTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height)); // 隨機線的起點x座標是畫布x座標0位置 y座標是畫布高度的隨機數
+      context.lineTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height)); // 隨機線的終點x座標是畫布寬度 y座標是畫布高度的隨機數
+      context.lineWidth = 0.5; // 隨機線寬
+      context.strokeStyle = 'rgba(100,100,100,1)'; // 隨機線描邊屬性
+      context.stroke(); // 描邊 即起點描到終點
     },
-    // 随机点(所谓画点其实就是画1px像素的线，方法不再赘述)
+    // 隨機點(所謂畫點其實就是畫1px像素的線)
     drawDot: function(canvas, context) {
       let px = Math.floor(Math.random() * canvas.width);
       let py = Math.floor(Math.random() * canvas.height);
@@ -2881,7 +2880,7 @@ Vue.component('ud-captcha-dev', {
       context.lineWidth = 0.2;
       context.stroke();
     },
-    // 绘制图片
+    // 繪製圖片
     convertCanvasToImage: function(canvas) {
       document.getElementById('verify-canvas').style.display = "none";
       let image = this.$refs.codeimg;
@@ -2890,7 +2889,7 @@ Vue.component('ud-captcha-dev', {
     },
     refresh: function() {
       document.getElementById('verify-canvas').remove();
-      $('#random').after('<canvas width="100" height="48" id="verify-canvas"></canvas>')
+      this.$refs.canvasArea.insertAdjacentHTML('afterbegin', '<canvas width="100" height="48" id="verify-canvas"></canvas>')
       this.drawCode();
     }
   },

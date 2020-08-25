@@ -1292,10 +1292,10 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
-  .ud-captcha-dev #random {
+  .ud-captcha-dev .canvas-area {
     cursor: pointer;
     border: 1px solid #ced4da; }
-    .ud-captcha-dev #random img {
+    .ud-captcha-dev .canvas-area img {
       height: 48px; }
   .ud-captcha-dev .refresh {
     cursor: pointer;
