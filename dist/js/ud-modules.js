@@ -6,8 +6,8 @@
 彈窗組件支援多種動畫效果
 表單組件樣式重整
 表單組件支援disabled
-封裝axios
-編寫日期聯動組件
+編寫通用連動select
+編寫日期連動select
 */
 /*
 ==================== Vue組件庫目錄 ====================
@@ -35,8 +35,8 @@ Validation
   VfDate 日期驗證 -----> vf-date
   VfAccept 條款驗證 -----> vf-accept
   VfCaptcha 圖形驗證碼 -----> vf-captcha
-  VfDateGroup 日期群組驗證 -----> vf-dategroup
-  VfAddressGroup 地址群組驗證 -----> vf-addressgroup
+  VfDateGroup 日期群組驗證 -----> vf-date-group
+  VfAddressGroup 地址群組驗證 -----> vf-address-group
 
 Data
   Table 表格 -----> ud-table
@@ -402,7 +402,7 @@ Vue.component('ud-form', {
 //UdCaptcha 圖形驗證碼
 Vue.component('ud-captcha', {
     name: "UdCaptcha",
-    template: "\n    <div class=\"ud-captcha-dev\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-captcha\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
     computed: {
         inputVal: {
             get: function () {
@@ -507,9 +507,9 @@ Vue.component('ud-captcha', {
 });
 //-----------------------Validation-----------------------
 //VfItem 表單容器
-Vue.component("ud-vf-item", {
-    name: "UdVfItem",
-    template: "\n    <div class=\"ud-vf-item\">\n      <div class=\"ud-vf-item__label\">{{ label }}</div>\n      <div class=\"ud-vf-item__input\">\n        <slot></slot>\n      </div>\n    </div>\n  ",
+Vue.component("vf-item", {
+    name: "VfItem",
+    template: "\n    <div class=\"vf-item\">\n      <div class=\"vf-item-label\">{{ label }}</div>\n      <div class=\"vf-item-input\">\n        <slot></slot>\n      </div>\n    </div>\n  ",
     props: {
         label: {
             type: String,
@@ -518,13 +518,13 @@ Vue.component("ud-vf-item", {
     }
 });
 //VfName 姓名驗證
-Vue.component("ud-name", {
-    name: "UdVfName",
+Vue.component("vf-name", {
+    name: "VfName",
     template: "\n    <formulate-input\n      type=\"text\"\n      name=\"name\"\n      placeholder=\"\u8ACB\u8F38\u5165\u59D3\u540D\"\n      validation=\"^required|^matches:/^[a-zA-Z0-9_\u4E00-\u9FA5]+$/\"\n      :validation-messages=\"{required: '\u59D3\u540D\u4E0D\u53EF\u70BA\u7A7A', matches: '\u59D3\u540D\u683C\u5F0F\u6709\u8AA4\uFF0C\u4E0D\u63A5\u53D7\u7279\u6B8A\u7B26\u865F'}\"\n    >\n    </formulate-input>\n  ",
 });
 //VfGender 性別驗證
-Vue.component("ud-gender", {
-    name: "UdVfGender",
+Vue.component("vf-gender", {
+    name: "VfGender",
     template: "\n    <formulate-input\n      type=\"select\"\n      name=\"gender\"\n      :options=\"options\"\n      placeholder=\"\u8ACB\u9078\u64C7\u6027\u5225\"\n      validation=\"^required\"\n      :validation-messages=\"{required: '\u6027\u5225\u4E0D\u53EF\u70BA\u7A7A'}\"\n    >\n    </formulate-input>\n  ",
     data: function () {
         return {
@@ -536,23 +536,23 @@ Vue.component("ud-gender", {
     },
 });
 //VfPhone 電話驗證
-Vue.component("ud-phone", {
-    name: "UdVfPhone",
+Vue.component("vf-phone", {
+    name: "VfPhone",
     template: "\n    <formulate-input\n      type=\"tel\"\n      name=\"phone\"\n      placeholder=\"\u8ACB\u8F38\u5165\u624B\u6A5F\u865F\u78BC\"\n      validation=\"^required|matches:/^09[0-9]{8}$/\"\n      :validation-messages=\"{required: '\u624B\u6A5F\u4E0D\u53EF\u70BA\u7A7A', matches: '\u624B\u6A5F\u683C\u5F0F\u6709\u8AA4\uFF0C\u4F8B\uFF1A0912345678'}\"\n      maxlength=\"10\"\n    >\n    </formulate-input>\n  ",
 });
 //VfMail 郵件驗證
-Vue.component("ud-mail", {
-    name: "UdVfMail",
+Vue.component("vf-mail", {
+    name: "VfMail",
     template: "\n    <formulate-input\n      type=\"text\"\n      name=\"email\"\n      placeholder=\"\u8ACB\u8F38\u5165E-mail\"\n      validation=\"^required|email\"\n      :validation-messages=\"{required: 'E-mail\u4E0D\u53EF\u70BA\u7A7A',email: 'E-mail\u683C\u5F0F\u6709\u8AA4\uFF0C\u9700\u5305\u542B@'}\"\n    >\n    </formulate-input>\n  ",
 });
 //VfIdcard 身分證驗證
-Vue.component("ud-idcard", {
-    name: "UdVfIdcard",
+Vue.component("vf-idcard", {
+    name: "VfIdcard",
     template: "\n    <formulate-input\n      type=\"text\"\n      name=\"idcard\"\n      placeholder=\"\u8ACB\u8F38\u5165\u8EAB\u5206\u8B49\u865F\u78BC\"\n      validation=\"^required|matches:/^[A-Z]{1}[0-9]{9}$/\"\n      :validation-messages=\"{required: '\u8EAB\u5206\u8B49\u865F\u78BC\u4E0D\u53EF\u70BA\u7A7A', matches: '\u8EAB\u5206\u8B49\u865F\u78BC\u683C\u5F0F\u6709\u8AA4\uFF0C\u4F8B\uFF1AA123456789'}\"\n      maxlength=\"10\"\n    >\n    </formulate-input>\n  ",
 });
 //VfDate 日期驗證
-Vue.component("ud-date", {
-    name: "UdVfDate",
+Vue.component("vf-date", {
+    name: "VfDate",
     template: "\n    <formulate-input\n      type=\"date\"\n      :name=\"name\"\n      placeholder=\"\u8ACB\u8F38\u5165\u65E5\u671F\"\n      validation=\"^required|^date:YYYY-MM-DD|exist\"\n      :validation-rules=\"{\n        exist: ({ value }) => {\n          let dateArr = value.split('-');\n          let limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n          let theYear = parseInt(dateArr[0]);\n          let theMonth = parseInt(dateArr[1]);\n          let theDay = parseInt(dateArr[2]);\n          let isLeap = new Date(theYear, 1, 29).getDate() === 29; \n          if (isLeap) limitInMonth[1] = 29;\n          return theDay > 0 && theDay <= limitInMonth[theMonth - 1];\n        }\n      }\"\n      :validation-messages=\"{required: '\u65E5\u671F\u4E0D\u53EF\u70BA\u7A7A', date: '\u65E5\u671F\u683C\u5F0F\u6709\u8AA4\uFF0C\u4F8B\uFF1A2020-01-31', exist: '\u65E5\u671F\u4E0D\u5B58\u5728\uFF0C\u8ACB\u91CD\u65B0\u9078\u64C7'}\"\n    >\n    </formulate-input>\n  ",
     props: {
         name: {
@@ -562,14 +562,14 @@ Vue.component("ud-date", {
     }
 });
 //VfAccept 條款驗證
-Vue.component("ud-accept", {
-    name: "UdVfAccept",
-    template: "\n    <label class=\"ud-accept\">\n      <formulate-input\n        type=\"checkbox\"\n        name=\"accept\"\n        validation=\"accepted\"\n        :validation-messages=\"{accepted: '\u8ACB\u5148\u540C\u610F\u4F7F\u7528\u8005\u689D\u6B3E'}\"\n      >\n      </formulate-input>\n      <p v-if=\"!$slots.default\">\u6211\u540C\u610F\u4F7F\u7528\u8005\u689D\u6B3E</p>\n      <slot></slot>\n    </label>\n  ",
+Vue.component("vf-accept", {
+    name: "VfAccept",
+    template: "\n    <label class=\"vf-accept\">\n      <formulate-input\n        type=\"checkbox\"\n        name=\"accept\"\n        validation=\"accepted\"\n        :validation-messages=\"{accepted: '\u8ACB\u5148\u540C\u610F\u4F7F\u7528\u8005\u689D\u6B3E'}\"\n      >\n      </formulate-input>\n      <p v-if=\"!$slots.default\">\u6211\u540C\u610F\u4F7F\u7528\u8005\u689D\u6B3E</p>\n      <slot></slot>\n    </label>\n  ",
 });
 //VfCaptcha 圖形驗證碼
 Vue.component('vf-captcha', {
     name: "VfCaptcha",
-    template: "\n    <div class=\"ud-captcha-dev\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
+    template: "\n    <div class=\"vf-captcha\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
     computed: {
         inputVal: {
             get: function () {
@@ -673,9 +673,9 @@ Vue.component('vf-captcha', {
     },
 });
 //DateGroup 日期群組驗證
-Vue.component('ud-date-group', {
-    name: "UdDateGroup",
-    template: "\n    <div class=\"ud-date-select\">\n      <select name=\"year\" ref=\"year\"></select>\n      <p>\u5E74</p>\n      <select name=\"month\" ref=\"month\"></select>\n      <p>\u6708</p>\n      <select name=\"date\" ref=\"date\"></select>\n      <p>\u65E5</p>\n    </div>\n  ",
+Vue.component('vf-date-group', {
+    name: "VfDateGroup",
+    template: "\n    <div class=\"vf-date-select\">\n      <select name=\"year\" ref=\"year\"></select>\n      <p>\u5E74</p>\n      <select name=\"month\" ref=\"month\"></select>\n      <p>\u6708</p>\n      <select name=\"date\" ref=\"date\"></select>\n      <p>\u65E5</p>\n    </div>\n  ",
     props: {
         roc: Boolean
     },
@@ -728,9 +728,9 @@ Vue.component('ud-date-group', {
     },
 });
 //VfAddressGroup 地址群組驗證
-Vue.component('ud-address-group', {
-    name: "UdAddressGroup",
-    template: "\n    <div class=\"ud-address-group\">\n      <div class=\"flex-wrapper\" v-if=\"!inputOnly\">\n        <formulate-input \n          type=\"select\"\n          name=\"county\"\n          placeholder=\"\u8ACB\u9078\u64C7\u7E23\u5E02\"\n          :options=\"countyOptions\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u7E23\u5E02\u4E0D\u53EF\u70BA\u7A7A'}\"\n          @input=\"getCounty\"\n        >\n        </formulate-input>\n        <formulate-input\n          type=\"select\"\n          name=\"area\"\n          placeholder=\"\u8ACB\u9078\u64C7\u9109\u586B\u5E02\u5340\"\n          :options=\"areaOptions\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u9109\u93AE\u5E02\u5340\u4E0D\u53EF\u70BA\u7A7A'}\"\n          @input=\"getArea\"\n          ref=\"area\"\n        >\n        </formulate-input>\n      </div>\n      <div v-if=\"!selectOnly\">\n        <formulate-input\n          type=\"text\"\n          name=\"address\"\n          placeholder=\"\u8ACB\u8F38\u5165\u5730\u5740\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u5730\u5740\u4E0D\u53EF\u70BA\u7A7A'}\"\n          ref=\"address\"\n        >\n        </formulate-input>\n      </div>\n    </div>\n  ",
+Vue.component('vf-address-group', {
+    name: "VfAddressGroup",
+    template: "\n    <div class=\"vf-address-group\">\n      <div class=\"flex-wrapper\" v-if=\"!inputOnly\">\n        <formulate-input \n          type=\"select\"\n          name=\"county\"\n          placeholder=\"\u8ACB\u9078\u64C7\u7E23\u5E02\"\n          :options=\"countyOptions\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u7E23\u5E02\u4E0D\u53EF\u70BA\u7A7A'}\"\n          @input=\"getCounty\"\n        >\n        </formulate-input>\n        <formulate-input\n          type=\"select\"\n          name=\"area\"\n          placeholder=\"\u8ACB\u9078\u64C7\u9109\u586B\u5E02\u5340\"\n          :options=\"areaOptions\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u9109\u93AE\u5E02\u5340\u4E0D\u53EF\u70BA\u7A7A'}\"\n          @input=\"getArea\"\n          ref=\"area\"\n        >\n        </formulate-input>\n      </div>\n      <div v-if=\"!selectOnly\">\n        <formulate-input\n          type=\"text\"\n          name=\"address\"\n          placeholder=\"\u8ACB\u8F38\u5165\u5730\u5740\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u5730\u5740\u4E0D\u53EF\u70BA\u7A7A'}\"\n          ref=\"address\"\n        >\n        </formulate-input>\n      </div>\n    </div>\n  ",
     data: function () {
         return {
             countyValue: "",

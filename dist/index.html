@@ -52,30 +52,30 @@
           <hr>
           <h1>{{ form }}</h1>
           <formulate-form v-model="form" @submit="success" name="my-form">
-            <ud-vf-item label="姓名">
-              <ud-name></ud-name>
-            </ud-vf-item>
-            <ud-vf-item label="性別">
-              <ud-gender></ud-gender>
-            </ud-vf-item>
-            <ud-vf-item label="手機">
-              <ud-phone></ud-phone>
-            </ud-vf-item>
-            <ud-vf-item label="E-mail">
-              <ud-mail></ud-mail>
-            </ud-vf-item>
-            <ud-vf-item label="身分證字號">
-              <ud-idcard></ud-idcard>
-            </ud-vf-item>
-            <ud-vf-item label="開始日期">
-              <ud-date name="startAt"></ud-date>
-            </ud-vf-item>
-            <ud-vf-item label="地址">
-              <ud-address-group></ud-address-group>
-            </ud-vf-item>
-            <ud-accept>
+            <vf-item label="姓名">
+              <vf-name></vf-name>
+            </vf-item>
+            <vf-item label="性別">
+              <vf-gender></vf-gender>
+            </vf-item>
+            <vf-item label="手機">
+              <vf-phone></vf-phone>
+            </vf-item>
+            <vf-item label="E-mail">
+              <vf-mail></vf-mail>
+            </vf-item>
+            <vf-item label="身分證字號">
+              <vf-idcard></vf-idcard>
+            </vf-item>
+            <vf-item label="開始日期">
+              <vf-date name="startAt"></vf-date>
+            </vf-item>
+            <vf-item label="地址">
+              <vf-address-group></vf-address-group>
+            </vf-item>
+            <vf-accept>
               <p>我同意酷必資訊<a href="https://goo.gl/">使用者條款</a>!</p>
-            </ud-accept>
+            </vf-accept>
           </formulate-form>
           <ud-button plain @click="$formulate.reset('my-form')">清除</ud-button>
           <ud-button @click="$formulate.submit('my-form')">送出</ud-button>

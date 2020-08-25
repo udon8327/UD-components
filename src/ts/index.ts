@@ -33,9 +33,6 @@ let vm = new Vue({
     },
     // formArr: ["妮可","花丸","步夢","凜","阿霞"],
     form: {
-      county: "台北市",
-      area: "中正區",
-      address: "台北市中正區金華街30-5號2樓"
     },
   },
   mounted: function() {

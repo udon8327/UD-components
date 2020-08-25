@@ -13,19 +13,20 @@
 //   ImageUpload 圖片上傳預覽 -----> ud-image-upload
 //   ImageMultiUpload 圖片上傳預覽(多張) -----> ud-image-multi-upload
 //   Form 表單 -----> ud-form
+//   Captcha 圖形驗證碼 -----> ud-captcha
 
 // Validation
-//   VfItem 表單容器 -----> ud-vf-item
-//   VfName 姓名驗證 -----> ud-name
-//   VfGender 性別驗證 -----> ud-gender
-//   VfPhone 電話驗證 -----> ud-phone
-//   VfMail 郵件驗證 -----> ud-mail
-//   VfIdcard 身分證驗證 -----> ud-idcard
-//   VfDate 日期驗證 -----> ud-date
-//   VfAccept 條款驗證 -----> ud-accept
-//   VfCaptcha 圖形碼驗證 -----> ud-captcha
-//   VfDateGroup 日期群組驗證 -----> ud-date-group
-//   VfAddressGroup 地址群組驗證 -----> ud-address-group
+//   VfItem 表單容器 -----> vf-item
+//   VfName 姓名驗證 -----> vf-name
+//   VfGender 性別驗證 -----> vf-gender
+//   VfPhone 電話驗證 -----> vf-phone
+//   VfMail 郵件驗證 -----> vf-mail
+//   VfIdcard 身分證驗證 -----> vf-idcard
+//   VfDate 日期驗證 -----> vf-date
+//   VfAccept 條款驗證 -----> vf-accept
+//   VfCaptcha 圖形驗證碼 -----> vf-captcha
+//   VfDateGroup 日期群組驗證 -----> vf-date-group
+//   VfAddressGroup 地址群組驗證 -----> vf-address-group
 
 // Data
 //   Table 表格 -----> ud-table
@@ -226,39 +227,52 @@
 // Form 表單
 .ud-form
 
+// UdCaptcha 圖形驗證碼
+.ud-captcha
+  position: relative
+  display: flex
+  .canvas-area
+    cursor: pointer
+    border: 1px solid #ced4da
+    img
+      height: 48px
+  .refresh
+    cursor: pointer
+    transform: translate(10px,5px)
+
 //-----------------------Validation-----------------------
 // VfItem 表單容器
-.ud-vf-item
+.vf-item
   width: 100%
   display: flex
   margin-bottom: 20px
-  .ud-vf-item__label
+  .vf-item-label
     flex: 0 0 25%
     text-align: right
     margin: 8px 8px 0 0
-  .ud-vf-item__input
+  .vf-item-input
     flex: 1 1 0
 
 // VfName 姓名驗證
-.ud-name
+.vf-name
 
 // VfGender 性別驗證
-.ud-gender
+.vf-gender
 
 // VfPhone 電話驗證
-.ud-phone
+.vf-phone
 
 // VfMail 郵件驗證
-.ud-mail
+.vf-mail
 
 // VfIdcard 身分證驗證
-.ud-idcard
+.vf-idcard
 
 // VfDate 日期驗證
-.ud-date
+.vf-date
 
 // VfAccept 條款驗證
-.ud-accept
+.vf-accept
   width: 100%
   display: flex
   margin-bottom: 20px
@@ -271,7 +285,7 @@
     white-space: nowrap
 
 // VfCaptcha 圖形碼驗證
-.ud-captcha
+.vf-captcha
   border: 1px solid #ccc
   position: relative
   display: flex
@@ -286,7 +300,7 @@
     transform: translate(0,5px)
 
 // VfDateGroup 日期群組驗證
-.ud-date-group
+.vf-date-group
   display: flex
   justify-content: space-between
   align-items: center
@@ -304,7 +318,7 @@
         padding: 0 0px 0 3px
 
 // VfAddressGroup 地址群組驗證
-.ud-address-group
+.vf-address-group
   >div
     margin-bottom: 5px
 
@@ -1210,18 +1224,3 @@
         border-radius: 3px
         margin: 0
         padding: 0
-
-
-
-// VfCaptcha 圖形碼驗證
-.ud-captcha-dev
-  position: relative
-  display: flex
-  .canvas-area
-    cursor: pointer
-    border: 1px solid #ced4da
-    img
-      height: 48px
-  .refresh
-    cursor: pointer
-    transform: translate(10px,5px)

@@ -8,8 +8,8 @@ declare var $: (selector: string) => any;
 彈窗組件支援多種動畫效果
 表單組件樣式重整
 表單組件支援disabled
-封裝axios
-編寫日期聯動組件
+編寫通用連動select
+編寫日期連動select
 */
 
 /*
@@ -38,8 +38,8 @@ Validation
   VfDate 日期驗證 -----> vf-date
   VfAccept 條款驗證 -----> vf-accept
   VfCaptcha 圖形驗證碼 -----> vf-captcha
-  VfDateGroup 日期群組驗證 -----> vf-dategroup
-  VfAddressGroup 地址群組驗證 -----> vf-addressgroup
+  VfDateGroup 日期群組驗證 -----> vf-date-group
+  VfAddressGroup 地址群組驗證 -----> vf-address-group
 
 Data
   Table 表格 -----> ud-table
@@ -533,7 +533,7 @@ Vue.component('ud-form', {
 Vue.component('ud-captcha', {
   name: "UdCaptcha",
   template: `
-    <div class="ud-captcha-dev">
+    <div class="ud-captcha">
       <div class="canvas-area" ref="canvasArea">
         <canvas id="verify-canvas" width="100" height="48" style="display: none;"></canvas>
         <img ref="codeimg" @click="refresh">
@@ -651,12 +651,12 @@ Vue.component('ud-captcha', {
 
 //-----------------------Validation-----------------------
 //VfItem 表單容器
-Vue.component("ud-vf-item", {
-  name: "UdVfItem",
+Vue.component("vf-item", {
+  name: "VfItem",
   template: `
-    <div class="ud-vf-item">
-      <div class="ud-vf-item__label">{{ label }}</div>
-      <div class="ud-vf-item__input">
+    <div class="vf-item">
+      <div class="vf-item-label">{{ label }}</div>
+      <div class="vf-item-input">
         <slot></slot>
       </div>
     </div>
@@ -670,8 +670,8 @@ Vue.component("ud-vf-item", {
 });
 
 //VfName 姓名驗證
-Vue.component("ud-name", {
-  name: "UdVfName",
+Vue.component("vf-name", {
+  name: "VfName",
   template: `
     <formulate-input
       type="text"
@@ -685,8 +685,8 @@ Vue.component("ud-name", {
 });
 
 //VfGender 性別驗證
-Vue.component("ud-gender", {
-  name: "UdVfGender",
+Vue.component("vf-gender", {
+  name: "VfGender",
   template: `
     <formulate-input
       type="select"
@@ -709,8 +709,8 @@ Vue.component("ud-gender", {
 });
 
 //VfPhone 電話驗證
-Vue.component("ud-phone", {
-  name: "UdVfPhone",
+Vue.component("vf-phone", {
+  name: "VfPhone",
   template: `
     <formulate-input
       type="tel"
@@ -725,8 +725,8 @@ Vue.component("ud-phone", {
 });
 
 //VfMail 郵件驗證
-Vue.component("ud-mail", {
-  name: "UdVfMail",
+Vue.component("vf-mail", {
+  name: "VfMail",
   template: `
     <formulate-input
       type="text"
@@ -740,8 +740,8 @@ Vue.component("ud-mail", {
 });
 
 //VfIdcard 身分證驗證
-Vue.component("ud-idcard", {
-  name: "UdVfIdcard",
+Vue.component("vf-idcard", {
+  name: "VfIdcard",
   template: `
     <formulate-input
       type="text"
@@ -756,8 +756,8 @@ Vue.component("ud-idcard", {
 });
 
 //VfDate 日期驗證
-Vue.component("ud-date", {
-  name: "UdVfDate",
+Vue.component("vf-date", {
+  name: "VfDate",
   template: `
     <formulate-input
       type="date"
@@ -789,10 +789,10 @@ Vue.component("ud-date", {
 });
 
 //VfAccept 條款驗證
-Vue.component("ud-accept", {
-  name: "UdVfAccept",
+Vue.component("vf-accept", {
+  name: "VfAccept",
   template: `
-    <label class="ud-accept">
+    <label class="vf-accept">
       <formulate-input
         type="checkbox"
         name="accept"
@@ -810,7 +810,7 @@ Vue.component("ud-accept", {
 Vue.component('vf-captcha', {
   name: "VfCaptcha",
   template: `
-    <div class="ud-captcha-dev">
+    <div class="vf-captcha">
       <div class="canvas-area" ref="canvasArea">
         <canvas id="verify-canvas" width="100" height="48" style="display: none;"></canvas>
         <img ref="codeimg" @click="refresh">
@@ -927,10 +927,10 @@ Vue.component('vf-captcha', {
 
 
 //DateGroup 日期群組驗證
-Vue.component('ud-date-group', {
-  name: "UdDateGroup",
+Vue.component('vf-date-group', {
+  name: "VfDateGroup",
   template: `
-    <div class="ud-date-select">
+    <div class="vf-date-select">
       <select name="year" ref="year"></select>
       <p>年</p>
       <select name="month" ref="month"></select>
@@ -993,10 +993,10 @@ Vue.component('ud-date-group', {
 })
 
 //VfAddressGroup 地址群組驗證
-Vue.component('ud-address-group', {
-  name: "UdAddressGroup",
+Vue.component('vf-address-group', {
+  name: "VfAddressGroup",
   template: `
-    <div class="ud-address-group">
+    <div class="vf-address-group">
       <div class="flex-wrapper" v-if="!inputOnly">
         <formulate-input 
           type="select"
