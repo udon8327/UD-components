@@ -32,21 +32,9 @@ var vm = new Vue({
         },
     },
     mounted: function () {
-        var vm = this;
-        console.log(vm);
-        Vue.nextTick(function () {
-        });
-        showVm();
-        // console.log('vm:' + this);
-        // console.log('vm.$el:' + this.$el);
         this.getData();
-        console.log(randomString(100));
-        console.log(formatNumber(21123123123123));
     },
     methods: {
-        copyTxt: function () {
-            copyTextToClipboard('test');
-        },
         success: function () {
             this.$alert({ msg: '表單成功送出' });
         },

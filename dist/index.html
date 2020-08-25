@@ -24,8 +24,7 @@
       <ud-modal :is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-button @click="copyTxt">複製</ud-button>
-          <p id="test">udon123</p>
+          <ud-captcha-dev></ud-captcha-dev>
           <h1>{{ userData.name }}</h1>
           <ud-button @click="postData">POST</ud-button>
           <div class="flex-wrapper">
@@ -83,6 +82,7 @@
         </div>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js"></script>

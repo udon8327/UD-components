@@ -80,6 +80,7 @@ String
   複製文字至剪貼簿 -----> copyTextToClipboard
   轉義HTML(防XSS攻擊) -----> escapeHTML
   駝峰式轉換 -----> convertCamelCase
+  將字串內URL轉為超連結 -----> replaceURLToLink
 
 Number
   取得範圍內隨機數 -----> getRandom
@@ -689,7 +690,7 @@ Vue.component('ud-captcha', {
   name: "UdCaptcha",
   template: `
     <div class="ud-captcha">
-      <canvas id="verify-canvas" ref="verifyCanvas" width="126" height="48"></canvas>
+      <canvas id="verify-canvas" ref="verify" width="126" height="48"></canvas>
       <img id="captcha-img" ref="captchaImg">
       <input id="verify-hidden" ref="verifyHidden" type="hidden" v-model="verify">
       <div id="refresh" ref="refresh" v-if="hasRefresh">
@@ -731,48 +732,48 @@ Vue.component('ud-captcha', {
     captchaInit: function(){
       let verifyValue;
       let nums = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz".split("");
-      let vm = this;
+      let _this = this;
       drawCode();
       //繪製驗證碼
       function drawCode() {
-        let canvas = vm.$refs.verifyCanvas; //獲取HTML端畫布
+        let canvas = _this.$refs.verify; //獲取HTML端畫布
         let context = canvas.getContext("2d"); //獲取畫布2D上下文
-        context.fillStyle = vm.bgColor; //畫布填充色
+        context.fillStyle = _this.bgColor; //畫布填充色
         context.fillRect(0, 0, canvas.width, canvas.height); //清空畫布
-        context.fillStyle = vm.color; //設置字體顏色
-        context.font = vm.font; //設置字體
-        let rand = new Array();
-        let x = new Array();
-        let y = new Array();
+        context.fillStyle = _this.color; //設置字體顏色
+        context.font = _this.font; //設置字體
+        let rand = [];
+        let x = [];
+        let y = [];
         for (let i = 0; i < 4; i++) {
-            rand[i] = nums[Math.floor(Math.random() * nums.length)]
-            x[i] = i * 16 + 10;
-            y[i] = Math.random() * 20 + 20;
-            context.fillText(rand[i], x[i], y[i]);
+          rand[i] = nums[Math.floor(Math.random() * nums.length)]
+          x[i] = i * 16 + 10;
+          y[i] = Math.random() * 20 + 20;
+          context.fillText(rand[i], x[i], y[i]);
         }
         verifyValue = rand.join('').toLowerCase();
-        vm.verify = verifyValue;
+        _this.verify = verifyValue;
         
         //畫3條隨機線
-        if(!vm.noLine){
+        if(!_this.noLine){
           for (let i = 0; i < 3; i++) {
             drawline(canvas, context);
           }
         }
         //畫30個隨機點
-        if(!vm.noDots){
+        if(!_this.noDots){
           for (let i = 0; i < 30; i++) {
             drawDot(canvas, context);
           }
         }
-        convertCanvasToImage(canvas)
+        convertCanvasToImage(canvas);
       }
       //隨機線
       function drawline(canvas, context) {
         context.moveTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));             //随机线的起点x坐标是画布x坐标0位置，y坐标是画布高度的随机数
         context.lineTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));  //随机线的终点x坐标是画布宽度，y坐标是画布高度的随机数
         context.lineWidth = 0.5; //隨機線寬
-        context.strokeStyle = vm.lineColor; //隨機線描邊屬性
+        context.strokeStyle = _this.lineColor; //隨機線描邊屬性
         context.stroke(); //描邊，即起點描到終點
       }
       //隨機點(所謂畫面其實就是畫1px像素的線)
@@ -786,25 +787,29 @@ Vue.component('ud-captcha', {
       }
       //繪製圖片
       function convertCanvasToImage(canvas) {
-        vm.$refs.verifyCanvas.style.display = "none";
-        let image = vm.$refs.captchaImg;
+        _this.$refs.verify.style.display = "none";
+        let image = _this.$refs.captchaImg;
         image.src = canvas.toDataURL("image/png");
         return image;
       }
       //點擊圖片刷新
-      vm.$refs.captchaImg.onclick = function () {
-        $('#verify-canvas').remove();
-        $('#verify').after('<canvas width="126" height="48" id="verify-canvas"></canvas>')
+      this.$refs.captchaImg.onclick = () => {
+        this.$refs.verify.remove();
+        // $('#verify').after('<canvas width="126" height="48" id="verify-canvas"></canvas>');
+        let test = '<canvas width="126" height="48" id="verify-canvas"></canvas>'
+        document.getElementById('verify').insertAdjacentElement('afterend', test);
         drawCode();
       }
-      vm.$refs.refresh.onclick = function () {
-        $('#verify-canvas').remove();
-        $('#verify').after('<canvas width="126" height="48" id="verify-canvas"></canvas>')
+      this.$refs.refresh.onclick = () => {
+        this.$refs.verify.remove();
+        // $('#verify').after('<canvas width="126" height="48" id="verify-canvas"></canvas>')
+        document.getElementById('verify').insertAdjacentElement('afterend', '<canvas width="126" height="48" id="verify-canvas"></canvas>');
         drawCode();
       }
     }
   }
 })
+
 
 //DateGroup 日期群組驗證
 Vue.component('ud-date-group', {
@@ -1844,6 +1849,10 @@ function copyTextToClipboard(id) {
   vm.$alert({msg: '文字已複製到剪貼簿'});
 }
 
+function test(){
+  vm.$alert({msg: '文字已複製到剪貼簿'});
+}
+
 //轉義HTML(防XSS攻擊)
   //escapeHTML('<a href="#">Me & you</a>'); -> '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
 function escapeHTML(str){
@@ -1862,6 +1871,19 @@ function escapeHTML(str){
 function convertCamelCase(str){
   return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
+
+/**
+ * 將字串內URL轉為超連結
+ * @param  {String} text 代入值
+ */
+function replaceURLToLink(text) {
+  text = text.replace(URL, function (url) {
+    let urlText = url;
+    if (!url.match('^https?://')) url = 'http://' + url;
+    return '' + urlText + '';
+  });
+  return text;
+};
 
 //-----------------------Number-----------------------
 /**
@@ -2525,7 +2547,6 @@ service.interceptors.request.use(
   config => {
     vm.$loading.open();
     config.data = JSON.stringify(config.data);
-    console.log(`request: ${config.data}, type: ${typeOf(config.data)}`);
 
     // 每次發送請求之前判斷是否存在token，如果存在，則統一在http請求的header都加上token，不用每次請求都手動添加了
     // 即使本地存在token，也有可能token是過期的，所以在響應攔截器中要對返回狀態進行判斷
@@ -2777,6 +2798,94 @@ Vue.component("el-button", {
   }
 });
 
-function showVm(){
-  console.log(vm);
-}
+
+
+//VfCaptcha 圖形碼驗證
+Vue.component('ud-captcha-dev', {
+  name: "UdCaptcha",
+  template: `
+    <div class="ud-captcha">
+      <div id="random">
+        <canvas id="verify-canvas" width="126" height="48"></canvas>
+        <img ref="codeimg" @click="refresh">
+        <input id="varifyhidden" type="hidden">
+      </div>
+      <div class="refresh" @click="refresh">
+        <i class="fas fa-sync-alt" id="refresh"></i>
+      </div>
+    </div>
+  `,
+  data() {
+    return {
+      verify: "",
+    }
+  },
+  props: {
+    value: String,
+  },
+  mounted() {
+    this.drawCode();
+  },
+  methods: {
+    // 绘制验证码
+    drawCode() {
+      let nums = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz".split("");
+      let canvas = document.getElementById('verify-canvas');  //获取HTML端画布
+      let context = canvas.getContext("2d");                 //获取画布2D上下文
+      context.fillStyle = "#fff";                  //画布填充色
+      context.fillRect(0, 0, canvas.width, canvas.height);   //清空画布
+      context.fillStyle = "#000";                           //设置字体颜色
+      context.font = "25px Arial";                           //设置字体
+      let rand = new Array();
+      let x = new Array();
+      let y = new Array();
+      for (let i = 0; i < 4; i++) {
+          rand[i] = nums[Math.floor(Math.random() * nums.length)]
+          x[i] = i * 16 + 10;
+          y[i] = Math.random() * 20 + 20;
+          context.fillText(rand[i], x[i], y[i]);
+      }
+      let test = rand.join('');
+      $('#letifyhidden').val(test);
+      
+      //画3条随机线
+      for (let i = 0; i < 3; i++) {
+        this.drawline(canvas, context);
+      }
+      // 画30个随机点
+      for (let i = 0; i < 30; i++) {
+        this.drawDot(canvas, context);
+      }
+      this.convertCanvasToImage(canvas);
+    },
+    // 随机线
+    drawline: function(canvas, context) {
+      context.moveTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));             //随机线的起点x坐标是画布x坐标0位置，y坐标是画布高度的随机数
+      context.lineTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));  //随机线的终点x坐标是画布宽度，y坐标是画布高度的随机数
+      context.lineWidth = 0.5;                                                  //随机线宽
+      context.strokeStyle = 'rgba(100,100,100,1)';                            //随机线描边属性
+      context.stroke();                                                         //描边，即起点描到终点
+    },
+    // 随机点(所谓画点其实就是画1px像素的线，方法不再赘述)
+    drawDot: function(canvas, context) {
+      let px = Math.floor(Math.random() * canvas.width);
+      let py = Math.floor(Math.random() * canvas.height);
+      context.moveTo(px, py);
+      context.lineTo(px + 1, py + 1);
+      context.lineWidth = 0.2;
+      context.stroke();
+    },
+    // 绘制图片
+    convertCanvasToImage: function(canvas) {
+      document.getElementById('verify-canvas').style.display = "none";
+      let image = this.$refs.codeimg;
+      image.src = canvas.toDataURL("image/png");
+      return image;
+    },
+    refresh: function() {
+      document.getElementById('verify-canvas').remove();
+      $('#random').after('<canvas width="126" height="48" id="verify-canvas"></canvas>')
+      this.drawCode();
+    }
+  },
+})

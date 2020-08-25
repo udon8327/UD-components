@@ -35,24 +35,11 @@ let vm = new Vue({
       area: "中正區",
       address: "台北市中正區金華街30-5號2樓"
     },
-
   },
   mounted: function() {
-    let vm = this;
-    console.log(vm);
-    Vue.nextTick(() => {
-    })
-    showVm();
-    // console.log('vm:' + this);
-    // console.log('vm.$el:' + this.$el);
     this.getData();
-    console.log(randomString(100));
-    console.log(formatNumber(21123123123123));
   },
   methods: {
-    copyTxt: function(){
-      copyTextToClipboard('test');
-    },
     success: function() {
       this.$alert({msg: '表單成功送出'});
     },

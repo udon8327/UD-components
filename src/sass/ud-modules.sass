@@ -272,14 +272,18 @@
 
 // VfCaptcha 圖形碼驗證
 .ud-captcha
-  flex: 0 0 100px
   border: 1px solid #ccc
-  margin-right: 10px
   position: relative
-  #refresh
-    position: absolute
-    right: 0
-    flex: 0 0 auto
+  display: flex
+  #random
+    margin: 0 8px 0 12px
+    cursor: pointer
+    img
+      height: 48px
+      border: 1px solid #ced4da
+  .refresh
+    cursor: pointer
+    transform: translate(0,5px)
 
 // VfDateGroup 日期群組驗證
 .ud-date-group
@@ -1206,3 +1210,20 @@
         border-radius: 3px
         margin: 0
         padding: 0
+
+
+
+// VfCaptcha 圖形碼驗證
+.ud-captcha-dev
+  border: 1px solid #ccc
+  position: relative
+  display: flex
+  #random
+    margin: 0 8px 0 12px
+    cursor: pointer
+    img
+      height: 48px
+      border: 1px solid #ced4da
+  .refresh
+    cursor: pointer
+    transform: translate(0,5px)
