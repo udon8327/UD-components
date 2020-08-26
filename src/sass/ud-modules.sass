@@ -46,6 +46,7 @@
 //   Ellipsis 文字省略 -----> ud-ellipsis
 //   CountdownExpire 倒數計時(時限) -----> ud-countdown-expire
 //   Countdown 倒數計時 -----> ud-countdown
+//   QrCode 取得QRcode圖片 -----> ud-qrcode
 
 // Appication
 //   Carousel 走馬燈 -----> ud-carousel
@@ -549,12 +550,20 @@
 
 // Ellipsis 文字省略
 .ud-ellipsis
+  display: -webkit-box
+  overflow: hidden
+  text-overflow: ellipsis
+  -webkit-line-clamp: 2
+  -webkit-box-orient: vertical
 
 // CountdownExpire 倒數計時(時限)
 .ud-countdown-expire
 
 // Countdown 倒數計時
 .ud-countdown
+
+// QrCode 取得QRcode圖片
+.ud-qrcode
 
 //-----------------------Appication-----------------------
 // Carousel 走馬燈

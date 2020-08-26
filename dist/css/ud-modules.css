@@ -532,6 +532,14 @@
     .ud-html p, .ud-html span, .ud-html label {
       font-size: 14px; } }
 
+.ud-ellipsis {
+  display: -webkit-box;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; }
+
 .ud-youtube .video-wrapper {
   position: relative;
   padding-bottom: 56.25%;

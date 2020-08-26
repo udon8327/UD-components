@@ -57,8 +57,9 @@ Tools
   Ellipsis 文字省略 -----> ud-ellipsis
   CountdownExpire 倒數計時(時限) -----> ud-countdown-expire
   Countdown 倒數計時 -----> ud-countdown
+  QrCode 取得QRcode圖片 -----> ud-qrcode
 
-Appication
+Application
   Carousel 走馬燈 -----> ud-carousel
   Youtube 水管播放 -----> ud-youtube
   YoutubeApi 水管播放(控制版) -----> ud-youtube-api
@@ -96,6 +97,8 @@ Array
 
 Object
   精準型別判斷 -----> typeOf
+  過濾物件鍵值 -----> filterObj
+  刪除物件鍵值 -----> deleteObj
   深拷貝(簡易版) -----> deepCloneSimple
   深拷貝(完全版) -----> deepClone
 
@@ -208,7 +211,7 @@ Vue.component('ud-button', {
 //Input 輸入框
 Vue.component('ud-input', {
     name: 'UdInput',
-    template: "\n    <div class=\"ud-input\">\n      <input\n        :type=\"type\"\n        v-model=\"inputVal\"\n        :placeholder=\"placeholder\"\n      >\n    </div>\n  ",
+    template: "\n    <div class=\"ud-input\">\n      <input\n        :type=\"type\"\n        v-model=\"inputVal\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n    </div>\n  ",
     props: {
         value: null,
         type: {
@@ -219,6 +222,10 @@ Vue.component('ud-input', {
             type: String,
             default: "請輸入此欄位"
         },
+        maxlength: {
+            type: null,
+            default: "",
+        }
     },
     computed: {
         inputVal: {
@@ -399,7 +406,7 @@ Vue.component('ud-form', {
     template: "\n\n  ",
     props: {},
 });
-//UdCaptcha 圖形驗證碼
+//Captcha 圖形驗證碼
 Vue.component('ud-captcha', {
     name: "UdCaptcha",
     template: "\n    <div class=\"ud-captcha\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
@@ -1157,6 +1164,29 @@ Vue.component('ud-countdown', {
         reset: function () {
             this.cTime = 10;
             this.countdown();
+        }
+    },
+});
+//QrCode 取得QRcode圖片
+Vue.component('ud-qrcode', {
+    template: "\n    <img class=\"ud-qrcode\" :src=\"QrCodeSrc\" :alt=\"url\">\n  ",
+    props: {
+        url: {
+            type: String,
+            default: "https://www.google.com.tw/"
+        },
+        width: {
+            type: null,
+            default: "300"
+        },
+        height: {
+            type: null,
+            default: "300"
+        },
+    },
+    computed: {
+        QrCodeSrc: function () {
+            return "http://chart.apis.google.com/chart?cht=qr&choe=UTF-8&chs=" + this.width + "x" + this.height + "&chl=" + this.url;
         }
     },
 });
