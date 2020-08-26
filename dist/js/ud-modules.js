@@ -58,6 +58,7 @@ Tools
   CountdownExpire 倒數計時(時限) -----> ud-countdown-expire
   Countdown 倒數計時 -----> ud-countdown
   QrCode 取得QRcode圖片 -----> ud-qrcode
+  Ratio 等比例自適應容器 -----> ud-ratio
 
 Application
   Carousel 走馬燈 -----> ud-carousel
@@ -152,6 +153,7 @@ Web
   跳頁後強制刷新 -----> pageReload
   網址跳轉 -----> toUrl
   CDN備援 -----> cdnBackup
+  上下一頁強制刷新 -----> backReload
   Axios封裝 -----> axiosPackage
 
 Device
@@ -164,11 +166,8 @@ Animation
 */
 // 初始化執行
 cdnBackup();
+backReload();
 Vue.use(VueFormulate);
-window.onpageshow = function (event) {
-    if (event.persisted)
-        window.location.reload();
-};
 //-----------------------Form-----------------------
 //Button 按鈕
 Vue.component('ud-button', {
@@ -1190,6 +1189,24 @@ Vue.component('ud-qrcode', {
         }
     },
 });
+//Ratio 等比例自適應容器
+Vue.component('ud-ratio', {
+    template: "\n    <div class=\"ud-ratio\" :style=\"{\n      backgroundImage: 'url(' + src + ')', \n      paddingBottom: height + '%', \n      borderRadius: radius + 'px',\n      backgroundSize: bgSize\n    }\">\n      <slot></slot>\n    </div>\n  ",
+    props: {
+        src: {
+            default: "https://i.imgur.com/s3w1Sm3.jpg"
+        },
+        height: {
+            default: 100
+        },
+        radius: {
+            default: 0,
+        },
+        bgSize: {
+            default: "cover"
+        }
+    },
+});
 //-----------------------Application-----------------------
 //Carousel 走馬燈
 Vue.component('ud-carousel', {
@@ -2107,6 +2124,13 @@ function cdnBackup() {
         document.write("\n      <link href=\"https://pro.fontawesome.com/releases/v5.13.1/css/fontawesome.css\" rel=\"stylesheet\">\n      <link href=\"https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css\" rel=\"stylesheet\">\n      <link href=\"https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css\" rel=\"stylesheet\">\n      <script src=\"https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js\"></script>\n      <script src=\"https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js\"></script>\n      <script src=\"https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js\"></script>\n      <script src=\"https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js\"></script>\n      <script src=\"https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js\"></script>\n      <script src=\"js/ud-modules.js\"></script>\n    ");
         console.log("CDN Error!!");
     }
+}
+//上下一頁強制刷新
+function backReload() {
+    window.onpageshow = function (event) {
+        if (event.persisted)
+            window.location.reload();
+    };
 }
 //Axios封装
 //axiosPackage

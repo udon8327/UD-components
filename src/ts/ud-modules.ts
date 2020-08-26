@@ -61,6 +61,7 @@ Tools
   CountdownExpire 倒數計時(時限) -----> ud-countdown-expire
   Countdown 倒數計時 -----> ud-countdown
   QrCode 取得QRcode圖片 -----> ud-qrcode
+  Ratio 等比例自適應容器 -----> ud-ratio
 
 Application
   Carousel 走馬燈 -----> ud-carousel
@@ -156,6 +157,7 @@ Web
   跳頁後強制刷新 -----> pageReload
   網址跳轉 -----> toUrl
   CDN備援 -----> cdnBackup
+  上下一頁強制刷新 -----> backReload
   Axios封裝 -----> axiosPackage
 
 Device
@@ -169,10 +171,8 @@ Animation
 
 // 初始化執行
 cdnBackup();
+backReload();
 Vue.use(VueFormulate);
-window.onpageshow = event => {
-  if(event.persisted) window.location.reload();
-};
 
 //-----------------------Form-----------------------
 //Button 按鈕
@@ -1662,6 +1662,34 @@ Vue.component('ud-qrcode', {
   },
 })
 
+//Ratio 等比例自適應容器
+Vue.component('ud-ratio', {
+  template: `
+    <div class="ud-ratio" :style="{
+      backgroundImage: 'url(' + src + ')', 
+      paddingBottom: height + '%', 
+      borderRadius: radius + 'px',
+      backgroundSize: bgSize
+    }">
+      <slot></slot>
+    </div>
+  `,
+  props: {
+    src: { //背景圖片
+      default: "https://i.imgur.com/s3w1Sm3.jpg"
+    },
+    height: { //高度比例(%)
+      default: 100
+    },
+    radius: { //圓角(px)
+      default: 0,
+    },
+    bgSize: { //背景尺寸
+      default: "cover"
+    }
+  },
+})
+
 //-----------------------Application-----------------------
 //Carousel 走馬燈
 Vue.component('ud-carousel', {
@@ -2672,6 +2700,13 @@ function cdnBackup(){
     `);
     console.log("CDN Error!!");
   }
+}
+
+//上下一頁強制刷新
+function backReload(){
+  window.onpageshow = event => {
+    if(event.persisted) window.location.reload();
+  };
 }
 
 //Axios封装
