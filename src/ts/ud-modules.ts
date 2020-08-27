@@ -10,6 +10,9 @@ declare var $: (selector: string) => any;
 表單組件支援disabled
 編寫通用連動select
 編寫日期連動select
+編寫表格ud-table
+編寫分頁ud-pagination
+編寫表單通用驗證
 */
 
 /*
@@ -44,6 +47,9 @@ Validation
 Data
   Table 表格 -----> ud-table
   Pagination 分頁 -----> ud-pagination
+
+Layout
+  Flex 通用排版容器 -----> ud-flex
 
 Notice
   Alert 警告彈窗 -----> ud-alert
@@ -154,7 +160,6 @@ Web
   查詢網址所帶參數 -----> queryString
   HTTP跳轉HTTPS -----> httpsRedirect
   檢驗URL連接是否有效 -----> getUrlState
-  跳頁後強制刷新 -----> pageReload
   網址跳轉 -----> toUrl
   CDN備援 -----> cdnBackup
   跳頁重整 -----> jumpReload
@@ -1009,7 +1014,7 @@ Vue.component('vf-address-group', {
         <formulate-input 
           type="select"
           name="county"
-          placeholder="請選擇縣市"
+          placeholder="縣市"
           :options="countyOptions"
           validation="required"
           :validation-messages="{required: '縣市不可為空'}"
@@ -1019,7 +1024,7 @@ Vue.component('vf-address-group', {
         <formulate-input
           type="select"
           name="area"
-          placeholder="請選擇鄉填市區"
+          placeholder="鄉填市區"
           :options="areaOptions"
           validation="required"
           :validation-messages="{required: '鄉鎮市區不可為空'}"
@@ -1086,23 +1091,14 @@ Vue.component('vf-address-group', {
       return tempObj;
     },
     areaOptions: function(){
-      let _this = this;
       if(!this.countyValue) return;
-      let countyObj = this.countyList.find(item => item.county === _this.countyValue);
+      let countyObj = this.countyList.find(item => item.county === this.countyValue);
       let tempObj = {};
       for(let item of countyObj.areaList){
         tempObj[item] = item;
       }
       return tempObj;
     }
-  },
-  methods: {
-    getCounty: function(val){
-      this.countyValue = val;
-    },
-    getArea: function(val){
-      this.areaValue = val;
-    },
   },
   watch: {
     countyValue: function(){
@@ -1121,7 +1117,15 @@ Vue.component('vf-address-group', {
       }
       this.$refs.address.proxy = `${this.countyValue}${this.areaValue}`;
     }
-  }
+  },
+  methods: {
+    getCounty: function(val){
+      this.countyValue = val;
+    },
+    getArea: function(val){
+      this.areaValue = val;
+    },
+  },
 })
 
 //-----------------------Data-----------------------
@@ -1141,6 +1145,20 @@ Vue.component('ud-pagination', {
   name: "UdPagination",
   template: `
 
+  `,
+  props: {
+    
+  },
+})
+
+//-----------------------Layout-----------------------
+// Flex 通用排版容器
+Vue.component('ud-flex', {
+  name: "UdFlex",
+  template: `
+    <div class="ud-flex">
+      <slot></slot>
+    </div>
   `,
   props: {
     
@@ -2059,8 +2077,11 @@ function test(){
   vm.$alert({msg: '文字已複製到剪貼簿'});
 }
 
-//轉義HTML(防XSS攻擊)
-  //escapeHTML('<a href="#">Me & you</a>'); -> '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
+/**
+ * 轉義HTML(防XSS攻擊)
+ * @param  {String} str 代入值
+ * escapeHTML('<a href="#">Me & you</a>'); -> '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
+ */
 function escapeHTML(str){
   return str.replace(/[&<>'"]/g,tag =>({
     '&': '&amp;',
@@ -2072,8 +2093,11 @@ function escapeHTML(str){
   );
 }
 
-//駝峰式轉換
-  //convertCamelCase("camelCase"); -> camel-case
+/**
+ * 駝峰式轉換
+ * @param  {String} str 代入值
+ * convertCamelCase("camelCase"); -> camel-case
+ */
 function convertCamelCase(str){
   return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
@@ -2101,21 +2125,31 @@ function getRandom(min = 0, max = 100) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//四捨五入到指定位數
-  //round(1.235, 2); -> 1.24
+/**
+ * 四捨五入到指定位數
+ * @param  {String} n 代入值
+ * @param  {Number} decimals 指定位數 預設為0
+ * round(1.235, 2); -> 1.24
+ */
 function round(n, decimals = 0){
   return Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
 }
 
 //-----------------------Image-----------------------
-//預載圖片
+/**
+ * 預載圖片
+ * @param  {String} src 圖片路徑
+ */
 function imagePreload(src) {
   let img = new Image();
   img.src = src;
 }
 
 //-----------------------Array-----------------------
-//陣列是否有重複值
+/**
+ * 陣列是否有重複值
+ * @param  {Array} arr 代入值
+ */
 function isRepeat(arr){
   let arrStr = JSON.stringify(arr);
   for (let i = 0; i < arr.length; i++) {
@@ -2126,37 +2160,54 @@ function isRepeat(arr){
   return false;
 }
 
-//移除陣列中的重複元素
+/**
+ * 移除陣列中的重複元素
+ * @param  {Array} arr 代入值
+ */
 function uniqArray(arr) {
   let newArr = arr.filter((el, i, arr) => arr.indexOf(el) === i);
   return newArr;
 }
 
-//二維陣列扁平化(第二參數可指定深度)
-  //flatArray([1, [2], 3, 4]); -> [1, 2, 3, 4]
-  //flatArray([1, [2, [3, [4, 5], 6], 7], 8], 2); -> [1, 2, 3, [4, 5], 6, 7, 8]
+/**
+ * 二維陣列扁平化(第二參數可指定深度)
+ * @param  {Array} arr 代入值
+ * @param  {Number} depth 指定深度
+ * flatArray([1, [2], 3, 4]); -> [1, 2, 3, 4]
+ * flatArray([1, [2, [3, [4, 5], 6], 7], 8], 2); -> [1, 2, 3, [4, 5], 6, 7, 8]
+ */
 function flatArray(arr, depth = 1){
   return arr.reduce((a, v) => a.concat(depth > 1 && Array.isArray(v) ? flatArray(v, depth - 1) : v), []);
 }
 
-//返回陣列中某值的所有索引
-  //indexOfAll([1, 2, 3, 1, 2, 3], 1); -> [0,3]
-  //indexOfAll([1, 2, 3], 4); -> []
+/**
+ * 返回陣列中某值的所有索引
+ * @param  {Array} arr 代入值
+ * @param  {Number} val 指定值
+ * indexOfAll([1, 2, 3, 1, 2, 3], 1); -> [0,3]
+ * indexOfAll([1, 2, 3], 4); -> []
+ */
 function indexOfAll(arr, val){
   return arr.reduce((acc, el, i) => (el === val ? [...acc, i] : acc), []);
 }
 
-//兩陣列的交集
-  //intersection([1, 2, 3], [4, 3, 2]); -> [2, 3]
+/**
+ * 兩陣列的交集
+ * @param  {Array} a 陣列A
+ * @param  {Array} b 陣列B
+ * intersection([1, 2, 3], [4, 3, 2]); -> [2, 3]
+ */
 function intersection(a, b){
   const s = new Set(b);
   return a.filter(x => s.has(x));
 };
 
-//洗牌陣列
-  //const foo = [1, 2, 3];
-  //shuffle(foo); -> [2, 3, 1];
-  //foo = [1, 2, 3];
+/**
+ * 洗牌陣列
+ * @param  {Array} a 陣列A
+ * @param  {Array} b 陣列B
+ * shuffle([1, 2, 3]); -> [2, 3, 1];
+ */
 function shuffle([...arr]){
   let m = arr.length;
   while (m) {
@@ -2167,14 +2218,21 @@ function shuffle([...arr]){
 };
 
 //-----------------------Object-----------------------
-//精準型別判斷
+/**
+ * 精準型別判斷
+ * @param  {Any} v 代入值
+ */
 function typeOf(v){
   return v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
 }
 
-//過濾物件鍵值
-  //filterObj(test,["name","gender"]);
-function filterObj(obj,arr){
+/**
+ * 過濾物件鍵值
+ * @param  {Object} obj 代入值
+ * @param  {Array} arr 過濾值的陣列
+ * filterObj(obj,["name","gender"]);
+ */
+function filterObj(obj, arr){
   let tempObj = JSON.parse(JSON.stringify(obj));
   for(let i in tempObj){
     if(arr.indexOf(i) === -1) delete tempObj[i];
@@ -2182,9 +2240,13 @@ function filterObj(obj,arr){
   return tempObj;
 }
 
-//刪除物件鍵值
-  //deleteObj(test,["name","gender"]);
-function deleteObj(obj,arr){
+/**
+ * 刪除物件鍵值
+ * @param  {Object} obj 代入值
+ * @param  {Array} arr 刪除值的陣列
+ * deleteObj(test,["name","gender"]);
+ */
+function deleteObj(obj, arr){
   let tempObj = JSON.parse(JSON.stringify(obj));
   for(let i in tempObj){
     if(arr.indexOf(i) !== -1) delete tempObj[i];
@@ -2192,13 +2254,19 @@ function deleteObj(obj,arr){
   return tempObj;
 }
 
-//深拷貝(簡易版)
-  //無法拷貝特殊類型值與funciton
+/**
+ * 深拷貝(簡易版)
+ * @param  {Object} obj 代入值
+ * 無法拷貝特殊類型值與funciton
+ */
 function deepCloneSimple(obj){
   return JSON.parse(JSON.stringify(obj));
 }
 
-//深拷貝(完全版)
+/**
+ * 深拷貝(完全版)
+ * @param  {Object} obj 代入值
+ */
 function deepClone(obj, hash = new WeakMap()) {
   if(obj == null){
     return obj;
@@ -2227,14 +2295,21 @@ function deepClone(obj, hash = new WeakMap()) {
 }
 
 //-----------------------Time-----------------------
-//檢查是否為閏年
+/**
+ * 檢查是否為閏年
+ * @param  {Number} year 年份
+ */
 function isLeapYear(year){
   return new Date(year, 1, 29).getDate() === 29;
 }
 
-//檢查日期是否存在
-  //isExistDate("2020-02-29"); -> true
-  //isExistDate("2019/02/29","/"); -> false
+/**
+ * 檢查日期是否存在
+ * @param  {String} dateStr 日期字串
+ * @param  {String} split 分割符 預設為"-"
+ * isExistDate("2020-02-29"); -> true
+ * isExistDate("2019/02/29","/"); -> false
+ */
 function isExistDate(dateStr, split = "-") {
   let dateArr = dateStr.split(split);
   let limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -2246,41 +2321,62 @@ function isExistDate(dateStr, split = "-") {
   return theDay > 0 && theDay <= limitInMonth[theMonth - 1];
 }
 
-//返回當前24小時制時間的字符串
-  //getColonTimeFromDate(new Date()); -> "08:38:00"
+/**
+ * 返回當前24小時制時間的字符串
+ * @param  {Any} date 時間物件
+ * getColonTimeFromDate(new Date()); -> "08:38:00"
+ */
 function getColonTimeFromDate(date){
   return date.toTimeString().slice(0, 8);
 }
 
-//返回日期間的天數
-  //getDaysDiffBetweenDates(new Date('2019-01-01'), new Date('2019-10-14')); -> 286
+/**
+ * 返回日期間的天數
+ * @param  {Any} dateInitial 開始時間物件
+ * @param  {Any} dateFinal 結束時間物件
+ * getDaysDiffBetweenDates(new Date('2019-01-01'), new Date('2019-10-14')); -> 286
+ */
 function getDaysDiffBetweenDates(dateInitial, dateFinal){
   return (dateFinal - dateInitial) / (1000 * 3600 * 24);
 }
 
-//檢查是否在某日期後
-  //isAfterDate(new Date(2010, 10, 21), new Date(2010, 10, 20)); -> true
+/**
+ * 檢查是否在某日期後
+ * @param  {Any} dateA 時間物件A
+ * @param  {Any} dateB 時間物件B
+ * isAfterDate(new Date(2010, 10, 21), new Date(2010, 10, 20)); -> true
+ */
 function isAfterDate(dateA, dateB){
   return dateA > dateB;
 }
 
-//檢查是否在某日期前
-  //isBeforeDate(new Date(2010, 10, 20), new Date(2010, 10, 21)); -> true
+/**
+ * 檢查是否在某日期前
+ * @param  {Any} dateA 時間物件A
+ * @param  {Any} dateB 時間物件B
+ * isBeforeDate(new Date(2010, 10, 20), new Date(2010, 10, 21)); -> true
+ */
 function isBeforeDate(dateA, dateB){
   return dateA < dateB;
 }
 
-//返回幾天前後的日期
-  //getDiffDate(1); -> "2020-07-01"
-  //getDiffDate(0); -> "2020-06-30"
-  //getDiffDate(-2); -> "2020-06-28"
+/**
+ * 返回幾天前後的日期
+ * @param  {Number} days 指定天數 可為負值
+ * getDiffDate(1); -> "2020-07-01"
+ * getDiffDate(0); -> "2020-06-30"
+ * getDiffDate(-2); -> "2020-06-28"
+ */
 function getDiffDate(days){
   let t = new Date();
   t.setDate(t.getDate() + days);
   return t.toISOString().split('T')[0];
 };
 
-//時間個性化輸出功能
+/**
+ * 時間個性化輸出功能
+ * @param  {Any} time 時間物件
+ */
 function timeFormat(time) {
   let date = new Date(time),
     curDate = new Date(),
@@ -2313,14 +2409,20 @@ function timeFormat(time) {
   return timeStr;
 }
 
-//隨機數時間戳
+/**
+ * 隨機數時間戳
+ */
 function uniqueId() {
   return (
     Number(new Date()).toString() + parseInt(10 * Math.random()) + parseInt(10 * Math.random()) + parseInt(10 * Math.random())
   );
 }
 
-//解析時間
+/**
+ * 解析時間
+ * @param  {Any} time 時間物件
+ * @param  {Any} cFormat 轉換格式
+ */
 function parseTime(time, cFormat) {
   if (arguments.length === 0 || !time) {
     return null
@@ -2364,7 +2466,11 @@ function parseTime(time, cFormat) {
   return time_str
 }
 
-//時間人性化
+/**
+ * 時間人性化
+ * @param  {Any} time 時間物件
+ * @param  {Any} option 轉換格式
+ */
 function formatTime(time, option) {
   if (('' + time).length === 10) {
     time = parseInt(time) * 1000
@@ -2404,23 +2510,32 @@ function formatTime(time, option) {
 }
 
 //-----------------------DOM-----------------------
-//瞬間滾動至頂部
+/**
+ * 瞬間滾動至頂部
+ */
 function anchorTop(){
   window.scrollTo(0,0);
 }
 
-//瞬間滾動至指定元素
+/**
+ * 瞬間滾動至指定元素
+ * @param  {String} targetId 指定元素id
+ */
 function anchorElement(targetId){
   let target = document.getElementById(targetId);
   window.scrollTo(0,target.offsetTop);
 }
 
-//瞬間滾動至底部
+/**
+ * 瞬間滾動至底部
+ */
 function anchorBottom(){
   window.scrollTo(0,document.body.scrollHeight);
 }
 
-//平滑滾動至頂部
+/**
+ * 平滑滾動至頂部
+ */
 function scrollToTop(){
   const c = document.documentElement.scrollTop || document.body.scrollTop;
   if (c > 0) {
@@ -2429,15 +2544,21 @@ function scrollToTop(){
   }
 };
 
-//平滑滾動到指定元素區域
+/**
+ * 平滑滾動到指定元素區域
+ * @param  {String} element 指定元素
+ * smoothScroll('#fooBar');
+ */
 function smoothScroll(element){
   document.querySelector(element).scrollIntoView({
     behavior: 'smooth'
   });
 }
-  // smoothScroll('#fooBar');
 
-//返回當前的滾動位置
+/**
+ * 返回當前的滾動位置
+ * @param  {String} el 指定元素 預設為window
+ */
 function getScrollPosition(el = window){
   return {
     x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
@@ -2445,7 +2566,9 @@ function getScrollPosition(el = window){
   }
 }
 
-//獲取移動設備初始化大小
+/**
+ * 獲取移動設備初始化大小
+ */
 function getInitZoom() {
   if (!this._initZoom) {
     let screenWidth = Math.min(screen.height, screen.width);
@@ -2457,7 +2580,9 @@ function getInitZoom() {
   return this._initZoom;
 }
 
-//獲取頁面高度
+/**
+ * 獲取頁面高度
+ */
 function getPageHeight() {
   let g = document,
     a = g.body,
@@ -2466,33 +2591,43 @@ function getPageHeight() {
   return Math.max(f.scrollHeight, a.scrollHeight, d.clientHeight);
 }
 
-//獲取頁面scrollLeft
+/**
+ * 獲取頁面scrollLeft
+ */
 function getPageScrollLeft() {
   let a = document;
   return a.documentElement.scrollLeft || a.body.scrollLeft;
 }
 
-//獲取頁面scrollTop
+/**
+ * 獲取頁面scrollTop
+ */
 function getPageScrollTop() {
   let a = document;
   return a.documentElement.scrollTop || a.body.scrollTop;
 }
 
-//獲取頁面可視高度
+/**
+ * 獲取頁面可視高度
+ */
 function getPageViewHeight() {
   let d = document,
     a = d.compatMode == "BackCompat" ? d.body : d.documentElement;
   return a.clientHeight;
 }
 
-//獲取頁面可視寬度
+/**
+ * 獲取頁面可視寬度
+ */
 function getPageViewWidth() {
   let d = document,
     a = d.compatMode == "BackCompat" ? d.body : d.documentElement;
   return a.clientWidth;
 }
 
-//獲取頁面寬度
+/**
+ * 獲取頁面寬度
+ */
 function getPageWidth() {
   let g = document,
     a = g.body,
@@ -2501,7 +2636,9 @@ function getPageWidth() {
   return Math.max(f.scrollWidth, a.scrollWidth, d.clientWidth);
 }
 
-//獲取移動設備螢幕寬度
+/**
+ * 獲取移動設備螢幕寬度
+ */
 function getScreenWidth() {
   let smallerSide = Math.min(screen.width, screen.height);
   let fixViewPortsExperiment =
@@ -2517,7 +2654,9 @@ function getScreenWidth() {
   return smallerSide;
 }
 
-//獲取網頁被捲去的位置
+/**
+ * 獲取網頁被捲去的位置
+ */
 function getScrollXY() {
   return document.body.scrollTop
     ? {
@@ -2530,7 +2669,9 @@ function getScrollXY() {
       };
 }
 
-//獲取窗體可見範圍的寬與高
+/**
+ * 獲取窗體可見範圍的寬與高
+ */
 function getViewSize() {
   let de = document.documentElement;
   let db = document.body;
@@ -2539,7 +2680,9 @@ function getViewSize() {
   return Array(viewW, viewH);
 }
 
-//獲取移動設備最大化大小
+/**
+ * 獲取移動設備最大化大小
+ */
 function getZoom() {
   let screenWidth =
     Math.abs(window.orientation) === 90
@@ -2562,7 +2705,12 @@ function getZoom() {
 }
 
 //-----------------------Verify-----------------------
-//各種校驗綜合函式
+/**
+ * 各種校驗綜合函式
+ * @param  {String} type 校驗類型
+ * @param  {String} str 正則表達式
+ * @param  {String} regex 指定正則表達式
+ */
 function validate(type, str, regex){
   switch (type) {
     //校驗是否為姓名(不含符號)
@@ -2606,7 +2754,10 @@ function validate(type, str, regex){
 }
 
 //-----------------------Browser-----------------------
-//動態加載css文件
+/**
+ * 動態加載css文件
+ * @param  {String} url 文件路徑
+ */
 function loadStyle(url) {
   try {
     document.createStyleSheet(url);
@@ -2620,24 +2771,39 @@ function loadStyle(url) {
   }
 }
 
-//取得LocalStorage的值
+/**
+ * 取得LocalStorage的值
+ * @param  {String} key 鍵值
+ */
 function getLocalStorage(key) {
   return localStorage.getItem(key);
 }
 
-//設定LocalStorage的值
+/**
+ * 設定LocalStorage的值
+ * @param  {String} key 鍵值
+ * @param  {String} val 屬性值
+ */
 function setLocalStorage(key, val) {
   localStorage.setItem(key, val);
 }
 
-//取得Cookie的值
+/**
+ * 取得Cookie的值
+ * @param  {String} name 名稱值
+ */
 function getCookie(name) {
   let arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
   if (arr != null) return unescape(arr[2]);
   return null;
 }
 
-//設置cookie值
+/**
+ * 設置cookie值
+ * @param  {String} name 名稱值
+ * @param  {String} value 屬性值
+ * @param  {String} Hours 過期時間
+ */
 function setCookie(name, value, Hours) {
   var d = new Date();
   var offset = 8;
@@ -2654,7 +2820,10 @@ function setCookie(name, value, Hours) {
     ";domain=360doc.com;";
 }
 
-//動態載入插件
+/**
+ * 動態載入插件
+ * @param  {String} src 路徑
+ */
 function insertPlugin(src){
   let script = document.createElement('script');
   script.setAttribute('src', src);
@@ -2662,7 +2831,10 @@ function insertPlugin(src){
 }
 
 //-----------------------Web-----------------------
-//查詢網址所帶參數
+/**
+ * 查詢網址所帶參數
+ * @param  {String} key 鍵值
+ */
 function queryString(key) {
   let url = location.href;
   if (url.indexOf("?") != -1) {
@@ -2673,12 +2845,17 @@ function queryString(key) {
   }
 }
 
-//HTTP跳轉HTTPS
+/**
+ * HTTP跳轉HTTPS
+ */
 function httpsRedirect(){
   if (location.protocol !== 'https:') location.replace('https://' + location.href.split('//')[1]);
 };
 
-//檢驗URL連接是否有效
+/**
+ * 檢驗URL連接是否有效
+ * @param  {String} URL 網址
+ */
 function getUrlState(URL) {
   var xmlhttp = new ActiveXObject("microsoft.xmlhttp");
   xmlhttp.Open("GET", URL, false);
@@ -2699,15 +2876,6 @@ function getUrlState(URL) {
   }
 }
 
-//跳頁後強制刷新
-function pageReload(){
-  window.onpageshow = function(event) {
-    if (event.persisted) {
-      window.location.reload() 
-    }
-  };
-}
-
 /**
  * 網址跳轉
  * @param  {String} url 欲跳轉的網址
@@ -2716,7 +2884,9 @@ function toUrl(url){
   window.location.href = url;
 }
 
-//CDN備援
+/**
+ * CDN備援
+ */
 function cdnBackup(){
   if(!window.Vue){
     document.write(`
@@ -2734,15 +2904,19 @@ function cdnBackup(){
   }
 }
 
-//跳頁重整
+/**
+ * 跳頁重整
+ */
 function jumpReload(){
   window.onpageshow = event => {
     if(event.persisted) window.location.reload();
   };
 }
 
-//Axios封装
-//axiosPackage
+/**
+ * Axios封装
+ * axiosPackage
+ */
 const service = axios.create({
   // baseURL: baseURL, // url = base url + request url
   timeout: 5000, // 請求超時時間
@@ -2893,35 +3067,46 @@ function deleteApi(url, data = {}, params = {}) {
 }
 
 //-----------------------Device-----------------------
-//判斷是否移動裝置
+/**
+ * 判斷是否移動裝置
+ */
 function isMobileUserAgent() {
   return /iphone|ipod|android.*mobile|windows.*phone|blackberry.*mobile/i.test(
     window.navigator.userAgent.toLowerCase()
   );
 }
 
-//判斷是否蘋果移動裝置
+/**
+ * 判斷是否蘋果移動裝置
+ */
 function isAppleMobileDevice() {
   return /iphone|ipod|ipad|Macintosh/i.test(navigator.userAgent.toLowerCase());
 }
 
-//判斷是否安卓移動裝置
+/**
+ * 判斷是否安卓移動裝置
+ */
 function isAndroidMobileDevice() {
   return /android/i.test(navigator.userAgent.toLowerCase());
 }
 
 //-----------------------Animation-----------------------
-//RAF通用動畫函式
-  // animate({
-  //   duration: 1000,
-  //   timing(timeFraction) {
-  //     return timeFraction;
-  //   },
-  //   draw(progress) {
-  //     elem.style.width = progress * 100 + '%';
-  //   }
-  // });
-  // progress = 0 表示開始動畫狀態，progress = 1 表示結束狀態。
+/** 
+ * RAF通用動畫函式
+ * @param  {String} timing 指定時間
+ * @param  {Object} draw 繪製
+ * @param  {Object} duration 持續時間
+ * animate({
+ *   duration: 1000,
+ *   timing(timeFraction) {
+ *     return timeFraction;
+ *   },
+ *   draw(progress) {
+ *     elem.style.width = progress * 100 + '%';
+ *   }
+ * });
+ * progress = 0 表示開始動畫狀態，progress = 1 表示結束狀態。
+ */
 function animate({timing, draw, duration}) {
 
   let start = performance.now();

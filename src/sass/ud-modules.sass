@@ -32,6 +32,9 @@
 //   Table 表格 -----> ud-table
 //   Pagination 分頁 -----> ud-pagination
 
+//Layout
+//   Flex 通用排版容器 -----> ud-flex
+
 // Notice
 //   Alert 警告彈窗 -----> ud-alert
 //   Confirm 確認彈窗 -----> ud-confirm
@@ -330,6 +333,18 @@
 
 // Pagination 分頁
 .ud-pagination
+
+//-----------------------Layout-----------------------
+// Flex 通用排版容器
+.ud-flex
+  display: flex
+  justify-content: center
+  align-items: center
+  >div
+    flex: 1 1 50%
+    max-width: 50%
+  >div + div
+    margin-left: 5px
 
 //-----------------------Notice-----------------------
 // Alert 警告彈窗
@@ -669,16 +684,6 @@
   transition: opacity .2s
 .fade-enter, .fade-leave-to
   opacity: 0
-
-.flex-wrapper
-  display: flex
-  justify-content: center
-  align-items: center
-  >div
-    flex: 1 1 50%
-    max-width: 50%
-  >div + div
-    margin-left: 5px
 
 .overhidden
   overflow: hidden

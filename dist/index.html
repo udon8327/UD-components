@@ -47,7 +47,7 @@
           <ud-checkbox v-model="checkboxVal" :options="formObj"></ud-checkbox>
           <hr>
           <p>selectVal: {{ selectVal }}</p>
-          <ud-select v-model="selectVal" :options="formObj" ref="test"></ud-select>
+          <ud-select v-model="selectVal" :options="formArr" ref="test"></ud-select>
           <hr>
           <h1>{{ form }}</h1>
           <formulate-form v-model="form" @submit="success" name="my-form">

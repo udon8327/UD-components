@@ -25,7 +25,7 @@ var vm = new Vue({
             rin: "凜",
             kasumin: "阿霞"
         },
-        // formArr: ["妮可","花丸","步夢","凜","阿霞"],
+        formArr: ["妮可", "花丸", "步夢", "凜", "阿霞"],
         form: {},
     },
     mounted: function () {
@@ -100,4 +100,5 @@ var vm = new Vue({
         },
     }
 });
+//# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map
