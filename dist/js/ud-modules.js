@@ -153,7 +153,6 @@ Web
   跳頁後強制刷新 -----> pageReload
   網址跳轉 -----> toUrl
   CDN備援 -----> cdnBackup
-  上下一頁強制刷新 -----> backReload
   Axios封裝 -----> axiosPackage
 
 Device
@@ -166,8 +165,11 @@ Animation
 */
 // 初始化執行
 cdnBackup();
-backReload();
 Vue.use(VueFormulate);
+window.onpageshow = function (event) {
+    if (event.persisted)
+        window.location.reload();
+};
 //-----------------------Form-----------------------
 //Button 按鈕
 Vue.component('ud-button', {
@@ -963,7 +965,7 @@ Vue.prototype.$confirm = function (options) {
 //Modal 通用彈窗
 Vue.component("ud-modal", {
     name: "UdModal",
-    template: "\n    <transition name=\"fade\">\n      <div class=\"ud-modal\" v-if=\"isShow\" v-cloak>\n        <div class=\"modal-wrapper\" @click.self=\"maskCancel && $emit('cancel')\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"hasCancel\" @click=\"$emit('cancel')\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\">\n              <p>{{ title }}</p>\n            </div>\n            <div class=\"modal-body\">\n              <p>{{ message }}</p>\n              <slot></slot>\n            </div>\n            <div class=\"modal-footer\">\n              <div class=\"button-area\">\n                <ud-button @click=\"$emit('cancel')\">OK</ud-button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
+    template: "\n    <transition name=\"fade\">\n      <div class=\"ud-modal\" v-if=\"isShow\" v-cloak>\n        <div class=\"modal-wrapper\" @click.self=\"onMaskClick\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"hasCancel\" @click=\"isShow = 0\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\" v-if=\"!$slots.default\">\n              <p>{{ title }}</p>\n            </div>\n            <div class=\"modal-body\">\n              <p v-if=\"!$slots.default\">{{ message }}</p>\n              <slot></slot>\n            </div>\n            <div class=\"modal-footer\" v-if=\"!$slots.default\">\n              <div class=\"button-area\">\n                <ud-button @click=\"isShow = 0\">OK</ud-button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     props: {
         title: {
             type: String,
@@ -973,12 +975,27 @@ Vue.component("ud-modal", {
             type: String,
             default: "通用彈窗訊息"
         },
-        isShow: {
-            type: [Number, Boolean],
+        value: {
             default: 0
         },
         maskCancel: Boolean,
         hasCancel: Boolean,
+    },
+    computed: {
+        isShow: {
+            get: function () {
+                return this.value;
+            },
+            set: function (val) {
+                this.$emit('input', val);
+            }
+        }
+    },
+    methods: {
+        onMaskClick: function () {
+            if (this.maskCancel)
+                this.isShow = 0;
+        }
     },
 });
 //Loading 加載中
@@ -1093,7 +1110,7 @@ Vue.component('ud-backtop', {
 //Ellipsis 文字省略
 Vue.component('ud-ellipsis', {
     name: "UdEllipsis",
-    template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
+    template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine}"><slot></slot></p>',
     props: {
         maxLine: {
             type: Number,
@@ -1168,7 +1185,18 @@ Vue.component('ud-countdown', {
 });
 //QrCode 取得QRcode圖片
 Vue.component('ud-qrcode', {
-    template: "\n    <img class=\"ud-qrcode\" :src=\"QrCodeSrc\" :alt=\"url\">\n  ",
+    template: "\n    <div class=\"ud-qrcode\">\n      <i v-if=\"!ready\" class=\"fas fa-spinner fa-pulse\"></i>\n      <img v-show=\"ready\" ref=\"img\" :src=\"QrCodeSrc\" :alt=\"url\">\n    </div>\n  ",
+    mounted: function () {
+        var _this = this;
+        this.$refs.img.onload = function () {
+            _this.ready = 1;
+        };
+    },
+    data: function () {
+        return {
+            ready: 0,
+        };
+    },
     props: {
         url: {
             type: String,
@@ -2114,7 +2142,10 @@ function pageReload() {
         }
     };
 }
-//網址跳轉
+/**
+ * 網址跳轉
+ * @param  {String} url 欲跳轉的網址
+ */
 function toUrl(url) {
     window.location.href = url;
 }
@@ -2125,27 +2156,19 @@ function cdnBackup() {
         console.log("CDN Error!!");
     }
 }
-//上下一頁強制刷新
-function backReload() {
-    window.onpageshow = function (event) {
-        if (event.persisted)
-            window.location.reload();
-    };
-}
 //Axios封装
 //axiosPackage
 var service = axios.create({
     // baseURL: baseURL, // url = base url + request url
-    // withCredentials: true, // send cookies when cross-domain requests
     timeout: 5000,
 });
+// service.defaults.xsrfCookieName = "CSRF-TOKEN";
+// service.defaults.xsrfHeaderName = "X-CSRF-Token";
 // if (process.env.NODE_ENV == 'development') {
 //   axios.defaults.baseURL = '/api';
 // } else {
 //   axios.defaults.baseURL = 'http://api.123dailu.com/';
 // }
-// post請求頭
-// service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 // 請求攔截器
 service.interceptors.request.use(function (config) {
     vm.$loading.open();

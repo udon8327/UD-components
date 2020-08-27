@@ -157,7 +157,6 @@ Web
   跳頁後強制刷新 -----> pageReload
   網址跳轉 -----> toUrl
   CDN備援 -----> cdnBackup
-  上下一頁強制刷新 -----> backReload
   Axios封裝 -----> axiosPackage
 
 Device
@@ -171,8 +170,10 @@ Animation
 
 // 初始化執行
 cdnBackup();
-backReload();
 Vue.use(VueFormulate);
+window.onpageshow = event => {
+  if(event.persisted) window.location.reload();
+};
 
 //-----------------------Form-----------------------
 //Button 按鈕
@@ -1352,21 +1353,21 @@ Vue.component("ud-modal", {
   template: `
     <transition name="fade">
       <div class="ud-modal" v-if="isShow" v-cloak>
-        <div class="modal-wrapper" @click.self="maskCancel && $emit('cancel')">
+        <div class="modal-wrapper" @click.self="onMaskClick">
           <div class="modal-content">
-            <div class="modal-close" v-if="hasCancel" @click="$emit('cancel')">
+            <div class="modal-close" v-if="hasCancel" @click="isShow = 0">
               <i class="fas fa-times"></i>
             </div>
-            <div class="modal-header">
+            <div class="modal-header" v-if="!$slots.default">
               <p>{{ title }}</p>
             </div>
             <div class="modal-body">
-              <p>{{ message }}</p>
+              <p v-if="!$slots.default">{{ message }}</p>
               <slot></slot>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" v-if="!$slots.default">
               <div class="button-area">
-                <ud-button @click="$emit('cancel')">OK</ud-button>
+                <ud-button @click="isShow = 0">OK</ud-button>
               </div>
             </div>
           </div>
@@ -1383,12 +1384,26 @@ Vue.component("ud-modal", {
       type: String,
       default: "通用彈窗訊息"
     },
-    isShow: {
-      type: [Number,Boolean],
+    value: {
       default: 0
     },
     maskCancel: Boolean,
     hasCancel: Boolean,
+  },
+  computed: {
+    isShow: {
+      get: function(){
+        return this.value;
+      },
+      set: function(val){
+        this.$emit('input', val)
+      }
+    }
+  },
+  methods: {
+    onMaskClick: function(){
+      if(this.maskCancel) this.isShow = 0;
+    }
   },
 });
 
@@ -1553,7 +1568,7 @@ Vue.component('ud-backtop', {
 //Ellipsis 文字省略
 Vue.component('ud-ellipsis', {
   name: "UdEllipsis",
-  template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine }"><slot></slot></p>',
+  template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine}"><slot></slot></p>',
   props: {
     maxLine: {
       type: Number,
@@ -1639,8 +1654,21 @@ Vue.component('ud-countdown', {
 //QrCode 取得QRcode圖片
 Vue.component('ud-qrcode', {
   template: `
-    <img class="ud-qrcode" :src="QrCodeSrc" :alt="url">
+    <div class="ud-qrcode">
+      <i v-if="!ready" class="fas fa-spinner fa-pulse"></i>
+      <img v-show="ready" ref="img" :src="QrCodeSrc" :alt="url">
+    </div>
   `,
+  mounted() {
+    this.$refs.img.onload = () => {
+      this.ready = 1;
+    }
+  },
+  data() {
+    return {
+      ready: 0,
+    }
+  },
   props: {
     url: {
       type: String,
@@ -2679,7 +2707,10 @@ function pageReload(){
   };
 }
 
-//網址跳轉
+/**
+ * 網址跳轉
+ * @param  {String} url 欲跳轉的網址
+ */
 function toUrl(url){
   window.location.href = url;
 }
@@ -2702,29 +2733,23 @@ function cdnBackup(){
   }
 }
 
-//上下一頁強制刷新
-function backReload(){
-  window.onpageshow = event => {
-    if(event.persisted) window.location.reload();
-  };
-}
-
 //Axios封装
 //axiosPackage
 const service = axios.create({
   // baseURL: baseURL, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000, // request timeout
+  timeout: 5000, // 請求超時時間
+  // withCredentials: true, // 充許攜帶cookie
+  // headers: {"Content-Type": "application/x-www-form-urlencoded"}, //改用formdata格式發送
 })
+
+// service.defaults.xsrfCookieName = "CSRF-TOKEN";
+// service.defaults.xsrfHeaderName = "X-CSRF-Token";
 
 // if (process.env.NODE_ENV == 'development') {
 //   axios.defaults.baseURL = '/api';
 // } else {
 //   axios.defaults.baseURL = 'http://api.123dailu.com/';
 // }
-
-// post請求頭
-// service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 // 請求攔截器
 service.interceptors.request.use(
