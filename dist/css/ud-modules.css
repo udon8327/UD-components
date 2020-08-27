@@ -553,7 +553,7 @@
   .ud-qrcode i {
     color: #666; }
 
-.ud-ratio {
+.ud-ratio .ratio-bg {
   overflow: hidden;
   width: 100%;
   padding-bottom: 100%;

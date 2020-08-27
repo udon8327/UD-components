@@ -157,6 +157,7 @@ Web
   跳頁後強制刷新 -----> pageReload
   網址跳轉 -----> toUrl
   CDN備援 -----> cdnBackup
+  跳頁重整 -----> jumpReload
   Axios封裝 -----> axiosPackage
 
 Device
@@ -171,9 +172,7 @@ Animation
 // 初始化執行
 cdnBackup();
 Vue.use(VueFormulate);
-window.onpageshow = event => {
-  if(event.persisted) window.location.reload();
-};
+jumpReload();
 
 //-----------------------Form-----------------------
 //Button 按鈕
@@ -1693,13 +1692,15 @@ Vue.component('ud-qrcode', {
 //Ratio 等比例自適應容器
 Vue.component('ud-ratio', {
   template: `
-    <div class="ud-ratio" :style="{
-      backgroundImage: 'url(' + src + ')', 
-      paddingBottom: height + '%', 
-      borderRadius: radius + 'px',
-      backgroundSize: bgSize
-    }">
-      <slot></slot>
+    <div class="ud-ratio">
+      <div class="ratio-bg" :style="{
+        backgroundImage: 'url(' + src + ')', 
+        paddingBottom: height + '%', 
+        borderRadius: radius + 'px',
+        backgroundSize: bgSize
+      }">
+        <slot></slot>
+      </div>
     </div>
   `,
   props: {
@@ -2731,6 +2732,13 @@ function cdnBackup(){
     `);
     console.log("CDN Error!!");
   }
+}
+
+//跳頁重整
+function jumpReload(){
+  window.onpageshow = event => {
+    if(event.persisted) window.location.reload();
+  };
 }
 
 //Axios封装

@@ -153,6 +153,7 @@ Web
   跳頁後強制刷新 -----> pageReload
   網址跳轉 -----> toUrl
   CDN備援 -----> cdnBackup
+  跳頁重整 -----> jumpReload
   Axios封裝 -----> axiosPackage
 
 Device
@@ -166,10 +167,7 @@ Animation
 // 初始化執行
 cdnBackup();
 Vue.use(VueFormulate);
-window.onpageshow = function (event) {
-    if (event.persisted)
-        window.location.reload();
-};
+jumpReload();
 //-----------------------Form-----------------------
 //Button 按鈕
 Vue.component('ud-button', {
@@ -1219,7 +1217,7 @@ Vue.component('ud-qrcode', {
 });
 //Ratio 等比例自適應容器
 Vue.component('ud-ratio', {
-    template: "\n    <div class=\"ud-ratio\" :style=\"{\n      backgroundImage: 'url(' + src + ')', \n      paddingBottom: height + '%', \n      borderRadius: radius + 'px',\n      backgroundSize: bgSize\n    }\">\n      <slot></slot>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-ratio\">\n      <div class=\"ratio-bg\" :style=\"{\n        backgroundImage: 'url(' + src + ')', \n        paddingBottom: height + '%', \n        borderRadius: radius + 'px',\n        backgroundSize: bgSize\n      }\">\n        <slot></slot>\n      </div>\n    </div>\n  ",
     props: {
         src: {
             default: "https://i.imgur.com/s3w1Sm3.jpg"
@@ -2155,6 +2153,13 @@ function cdnBackup() {
         document.write("\n      <link href=\"https://pro.fontawesome.com/releases/v5.13.1/css/fontawesome.css\" rel=\"stylesheet\">\n      <link href=\"https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css\" rel=\"stylesheet\">\n      <link href=\"https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css\" rel=\"stylesheet\">\n      <script src=\"https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js\"></script>\n      <script src=\"https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js\"></script>\n      <script src=\"https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js\"></script>\n      <script src=\"https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js\"></script>\n      <script src=\"https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js\"></script>\n      <script src=\"js/ud-modules.js\"></script>\n    ");
         console.log("CDN Error!!");
     }
+}
+//跳頁重整
+function jumpReload() {
+    window.onpageshow = function (event) {
+        if (event.persisted)
+            window.location.reload();
+    };
 }
 //Axios封装
 //axiosPackage
