@@ -57,7 +57,7 @@ Notice
   Confirm 確認彈窗 -----> ud-confirm
   AlertConfirm 警告確認彈窗(調用式) -----> ud-alertConfirm
   Modal 通用彈窗 -----> ud-modal
-  Loading 加載中 -----> ud-loading
+  Loading 載入中 -----> ud-loading
   Notify 通知訊息 -----> ud-notify
   Popover 氣泡框 -----> ud-popover
 
@@ -182,7 +182,7 @@ Vue.use(VueFormulate);
 jumpReload();
 
 //-----------------------Form-----------------------
-//Button 按鈕
+// Button 按鈕
 Vue.component('ud-button', {
   name: 'UdButton',
   template: `
@@ -203,8 +203,10 @@ Vue.component('ud-button', {
         }
       ]"
       :style="{
-        'border-radius': radius + 'px',
-        'min-width': minWidth + 'px',
+        'border-radius': radius,
+        'width': width,
+        'min-width': minWidth,
+        'max-width': maxWidth,
       }"
     >
       <i class="fas fa-spinner fa-pulse" v-if="loading"></i>
@@ -213,32 +215,19 @@ Vue.component('ud-button', {
     </button>
   `,
   props: {
-    type: {
-      type: String,
-      default: 'default'
-    },
-    icon: {
-      type: String,
-      default: ''
-    },
-    nativeType: {
-      type: String,
-      default: 'button'
-    },
-    radius: {
-      type: Number,
-      default: 5,
-    },
-    minWidth: {
-      type: Number,
-      default: 0,
-    },
-    loading: Boolean,
-    disabled: Boolean,
-    plain: Boolean,
-    round: Boolean,
-    circle: Boolean,
-    block: Boolean
+    type: { default: 'default' }, // 類型
+    icon: { default: '' }, // icon
+    nativeType: { default: 'button' }, // 原始類型 (button, submit, reset)
+    radius: { default: '5px' }, // 圓角
+    width: { default: '100%' }, // 寬度
+    minWidth: { default: '0px' }, // 最小寬度
+    maxWidth: { default: '100%' }, // 最大寬度
+    loading: Boolean, // 載入中
+    disabled: Boolean, // 禁止點擊
+    plain: Boolean, // 線條化
+    round: Boolean, // 圓角
+    circle: Boolean, // 圓型
+    block: Boolean // 塊狀
   },
   methods: {
     handleClick(evt) {
@@ -247,7 +236,7 @@ Vue.component('ud-button', {
   }
 })
 
-//Input 輸入框
+// Input 輸入框
 Vue.component('ud-input', {
   name: 'UdInput',
   template: `
@@ -261,19 +250,10 @@ Vue.component('ud-input', {
     </div>
   `,
   props: {
-    value: null,
-    type: {
-      type: String,
-      default: "text"
-    },
-    placeholder: {
-      type: String,
-      default: "請輸入此欄位"
-    },
-    maxlength: {
-      type: null,
-      default: "",
-    }
+    value: null, // value值
+    type: { default: "text" }, // 類型 (text, tel, date, hidden, number, password...等)
+    placeholder: { default: "請輸入此欄位" }, // 取代文字
+    maxlength: { default: "" } // 最大字數
   },
   computed: {
     inputVal: {
@@ -287,7 +267,7 @@ Vue.component('ud-input', {
   },
 })
 
-//Textarea 多行輸入框
+// Textarea 多行輸入框
 Vue.component('ud-textarea', {
   name: "UdTextarea",
   template: `
@@ -298,18 +278,17 @@ Vue.component('ud-textarea', {
         :cols="cols"
         :rows="rows"
         :placeholder="placeholder"
+        :maxlength="maxlength"
       >
       </textarea>
     </div>
   `,
   props: {
-    value: null,
-    placeholder: {
-      type: String,
-      default: "請輸入此欄位"
-    },
-    rows: null,
-    cols: null,
+    value: null, // value值
+    placeholder: { default: "請輸入此欄位" }, // 取代文字
+    maxlength: { default: "" }, // 最大字數
+    rows: null, // 行數
+    cols: null, // 列數
   },
   computed: {
     textareaVal: {
@@ -323,7 +302,7 @@ Vue.component('ud-textarea', {
   },
 })
 
-//Radio 單選框
+// Radio 單選框
 Vue.component('ud-radio', {
   name: "UdRadio",
   template: `
@@ -338,8 +317,8 @@ Vue.component('ud-radio', {
     </div>
   `,
   props: {
-    value: null,
-    options: null
+    value: null, // value值
+    options: null // 選項
   },
   computed: {
     checkedValue: {
@@ -353,7 +332,7 @@ Vue.component('ud-radio', {
   },
 })
 
-//Checkbox 多選框
+// Checkbox 多選框
 Vue.component('ud-checkbox', {
   name: "UdCheckbox",
   template: `
@@ -368,8 +347,8 @@ Vue.component('ud-checkbox', {
     </div>
   `,
   props: {
-    value: null,
-    options: null,
+    value: null, // value值
+    options: null, // 選項
   },
   computed: {
     checkedValue: {
@@ -383,7 +362,7 @@ Vue.component('ud-checkbox', {
   },
 })
 
-//Select 下拉框
+// Select 下拉框
 Vue.component('ud-select', {
   name: "UdSelect",
   template: `
@@ -397,12 +376,9 @@ Vue.component('ud-select', {
     </div>
   `,
   props: {
-    value: null,
-    options: null,
-    placeholder: {
-      type: String,
-      default: "請選擇一項"
-    }
+    value: null, // value值
+    options: null, // 選項
+    placeholder: { default: "請選擇一項" } // 取代文字
   },
   computed: {
     selectedValue: {
@@ -416,7 +392,7 @@ Vue.component('ud-select', {
   },
 })
 
-//Switch 開關
+// Switch 開關
 Vue.component('ud-switch', {
   name: "UdSwitch",
   template: `
@@ -427,7 +403,7 @@ Vue.component('ud-switch', {
   },
 })
 
-//Upload 上傳
+// Upload 上傳
 Vue.component('ud-upload', {
   name: "UdUpload",
   template: `
@@ -438,7 +414,7 @@ Vue.component('ud-upload', {
   },
 })
 
-//ImageUpload 圖片上傳預覽
+// ImageUpload 圖片上傳預覽
 Vue.component("ud-image-upload", {
   name: "UdImageUpload",
   template: `
@@ -482,7 +458,7 @@ Vue.component("ud-image-upload", {
   }
 });
 
-//ImageMultiUpload 圖片上傳預覽(多張)
+// ImageMultiUpload 圖片上傳預覽(多張)
 Vue.component("ud-image-multi-upload", {
   name: "UdImageMultiUpload",
   template: `
@@ -533,7 +509,7 @@ Vue.component("ud-image-multi-upload", {
   }
 });
 
-//Form 表單
+// Form 表單
 Vue.component('ud-form', {
   name: "UdForm",
   template: `
@@ -544,7 +520,7 @@ Vue.component('ud-form', {
   },
 })
 
-//Captcha 圖形驗證碼
+// Captcha 圖形驗證碼
 Vue.component('ud-captcha', {
   name: "UdCaptcha",
   template: `
@@ -571,22 +547,10 @@ Vue.component('ud-captcha', {
   },
   props: {
     value: String,
-    color: { // 字體顏色
-      type: String,
-      default: "#333"
-    },
-    bgColor: { // 背景顏色
-      type: String,
-      default: "#fff"
-    },
-    randomColor: { // 隨機點線的顏色
-      type: String,
-      default: "#777"
-    },
-    font: { // 字體設定
-      type: String,
-      default: "25px Arial"
-    },
+    color: { default: "#333" }, // 字體顏色
+    bgColor: { default: "#fff" }, // 背景顏色
+    randomColor: { default: "#777" }, // 隨機點線的顏色
+    font: { default: "25px Arial" }, // 字體設定
     noLine: Boolean, // 無隨機線
     noDots: Boolean, // 無隨機點
     noRefresh: Boolean, //無刷新鈕
@@ -665,7 +629,7 @@ Vue.component('ud-captcha', {
 
 
 //-----------------------Validation-----------------------
-//VfItem 表單容器
+// VfItem 表單容器
 Vue.component("vf-item", {
   name: "VfItem",
   template: `
@@ -677,14 +641,11 @@ Vue.component("vf-item", {
     </div>
   `,
   props: {
-    label: {
-      type: String,
-      default: ""
-    }
+    label: { default: "" } // 標籤文字
   }
 });
 
-//VfName 姓名驗證
+// VfName 姓名驗證
 Vue.component("vf-name", {
   name: "VfName",
   template: `
@@ -699,7 +660,7 @@ Vue.component("vf-name", {
   `,
 });
 
-//VfGender 性別驗證
+// VfGender 性別驗證
 Vue.component("vf-gender", {
   name: "VfGender",
   template: `
@@ -723,7 +684,7 @@ Vue.component("vf-gender", {
   },
 });
 
-//VfPhone 電話驗證
+// VfPhone 電話驗證
 Vue.component("vf-phone", {
   name: "VfPhone",
   template: `
@@ -739,7 +700,7 @@ Vue.component("vf-phone", {
   `,
 });
 
-//VfMail 郵件驗證
+// VfMail 郵件驗證
 Vue.component("vf-mail", {
   name: "VfMail",
   template: `
@@ -754,7 +715,7 @@ Vue.component("vf-mail", {
   `,
 });
 
-//VfIdcard 身分證驗證
+// VfIdcard 身分證驗證
 Vue.component("vf-idcard", {
   name: "VfIdcard",
   template: `
@@ -770,7 +731,7 @@ Vue.component("vf-idcard", {
   `,
 });
 
-//VfDate 日期驗證
+// VfDate 日期驗證
 Vue.component("vf-date", {
   name: "VfDate",
   template: `
@@ -803,7 +764,7 @@ Vue.component("vf-date", {
   }
 });
 
-//VfAccept 條款驗證
+// VfAccept 條款驗證
 Vue.component("vf-accept", {
   name: "VfAccept",
   template: `
@@ -821,7 +782,7 @@ Vue.component("vf-accept", {
   `,
 });
 
-//VfCaptcha 圖形驗證碼
+// VfCaptcha 圖形驗證碼
 Vue.component('vf-captcha', {
   name: "VfCaptcha",
   template: `
@@ -848,22 +809,10 @@ Vue.component('vf-captcha', {
   },
   props: {
     value: String,
-    color: { // 字體顏色
-      type: String,
-      default: "#333"
-    },
-    bgColor: { // 背景顏色
-      type: String,
-      default: "#fff"
-    },
-    randomColor: { // 隨機點線的顏色
-      type: String,
-      default: "#777"
-    },
-    font: { // 字體設定
-      type: String,
-      default: "25px Arial"
-    },
+    color: { default: "#333" }, // 字體顏色
+    bgColor: { default: "#fff" }, // 背景顏色
+    randomColor: { default: "#777" }, // 隨機點線的顏色
+    font: { default: "25px Arial" }, // 字體設定
     noLine: Boolean, // 無隨機線
     noDots: Boolean, // 無隨機點
     noRefresh: Boolean, //無刷新鈕
@@ -940,8 +889,7 @@ Vue.component('vf-captcha', {
   },
 })
 
-
-//DateGroup 日期群組驗證
+// DateGroup 日期群組驗證
 Vue.component('vf-date-group', {
   name: "VfDateGroup",
   template: `
@@ -955,7 +903,7 @@ Vue.component('vf-date-group', {
     </div>
   `,
   props: {
-    roc: Boolean
+    roc: Boolean //民國
   },
   mounted() {
     this.dateSelect();
@@ -1007,7 +955,7 @@ Vue.component('vf-date-group', {
   },
 })
 
-//VfAddressGroup 地址群組驗證
+// VfAddressGroup 地址群組驗證
 Vue.component('vf-address-group', {
   name: "VfAddressGroup",
   template: `
@@ -1131,7 +1079,7 @@ Vue.component('vf-address-group', {
 })
 
 //-----------------------Data-----------------------
-//Table 表格
+// Table 表格
 Vue.component('ud-table', {
   name: "UdTable",
   template: `
@@ -1142,7 +1090,7 @@ Vue.component('ud-table', {
   },
 })
 
-//Pagination 分頁
+// Pagination 分頁
 Vue.component('ud-pagination', {
   name: "UdPagination",
   template: `
@@ -1181,23 +1129,15 @@ Vue.component('ud-arrow', {
     </i>
   `,
   props: {
-    bdColor: { //顏色
-      default: "#333"
-    },
-    bdWidth: { //寬度
-      default: "3"
-    },
-    padding: { //大小
-      default: "3"
-    },
-    direction: { //方向
-      default: "right"
-    }
+    bdColor: { default: "#333" }, // 顏色
+    bdWidth: { default: "3" }, // 寬度
+    padding: { default: "3" }, // 大小
+    direction: { default: "right" } //方向
   }
 })
 
 //-----------------------Notice-----------------------
-//Alert 警告彈窗
+// Alert 警告彈窗
 Vue.component("ud-alert", {
   name: "UdAlert",
   template: `
@@ -1226,24 +1166,15 @@ Vue.component("ud-alert", {
     </transition>
   `,
   props: {
-    title: {
-      type: String,
-      default: "警告彈窗標題"
-    },
-    message: {
-      type: String,
-      default: "警告彈窗訊息"
-    },
-    value: {
-      type: null,
-      default: false
-    },
-    maskCancel: Boolean,
-    hasCancel: Boolean,
+    title: { default: "警告標題" }, // 警告標題
+    message: { default: "警告訊息" }, // 警告訊息
+    value: { default: false }, // 開關值
+    maskCancel: Boolean, // 遮罩關閉
+    hasCancel: Boolean, // 按鈕關閉
   },
 });
 
-//Confirm 確認彈窗
+// Confirm 確認彈窗
 Vue.component("ud-confirm", {
   name: "UdConfirm",
   template: `
@@ -1273,32 +1204,17 @@ Vue.component("ud-confirm", {
     </transition>
   `,
   props: {
-    title: {
-      type: String,
-      default: "確認彈窗標題"
-    },
-    message: {
-      type: String,
-      default: "確認彈窗訊息"
-    },
-    value: {
-      type: null,
-      default: false
-    },
-    cancelTxt: {
-      type: String,
-      default: "取消"
-    },
-    confirmTxt: {
-      type: String,
-      default: "確定"
-    },
-    maskCancel: Boolean,
-    hasCancel: Boolean,
+    title: { default: "確認標題" }, // 確認標題
+    message: { default: "確認訊息" }, // 確認訊息
+    value: { default: false }, // 開關值
+    cancelTxt: { default: "取消" }, // 取消鈕文字
+    confirmTxt: { default: "確定" }, // 確定鈕文字
+    maskCancel: Boolean, // 遮罩關閉
+    hasCancel: Boolean, // 按鈕關閉
   },
 });
 
-//AlertConfirm 警告確認彈窗(調用式) ud-alertConfirm
+// AlertConfirm 警告確認彈窗(調用式) ud-alertConfirm
 let UdModalExtend = Vue.extend({
   template: `
     <transition name="fade">
@@ -1331,16 +1247,16 @@ let UdModalExtend = Vue.extend({
     return {
       isShow: false,
       isConfirm: false,
-      maskClose: false, //有無點擊遮罩關閉
-      btnClose: false, //有無右上關閉鈕
-      title: "", //警告標題
-      titleHtml: "", //警告標題HTML
-      msg: "網路通信錯誤，請稍候再試", //警告訊息
-      msgHtml: "", //警告訊息HTML
-      cancelTxt: "取消", //取消鈕文字
-      cancel: () => {}, //取消鈕動作
-      confirmTxt: "", //確認鈕文字
-      confirm: () => {}, //確認鈕動作
+      maskClose: false, // 遮罩關閉
+      btnClose: false, // 按鈕關閉
+      title: "", // 警告標題
+      titleHtml: "", // 警告標題HTML
+      msg: "網路通信錯誤，請稍候再試", // 警告訊息
+      msgHtml: "", // 警告訊息HTML
+      cancelTxt: "取消", // 取消鈕文字
+      cancel: () => {}, // 取消鈕動作
+      confirmTxt: "", // 確認鈕文字
+      confirm: () => {}, // 確認鈕動作
     }
   },
   computed: {
@@ -1374,7 +1290,7 @@ let UdModalExtend = Vue.extend({
   },
 });
 
-Vue.prototype.$alert = options => {
+Vue.prototype.$alert = options => { // 加到vue原型方法
   let UdAlert = new UdModalExtend({
     el: document.createElement('div'),
     data() {
@@ -1384,7 +1300,7 @@ Vue.prototype.$alert = options => {
   document.body.appendChild(UdAlert.$el);
 };
 
-Vue.prototype.$confirm = options => {
+Vue.prototype.$confirm = options => { // 加到vue原型方法
   options.isConfirm = true;
   let UdConfirm = new UdModalExtend({
     el: document.createElement('div'),
@@ -1395,7 +1311,7 @@ Vue.prototype.$confirm = options => {
   document.body.appendChild(UdConfirm.$el);
 };
 
-//Modal 通用彈窗
+// Modal 通用彈窗
 Vue.component("ud-modal", {
   name: "UdModal",
   template: `
@@ -1424,19 +1340,11 @@ Vue.component("ud-modal", {
     </transition>
   `,
   props: {
-    title: {
-      type: String,
-      default: "通用彈窗標題"
-    },
-    message: {
-      type: String,
-      default: "通用彈窗訊息"
-    },
-    value: {
-      default: 0
-    },
-    maskCancel: Boolean,
-    hasCancel: Boolean,
+    title: { default: "通用標題" }, // 通用標題
+    message: { default: "通用訊息" }, // 通用訊息
+    value: { default: 0 }, // 開關值
+    maskCancel: Boolean, // 遮罩關閉
+    hasCancel: Boolean, // 按鈕關閉
   },
   computed: {
     isShow: {
@@ -1455,7 +1363,7 @@ Vue.component("ud-modal", {
   },
 });
 
-//Loading 加載中
+// Loading 載入中
 Vue.component('ud-loading', {
   name: "UdLoading",
   template: `
@@ -1481,14 +1389,11 @@ Vue.component('ud-loading', {
     }
   },
   props: {
-    label:{
-      default: "加載中...",
-      type: String
-    }
+    label:{ default: "載入中..." } // 載入中文字
   }
 })
 
-//Loading 載入中(調用式) ud-loading
+// Loading 載入中(調用式) ud-loading
 let UdLoadingExtend = Vue.extend({
   template: `
     <transition name="loading">
@@ -1535,7 +1440,7 @@ let UdLoadingExtend = Vue.extend({
 });
 
 let UdLoading;
-Vue.prototype.$loading = {
+Vue.prototype.$loading = { // 加至vue原型方法
   open: (options = {}) => {
     UdLoading = new UdLoadingExtend({
       el: document.createElement("div"),
@@ -1551,7 +1456,7 @@ Vue.prototype.$loading = {
   }
 };
 
-//Notify 通知訊息
+// Notify 通知訊息
 Vue.component('ud-notify', {
   name: "UdNotify",
   template: `
@@ -1562,7 +1467,7 @@ Vue.component('ud-notify', {
   },
 })
 
-//Popover 氣泡框
+// Popover 氣泡框
 Vue.component('ud-popover', {
   name: "UdPopover",
   template: `
@@ -1574,16 +1479,13 @@ Vue.component('ud-popover', {
 })
 
 //-----------------------Tools-----------------------
-//Html 用戶自定義訊息
+// Html 用戶自定義訊息
 Vue.component('ud-html', {
   template: `
     <div class="ud-html" v-html="nl2br(text)"></div>
   `,
   props: {
-    text: {
-      type: String,
-      default: "<h1>H1 用戶自定義訊息</h1><h2>H2 用戶自定義訊息</h2><h3>H3 用戶自定義訊息</h3><h4>H4 用戶自定義訊息</h4><h5>H5 用戶自定義訊息</h5><h6>H6 用戶自定義訊息</h6>\n<p>p 用戶自定義訊息</p><span>span 用戶自定義訊息</span>"
-    }
+    text: { default: "<h1>H1 用戶自定義訊息</h1><h2>H2 用戶自定義訊息</h2><h3>H3 用戶自定義訊息</h3><h4>H4 用戶自定義訊息</h4><h5>H5 用戶自定義訊息</h5><h6>H6 用戶自定義訊息</h6>\n<p>p 用戶自定義訊息</p><span>span 用戶自定義訊息</span>" } // 文字
   },
   methods: {
     nl2br: function(str, is_xhtml) {
@@ -1596,7 +1498,7 @@ Vue.component('ud-html', {
   }
 })
 
-//Backtop 回到頂部
+// Backtop 回到頂部
 Vue.component('ud-backtop', {
   name: "UdBacktop",
   template: `
@@ -1613,19 +1515,16 @@ Vue.component('ud-backtop', {
   },
 })
 
-//Ellipsis 文字省略
+// Ellipsis 文字省略
 Vue.component('ud-ellipsis', {
   name: "UdEllipsis",
   template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine}"><slot></slot></p>',
   props: {
-    maxLine: {
-      type: Number,
-      default: 1,
-    }
+    maxLine: { default: 1, } // 指定省略行數
   },
 })
 
-//CountdownExpire 倒數計時(時限)
+// CountdownExpire 倒數計時(時限)
 Vue.component('ud-countdown-expire', {
   name: "UdCountdownExpire",
   template: `
@@ -1636,15 +1535,15 @@ Vue.component('ud-countdown-expire', {
   `,
   mounted() {
     let aI = document.getElementsByTagName("i");
-    setInterval(function() {  // 設置倒數計時: 結束時間 - 當前時間
+    setInterval(function() { // 設置倒數計時: 結束時間 - 當前時間
       // 當前時間
       let time = new Date();
       let nowTime = time.getTime(); // 獲取當前毫秒數
       // 設置結束時間 : 5月13號 15點0分0秒
-      time.setMonth(4); //   獲取當前 月份 (從 '0' 開始算)
-      time.setDate(13); //   獲取當前 日
-      time.setHours(15); //   獲取當前 時
-      time.setMinutes(0); //   獲取當前 分
+      time.setMonth(4); // 獲取當前 月份 (從 '0' 開始算)
+      time.setDate(13); // 獲取當前 日
+      time.setHours(15); // 獲取當前 時
+      time.setMinutes(0); // 獲取當前 分
       time.setSeconds(0);
       let endTime = time.getTime();
       // 倒數計時: 差值
@@ -1660,18 +1559,15 @@ Vue.component('ud-countdown-expire', {
   },
 })
 
-//Countdown 倒數計時
+// Countdown 倒數計時
 Vue.component('ud-countdown', {
   name: "UdCountdown",
   template: `
     <span class="ud-countdown" ref="count">{{cTime}}</span>
   `,
   props: {
-    time: {
-      type: Number,
-      default: 60
-    },
-    delay: Boolean
+    time: { default: 60 }, // 時間
+    delay: Boolean // 延遲
   },
   data() {
     return {
@@ -1699,7 +1595,7 @@ Vue.component('ud-countdown', {
   },
 })
 
-//QrCode 取得QRcode圖片
+// QrCode 取得QRcode圖片
 Vue.component('ud-qrcode', {
   template: `
     <div class="ud-qrcode">
@@ -1718,18 +1614,9 @@ Vue.component('ud-qrcode', {
     }
   },
   props: {
-    url: {
-      type: String,
-      default: "https://www.google.com.tw/"
-    },
-    width: {
-      type: null,
-      default: "300"
-    },
-    height: {
-      type: null,
-      default: "300"
-    },
+    url: { default: "https://www.google.com.tw/" }, // 網址
+    width: { default: "300" }, // 寬度
+    height: { default: "300" }, // 高度
   },
   computed: {
     QrCodeSrc: function(){
@@ -1738,14 +1625,14 @@ Vue.component('ud-qrcode', {
   },
 })
 
-//Ratio 等比例自適應容器
+// Ratio 等比例自適應容器
 Vue.component('ud-ratio', {
   template: `
     <div class="ud-ratio">
       <div class="ratio-bg" :style="{
         backgroundImage: 'url(' + src + ')', 
         paddingBottom: height + '%', 
-        borderRadius: radius + 'px',
+        borderRadius: radius,
         backgroundSize: bgSize
       }">
         <slot></slot>
@@ -1753,23 +1640,15 @@ Vue.component('ud-ratio', {
     </div>
   `,
   props: {
-    src: { //背景圖片
-      default: "https://i.imgur.com/s3w1Sm3.jpg"
-    },
-    height: { //高度比例(%)
-      default: 100
-    },
-    radius: { //圓角(px)
-      default: 0,
-    },
-    bgSize: { //背景尺寸
-      default: "cover"
-    }
+    src: { default: "https://i.imgur.com/s3w1Sm3.jpg" }, // 背景圖片
+    height: { default: 100 }, // 高度比例
+    radius: { default: '0px' }, // 圓角
+    bgSize: { default: "cover" } // 背景尺寸 (cover, contain, 100%...等)
   },
 })
 
 //-----------------------Application-----------------------
-//Carousel 走馬燈
+// Carousel 走馬燈
 Vue.component('ud-carousel', {
   name: "UdCarousel",
   template: `
@@ -1780,7 +1659,7 @@ Vue.component('ud-carousel', {
   },
 })
 
-//Youtube 水管播放
+// Youtube 水管播放
 Vue.component('ud-youtube', {
   name: "UdYoutube",
   template: `
@@ -1791,17 +1670,11 @@ Vue.component('ud-youtube', {
     </div>
   `,
   props: {
-    videoId: { //影片ID
-      type: String,
-      default: "p6qjpdi8XuE"
-    },
-    start: { //開始時間
-      type: Number,
-      default: 0
-    },
-    autoplay: Boolean, //自動播放
-    loop: Boolean, //自動循環
-    noControl: Boolean, //移除控制介面
+    videoId: { default: "p6qjpdi8XuE" }, // 影片ID
+    start: { default: 0 }, // 開始時間
+    autoplay: Boolean, // 自動播放
+    loop: Boolean, // 自動循環
+    noControl: Boolean, // 移除控制介面
   },
   computed: {
     videoIdAfter: function(){
@@ -1815,7 +1688,7 @@ Vue.component('ud-youtube', {
   },
 })
 
-//YoutubeApi 水管播放(控制版)
+// YoutubeApi 水管播放(控制版)
 Vue.component('ud-youtube-api', {
   name: "UdYoutubeApi",
   template: `
@@ -1826,26 +1699,14 @@ Vue.component('ud-youtube-api', {
     </div>
   `,
   props: {
-    videoId: { //影片id
-      type: String,
-      default: "KnWMMgEDva0"
-    },
-    start: { //開始時間
-      type: Number,
-      default: 0
-    },
-    width: {
-      type: Number,
-      default: 560
-    },
-    height: {
-      type: Number,
-      default: 315
-    },
-    autoplay: Boolean, //自動播放
-    loop: Boolean, //自動循環
-    noControl: Boolean, //移除控制介面
-    mute: Boolean //開始時靜音
+    videoId: { default: "KnWMMgEDva0" }, // 影片id
+    start: { default: 0 }, // 開始時間
+    width: { default: 560 }, // 寬度
+    height: { default: 315 }, // 高度
+    autoplay: Boolean, // 自動播放
+    loop: Boolean, // 自動循環
+    noControl: Boolean, // 移除控制介面
+    mute: Boolean // 開始時靜音
   },
   data() {
     return {
@@ -1866,14 +1727,14 @@ Vue.component('ud-youtube-api', {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     window.onYouTubeIframeAPIReady = function(){
       player = new YT.Player(_this.videoId, {
-        videoId: _this.videoId, //YouTube 影片ID
-        width: _this.width, //播放器寬度 (px)
-        height: _this.height, //播放器高度 (px)
+        videoId: _this.videoId, // YouTube 影片ID
+        width: _this.width, // 播放器寬度 (px)
+        height: _this.height, // 播放器高度 (px)
         playerVars: {
-          autoplay: _this.autoplay, //在讀取時自動播放影片
-          controls: _this.control, //在播放器顯示暫停／播放按鈕
-          start: _this.start //開始時間
-          // loop: _this.loop, //讓影片循環播放
+          autoplay: _this.autoplay, // 在讀取時自動播放影片
+          controls: _this.control, // 在播放器顯示暫停／播放按鈕
+          start: _this.start // 開始時間
+          // loop: _this.loop, // 讓影片循環播放
         },
         events: {
           'onReady': onPlayerReady,
@@ -1895,7 +1756,7 @@ Vue.component('ud-youtube-api', {
   },
 })
 
-//GoogleMap 估狗地圖
+// GoogleMap 估狗地圖
 Vue.component('ud-google-map', {
   name: "UdGoogleMap",
   template: `
@@ -1904,32 +1765,20 @@ Vue.component('ud-google-map', {
     </div>
   `,
   props: {
-    src: {
-      type: String,
-      default: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1807.3065648309268!2d121.51520065825689!3d25.04719989599153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9727e339109%3A0xc34a31ce3a4abecb!2z6Ie65YyX6LuK56uZ!5e0!3m2!1szh-TW!2stw!4v1595920460513!5m2!1szh-TW!2stw"
-    },
-    width: {
-      type: Number,
-      default: 600
-    },
-    height: {
-      type: Number,
-      default: 450
-    },
-    ratio: {
-      type: Number,
-      default: 65.25
-    }
+    src: { default: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1807.3065648309268!2d121.51520065825689!3d25.04719989599153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9727e339109%3A0xc34a31ce3a4abecb!2z6Ie65YyX6LuK56uZ!5e0!3m2!1szh-TW!2stw!4v1595920460513!5m2!1szh-TW!2stw" }, // 網址
+    width: { default: 600 }, // 寬度
+    height: { default: 450 }, // 高度
+    ratio: { default: 65.25 } // 比例
   },
 })
 
-//Select2 搜尋下拉框套件
-//dependencies:
-//  "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-//  "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
-//  "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
-//reference:
-//  https://select2.org
+// Select2 搜尋下拉框套件
+// dependencies:
+//   "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+//   "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+//   "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+// reference:
+//   https://select2.org
 Vue.component('ud-select2', {
   name: "UdSelect2",
   template: `
@@ -1937,7 +1786,10 @@ Vue.component('ud-select2', {
       <option disabled value="0">Select one</option>
     </select2>
   `,
-  props: ["options", "value"],
+  props: {
+    value: { default: null }, // value值
+    options: { default: null } // 選項
+  },
   mounted: function() {
     var vm = this;
     $(this.$el)
@@ -1967,8 +1819,11 @@ Vue.component('ud-select2', {
   }
 })
 
-//Scratch 刮刮樂
-//dependencies:"plugins/scratchcard/scratchcard.min.js"(https://github.com/Masth0/ScratchCard)
+// Scratch 刮刮樂
+// dependencies:
+//   "plugins/scratchcard/scratchcard.min.js"
+// reference:
+//   https://github.com/Masth0/ScratchCard
 Vue.component('ud-scratch', {
   name: "UdScratch",
   template: `
@@ -1982,30 +1837,12 @@ Vue.component('ud-scratch', {
     this.initScratch();
   },
   props: {
-    id: { //刮刮樂id 區分複數刮刮樂
-      type: String,
-      default: "js--sud--container"
-    },
-    coverSrc: { //封面圖片
-      type: String,
-      default: "img/silver.jpg"
-    },
-    brushSrc: { //筆刷圖片
-      type: String,
-      default: "img/brush.png"
-    },
-    prizeSrc: { //獎品圖片
-      type: String,
-      default: "img/prize_01.jpg"
-    },
-    aspectRatio: { //長寬比
-      type: Number,
-      default: 1.65
-    },
-    percent: { //完成所需%數
-      type: Number,
-      default: 10
-    },
+    id: { default: "js--sud--container" }, // 刮刮樂id 區分複數刮刮樂
+    coverSrc: { default: "img/silver.jpg" }, // 封面圖片
+    brushSrc: { default: "img/brush.png" }, // 筆刷圖片
+    prizeSrc: { default: "img/prize_01.jpg" }, // 獎品圖片
+    aspectRatio: { default: 1.65 }, // 長寬比
+    percent: { default: 10 }, // 完成所需%數
   },
   methods: {
     initScratch: function(){
@@ -2020,12 +1857,12 @@ Vue.component('ud-scratch', {
         imageBackgroundSrc: this.prizeSrc,
         percentToFinish: this.percent,
         callback: function () {
-          _this.$emit("finish"); //刮完事件
+          _this.$emit("finish"); // 刮完事件
         }
       })
       sc.init().then(() => {
         sc.canvas.addEventListener('scratch.move', () => {
-          _this.$emit("move", Math.floor(sc.getPercent())); //移動中事件(帶百分比)
+          _this.$emit("move", Math.floor(sc.getPercent())); // 移動中事件(帶百分比)
         })
       }).catch((error) => {
         alert(error.message);
@@ -2034,12 +1871,11 @@ Vue.component('ud-scratch', {
   },
 })
 
-//Editor 文字編輯器
+// Editor 文字編輯器
 Vue.component('ud-editor', {
   name: "UdEditor",
   template: '<h1>文案編輯器</h1>'
 })
-
 
 //-----------------------String-----------------------
 /**

@@ -54,7 +54,7 @@ Notice
   Confirm 確認彈窗 -----> ud-confirm
   AlertConfirm 警告確認彈窗(調用式) -----> ud-alertConfirm
   Modal 通用彈窗 -----> ud-modal
-  Loading 加載中 -----> ud-loading
+  Loading 載入中 -----> ud-loading
   Notify 通知訊息 -----> ud-notify
   Popover 氣泡框 -----> ud-popover
 
@@ -176,37 +176,24 @@ cdnBackup();
 Vue.use(VueFormulate);
 jumpReload();
 //-----------------------Form-----------------------
-//Button 按鈕
+// Button 按鈕
 Vue.component('ud-button', {
     name: 'UdButton',
-    template: "\n    <button\n      class=\"ud-button\"\n      @click=\"handleClick\"\n      :disabled=\"disabled || loading\"\n      :type=\"nativeType\"\n      :class=\"[\n        type ? 'ud-button--' + type : '',\n        {\n          'is-disabled': disabled,\n          'is-loading': loading,\n          'is-plain': plain,\n          'is-round': round,\n          'is-circle': circle,\n          'is-block': block,\n        }\n      ]\"\n      :style=\"{\n        'border-radius': radius + 'px',\n        'min-width': minWidth + 'px',\n      }\"\n    >\n      <i class=\"fas fa-spinner fa-pulse\" v-if=\"loading\"></i>\n      <i :class=\"icon\" v-if=\"icon && !loading\"></i>\n      <span v-if=\"$slots.default\"><slot></slot></span>\n    </button>\n  ",
+    template: "\n    <button\n      class=\"ud-button\"\n      @click=\"handleClick\"\n      :disabled=\"disabled || loading\"\n      :type=\"nativeType\"\n      :class=\"[\n        type ? 'ud-button--' + type : '',\n        {\n          'is-disabled': disabled,\n          'is-loading': loading,\n          'is-plain': plain,\n          'is-round': round,\n          'is-circle': circle,\n          'is-block': block,\n        }\n      ]\"\n      :style=\"{\n        'border-radius': radius,\n        'width': width,\n        'min-width': minWidth,\n        'max-width': maxWidth,\n      }\"\n    >\n      <i class=\"fas fa-spinner fa-pulse\" v-if=\"loading\"></i>\n      <i :class=\"icon\" v-if=\"icon && !loading\"></i>\n      <span v-if=\"$slots.default\"><slot></slot></span>\n    </button>\n  ",
     props: {
-        type: {
-            type: String,
-            default: 'default'
-        },
-        icon: {
-            type: String,
-            default: ''
-        },
-        nativeType: {
-            type: String,
-            default: 'button'
-        },
-        radius: {
-            type: Number,
-            default: 5,
-        },
-        minWidth: {
-            type: Number,
-            default: 0,
-        },
+        type: { default: 'default' },
+        icon: { default: '' },
+        nativeType: { default: 'button' },
+        radius: { default: '5px' },
+        width: { default: '100%' },
+        minWidth: { default: '0px' },
+        maxWidth: { default: '100%' },
         loading: Boolean,
         disabled: Boolean,
         plain: Boolean,
         round: Boolean,
         circle: Boolean,
-        block: Boolean
+        block: Boolean // 塊狀
     },
     methods: {
         handleClick: function (evt) {
@@ -214,24 +201,15 @@ Vue.component('ud-button', {
         }
     }
 });
-//Input 輸入框
+// Input 輸入框
 Vue.component('ud-input', {
     name: 'UdInput',
     template: "\n    <div class=\"ud-input\">\n      <input\n        :type=\"type\"\n        v-model=\"inputVal\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n    </div>\n  ",
     props: {
         value: null,
-        type: {
-            type: String,
-            default: "text"
-        },
-        placeholder: {
-            type: String,
-            default: "請輸入此欄位"
-        },
-        maxlength: {
-            type: null,
-            default: "",
-        }
+        type: { default: "text" },
+        placeholder: { default: "請輸入此欄位" },
+        maxlength: { default: "" } // 最大字數
     },
     computed: {
         inputVal: {
@@ -244,16 +222,14 @@ Vue.component('ud-input', {
         }
     },
 });
-//Textarea 多行輸入框
+// Textarea 多行輸入框
 Vue.component('ud-textarea', {
     name: "UdTextarea",
-    template: "\n    <div class=\"ud-textarea\">\n      <textarea\n        type=\"text\"\n        v-model=\"textareaVal\"\n        :cols=\"cols\"\n        :rows=\"rows\"\n        :placeholder=\"placeholder\"\n      >\n      </textarea>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-textarea\">\n      <textarea\n        type=\"text\"\n        v-model=\"textareaVal\"\n        :cols=\"cols\"\n        :rows=\"rows\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n      </textarea>\n    </div>\n  ",
     props: {
         value: null,
-        placeholder: {
-            type: String,
-            default: "請輸入此欄位"
-        },
+        placeholder: { default: "請輸入此欄位" },
+        maxlength: { default: "" },
         rows: null,
         cols: null,
     },
@@ -268,13 +244,13 @@ Vue.component('ud-textarea', {
         }
     },
 });
-//Radio 單選框
+// Radio 單選框
 Vue.component('ud-radio', {
     name: "UdRadio",
     template: "\n    <div class=\"ud-radio\">\n      <label v-for=\"(value, key) in options\" :key=\"key\">\n        <input\n          type=\"radio\"\n          v-model=\"checkedValue\"\n          :value=\"key\"\n        > {{ value }}\n      </label>\n    </div>\n  ",
     props: {
         value: null,
-        options: null
+        options: null // 選項
     },
     computed: {
         checkedValue: {
@@ -287,7 +263,7 @@ Vue.component('ud-radio', {
         }
     },
 });
-//Checkbox 多選框
+// Checkbox 多選框
 Vue.component('ud-checkbox', {
     name: "UdCheckbox",
     template: "\n    <div class=\"ud-checkbox\">\n      <label v-for=\"(value, key) in options\" :key=\"key\">\n        <input\n          type=\"checkbox\"\n          :value=\"key\"\n          v-model=\"checkedValue\"\n        > {{ value }}\n      </label>\n    </div>\n  ",
@@ -306,17 +282,14 @@ Vue.component('ud-checkbox', {
         }
     },
 });
-//Select 下拉框
+// Select 下拉框
 Vue.component('ud-select', {
     name: "UdSelect",
     template: "\n    <div class=\"ud-select\">\n      <select class=\"ud-select\" v-model=\"selectedValue\" :data-placeholder-selected=\"selectedValue === ''\">\n        <option value=\"\" disabled selected>{{ placeholder }}</option>\n        <option v-for=\"(value, key) in options\" :value=\"key\" :key=\"key\">\n          {{ value }}\n        </option>\n      </select>\n    </div>\n  ",
     props: {
         value: null,
         options: null,
-        placeholder: {
-            type: String,
-            default: "請選擇一項"
-        }
+        placeholder: { default: "請選擇一項" } // 取代文字
     },
     computed: {
         selectedValue: {
@@ -329,19 +302,19 @@ Vue.component('ud-select', {
         }
     },
 });
-//Switch 開關
+// Switch 開關
 Vue.component('ud-switch', {
     name: "UdSwitch",
     template: "\n\n  ",
     props: {},
 });
-//Upload 上傳
+// Upload 上傳
 Vue.component('ud-upload', {
     name: "UdUpload",
     template: "\n\n  ",
     props: {},
 });
-//ImageUpload 圖片上傳預覽
+// ImageUpload 圖片上傳預覽
 Vue.component("ud-image-upload", {
     name: "UdImageUpload",
     template: "\n    <div class=\"ud-image-upload\">\n      <input type=\"file\" accept=\"image/*\" ref=\"input\" @change=\"previewImage\">\n      <template v-if=\"preview\">\n        <div class=\"image-preview\">\n          <img :src=\"preview\" class=\"img-fluid\" />\n          <div class=\"image-info\">\n            <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image.name }}</p>\n            <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image.size/1024) }}KB</p>\n          </div>\n        </div>\n        <ud-button @click=\"reset\">\u522A\u9664\u5716\u7247</ud-button>\n      </template>\n    </div>\n  ",
@@ -371,7 +344,7 @@ Vue.component("ud-image-upload", {
         }
     }
 });
-//ImageMultiUpload 圖片上傳預覽(多張)
+// ImageMultiUpload 圖片上傳預覽(多張)
 Vue.component("ud-image-multi-upload", {
     name: "UdImageMultiUpload",
     template: "\n    <div class=\"ud-image-multi-upload\">\n      <input type=\"file\" accept=\"image/*\" multiple=\"multiple\" ref=\"input\" @change=\"previewMultiImage\">\n      <template v-if=\"preview_list.length\">\n        <div class=\"image-preview\">\n          <div v-for=\"item, index in preview_list\" :key=\"index\">\n            <img :src=\"item\"/>\n            <div class=\"image-info\">\n              <p>\u6A94\u6848\u540D\u7A31\uFF1A{{ image_list[index].name }}</p>\n              <p>\u6A94\u6848\u5927\u5C0F\uFF1A{{ parseInt(image_list[index].size/1024) }}KB</p>\n            </div>\n          </div>\n          <ud-button @click=\"reset\">\u522A\u9664\u5716\u7247</ud-button>\n        </div>\n      </template>\n    </div>\n  ",
@@ -406,13 +379,13 @@ Vue.component("ud-image-multi-upload", {
         }
     }
 });
-//Form 表單
+// Form 表單
 Vue.component('ud-form', {
     name: "UdForm",
     template: "\n\n  ",
     props: {},
 });
-//Captcha 圖形驗證碼
+// Captcha 圖形驗證碼
 Vue.component('ud-captcha', {
     name: "UdCaptcha",
     template: "\n    <div class=\"ud-captcha\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
@@ -428,22 +401,10 @@ Vue.component('ud-captcha', {
     },
     props: {
         value: String,
-        color: {
-            type: String,
-            default: "#333"
-        },
-        bgColor: {
-            type: String,
-            default: "#fff"
-        },
-        randomColor: {
-            type: String,
-            default: "#777"
-        },
-        font: {
-            type: String,
-            default: "25px Arial"
-        },
+        color: { default: "#333" },
+        bgColor: { default: "#fff" },
+        randomColor: { default: "#777" },
+        font: { default: "25px Arial" },
         noLine: Boolean,
         noDots: Boolean,
         noRefresh: Boolean,
@@ -519,23 +480,20 @@ Vue.component('ud-captcha', {
     },
 });
 //-----------------------Validation-----------------------
-//VfItem 表單容器
+// VfItem 表單容器
 Vue.component("vf-item", {
     name: "VfItem",
     template: "\n    <div class=\"vf-item\">\n      <div class=\"vf-item-label\">{{ label }}</div>\n      <div class=\"vf-item-input\">\n        <slot></slot>\n      </div>\n    </div>\n  ",
     props: {
-        label: {
-            type: String,
-            default: ""
-        }
+        label: { default: "" } // 標籤文字
     }
 });
-//VfName 姓名驗證
+// VfName 姓名驗證
 Vue.component("vf-name", {
     name: "VfName",
     template: "\n    <formulate-input\n      type=\"text\"\n      name=\"name\"\n      placeholder=\"\u8ACB\u8F38\u5165\u59D3\u540D\"\n      validation=\"^required|^matches:/^[a-zA-Z0-9_\u4E00-\u9FA5]+$/\"\n      :validation-messages=\"{required: '\u59D3\u540D\u4E0D\u53EF\u70BA\u7A7A', matches: '\u59D3\u540D\u683C\u5F0F\u6709\u8AA4\uFF0C\u4E0D\u63A5\u53D7\u7279\u6B8A\u7B26\u865F'}\"\n    >\n    </formulate-input>\n  ",
 });
-//VfGender 性別驗證
+// VfGender 性別驗證
 Vue.component("vf-gender", {
     name: "VfGender",
     template: "\n    <formulate-input\n      type=\"select\"\n      name=\"gender\"\n      :options=\"options\"\n      placeholder=\"\u8ACB\u9078\u64C7\u6027\u5225\"\n      validation=\"^required\"\n      :validation-messages=\"{required: '\u6027\u5225\u4E0D\u53EF\u70BA\u7A7A'}\"\n    >\n    </formulate-input>\n  ",
@@ -548,22 +506,22 @@ Vue.component("vf-gender", {
         };
     },
 });
-//VfPhone 電話驗證
+// VfPhone 電話驗證
 Vue.component("vf-phone", {
     name: "VfPhone",
     template: "\n    <formulate-input\n      type=\"tel\"\n      name=\"phone\"\n      placeholder=\"\u8ACB\u8F38\u5165\u624B\u6A5F\u865F\u78BC\"\n      validation=\"^required|matches:/^09[0-9]{8}$/\"\n      :validation-messages=\"{required: '\u624B\u6A5F\u4E0D\u53EF\u70BA\u7A7A', matches: '\u624B\u6A5F\u683C\u5F0F\u6709\u8AA4\uFF0C\u4F8B\uFF1A0912345678'}\"\n      maxlength=\"10\"\n    >\n    </formulate-input>\n  ",
 });
-//VfMail 郵件驗證
+// VfMail 郵件驗證
 Vue.component("vf-mail", {
     name: "VfMail",
     template: "\n    <formulate-input\n      type=\"text\"\n      name=\"email\"\n      placeholder=\"\u8ACB\u8F38\u5165E-mail\"\n      validation=\"^required|email\"\n      :validation-messages=\"{required: 'E-mail\u4E0D\u53EF\u70BA\u7A7A',email: 'E-mail\u683C\u5F0F\u6709\u8AA4\uFF0C\u9700\u5305\u542B@'}\"\n    >\n    </formulate-input>\n  ",
 });
-//VfIdcard 身分證驗證
+// VfIdcard 身分證驗證
 Vue.component("vf-idcard", {
     name: "VfIdcard",
     template: "\n    <formulate-input\n      type=\"text\"\n      name=\"idcard\"\n      placeholder=\"\u8ACB\u8F38\u5165\u8EAB\u5206\u8B49\u865F\u78BC\"\n      validation=\"^required|matches:/^[A-Z]{1}[0-9]{9}$/\"\n      :validation-messages=\"{required: '\u8EAB\u5206\u8B49\u865F\u78BC\u4E0D\u53EF\u70BA\u7A7A', matches: '\u8EAB\u5206\u8B49\u865F\u78BC\u683C\u5F0F\u6709\u8AA4\uFF0C\u4F8B\uFF1AA123456789'}\"\n      maxlength=\"10\"\n    >\n    </formulate-input>\n  ",
 });
-//VfDate 日期驗證
+// VfDate 日期驗證
 Vue.component("vf-date", {
     name: "VfDate",
     template: "\n    <formulate-input\n      type=\"date\"\n      :name=\"name\"\n      placeholder=\"\u8ACB\u8F38\u5165\u65E5\u671F\"\n      validation=\"^required|^date:YYYY-MM-DD|exist\"\n      :validation-rules=\"{\n        exist: ({ value }) => {\n          let dateArr = value.split('-');\n          let limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];\n          let theYear = parseInt(dateArr[0]);\n          let theMonth = parseInt(dateArr[1]);\n          let theDay = parseInt(dateArr[2]);\n          let isLeap = new Date(theYear, 1, 29).getDate() === 29; \n          if (isLeap) limitInMonth[1] = 29;\n          return theDay > 0 && theDay <= limitInMonth[theMonth - 1];\n        }\n      }\"\n      :validation-messages=\"{required: '\u65E5\u671F\u4E0D\u53EF\u70BA\u7A7A', date: '\u65E5\u671F\u683C\u5F0F\u6709\u8AA4\uFF0C\u4F8B\uFF1A2020-01-31', exist: '\u65E5\u671F\u4E0D\u5B58\u5728\uFF0C\u8ACB\u91CD\u65B0\u9078\u64C7'}\"\n    >\n    </formulate-input>\n  ",
@@ -574,12 +532,12 @@ Vue.component("vf-date", {
         },
     }
 });
-//VfAccept 條款驗證
+// VfAccept 條款驗證
 Vue.component("vf-accept", {
     name: "VfAccept",
     template: "\n    <label class=\"vf-accept\">\n      <formulate-input\n        type=\"checkbox\"\n        name=\"accept\"\n        validation=\"accepted\"\n        :validation-messages=\"{accepted: '\u8ACB\u5148\u540C\u610F\u4F7F\u7528\u8005\u689D\u6B3E'}\"\n      >\n      </formulate-input>\n      <p v-if=\"!$slots.default\">\u6211\u540C\u610F\u4F7F\u7528\u8005\u689D\u6B3E</p>\n      <slot></slot>\n    </label>\n  ",
 });
-//VfCaptcha 圖形驗證碼
+// VfCaptcha 圖形驗證碼
 Vue.component('vf-captcha', {
     name: "VfCaptcha",
     template: "\n    <div class=\"vf-captcha\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
@@ -595,22 +553,10 @@ Vue.component('vf-captcha', {
     },
     props: {
         value: String,
-        color: {
-            type: String,
-            default: "#333"
-        },
-        bgColor: {
-            type: String,
-            default: "#fff"
-        },
-        randomColor: {
-            type: String,
-            default: "#777"
-        },
-        font: {
-            type: String,
-            default: "25px Arial"
-        },
+        color: { default: "#333" },
+        bgColor: { default: "#fff" },
+        randomColor: { default: "#777" },
+        font: { default: "25px Arial" },
         noLine: Boolean,
         noDots: Boolean,
         noRefresh: Boolean,
@@ -685,12 +631,12 @@ Vue.component('vf-captcha', {
         }
     },
 });
-//DateGroup 日期群組驗證
+// DateGroup 日期群組驗證
 Vue.component('vf-date-group', {
     name: "VfDateGroup",
     template: "\n    <div class=\"vf-date-select\">\n      <select name=\"year\" ref=\"year\"></select>\n      <p>\u5E74</p>\n      <select name=\"month\" ref=\"month\"></select>\n      <p>\u6708</p>\n      <select name=\"date\" ref=\"date\"></select>\n      <p>\u65E5</p>\n    </div>\n  ",
     props: {
-        roc: Boolean
+        roc: Boolean //民國
     },
     mounted: function () {
         this.dateSelect();
@@ -740,7 +686,7 @@ Vue.component('vf-date-group', {
         }
     },
 });
-//VfAddressGroup 地址群組驗證
+// VfAddressGroup 地址群組驗證
 Vue.component('vf-address-group', {
     name: "VfAddressGroup",
     template: "\n    <div class=\"vf-address-group\">\n      <div class=\"flex-wrapper\" v-if=\"!inputOnly\">\n        <formulate-input \n          type=\"select\"\n          name=\"county\"\n          placeholder=\"\u7E23\u5E02\"\n          :options=\"countyOptions\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u7E23\u5E02\u4E0D\u53EF\u70BA\u7A7A'}\"\n          @input=\"getCounty\"\n        >\n        </formulate-input>\n        <formulate-input\n          type=\"select\"\n          name=\"area\"\n          placeholder=\"\u9109\u586B\u5E02\u5340\"\n          :options=\"areaOptions\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u9109\u93AE\u5E02\u5340\u4E0D\u53EF\u70BA\u7A7A'}\"\n          @input=\"getArea\"\n          ref=\"area\"\n        >\n        </formulate-input>\n      </div>\n      <div v-if=\"!selectOnly\">\n        <formulate-input\n          type=\"text\"\n          name=\"address\"\n          placeholder=\"\u8ACB\u8F38\u5165\u5730\u5740\"\n          validation=\"required\"\n          :validation-messages=\"{required: '\u5730\u5740\u4E0D\u53EF\u70BA\u7A7A'}\"\n          ref=\"address\"\n        >\n        </formulate-input>\n      </div>\n    </div>\n  ",
@@ -831,13 +777,13 @@ Vue.component('vf-address-group', {
     },
 });
 //-----------------------Data-----------------------
-//Table 表格
+// Table 表格
 Vue.component('ud-table', {
     name: "UdTable",
     template: "\n\n  ",
     props: {},
 });
-//Pagination 分頁
+// Pagination 分頁
 Vue.component('ud-pagination', {
     name: "UdPagination",
     template: "\n\n  ",
@@ -854,72 +800,40 @@ Vue.component('ud-flex', {
 Vue.component('ud-arrow', {
     template: "\n    <i \n      class=\"ud-arrow\"\n      :class=[direction]\n      :style=\"{\n        'border-color': bdColor,\n        'border-width': '0 ' + bdWidth + 'px ' + bdWidth + 'px 0',\n        padding: padding + 'px'\n      }\">\n    </i>\n  ",
     props: {
-        bdColor: {
-            default: "#333"
-        },
-        bdWidth: {
-            default: "3"
-        },
-        padding: {
-            default: "3"
-        },
-        direction: {
-            default: "right"
-        }
+        bdColor: { default: "#333" },
+        bdWidth: { default: "3" },
+        padding: { default: "3" },
+        direction: { default: "right" } //方向
     }
 });
 //-----------------------Notice-----------------------
-//Alert 警告彈窗
+// Alert 警告彈窗
 Vue.component("ud-alert", {
     name: "UdAlert",
     template: "\n    <transition name=\"fade\">\n      <div class=\"ud-alert\" v-if=\"value\" v-cloak>\n        <div class=\"modal-wrapper\" @click.self=\"maskCancel && $emit('input', 0)\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"hasCancel\" @click=\"$emit('input', 0)\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\">\n              <p>{{ title }}</p>\n            </div>\n            <div class=\"modal-body\">\n              <p>{{ message }}</p>\n              <slot></slot>\n            </div>\n            <div class=\"modal-footer\">\n              <div class=\"button-area\">\n                <ud-button @click=\"$emit('input', 0)\">OK</ud-button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     props: {
-        title: {
-            type: String,
-            default: "警告彈窗標題"
-        },
-        message: {
-            type: String,
-            default: "警告彈窗訊息"
-        },
-        value: {
-            type: null,
-            default: false
-        },
+        title: { default: "警告標題" },
+        message: { default: "警告訊息" },
+        value: { default: false },
         maskCancel: Boolean,
         hasCancel: Boolean,
     },
 });
-//Confirm 確認彈窗
+// Confirm 確認彈窗
 Vue.component("ud-confirm", {
     name: "UdConfirm",
     template: "\n    <transition name=\"fade\">\n      <div class=\"ud-confirm\" v-if=\"value\" v-cloak>\n        <div class=\"modal-wrapper\" @click.self=\"maskCancel && $emit('input', 0)\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"hasCancel\" @click=\"$emit('input, 0')\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\">\n              <p>{{ title }}</p>\n            </div>\n            <div class=\"modal-body\">\n              <p>{{ message }}</p>\n              <slot></slot>\n            </div>\n            <div class=\"modal-footer\">\n              <div class=\"button-area\">\n                <ud-button plain @click=\"$emit('input', 0)\">{{ cancelTxt }}</ud-button>\n                <ud-button @click=\"$emit('confirm')\">{{ confirmTxt }}</ud-button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     props: {
-        title: {
-            type: String,
-            default: "確認彈窗標題"
-        },
-        message: {
-            type: String,
-            default: "確認彈窗訊息"
-        },
-        value: {
-            type: null,
-            default: false
-        },
-        cancelTxt: {
-            type: String,
-            default: "取消"
-        },
-        confirmTxt: {
-            type: String,
-            default: "確定"
-        },
+        title: { default: "確認標題" },
+        message: { default: "確認訊息" },
+        value: { default: false },
+        cancelTxt: { default: "取消" },
+        confirmTxt: { default: "確定" },
         maskCancel: Boolean,
         hasCancel: Boolean,
     },
 });
-//AlertConfirm 警告確認彈窗(調用式) ud-alertConfirm
+// AlertConfirm 警告確認彈窗(調用式) ud-alertConfirm
 var UdModalExtend = Vue.extend({
     template: "\n    <transition name=\"fade\">\n      <div class=\"ud-alert\" v-if=\"isShow\">\n        <div class=\"modal-wrapper\" @click.self=\"maskHandler\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"btnClose\" @click=\"destroy\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\" v-if=\"title || titleHtml\">\n              <ud-html :text=\"titleHtml\" v-if=\"titleHtml\"></ud-html>\n              <p v-else>{{ title }}</p>\n            </div>\n            <div class=\"modal-body\">\n              <ud-html :text=\"msgHtml\" v-if=\"msgHtml\"></ud-html>\n              <p v-else>{{ msg }}</p>\n            </div>\n            <div class=\"modal-footer\">\n              <div class=\"button-area flex-wrapper\">\n                <ud-button @click=\"cancelHandler\" plain v-if=\"isConfirm\">{{ cancelTxt }}</ud-button>\n                <ud-button @click=\"confirmHandler\">{{ confirmTxtAfter }}</ud-button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     data: function () {
@@ -992,22 +906,14 @@ Vue.prototype.$confirm = function (options) {
     });
     document.body.appendChild(UdConfirm.$el);
 };
-//Modal 通用彈窗
+// Modal 通用彈窗
 Vue.component("ud-modal", {
     name: "UdModal",
     template: "\n    <transition name=\"fade\">\n      <div class=\"ud-modal\" v-if=\"isShow\" v-cloak>\n        <div class=\"modal-wrapper\" @click.self=\"onMaskClick\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"hasCancel\" @click=\"isShow = 0\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\" v-if=\"!$slots.default\">\n              <p>{{ title }}</p>\n            </div>\n            <div class=\"modal-body\">\n              <p v-if=\"!$slots.default\">{{ message }}</p>\n              <slot></slot>\n            </div>\n            <div class=\"modal-footer\" v-if=\"!$slots.default\">\n              <div class=\"button-area\">\n                <ud-button @click=\"isShow = 0\">OK</ud-button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     props: {
-        title: {
-            type: String,
-            default: "通用彈窗標題"
-        },
-        message: {
-            type: String,
-            default: "通用彈窗訊息"
-        },
-        value: {
-            default: 0
-        },
+        title: { default: "通用標題" },
+        message: { default: "通用訊息" },
+        value: { default: 0 },
         maskCancel: Boolean,
         hasCancel: Boolean,
     },
@@ -1028,7 +934,7 @@ Vue.component("ud-modal", {
         }
     },
 });
-//Loading 加載中
+// Loading 載入中
 Vue.component('ud-loading', {
     name: "UdLoading",
     template: "\n    <transition name=\"loading\">\n      <div class=\"ud-loading\" v-if=\"isShow\" :class=\"{'theme-white': theme === 'white'}\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <i :class=\"icon\"></i>\n            </div>\n            <div class=\"modal-body\">\n              <ud-html :text=\"msgHtml\" v-if=\"msgHtml\"></ud-html>\n              <p v-else>{{ msg }}</p>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
@@ -1038,13 +944,10 @@ Vue.component('ud-loading', {
         };
     },
     props: {
-        label: {
-            default: "加載中...",
-            type: String
-        }
+        label: { default: "載入中..." } // 載入中文字
     }
 });
-//Loading 載入中(調用式) ud-loading
+// Loading 載入中(調用式) ud-loading
 var UdLoadingExtend = Vue.extend({
     template: "\n    <transition name=\"loading\">\n      <div class=\"ud-loading\" v-if=\"isShow\" :class=\"{'theme-white': theme === 'white'}\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <img v-if=\"customIcon\" class=\"cutsom-icon\" :src=\"customIcon\">\n              <i v-else :class=\"icon\"></i>\n            </div>\n            <div class=\"modal-body\">\n              <ud-html :text=\"msgHtml\" v-if=\"msgHtml\"></ud-html>\n              <p v-else>{{ msg }}</p>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     data: function () {
@@ -1091,27 +994,24 @@ Vue.prototype.$loading = {
         UdLoading.destroy();
     }
 };
-//Notify 通知訊息
+// Notify 通知訊息
 Vue.component('ud-notify', {
     name: "UdNotify",
     template: "\n\n  ",
     props: {},
 });
-//Popover 氣泡框
+// Popover 氣泡框
 Vue.component('ud-popover', {
     name: "UdPopover",
     template: "\n\n  ",
     props: {},
 });
 //-----------------------Tools-----------------------
-//Html 用戶自定義訊息
+// Html 用戶自定義訊息
 Vue.component('ud-html', {
     template: "\n    <div class=\"ud-html\" v-html=\"nl2br(text)\"></div>\n  ",
     props: {
-        text: {
-            type: String,
-            default: "<h1>H1 用戶自定義訊息</h1><h2>H2 用戶自定義訊息</h2><h3>H3 用戶自定義訊息</h3><h4>H4 用戶自定義訊息</h4><h5>H5 用戶自定義訊息</h5><h6>H6 用戶自定義訊息</h6>\n<p>p 用戶自定義訊息</p><span>span 用戶自定義訊息</span>"
-        }
+        text: { default: "<h1>H1 用戶自定義訊息</h1><h2>H2 用戶自定義訊息</h2><h3>H3 用戶自定義訊息</h3><h4>H4 用戶自定義訊息</h4><h5>H5 用戶自定義訊息</h5><h6>H6 用戶自定義訊息</h6>\n<p>p 用戶自定義訊息</p><span>span 用戶自定義訊息</span>" } // 文字
     },
     methods: {
         nl2br: function (str, is_xhtml) {
@@ -1123,7 +1023,7 @@ Vue.component('ud-html', {
         }
     }
 });
-//Backtop 回到頂部
+// Backtop 回到頂部
 Vue.component('ud-backtop', {
     name: "UdBacktop",
     template: "\n    <ud-button @click=\"scrollToTop\">\u56DE\u6700\u9802</ud-button>\n  ",
@@ -1137,18 +1037,15 @@ Vue.component('ud-backtop', {
         }
     },
 });
-//Ellipsis 文字省略
+// Ellipsis 文字省略
 Vue.component('ud-ellipsis', {
     name: "UdEllipsis",
     template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine}"><slot></slot></p>',
     props: {
-        maxLine: {
-            type: Number,
-            default: 1,
-        }
+        maxLine: { default: 1, } // 指定省略行數
     },
 });
-//CountdownExpire 倒數計時(時限)
+// CountdownExpire 倒數計時(時限)
 Vue.component('ud-countdown-expire', {
     name: "UdCountdownExpire",
     template: "\n    <div>\u8DDD\u96E25\u670813\u865F 15\u9EDE0\u52060\u79D2 \u9084\u6709</div>\n    <i></i>\n    <i></i>\n    <i></i>\n  ",
@@ -1159,10 +1056,10 @@ Vue.component('ud-countdown-expire', {
             var time = new Date();
             var nowTime = time.getTime(); // 獲取當前毫秒數
             // 設置結束時間 : 5月13號 15點0分0秒
-            time.setMonth(4); //   獲取當前 月份 (從 '0' 開始算)
-            time.setDate(13); //   獲取當前 日
-            time.setHours(15); //   獲取當前 時
-            time.setMinutes(0); //   獲取當前 分
+            time.setMonth(4); // 獲取當前 月份 (從 '0' 開始算)
+            time.setDate(13); // 獲取當前 日
+            time.setHours(15); // 獲取當前 時
+            time.setMinutes(0); // 獲取當前 分
             time.setSeconds(0);
             var endTime = time.getTime();
             // 倒數計時: 差值
@@ -1176,16 +1073,13 @@ Vue.component('ud-countdown-expire', {
         }, 1000);
     },
 });
-//Countdown 倒數計時
+// Countdown 倒數計時
 Vue.component('ud-countdown', {
     name: "UdCountdown",
     template: "\n    <span class=\"ud-countdown\" ref=\"count\">{{cTime}}</span>\n  ",
     props: {
-        time: {
-            type: Number,
-            default: 60
-        },
-        delay: Boolean
+        time: { default: 60 },
+        delay: Boolean // 延遲
     },
     data: function () {
         return {
@@ -1213,7 +1107,7 @@ Vue.component('ud-countdown', {
         }
     },
 });
-//QrCode 取得QRcode圖片
+// QrCode 取得QRcode圖片
 Vue.component('ud-qrcode', {
     template: "\n    <div class=\"ud-qrcode\">\n      <i v-if=\"!ready\" class=\"fas fa-spinner fa-pulse\"></i>\n      <img v-show=\"ready\" ref=\"img\" :src=\"QrCodeSrc\" :alt=\"url\">\n    </div>\n  ",
     mounted: function () {
@@ -1228,18 +1122,9 @@ Vue.component('ud-qrcode', {
         };
     },
     props: {
-        url: {
-            type: String,
-            default: "https://www.google.com.tw/"
-        },
-        width: {
-            type: null,
-            default: "300"
-        },
-        height: {
-            type: null,
-            default: "300"
-        },
+        url: { default: "https://www.google.com.tw/" },
+        width: { default: "300" },
+        height: { default: "300" },
     },
     computed: {
         QrCodeSrc: function () {
@@ -1247,44 +1132,30 @@ Vue.component('ud-qrcode', {
         }
     },
 });
-//Ratio 等比例自適應容器
+// Ratio 等比例自適應容器
 Vue.component('ud-ratio', {
-    template: "\n    <div class=\"ud-ratio\">\n      <div class=\"ratio-bg\" :style=\"{\n        backgroundImage: 'url(' + src + ')', \n        paddingBottom: height + '%', \n        borderRadius: radius + 'px',\n        backgroundSize: bgSize\n      }\">\n        <slot></slot>\n      </div>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-ratio\">\n      <div class=\"ratio-bg\" :style=\"{\n        backgroundImage: 'url(' + src + ')', \n        paddingBottom: height + '%', \n        borderRadius: radius,\n        backgroundSize: bgSize\n      }\">\n        <slot></slot>\n      </div>\n    </div>\n  ",
     props: {
-        src: {
-            default: "https://i.imgur.com/s3w1Sm3.jpg"
-        },
-        height: {
-            default: 100
-        },
-        radius: {
-            default: 0,
-        },
-        bgSize: {
-            default: "cover"
-        }
+        src: { default: "https://i.imgur.com/s3w1Sm3.jpg" },
+        height: { default: 100 },
+        radius: { default: '0px' },
+        bgSize: { default: "cover" } // 背景尺寸 (cover, contain, 100%...等)
     },
 });
 //-----------------------Application-----------------------
-//Carousel 走馬燈
+// Carousel 走馬燈
 Vue.component('ud-carousel', {
     name: "UdCarousel",
     template: "\n\n  ",
     props: {},
 });
-//Youtube 水管播放
+// Youtube 水管播放
 Vue.component('ud-youtube', {
     name: "UdYoutube",
     template: "\n    <div class=\"ud-youtube\">\n      <div class=\"video-wrapper\">\n        <iframe width=\"560\" height=\"315\" :src=\"videoIdAfter\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n      </div>\n    </div>\n  ",
     props: {
-        videoId: {
-            type: String,
-            default: "p6qjpdi8XuE"
-        },
-        start: {
-            type: Number,
-            default: 0
-        },
+        videoId: { default: "p6qjpdi8XuE" },
+        start: { default: 0 },
         autoplay: Boolean,
         loop: Boolean,
         noControl: Boolean,
@@ -1304,31 +1175,19 @@ Vue.component('ud-youtube', {
         }
     },
 });
-//YoutubeApi 水管播放(控制版)
+// YoutubeApi 水管播放(控制版)
 Vue.component('ud-youtube-api', {
     name: "UdYoutubeApi",
     template: "\n    <div class=\"ud-youtube-api\">\n      <div class=\"video-wrapper\">\n        <div :id=\"videoId\" ref=\"player\"></div>\n      </div>\n    </div>\n  ",
     props: {
-        videoId: {
-            type: String,
-            default: "KnWMMgEDva0"
-        },
-        start: {
-            type: Number,
-            default: 0
-        },
-        width: {
-            type: Number,
-            default: 560
-        },
-        height: {
-            type: Number,
-            default: 315
-        },
+        videoId: { default: "KnWMMgEDva0" },
+        start: { default: 0 },
+        width: { default: 560 },
+        height: { default: 315 },
         autoplay: Boolean,
         loop: Boolean,
         noControl: Boolean,
-        mute: Boolean //開始時靜音
+        mute: Boolean // 開始時靜音
     },
     data: function () {
         return {
@@ -1355,8 +1214,8 @@ Vue.component('ud-youtube-api', {
                 playerVars: {
                     autoplay: _this.autoplay,
                     controls: _this.control,
-                    start: _this.start //開始時間
-                    // loop: _this.loop, //讓影片循環播放
+                    start: _this.start // 開始時間
+                    // loop: _this.loop, // 讓影片循環播放
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -1378,40 +1237,31 @@ Vue.component('ud-youtube-api', {
     },
     methods: {},
 });
-//GoogleMap 估狗地圖
+// GoogleMap 估狗地圖
 Vue.component('ud-google-map', {
     name: "UdGoogleMap",
     template: "\n    <div class=\"ud-google-map\" :style=\"{'padding-bottom': ratio + '%'}\">\n      <iframe :src=\"src\" :width=\"width\" :height=\"height\" frameborder=\"0\" style=\"border:0;\" allowfullscreen=\"\" aria-hidden=\"false\" tabindex=\"0\"></iframe>\n    </div>\n  ",
     props: {
-        src: {
-            type: String,
-            default: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1807.3065648309268!2d121.51520065825689!3d25.04719989599153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9727e339109%3A0xc34a31ce3a4abecb!2z6Ie65YyX6LuK56uZ!5e0!3m2!1szh-TW!2stw!4v1595920460513!5m2!1szh-TW!2stw"
-        },
-        width: {
-            type: Number,
-            default: 600
-        },
-        height: {
-            type: Number,
-            default: 450
-        },
-        ratio: {
-            type: Number,
-            default: 65.25
-        }
+        src: { default: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1807.3065648309268!2d121.51520065825689!3d25.04719989599153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9727e339109%3A0xc34a31ce3a4abecb!2z6Ie65YyX6LuK56uZ!5e0!3m2!1szh-TW!2stw!4v1595920460513!5m2!1szh-TW!2stw" },
+        width: { default: 600 },
+        height: { default: 450 },
+        ratio: { default: 65.25 } // 比例
     },
 });
-//Select2 搜尋下拉框套件
-//dependencies:
-//  "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-//  "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
-//  "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
-//reference:
-//  https://select2.org
+// Select2 搜尋下拉框套件
+// dependencies:
+//   "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+//   "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+//   "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+// reference:
+//   https://select2.org
 Vue.component('ud-select2', {
     name: "UdSelect2",
     template: "\n    <select2 :options=\"options\" v-model=\"selected\">\n      <option disabled value=\"0\">Select one</option>\n    </select2>\n  ",
-    props: ["options", "value"],
+    props: {
+        value: { default: null },
+        options: { default: null } // 選項
+    },
     mounted: function () {
         var vm = this;
         $(this.$el)
@@ -1440,8 +1290,11 @@ Vue.component('ud-select2', {
             .select2("destroy");
     }
 });
-//Scratch 刮刮樂
-//dependencies:"plugins/scratchcard/scratchcard.min.js"(https://github.com/Masth0/ScratchCard)
+// Scratch 刮刮樂
+// dependencies:
+//   "plugins/scratchcard/scratchcard.min.js"
+// reference:
+//   https://github.com/Masth0/ScratchCard
 Vue.component('ud-scratch', {
     name: "UdScratch",
     template: "\n    <div class=\"ud-scratch\">\n      <div class=\"sc__wrapper\">\n        <div class=\"sc__container\" :id=\"id\"></div>\n      </div>\n    </div>\n  ",
@@ -1449,30 +1302,12 @@ Vue.component('ud-scratch', {
         this.initScratch();
     },
     props: {
-        id: {
-            type: String,
-            default: "js--sud--container"
-        },
-        coverSrc: {
-            type: String,
-            default: "img/silver.jpg"
-        },
-        brushSrc: {
-            type: String,
-            default: "img/brush.png"
-        },
-        prizeSrc: {
-            type: String,
-            default: "img/prize_01.jpg"
-        },
-        aspectRatio: {
-            type: Number,
-            default: 1.65
-        },
-        percent: {
-            type: Number,
-            default: 10
-        },
+        id: { default: "js--sud--container" },
+        coverSrc: { default: "img/silver.jpg" },
+        brushSrc: { default: "img/brush.png" },
+        prizeSrc: { default: "img/prize_01.jpg" },
+        aspectRatio: { default: 1.65 },
+        percent: { default: 10 },
     },
     methods: {
         initScratch: function () {
@@ -1487,12 +1322,12 @@ Vue.component('ud-scratch', {
                 imageBackgroundSrc: this.prizeSrc,
                 percentToFinish: this.percent,
                 callback: function () {
-                    _this.$emit("finish"); //刮完事件
+                    _this.$emit("finish"); // 刮完事件
                 }
             });
             sc.init().then(function () {
                 sc.canvas.addEventListener('scratch.move', function () {
-                    _this.$emit("move", Math.floor(sc.getPercent())); //移動中事件(帶百分比)
+                    _this.$emit("move", Math.floor(sc.getPercent())); // 移動中事件(帶百分比)
                 });
             }).catch(function (error) {
                 alert(error.message);
@@ -1500,7 +1335,7 @@ Vue.component('ud-scratch', {
         }
     },
 });
-//Editor 文字編輯器
+// Editor 文字編輯器
 Vue.component('ud-editor', {
     name: "UdEditor",
     template: '<h1>文案編輯器</h1>'

@@ -8,9 +8,6 @@ block modal
   ud-modal(v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
-  ud-flex
-    ud-qrcode
-    ud-qrcode
   h1 {{ userData.name }}
   ud-button(@click="postData") POST
   ud-flex
@@ -21,7 +18,7 @@ block content
   ud-input(v-model="inputVal" placeholder="請輸入姓名")
   hr
   p textareaVal: {{ textareaVal }}
-  ud-textarea(v-model="textareaVal")
+  ud-textarea(v-model="textareaVal" rows="4")
   hr
   p radioVal: {{ radioVal }}
   ud-radio(v-model="radioVal" :options="formObj")

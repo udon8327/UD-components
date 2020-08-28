@@ -40,7 +40,7 @@
 //   Alert 警告彈窗 -----> ud-alert
 //   Confirm 確認彈窗 -----> ud-confirm
 //   Modal 通用彈窗 -----> ud-modal
-//   Loading 加載中 -----> ud-loading
+//   Loading 載入中 -----> ud-loading
 //   Notify 通知訊息 -----> ud-notify
 //   Popover 氣泡框 -----> ud-popover
 
@@ -146,9 +146,13 @@
 
 // Radio 單選框
 .ud-radio
+  label
+    cursor: pointer
 
 // Checkbox 多選框
 .ud-checkbox
+  label
+    cursor: pointer
 
 // Select 選擇器
 .ud-select
@@ -503,7 +507,7 @@
         color: $text2
         display: inline-block
 
-// Loading 加載中
+// Loading 載入中
 .ud-loading
   position: fixed
   z-index: 140

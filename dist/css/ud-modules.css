@@ -96,6 +96,12 @@
     outline: 0;
     border: 1px solid #41b883; }
 
+.ud-radio label {
+  cursor: pointer; }
+
+.ud-checkbox label {
+  cursor: pointer; }
+
 .ud-select {
   position: relative; }
   .ud-select:before {

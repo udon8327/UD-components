@@ -22,10 +22,6 @@
       <ud-modal v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-flex>
-            <ud-qrcode></ud-qrcode>
-            <ud-qrcode></ud-qrcode>
-          </ud-flex>
           <h1>{{ userData.name }}</h1>
           <ud-button @click="postData">POST</ud-button>
           <ud-flex>
@@ -37,7 +33,7 @@
           <ud-input v-model="inputVal" placeholder="請輸入姓名"></ud-input>
           <hr>
           <p>textareaVal: {{ textareaVal }}</p>
-          <ud-textarea v-model="textareaVal"></ud-textarea>
+          <ud-textarea v-model="textareaVal" rows="4"></ud-textarea>
           <hr>
           <p>radioVal: {{ radioVal }}</p>
           <ud-radio v-model="radioVal" :options="formObj"></ud-radio>
