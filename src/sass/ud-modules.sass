@@ -110,27 +110,26 @@
 .ud-input
   input
     appearance: none
-    border-radius: $vfradius
-    border: 1px solid $vfborder
+    border-radius: 5px
+    border: 1px solid #cecece
     font-size: 14px
     padding: 8px 10px
     width: 100%
     box-sizing: border-box
     background-color: transparent
     transition: border 0.2s ease
-    min-height: 40px
     &::placeholder
       color: #aaa
     &:focus
       outline: 0
-      border: 1px solid $vftheme
+      border: 1px solid $main
 
 // Textarea 多行輸入框
 .ud-textarea
   textarea
     appearance: none
-    border-radius: $vfradius
-    border: 1px solid $vfborder
+    border-radius: 5px
+    border: 1px solid #cecece
     box-sizing: border-box
     background-color: transparent
     font-size: 14px
@@ -142,7 +141,7 @@
       color: #aaa
     &:focus
       outline: 0
-      border: 1px solid $vftheme
+      border: 1px solid $main
 
 // Radio 單選框
 .ud-radio
@@ -161,7 +160,7 @@
     content: ""
     width: 0
     height: 0
-    border-color: $vfborder transparent transparent
+    border-color: #cecece transparent transparent
     border-style: solid
     border-width: .3em .3em 0
     top: 50%
@@ -171,8 +170,8 @@
     z-index: 1
   select
     appearance: none
-    border-radius: $vfradius
-    border: 1px solid $vfborder
+    border-radius: 5px
+    border: 1px solid #cecece
     font-size: 14px
     padding: 6px 10px
     width: 100%
@@ -185,7 +184,7 @@
       line-height: normal
     &:focus
       outline: 0
-      border: 1px solid $vftheme
+      border: 1px solid $main
     &[data-placeholder-selected]
       color: #a8a8a8
 
@@ -711,10 +710,6 @@
 
 //-----------------------Vue Formulate-----------------------
 .formulate-input
-  input,select,textarea
-    min-height: 40px
-
-.formulate-input
   margin-bottom: 0px
   position: relative
   .formulate-input-wrapper
@@ -747,8 +742,8 @@
   &[data-classification=text]
     input
       appearance: none
-      border-radius: $vfradius
-      border: 1px solid $vfborder
+      border-radius: 5px
+      border: 1px solid #cecece
       font-size: 14px
       padding: 8px 10px
       width: 100%
@@ -759,7 +754,7 @@
         color: #aaa
       &:focus
         outline: 0
-        border: 1px solid $vftheme
+        border: 1px solid $main
     .formulate-input-element--search
       position: relative
       &:before
@@ -799,8 +794,8 @@
   &[data-classification=textarea]
     textarea
       appearance: none
-      border-radius: $vfradius
-      border: 1px solid $vfborder
+      border-radius: 5px
+      border: 1px solid #cecece
       box-sizing: border-box
       background-color: transparent
       font-size: 14px
@@ -811,11 +806,11 @@
         color: #aaa
       &:focus
         outline: 0
-        border: 1px solid $vftheme
+        border: 1px solid $main
 
   &[data-classification=button] button
     appearance: none
-    border-radius: $vfradius
+    border-radius: 5px
     box-sizing: border-box
     background-color: transparent
     font-size: 14px
@@ -824,8 +819,8 @@
     width: 100%
     line-height: 1.2em
     margin: 0
-    border: 1px solid $vftheme
-    background-color: $vftheme
+    border: 1px solid $main
+    background-color: $main
     color: #fff
     min-width: 0
     width: auto
@@ -856,8 +851,8 @@
         color: $danger
         background-color: transparent
     &:active
-      background-color: lighten($vftheme, 10%)
-      border-color: lighten($vftheme, 10%)
+      background-color: lighten($main, 10%)
+      border-color: lighten($main, 10%)
 
   &[data-classification=select]
     .formulate-input-element
@@ -866,7 +861,7 @@
         content: ""
         width: 0
         height: 0
-        border-color: $vfborder transparent transparent
+        border-color: #cecece transparent transparent
         border-style: solid
         border-width: .3em .3em 0
         top: 50%
@@ -875,8 +870,8 @@
         position: absolute
     select
       appearance: none
-      border-radius: $vfradius
-      border: 1px solid $vfborder
+      border-radius: 5px
+      border: 1px solid #cecece
       font-size: 14px
       padding: 6px 10px
       width: 100%
@@ -888,7 +883,7 @@
         line-height: normal
       &:focus
         outline: 0
-        border: 1px solid $vftheme
+        border: 1px solid $main
       &[data-placeholder-selected]
         color: #a8a8a8
 
@@ -910,7 +905,7 @@
       width: 1em
       height: 1em
       border-radius: .25em
-      border: 1px solid $vfborder
+      border: 1px solid #cecece
       position: relative
       &:before
         content: ""
@@ -934,17 +929,17 @@
           left: .25em
       input
         &[type=checkbox]:checked ~ .formulate-input-element-decorator
-          border-color: $vftheme
+          border-color: $main
           &:before
-            background-color: $vftheme
+            background-color: $main
             -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>')
             mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>')
         &[type=radio]:checked ~ .formulate-input-element-decorator
-          border-color: $vftheme
+          border-color: $main
           &:before
-            background-color: $vftheme
+            background-color: $main
         &:focus ~ .formulate-input-element-decorator
-          border-color: $vftheme
+          border-color: $main
     .formulate-input-label--after
       margin-left: .5em
     .formulate-input-label--before
@@ -969,7 +964,7 @@
         top: calc(50% - .15em)
         width: 1.3em
         height: 1.3em
-        background-color: $vfborder
+        background-color: #cecece
         right: .85em
         border-radius: 1.3em
         cursor: pointer
@@ -1039,15 +1034,15 @@
         pointer-events: none
     .formulate-input-upload-area input
       &:focus ~ .formulate-input-upload-area-mask, &:hover ~ .formulate-input-upload-area-mask, &[data-is-drag-hover] ~ .formulate-input-upload-area-mask
-        border-color: $vftheme
+        border-color: $main
       &:focus ~ .formulate-input-upload-area-mask:before, &:hover ~ .formulate-input-upload-area-mask:before, &[data-is-drag-hover] ~ .formulate-input-upload-area-mask:before
-        background-color: $vftheme
+        background-color: $main
     .formulate-files
       list-style-type: none
       margin: 0
       padding: 0
       .formulate-file-progress
-        background-color: $vfborder
+        background-color: #cecece
         height: .3em
         border-radius: 1.25em
         width: 5em
@@ -1096,7 +1091,7 @@
             transition: opacity .1s
             opacity: 0
         .formulate-file-progress-inner
-          background-color: $vftheme
+          background-color: $main
           width: 1%
           position: absolute
           left: 0
@@ -1157,7 +1152,7 @@
       .formulate-file
         appearance: none
         border-radius: .3em
-        border: 1px solid $vfborder
+        border: 1px solid #cecece
         box-sizing: border-box
         background-color: transparent
         font-size: .9em
@@ -1176,7 +1171,7 @@
           line-height: normal
         &:focus
           outline: 0
-          border: 1px solid $vftheme
+          border: 1px solid $main
         \::-webkit-progress-bar
           -webkit-appearance: none
           appearance: none
@@ -1236,7 +1231,7 @@
         height: 1em
         border-radius: 1em
         border: 0
-        background-color: $vftheme
+        background-color: $main
         margin-top: calc(-.5em + 2px)
       &::-moz-range-thumb
         cursor: pointer
@@ -1246,7 +1241,7 @@
         height: 1em
         border-radius: 1em
         border: 0
-        background-color: $vftheme
+        background-color: $main
         margin-top: calc(-.5em + 2px)
       &::-ms-thumb
         cursor: pointer
@@ -1255,7 +1250,7 @@
         height: 1em
         border-radius: 1em
         border: 0
-        background-color: $vftheme
+        background-color: $main
         margin-top: calc(-.5em + 2px)
       &::-webkit-slider-runnable-track
         -webkit-appearance: none

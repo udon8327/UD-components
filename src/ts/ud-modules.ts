@@ -960,7 +960,7 @@ Vue.component('vf-address-group', {
   name: "VfAddressGroup",
   template: `
     <div class="vf-address-group">
-      <div class="flex-wrapper" v-if="!inputOnly">
+      <ud-flex v-if="!inputOnly">
         <formulate-input 
           type="select"
           name="county"
@@ -982,7 +982,7 @@ Vue.component('vf-address-group', {
           ref="area"
         >
         </formulate-input>
-      </div>
+      </ud-flex>
       <div v-if="!selectOnly">
         <formulate-input
           type="text"
@@ -1233,10 +1233,10 @@ let UdModalExtend = Vue.extend({
               <p v-else>{{ msg }}</p>
             </div>
             <div class="modal-footer">
-              <div class="button-area flex-wrapper">
+              <ud-flex>
                 <ud-button @click="cancelHandler" plain v-if="isConfirm">{{ cancelTxt }}</ud-button>
                 <ud-button @click="confirmHandler">{{ confirmTxtAfter }}</ud-button>
-              </div>
+              </ud-flex>
             </div>
           </div>
         </div>

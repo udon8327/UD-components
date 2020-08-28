@@ -14,24 +14,19 @@ block content
     ud-button(@click="alert") Alert
     ud-button(@click="confirm") Confirm
     ud-button(@click="isModalShow = 1") Modal
-  p inputVal: {{ inputVal }}
-  ud-input(v-model="inputVal" placeholder="請輸入姓名")
-  hr
-  p textareaVal: {{ textareaVal }}
-  ud-textarea(v-model="textareaVal" rows="4")
-  hr
+  ud-flex
+    p inputVal: {{ inputVal }}
+    ud-input(v-model="inputVal" placeholder="請輸入姓名")
+    p textareaVal: {{ textareaVal }}
+    ud-textarea(v-model="textareaVal")
   p radioVal: {{ radioVal }}
   ud-radio(v-model="radioVal" :options="formObj")
-  hr
   p acceptVal: {{ acceptVal }}
   ud-checkbox(v-model="acceptVal" :options="{false: '我同意使用者條款'}")
-  hr
   p checkboxVal: {{ checkboxVal }}
   ud-checkbox(v-model="checkboxVal" :options="formObj")
-  hr
   p selectVal: {{ selectVal }}
   ud-select(v-model="selectVal" :options="formArr" ref="test")
-  hr
   h1 {{ form }}
   //- h1 {{ generate }}
   formulate-form(v-model="form" @submit="success" name="my-form")
@@ -57,8 +52,9 @@ block content
     //- formulate-input(type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="required|mime:application/pdf" multiple :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
-  ud-button(plain @click="$formulate.reset('my-form')") 清除
-  ud-button(@click="$formulate.submit('my-form')") 送出
+  ud-flex
+    ud-button(plain @click="$formulate.reset('my-form')") 清除
+    ud-button(@click="$formulate.submit('my-form')") 送出
 block js
   //- script(async="" src="https://www.youtube.com/iframe_api")
   script(src="js/index.js")

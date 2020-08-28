@@ -29,24 +29,20 @@
             <ud-button @click="confirm">Confirm</ud-button>
             <ud-button @click="isModalShow = 1">Modal</ud-button>
           </ud-flex>
-          <p>inputVal: {{ inputVal }}</p>
-          <ud-input v-model="inputVal" placeholder="請輸入姓名"></ud-input>
-          <hr>
-          <p>textareaVal: {{ textareaVal }}</p>
-          <ud-textarea v-model="textareaVal" rows="4"></ud-textarea>
-          <hr>
+          <ud-flex>
+            <p>inputVal: {{ inputVal }}</p>
+            <ud-input v-model="inputVal" placeholder="請輸入姓名"></ud-input>
+            <p>textareaVal: {{ textareaVal }}</p>
+            <ud-textarea v-model="textareaVal"></ud-textarea>
+          </ud-flex>
           <p>radioVal: {{ radioVal }}</p>
           <ud-radio v-model="radioVal" :options="formObj"></ud-radio>
-          <hr>
           <p>acceptVal: {{ acceptVal }}</p>
           <ud-checkbox v-model="acceptVal" :options="{false: '我同意使用者條款'}"></ud-checkbox>
-          <hr>
           <p>checkboxVal: {{ checkboxVal }}</p>
           <ud-checkbox v-model="checkboxVal" :options="formObj"></ud-checkbox>
-          <hr>
           <p>selectVal: {{ selectVal }}</p>
           <ud-select v-model="selectVal" :options="formArr" ref="test"></ud-select>
-          <hr>
           <h1>{{ form }}</h1>
           <formulate-form v-model="form" @submit="success" name="my-form">
             <vf-item label="姓名">
@@ -74,8 +70,10 @@
               <p>我同意酷必資訊<a href="https://goo.gl/">使用者條款</a>!</p>
             </vf-accept>
           </formulate-form>
-          <ud-button plain @click="$formulate.reset('my-form')">清除</ud-button>
-          <ud-button @click="$formulate.submit('my-form')">送出</ud-button>
+          <ud-flex>
+            <ud-button plain @click="$formulate.reset('my-form')">清除</ud-button>
+            <ud-button @click="$formulate.submit('my-form')">送出</ud-button>
+          </ud-flex>
         </div>
       </div>
     </div>
