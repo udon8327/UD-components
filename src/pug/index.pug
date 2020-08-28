@@ -5,17 +5,18 @@ block css
   link(href='css/index.css' rel='stylesheet')
 
 block modal
-  ud-alert(v-model="isAlertShow" mask-cancel :message="alertMessage")
-  ud-confirm(v-model="isConfirmShow" mask-cancel :message="confirmMessage" @confirm="submit" confirm-txt="送出")
-  ud-modal(:is-show="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
+  ud-modal(v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
+  ud-flex
+    ud-qrcode
+    ud-qrcode
   h1 {{ userData.name }}
   ud-button(@click="postData") POST
-  .flex-wrapper
-    ud-button(@click="alert") alert
-    ud-button(@click="confirm") confirm
-    ud-button(@click="showModal('modal開了')") modal
+  ud-flex
+    ud-button(@click="alert") Alert
+    ud-button(@click="confirm") Confirm
+    ud-button(@click="isModalShow = 1") Modal
   p inputVal: {{ inputVal }}
   ud-input(v-model="inputVal" placeholder="請輸入姓名")
   hr

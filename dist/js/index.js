@@ -1,4 +1,5 @@
 var baseURL = "https://udon8327.synology.me/";
+var officialAccountURL = "https://line.me/zh-hant/";
 var vm = new Vue({
     el: "#app",
     data: {
@@ -100,5 +101,4 @@ var vm = new Vue({
         },
     }
 });
-//# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

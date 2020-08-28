@@ -16,7 +16,8 @@
   outline: none !important;
   -webkit-transition: .1s;
   -o-transition: .1s;
-  transition: .1s; }
+  transition: .1s;
+  width: 100%; }
   .ud-button + .ud-button {
     margin-left: 10px; }
   .ud-button:hover, .ud-button:focus {
@@ -302,6 +303,28 @@
     max-width: 50%; }
   .ud-flex > div + div {
     margin-left: 5px; }
+
+.ud-arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px; }
+  .ud-arrow.right {
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg); }
+  .ud-arrow.left {
+    -webkit-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    transform: rotate(135deg); }
+  .ud-arrow.up {
+    -webkit-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    transform: rotate(-135deg); }
+  .ud-arrow.down {
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg); }
 
 .ud-alert {
   position: fixed;

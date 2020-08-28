@@ -1,6 +1,7 @@
 declare var $: (selector: string) => any;
 
 const baseURL = "https://udon8327.synology.me/";
+const officialAccountURL = "https://line.me/zh-hant/"
 
 let vm = new Vue({
   el: "#app",

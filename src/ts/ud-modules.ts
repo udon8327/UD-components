@@ -50,6 +50,7 @@ Data
 
 Layout
   Flex 通用排版容器 -----> ud-flex
+  Arrow CSS箭頭 -----> ud-arrow
 
 Notice
   Alert 警告彈窗 -----> ud-alert
@@ -97,6 +98,7 @@ Number
 
 Image
   預載圖片 -----> imagePreload
+  圖片戴入回調 -----> onImageLoaded
 
 Array
   陣列是否有重複值 -----> isRepeat
@@ -1161,8 +1163,37 @@ Vue.component('ud-flex', {
     </div>
   `,
   props: {
-    
+
   },
+})
+
+// Arrow CSS箭頭
+Vue.component('ud-arrow', {
+  template: `
+    <i 
+      class="ud-arrow"
+      :class=[direction]
+      :style="{
+        'border-color': bdColor,
+        'border-width': '0 ' + bdWidth + 'px ' + bdWidth + 'px 0',
+        padding: padding + 'px'
+      }">
+    </i>
+  `,
+  props: {
+    bdColor: { //顏色
+      default: "#333"
+    },
+    bdWidth: { //寬度
+      default: "3"
+    },
+    padding: { //大小
+      default: "3"
+    },
+    direction: { //方向
+      default: "right"
+    }
+  }
 })
 
 //-----------------------Notice-----------------------
@@ -2143,6 +2174,23 @@ function round(n, decimals = 0){
 function imagePreload(src) {
   let img = new Image();
   img.src = src;
+}
+
+/**
+ * 圖片戴入回調
+ * @param  {String} url 圖片路徑
+ * @param  {Function} callback 回調函式
+ */
+function onImageLoaded(url, callback) {
+  let image = new Image()
+  image.src = url
+  if (image.complete) {
+    callback(image)
+  } else {
+    image.onload = function () {
+      callback(image)
+    }
+  }
 }
 
 //-----------------------Array-----------------------
