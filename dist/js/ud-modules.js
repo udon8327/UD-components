@@ -209,7 +209,7 @@ Vue.component('ud-input', {
         value: null,
         type: { default: "text" },
         placeholder: { default: "請輸入此欄位" },
-        maxlength: { default: "" } // 最大字數
+        maxlength: { default: "" },
     },
     computed: {
         inputVal: {

@@ -253,7 +253,7 @@ Vue.component('ud-input', {
     value: null, // value值
     type: { default: "text" }, // 類型 (text, tel, date, hidden, number, password...等)
     placeholder: { default: "請輸入此欄位" }, // 取代文字
-    maxlength: { default: "" } // 最大字數
+    maxlength: { default: "" }, // 最大字數
   },
   computed: {
     inputVal: {
