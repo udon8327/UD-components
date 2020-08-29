@@ -151,8 +151,47 @@
 
 // Checkbox 多選框
 .ud-checkbox
+  &.flex-checkbox
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    label
+      margin: 0 12px 0 0
   label
+    margin-bottom: 5px
     cursor: pointer
+    display: flex
+    align-items: center
+    input
+      position: absolute
+      left: -999px
+      opacity: 0
+      pointer-events: none
+      &:checked + .input-decorator
+        border-color: $main
+        &:before
+          background-color: $main
+          mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>')
+    .input-decorator
+      margin-right: 6px
+      width: 1em
+      height: 1em
+      border-radius: 3px
+      border: 1px solid #cecece
+      position: relative
+      cursor: pointer
+      &::before
+        content: ""
+        display: block
+        background-size: contain
+        background-position: 100%
+        width: 90%
+        height: 90%
+        box-sizing: border-box
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%,-50%)
 
 // Select 選擇器
 .ud-select

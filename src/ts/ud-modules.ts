@@ -336,19 +336,25 @@ Vue.component('ud-radio', {
 Vue.component('ud-checkbox', {
   name: "UdCheckbox",
   template: `
-    <div class="ud-checkbox">
+    <div class="ud-checkbox" :class="{'flex-checkbox': flex}">
       <label v-for="(value, key) in options" :key="key">
         <input
           type="checkbox"
           :value="key"
           v-model="checkedValue"
-        > {{ value }}
+        >
+        <div class="input-decorator"
+          :style="{'border-radius': radius}"
+        ></div>
+        <p>{{ value }}</p>
       </label>
     </div>
   `,
   props: {
     value: null, // value值
     options: null, // 選項
+    flex: Boolean, // 是否並排
+    radius: { default: "3px" }, // 圓角
   },
   computed: {
     checkedValue: {

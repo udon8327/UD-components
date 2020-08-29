@@ -25,7 +25,7 @@ var vm = new Vue({
             maru: "花丸",
             pomu: "步夢",
             rin: "凜",
-            kasumin: "阿霞"
+            kasumin: "阿霞",
         },
         formArr: ["妮可", "花丸", "步夢", "凜", "阿霞"],
         form: {},

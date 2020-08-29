@@ -26,7 +26,7 @@ block content
   p acceptVal: {{ acceptVal }}
   ud-checkbox(v-model="acceptVal" :options="{false: '我同意使用者條款'}")
   p checkboxVal: {{ checkboxVal }}
-  ud-checkbox(v-model="checkboxVal" :options="formObj")
+  ud-checkbox(v-model="checkboxVal" :options="formObj" flex)
   p selectVal: {{ selectVal }}
   ud-select(v-model="selectVal" :options="formArr" ref="test")
   h1 {{ form }}

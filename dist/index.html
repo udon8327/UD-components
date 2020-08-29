@@ -12,6 +12,7 @@
     <title>frontend</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+    <link href="css/ud-modules.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
   </head>
   <body>
@@ -40,7 +41,7 @@
           <p>acceptVal: {{ acceptVal }}</p>
           <ud-checkbox v-model="acceptVal" :options="{false: '我同意使用者條款'}"></ud-checkbox>
           <p>checkboxVal: {{ checkboxVal }}</p>
-          <ud-checkbox v-model="checkboxVal" :options="formObj"></ud-checkbox>
+          <ud-checkbox v-model="checkboxVal" :options="formObj" flex></ud-checkbox>
           <p>selectVal: {{ selectVal }}</p>
           <ud-select v-model="selectVal" :options="formArr" ref="test"></ud-select>
           <h1>{{ form }}</h1>
