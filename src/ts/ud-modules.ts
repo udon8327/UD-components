@@ -396,10 +396,30 @@ Vue.component('ud-select', {
 Vue.component('ud-switch', {
   name: "UdSwitch",
   template: `
-
+    <div class="ud-switch">
+      <label >
+        <input type="checkbox" class="checkbox" v-model="checkboxValue">
+        <span class="btn-box">
+          <span class="btn"></span>
+        </span>
+        <span>我是文字</span>
+      </label>
+    </div>
   `,
   props: {
-    
+    value: {
+      default: false
+    }
+  },
+  computed: {
+    checkboxValue: {
+      get: function() {
+        return this.value;
+      },
+      set: function(val) {
+        this.$emit('input', val)
+      }
+    }
   },
 })
 

@@ -191,6 +191,31 @@
 
 // Switch 開關
 .ud-switch
+  label
+    cursor: pointer
+    .checkbox
+      position: absolute
+      opacity: 0
+      + .btn-box
+        display: inline-block
+        width: 40px
+        height: 20px
+        border-radius: 20px
+        background: #ccc
+        transition: background .2s ease-in
+        vertical-align: middle
+        padding-left: 2px
+        .btn
+          display: inline-block
+          width: 16px
+          height: 16px
+          border-radius: 50%
+          background: #f7f7f7
+          transition: margin .2s ease-in
+      &:checked + .btn-box
+        .btn
+          margin-left: 20px
+        background: $main
 
 // Upload 上傳
 .ud-upload
@@ -908,7 +933,8 @@
       border-radius: .25em
       border: 1px solid #cecece
       position: relative
-      &:before
+      cursor: pointer
+      &::before
         content: ""
         display: block
         background-size: contain
@@ -933,7 +959,6 @@
           border-color: $main
           &:before
             background-color: $main
-            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>')
             mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>')
         &[type=radio]:checked ~ .formulate-input-element-decorator
           border-color: $main
@@ -941,14 +966,15 @@
             background-color: $main
         &:focus ~ .formulate-input-element-decorator
           border-color: $main
-    .formulate-input-label--after
+    .formulate-input-label
+      cursor: pointer
       margin-left: .5em
-    .formulate-input-label--before
-      margin-right: .5em
 
   &[data-classification=group]
     .formulate-input-group-item, > .formulate-input-wrapper > .formulate-input-label
       margin-bottom: .5em
+    // .formulate-input-group // 橫排
+    //   display: flex
     [data-is-repeatable]
       padding: 1em
       border: 1px solid #efefef

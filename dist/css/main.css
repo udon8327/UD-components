@@ -449,6 +449,36 @@ a {
     .ud-select select[data-placeholder-selected] {
       color: #a8a8a8; }
 
+.ud-switch label {
+  cursor: pointer; }
+  .ud-switch label .checkbox {
+    position: absolute;
+    opacity: 0; }
+    .ud-switch label .checkbox + .btn-box {
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+      border-radius: 20px;
+      background: #ccc;
+      -webkit-transition: background .2s ease-in;
+      -o-transition: background .2s ease-in;
+      transition: background .2s ease-in;
+      vertical-align: middle;
+      padding-left: 2px; }
+      .ud-switch label .checkbox + .btn-box .btn {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #f7f7f7;
+        -webkit-transition: margin .2s ease-in;
+        -o-transition: margin .2s ease-in;
+        transition: margin .2s ease-in; }
+    .ud-switch label .checkbox:checked + .btn-box {
+      background: #41b883; }
+      .ud-switch label .checkbox:checked + .btn-box .btn {
+        margin-left: 20px; }
+
 .ud-image-upload input {
   width: 100%;
   max-width: 100%;
@@ -1230,8 +1260,9 @@ a {
     height: 1em;
     border-radius: .25em;
     border: 1px solid #cecece;
-    position: relative; }
-    .formulate-input[data-classification=box] .formulate-input-element-decorator:before {
+    position: relative;
+    cursor: pointer; }
+    .formulate-input[data-classification=box] .formulate-input-element-decorator::before {
       content: "";
       display: block;
       background-size: contain;
@@ -1263,10 +1294,9 @@ a {
       background-color: #41b883; }
   .formulate-input[data-classification=box] .formulate-input-element input:focus ~ .formulate-input-element-decorator {
     border-color: #41b883; }
-  .formulate-input[data-classification=box] .formulate-input-label--after {
+  .formulate-input[data-classification=box] .formulate-input-label {
+    cursor: pointer;
     margin-left: .5em; }
-  .formulate-input[data-classification=box] .formulate-input-label--before {
-    margin-right: .5em; }
   .formulate-input[data-classification=group] .formulate-input-group-item, .formulate-input[data-classification=group] > .formulate-input-wrapper > .formulate-input-label {
     margin-bottom: .5em; }
   .formulate-input[data-classification=group] [data-is-repeatable] {

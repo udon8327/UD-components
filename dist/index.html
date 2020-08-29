@@ -27,6 +27,8 @@
             <ud-button @click="confirm">Confirm</ud-button>
             <ud-button @click="isModalShow = 1">Modal</ud-button>
           </ud-flex>
+          <ud-switch v-model="switchVal"></ud-switch>
+          <p>{{ switchVal }}</p>
           <ud-flex>
             <p>inputVal: {{ inputVal }}</p>
             <ud-input v-model="inputVal" placeholder="請輸入姓名"></ud-input>

@@ -305,8 +305,22 @@ Vue.component('ud-select', {
 // Switch 開關
 Vue.component('ud-switch', {
     name: "UdSwitch",
-    template: "\n\n  ",
-    props: {},
+    template: "\n    <div class=\"ud-switch\">\n      <label >\n        <input type=\"checkbox\" class=\"checkbox\" v-model=\"checkboxValue\">\n        <span class=\"btn-box\">\n          <span class=\"btn\"></span>\n        </span>\n        <span>\u6211\u662F\u6587\u5B57</span>\n      </label>\n    </div>\n  ",
+    props: {
+        value: {
+            default: false
+        }
+    },
+    computed: {
+        checkboxValue: {
+            get: function () {
+                return this.value;
+            },
+            set: function (val) {
+                this.$emit('input', val);
+            }
+        }
+    },
 });
 // Upload 上傳
 Vue.component('ud-upload', {
