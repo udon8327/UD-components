@@ -47,8 +47,8 @@ block content
     vf-accept
       p 我同意酷必資訊#[a(href="https://goo.gl/") 使用者條款]!
     //- formulate-input(type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}")
-    //- formulate-input(type="radio" label="單選" name="radio" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
-    //- formulate-input(type="checkbox" label="多選" name="checkbox" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
+    formulate-input(type="radio" label="單選" name="radio" :options="formObj" validation="required" :validation-messages="{required: '此欄不可為空'}")
+    formulate-input(type="checkbox" label="多選" name="checkbox" :options="formObj" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="required|mime:application/pdf" multiple :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
