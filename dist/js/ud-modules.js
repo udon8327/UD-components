@@ -204,7 +204,7 @@ Vue.component('ud-button', {
 // Input 輸入框
 Vue.component('ud-input', {
     name: 'UdInput',
-    template: "\n    <div class=\"ud-input\">\n      <input\n        :type=\"type\"\n        v-model=\"inputVal\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n    </div>\n  ",
+    template: "\n    <div class=\"ud-input\">\n      <input\n        :type=\"type\"\n        v-model=\"inputValue\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n    </div>\n  ",
     props: {
         value: null,
         type: { default: "text" },
@@ -212,7 +212,7 @@ Vue.component('ud-input', {
         maxlength: { default: "" },
     },
     computed: {
-        inputVal: {
+        inputValue: {
             get: function () {
                 return this.value;
             },
@@ -225,7 +225,7 @@ Vue.component('ud-input', {
 // Textarea 多行輸入框
 Vue.component('ud-textarea', {
     name: "UdTextarea",
-    template: "\n    <div class=\"ud-textarea\">\n      <textarea\n        type=\"text\"\n        v-model=\"textareaVal\"\n        :cols=\"cols\"\n        :rows=\"rows\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n      </textarea>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-textarea\">\n      <textarea\n        type=\"text\"\n        v-model=\"textareaValue\"\n        :cols=\"cols\"\n        :rows=\"rows\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n      </textarea>\n    </div>\n  ",
     props: {
         value: null,
         placeholder: { default: "請輸入此欄位" },
@@ -234,7 +234,7 @@ Vue.component('ud-textarea', {
         cols: null,
     },
     computed: {
-        textareaVal: {
+        textareaValue: {
             get: function () {
                 return this.value;
             },
@@ -247,13 +247,15 @@ Vue.component('ud-textarea', {
 // Radio 單選框
 Vue.component('ud-radio', {
     name: "UdRadio",
-    template: "\n    <div class=\"ud-radio\">\n      <label v-for=\"(value, key) in options\" :key=\"key\">\n        <input\n          type=\"radio\"\n          v-model=\"checkedValue\"\n          :value=\"key\"\n        > {{ value }}\n      </label>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-radio\" :class=\"{'flex-radio': flex}\">\n      <label v-for=\"(value, key) in options\" :key=\"key\">\n        <input\n          type=\"radio\"\n          v-model=\"radioValue\"\n          :value=\"key\"\n        >\n        <div class=\"input-decorator\"\n          :style=\"{'border-radius': radius}\"\n        ></div>\n        <p>{{ value }}</p>\n      </label>\n    </div>\n  ",
     props: {
         value: null,
-        options: null // 選項
+        options: null,
+        flex: Boolean,
+        radius: { default: "1em" },
     },
     computed: {
-        checkedValue: {
+        radioValue: {
             get: function () {
                 return this.value;
             },
@@ -266,7 +268,7 @@ Vue.component('ud-radio', {
 // Checkbox 多選框
 Vue.component('ud-checkbox', {
     name: "UdCheckbox",
-    template: "\n    <div class=\"ud-checkbox\" :class=\"{'flex-checkbox': flex}\">\n      <label v-for=\"(value, key) in options\" :key=\"key\">\n        <input\n          type=\"checkbox\"\n          :value=\"key\"\n          v-model=\"checkedValue\"\n        >\n        <div class=\"input-decorator\"\n          :style=\"{'border-radius': radius}\"\n        ></div>\n        <p>{{ value }}</p>\n      </label>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-checkbox\" :class=\"{'flex-checkbox': flex}\">\n      <label v-for=\"(value, key) in options\" :key=\"key\">\n        <input\n          type=\"checkbox\"\n          :value=\"key\"\n          v-model=\"checkboxValue\"\n        >\n        <div class=\"input-decorator\"\n          :style=\"{'border-radius': radius}\"\n        ></div>\n        <p>{{ value }}</p>\n      </label>\n    </div>\n  ",
     props: {
         value: null,
         options: null,
@@ -274,7 +276,7 @@ Vue.component('ud-checkbox', {
         radius: { default: "3px" },
     },
     computed: {
-        checkedValue: {
+        checkboxValue: {
             get: function () {
                 return this.value;
             },
@@ -287,14 +289,14 @@ Vue.component('ud-checkbox', {
 // Select 下拉框
 Vue.component('ud-select', {
     name: "UdSelect",
-    template: "\n    <div class=\"ud-select\">\n      <select class=\"ud-select\" v-model=\"selectedValue\" :data-placeholder-selected=\"selectedValue === ''\">\n        <option value=\"\" disabled selected>{{ placeholder }}</option>\n        <option v-for=\"(value, key) in options\" :value=\"key\" :key=\"key\">\n          {{ value }}\n        </option>\n      </select>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-select\">\n      <select class=\"ud-select\" v-model=\"selectValue\" :data-placeholder-selected=\"selectValue === ''\">\n        <option value=\"\" disabled selected>{{ placeholder }}</option>\n        <option v-for=\"(value, key) in options\" :value=\"key\" :key=\"key\">\n          {{ value }}\n        </option>\n      </select>\n    </div>\n  ",
     props: {
         value: null,
         options: null,
         placeholder: { default: "請選擇一項" } // 取代文字
     },
     computed: {
-        selectedValue: {
+        selectValue: {
             get: function () {
                 return this.value;
             },
@@ -307,14 +309,14 @@ Vue.component('ud-select', {
 // Switch 開關
 Vue.component('ud-switch', {
     name: "UdSwitch",
-    template: "\n    <div class=\"ud-switch\">\n      <label >\n        <input type=\"checkbox\" class=\"checkbox\" v-model=\"checkboxValue\">\n        <span class=\"btn-box\">\n          <span class=\"btn\"></span>\n        </span>\n        <span>\u6211\u662F\u6587\u5B57</span>\n      </label>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-switch\">\n      <label>\n        <input type=\"checkbox\" class=\"checkbox\" v-model=\"switchValue\">\n        <div class=\"switch-decorator\">\n          <div class=\"circle\"></div>\n        </div>\n        <p><slot>\u6211\u662F\u6587\u5B57</slot></p>\n      </label>\n    </div>\n  ",
     props: {
         value: {
             default: false
         }
     },
     computed: {
-        checkboxValue: {
+        switchValue: {
             get: function () {
                 return this.value;
             },

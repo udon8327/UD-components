@@ -14,7 +14,7 @@ block content
     ud-button(@click="alert") Alert
     ud-button(@click="confirm") Confirm
     ud-button(@click="isModalShow = 1") Modal
-  ud-switch(v-model="switchVal")
+  ud-switch(v-model="switchVal") 幹
   p {{ switchVal }}
   ud-flex
     p inputVal: {{ inputVal }}
@@ -22,7 +22,7 @@ block content
     p textareaVal: {{ textareaVal }}
     ud-textarea(v-model="textareaVal")
   p radioVal: {{ radioVal }}
-  ud-radio(v-model="radioVal" :options="formObj")
+  ud-radio(v-model="radioVal" :options="formObj" flex)
   p acceptVal: {{ acceptVal }}
   ud-checkbox(v-model="acceptVal" :options="{false: '我同意使用者條款'}")
   p checkboxVal: {{ checkboxVal }}

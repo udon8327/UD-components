@@ -8,7 +8,7 @@
   line-height: 1;
   -webkit-box-shadow: none;
   box-shadow: none;
-  padding: 6px 12px;
+  padding: .75em;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -47,7 +47,7 @@
   border-radius: 5px;
   border: 1px solid #cecece;
   font-size: 14px;
-  padding: 6px 10px;
+  padding: .75em;
   width: 100%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -77,9 +77,8 @@
   box-sizing: border-box;
   background-color: #fff;
   font-size: 14px;
-  padding: 6px 10px;
+  padding: .75em;
   width: 100%;
-  min-height: 40px;
   -webkit-transition: border 0.2s ease;
   -o-transition: border 0.2s ease;
   transition: border 0.2s ease; }
@@ -95,8 +94,60 @@
     outline: 0;
     border: 1px solid #41b883; }
 
+.ud-radio.flex-radio {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .ud-radio.flex-radio label {
+    margin: 0 12px 0 0; }
+
 .ud-radio label {
-  cursor: pointer; }
+  margin-bottom: 5px;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .ud-radio label input {
+    position: absolute;
+    left: -999px;
+    opacity: 0;
+    pointer-events: none; }
+    .ud-radio label input:checked + .input-decorator {
+      border-color: #41b883; }
+      .ud-radio label input:checked + .input-decorator:before {
+        background-color: #41b883; }
+  .ud-radio label .input-decorator {
+    margin-right: 6px;
+    width: 1em;
+    height: 1em;
+    border-radius: 3px;
+    border: 1px solid #cecece;
+    position: relative;
+    cursor: pointer; }
+    .ud-radio label .input-decorator::before {
+      content: "";
+      display: block;
+      border-radius: 1em;
+      background-size: contain;
+      background-position: 100%;
+      width: 50%;
+      height: 50%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%); }
 
 .ud-checkbox.flex-checkbox {
   display: -webkit-box;
@@ -175,10 +226,9 @@
     border-radius: 5px;
     border: 1px solid #cecece;
     font-size: 14px;
-    padding: 6px 10px;
+    padding: .75em;
     width: 100%;
     margin: 0;
-    min-height: 40px;
     -webkit-transition: border 0.2s ease;
     -o-transition: border 0.2s ease;
     transition: border 0.2s ease;
@@ -202,34 +252,47 @@
       color: #a8a8a8; }
 
 .ud-switch label {
-  cursor: pointer; }
-  .ud-switch label .checkbox {
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .ud-switch label input {
     position: absolute;
-    opacity: 0; }
-    .ud-switch label .checkbox + .btn-box {
-      display: inline-block;
-      width: 40px;
-      height: 20px;
-      border-radius: 20px;
-      background: #ccc;
-      -webkit-transition: background .2s ease-in;
-      -o-transition: background .2s ease-in;
-      transition: background .2s ease-in;
-      vertical-align: middle;
-      padding-left: 2px; }
-      .ud-switch label .checkbox + .btn-box .btn {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #f7f7f7;
-        -webkit-transition: margin .2s ease-in;
-        -o-transition: margin .2s ease-in;
-        transition: margin .2s ease-in; }
-    .ud-switch label .checkbox:checked + .btn-box {
+    left: -999px;
+    opacity: 0;
+    pointer-events: none; }
+    .ud-switch label input:checked + .switch-decorator {
       background: #41b883; }
-      .ud-switch label .checkbox:checked + .btn-box .btn {
-        margin-left: 20px; }
+      .ud-switch label input:checked + .switch-decorator .circle {
+        margin-left: 1.3em; }
+  .ud-switch label .switch-decorator {
+    width: 2.4em;
+    height: 1.2em;
+    border-radius: 1.2em;
+    background: #ccc;
+    -webkit-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-right: 6px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    .ud-switch label .switch-decorator .circle {
+      width: 0.8em;
+      height: 0.8em;
+      border-radius: 0.8em;
+      background: #f7f7f7;
+      -webkit-transition: all .2s ease;
+      -o-transition: all .2s ease;
+      transition: all .2s ease; }
 
 .ud-image-upload input {
   width: 100%;
@@ -962,7 +1025,7 @@
     border-radius: 5px;
     border: 1px solid #cecece;
     font-size: 14px;
-    padding: 0.75em;
+    padding: .75em;
     width: 100%;
     margin: 0;
     cursor: pointer;
@@ -1028,7 +1091,7 @@
       left: .0625em; }
   .formulate-input[data-classification=box] .formulate-input-element[data-type=radio] .formulate-input-element-decorator {
     border-radius: 1em; }
-    .formulate-input[data-classification=box] .formulate-input-element[data-type=radio] .formulate-input-element-decorator:before {
+    .formulate-input[data-classification=box] .formulate-input-element[data-type=radio] .formulate-input-element-decorator::before {
       border-radius: 1em;
       width: calc(100% - .5em);
       height: calc(100% - .5em);
@@ -1036,7 +1099,7 @@
       left: .25em; }
   .formulate-input[data-classification=box] .formulate-input-element input[type=checkbox]:checked ~ .formulate-input-element-decorator {
     border-color: #41b883; }
-    .formulate-input[data-classification=box] .formulate-input-element input[type=checkbox]:checked ~ .formulate-input-element-decorator:before {
+    .formulate-input[data-classification=box] .formulate-input-element input[type=checkbox]:checked ~ .formulate-input-element-decorator::before {
       background-color: #41b883;
       -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>');
       mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>'); }

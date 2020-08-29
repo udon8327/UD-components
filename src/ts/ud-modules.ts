@@ -243,7 +243,7 @@ Vue.component('ud-input', {
     <div class="ud-input">
       <input
         :type="type"
-        v-model="inputVal"
+        v-model="inputValue"
         :placeholder="placeholder"
         :maxlength="maxlength"
       >
@@ -256,7 +256,7 @@ Vue.component('ud-input', {
     maxlength: { default: "" }, // 最大字數
   },
   computed: {
-    inputVal: {
+    inputValue: {
       get: function(){
         return this.value;
       },
@@ -274,7 +274,7 @@ Vue.component('ud-textarea', {
     <div class="ud-textarea">
       <textarea
         type="text"
-        v-model="textareaVal"
+        v-model="textareaValue"
         :cols="cols"
         :rows="rows"
         :placeholder="placeholder"
@@ -291,7 +291,7 @@ Vue.component('ud-textarea', {
     cols: null, // 列數
   },
   computed: {
-    textareaVal: {
+    textareaValue: {
       get: function(){
         return this.value;
       },
@@ -306,22 +306,28 @@ Vue.component('ud-textarea', {
 Vue.component('ud-radio', {
   name: "UdRadio",
   template: `
-    <div class="ud-radio">
+    <div class="ud-radio" :class="{'flex-radio': flex}">
       <label v-for="(value, key) in options" :key="key">
         <input
           type="radio"
-          v-model="checkedValue"
+          v-model="radioValue"
           :value="key"
-        > {{ value }}
+        >
+        <div class="input-decorator"
+          :style="{'border-radius': radius}"
+        ></div>
+        <p>{{ value }}</p>
       </label>
     </div>
   `,
   props: {
     value: null, // value值
-    options: null // 選項
+    options: null, // 選項
+    flex: Boolean, // 是否並排
+    radius: { default: "1em" }, // 圓角
   },
   computed: {
-    checkedValue: {
+    radioValue: {
       get: function(){
         return this.value;
       },
@@ -341,7 +347,7 @@ Vue.component('ud-checkbox', {
         <input
           type="checkbox"
           :value="key"
-          v-model="checkedValue"
+          v-model="checkboxValue"
         >
         <div class="input-decorator"
           :style="{'border-radius': radius}"
@@ -357,7 +363,7 @@ Vue.component('ud-checkbox', {
     radius: { default: "3px" }, // 圓角
   },
   computed: {
-    checkedValue: {
+    checkboxValue: {
       get: function(){
         return this.value;
       },
@@ -373,7 +379,7 @@ Vue.component('ud-select', {
   name: "UdSelect",
   template: `
     <div class="ud-select">
-      <select class="ud-select" v-model="selectedValue" :data-placeholder-selected="selectedValue === ''">
+      <select class="ud-select" v-model="selectValue" :data-placeholder-selected="selectValue === ''">
         <option value="" disabled selected>{{ placeholder }}</option>
         <option v-for="(value, key) in options" :value="key" :key="key">
           {{ value }}
@@ -387,7 +393,7 @@ Vue.component('ud-select', {
     placeholder: { default: "請選擇一項" } // 取代文字
   },
   computed: {
-    selectedValue: {
+    selectValue: {
       get: function() {
         return this.value;
       },
@@ -403,12 +409,12 @@ Vue.component('ud-switch', {
   name: "UdSwitch",
   template: `
     <div class="ud-switch">
-      <label >
-        <input type="checkbox" class="checkbox" v-model="checkboxValue">
-        <span class="btn-box">
-          <span class="btn"></span>
-        </span>
-        <span>我是文字</span>
+      <label>
+        <input type="checkbox" class="checkbox" v-model="switchValue">
+        <div class="switch-decorator">
+          <div class="circle"></div>
+        </div>
+        <p><slot>我是文字</slot></p>
       </label>
     </div>
   `,
@@ -418,7 +424,7 @@ Vue.component('ud-switch', {
     }
   },
   computed: {
-    checkboxValue: {
+    switchValue: {
       get: function() {
         return this.value;
       },
