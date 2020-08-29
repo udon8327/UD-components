@@ -267,17 +267,16 @@
     .ud-switch label input:checked + .switch-decorator {
       background: #41b883; }
       .ud-switch label input:checked + .switch-decorator .circle {
-        margin-left: 1.3em; }
+        margin-left: 20px; }
   .ud-switch label .switch-decorator {
-    width: 2.4em;
-    height: 1.2em;
-    border-radius: 1.2em;
+    width: 40px;
+    height: 20px;
+    border-radius: 20px;
     background: #ccc;
     -webkit-transition: all .2s ease;
     -o-transition: all .2s ease;
     transition: all .2s ease;
-    padding-left: 3px;
-    padding-right: 3px;
+    padding-left: 2px;
     margin-right: 6px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -286,9 +285,9 @@
     -ms-flex-align: center;
     align-items: center; }
     .ud-switch label .switch-decorator .circle {
-      width: 0.8em;
-      height: 0.8em;
-      border-radius: 0.8em;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
       background: #f7f7f7;
       -webkit-transition: all .2s ease;
       -o-transition: all .2s ease;
