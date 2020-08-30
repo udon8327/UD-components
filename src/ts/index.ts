@@ -38,6 +38,7 @@ let vm = new Vue({
   },
   mounted: function() {
     this.getData();
+    window.addEventListener('scroll', debounce(() => console.log(getRandom())));
   },
   methods: {
     success: function() {

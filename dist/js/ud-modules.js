@@ -11,6 +11,7 @@
 編寫表格ud-table
 編寫分頁ud-pagination
 編寫表單通用驗證
+Alert,Confirm,Modal統一修改樣式
 */
 /*
 ==================== Vue組件庫目錄 ====================
@@ -153,6 +154,8 @@ Browser
   取得Cookie的值 -----> getCookie
   設置cookie值 -----> setCookie
   動態載入插件 -----> insertPlugin
+  函式防抖 -----> debounce
+  函式節流 -----> throttle
 
 Web
   查詢網址所帶參數 -----> queryString
@@ -268,12 +271,11 @@ Vue.component('ud-radio', {
 // Checkbox 多選框
 Vue.component('ud-checkbox', {
     name: "UdCheckbox",
-    template: "\n    <div class=\"ud-checkbox\" :class=\"{'flex-checkbox': flex}\">\n      <label v-for=\"(value, key) in options\" :key=\"key\">\n        <input\n          type=\"checkbox\"\n          :value=\"key\"\n          v-model=\"checkboxValue\"\n        >\n        <div class=\"input-decorator\"\n          :style=\"{'border-radius': radius}\"\n        ></div>\n        <p>{{ value }}</p>\n      </label>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-checkbox\" :class=\"{'flex-checkbox': flex}\">\n      <template v-if=\"typeof options === 'boolean'\">\n        <label>\n          <input\n            type=\"checkbox\"\n            v-model=\"checkboxValue\"\n          >\n          <div class=\"input-decorator\"></div>\n          <p><slot>{{ value }}</slot></p>\n        </label>\n      </template>\n      <template v-else>\n        <label v-for=\"(value, key) in options\" :key=\"key\">\n          <input\n            type=\"checkbox\"\n            :value=\"key\"\n            v-model=\"checkboxValue\"\n          >\n          <div class=\"input-decorator\"></div>\n          <p>{{ value }}</p>\n        </label>\n      </template>\n    </div>\n  ",
     props: {
         value: null,
-        options: null,
+        options: { default: false },
         flex: Boolean,
-        radius: { default: "3px" },
     },
     computed: {
         checkboxValue: {
@@ -309,11 +311,9 @@ Vue.component('ud-select', {
 // Switch 開關
 Vue.component('ud-switch', {
     name: "UdSwitch",
-    template: "\n    <div class=\"ud-switch\">\n      <label>\n        <input type=\"checkbox\" class=\"checkbox\" v-model=\"switchValue\">\n        <div class=\"switch-decorator\">\n          <div class=\"circle\"></div>\n        </div>\n        <p><slot>\u6211\u662F\u6587\u5B57</slot></p>\n      </label>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-switch\">\n      <label>\n        <input type=\"checkbox\" v-model=\"switchValue\">\n        <div class=\"switch-decorator\">\n          <div class=\"circle\"></div>\n        </div>\n        <p><slot>\u958B\u95DC</slot></p>\n      </label>\n    </div>\n  ",
     props: {
-        value: {
-            default: false
-        }
+        value: { default: false },
     },
     computed: {
         switchValue: {
@@ -967,14 +967,15 @@ Vue.component('ud-loading', {
 });
 // Loading 載入中(調用式) ud-loading
 var UdLoadingExtend = Vue.extend({
-    template: "\n    <transition name=\"loading\">\n      <div class=\"ud-loading\" v-if=\"isShow\" :class=\"{'theme-white': theme === 'white'}\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <img v-if=\"customIcon\" class=\"cutsom-icon\" :src=\"customIcon\">\n              <i v-else :class=\"icon\"></i>\n            </div>\n            <div class=\"modal-body\">\n              <ud-html :text=\"msgHtml\" v-if=\"msgHtml\"></ud-html>\n              <p v-else>{{ msg }}</p>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
+    template: "\n    <transition name=\"loading\">\n      <div class=\"ud-loading\" v-show=\"isShow\" :class=\"{'theme-white': theme === 'white'}\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <div v-if=\"iconType === 'css'\" class=\"icon-css\"></div>\n              <i v-else-if=\"iconType === 'font'\" class=\"icon-font\" :class=\"iconFont\"></i>\n              <img v-else class=\"icon-img\" :src=\"iconImg\">\n            </div>\n            <div class=\"modal-body\">\n              <ud-html :text=\"msgHtml\" v-if=\"msgHtml\"></ud-html>\n              <p v-else>{{ msg }}</p>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     data: function () {
         return {
             isShow: false,
             fixed: false,
             theme: "",
-            icon: "fas fa-spinner fa-pulse",
-            customIcon: "",
+            iconType: "css",
+            iconFont: "fas fa-spinner fa-pulse",
+            iconImg: "https://image.flaticon.com/icons/svg/553/553265.svg",
             msg: "",
             msgHtml: "",
         };
@@ -2143,6 +2144,27 @@ function insertPlugin(src) {
     script.setAttribute('src', src);
     document.head.appendChild(script);
 }
+/**
+ * 函式防抖
+ * @param  {Function} fn 處理函式
+ * @param  {Number} wait 處理間隔時間 預設為200ms
+ */
+function debounce(fn, wait) {
+    if (wait === void 0) { wait = 200; }
+    var timeout = null;
+    return function () {
+        if (timeout !== null)
+            clearTimeout(timeout);
+        timeout = setTimeout(fn, wait);
+    };
+}
+// window.addEventListener('scroll', debounce(console.log(getRandom), 1000));
+/**
+ * 函式節流
+ * @param  {Function} fn 處理函式
+ * @param  {Number} wait 等待時間
+ * window.addEventListener('scroll', debounce(handle, 1000));
+ */
 //-----------------------Web-----------------------
 /**
  * 查詢網址所帶參數

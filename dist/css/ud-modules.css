@@ -664,37 +664,53 @@
     align-items: center; }
     .ud-loading .modal-wrapper .modal-content .modal-header {
       text-align: center;
-      margin-bottom: 5px; }
-      .ud-loading .modal-wrapper .modal-content .modal-header img.cutsom-icon {
-        max-width: 30px;
-        margin-bottom: 10px;
-        -webkit-animation: custom 3s infinite linear;
-        animation: custom 3s infinite linear; }
+      margin-bottom: 5px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center; }
+      .ud-loading .modal-wrapper .modal-content .modal-header .icon-css {
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        border-top: 3px solid #fff;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        -webkit-animation: spin .5s linear infinite;
+        animation: spin .5s linear infinite; }
 
-@-webkit-keyframes custom {
+@-webkit-keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg); }
-  50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg); }
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 
-@keyframes custom {
+@keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg); }
-  50% {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg); }
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
-      .ud-loading .modal-wrapper .modal-content .modal-header i {
+      .ud-loading .modal-wrapper .modal-content .modal-header .icon-font {
         font-size: 24px;
         color: #999; }
+      .ud-loading .modal-wrapper .modal-content .modal-header .icon-img {
+        max-width: 32px;
+        margin-bottom: 5px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite; }
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
     .ud-loading .modal-wrapper .modal-content .modal-body p {
       font-size: 16px;
       color: #999; }

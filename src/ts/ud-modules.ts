@@ -13,6 +13,7 @@ declare var $: (selector: string) => any;
 編寫表格ud-table
 編寫分頁ud-pagination
 編寫表單通用驗證
+Alert,Confirm,Modal統一修改樣式
 */
 
 /*
@@ -157,6 +158,8 @@ Browser
   取得Cookie的值 -----> getCookie
   設置cookie值 -----> setCookie
   動態載入插件 -----> insertPlugin
+  函式防抖 -----> debounce
+  函式節流 -----> throttle
 
 Web
   查詢網址所帶參數 -----> queryString
@@ -343,24 +346,33 @@ Vue.component('ud-checkbox', {
   name: "UdCheckbox",
   template: `
     <div class="ud-checkbox" :class="{'flex-checkbox': flex}">
-      <label v-for="(value, key) in options" :key="key">
-        <input
-          type="checkbox"
-          :value="key"
-          v-model="checkboxValue"
-        >
-        <div class="input-decorator"
-          :style="{'border-radius': radius}"
-        ></div>
-        <p>{{ value }}</p>
-      </label>
+      <template v-if="typeof options === 'boolean'">
+        <label>
+          <input
+            type="checkbox"
+            v-model="checkboxValue"
+          >
+          <div class="input-decorator"></div>
+          <p><slot>{{ value }}</slot></p>
+        </label>
+      </template>
+      <template v-else>
+        <label v-for="(value, key) in options" :key="key">
+          <input
+            type="checkbox"
+            :value="key"
+            v-model="checkboxValue"
+          >
+          <div class="input-decorator"></div>
+          <p>{{ value }}</p>
+        </label>
+      </template>
     </div>
   `,
   props: {
-    value: null, // value值
-    options: null, // 選項
+    value: null, // value值 單個時綁定Boolean 多個時綁定Array
+    options: { default: false }, // 選項
     flex: Boolean, // 是否並排
-    radius: { default: "3px" }, // 圓角
   },
   computed: {
     checkboxValue: {
@@ -410,18 +422,16 @@ Vue.component('ud-switch', {
   template: `
     <div class="ud-switch">
       <label>
-        <input type="checkbox" class="checkbox" v-model="switchValue">
+        <input type="checkbox" v-model="switchValue">
         <div class="switch-decorator">
           <div class="circle"></div>
         </div>
-        <p><slot>我是文字</slot></p>
+        <p><slot>開關</slot></p>
       </label>
     </div>
   `,
   props: {
-    value: {
-      default: false
-    }
+    value: { default: false }, //value值
   },
   computed: {
     switchValue: {
@@ -1429,12 +1439,13 @@ Vue.component('ud-loading', {
 let UdLoadingExtend = Vue.extend({
   template: `
     <transition name="loading">
-      <div class="ud-loading" v-if="isShow" :class="{'theme-white': theme === 'white'}">
+      <div class="ud-loading" v-show="isShow" :class="{'theme-white': theme === 'white'}">
         <div class="modal-wrapper">
           <div class="modal-content">
             <div class="modal-header">
-              <img v-if="customIcon" class="cutsom-icon" :src="customIcon">
-              <i v-else :class="icon"></i>
+              <div v-if="iconType === 'css'" class="icon-css"></div>
+              <i v-else-if="iconType === 'font'" class="icon-font" :class="iconFont"></i>
+              <img v-else class="icon-img" :src="iconImg">
             </div>
             <div class="modal-body">
               <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
@@ -1448,12 +1459,13 @@ let UdLoadingExtend = Vue.extend({
   data() {
     return {
       isShow: false,
-      fixed: false, //是否固定body
-      theme: "", //戴入主題 [white]
-      icon: "fas fa-spinner fa-pulse", //載入icon
-      customIcon: "",
-      msg: "", //載入訊息
-      msgHtml: "", //載入訊息HTML
+      fixed: false, // 是否固定body
+      theme: "", // 戴入主題 [white]
+      iconType: "css", // icon類型 [css:CSS, font:字型, img:圖片]
+      iconFont: "fas fa-spinner fa-pulse", // 字型icon的class
+      iconImg: "https://image.flaticon.com/icons/svg/553/553265.svg", // 圖片icon的路徑
+      msg: "", // 載入訊息
+      msgHtml: "", // 載入訊息HTML
     }
   },
   mounted() {
@@ -2745,6 +2757,28 @@ function insertPlugin(src){
   script.setAttribute('src', src);
   document.head.appendChild(script);
 }
+
+/**
+ * 函式防抖
+ * @param  {Function} fn 處理函式
+ * @param  {Number} wait 處理間隔時間 預設為200ms
+ */
+function debounce(fn, wait = 200) {
+  let timeout = null;
+  return function() {
+    if(timeout !== null)
+      clearTimeout(timeout);
+    timeout = setTimeout(fn, wait);
+  }
+}
+// window.addEventListener('scroll', debounce(console.log(getRandom), 1000));
+
+/**
+ * 函式節流
+ * @param  {Function} fn 處理函式
+ * @param  {Number} wait 等待時間
+ * window.addEventListener('scroll', debounce(handle, 1000));
+ */
 
 //-----------------------Web-----------------------
 /**

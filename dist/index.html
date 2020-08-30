@@ -10,7 +10,6 @@
     <meta property="og:description" content="frontend">
     <link href="img/favicon.ico" rel="shortcut icon">
     <title>frontend</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/ud-modules.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
@@ -28,8 +27,7 @@
             <ud-button @click="confirm">Confirm</ud-button>
             <ud-button @click="isModalShow = 1">Modal</ud-button>
           </ud-flex>
-          <ud-switch v-model="switchVal">幹</ud-switch>
-          <p>{{ switchVal }}</p>
+          <ud-switch v-model="switchVal"></ud-switch>
           <ud-flex>
             <p>inputVal: {{ inputVal }}</p>
             <ud-input v-model="inputVal" placeholder="請輸入姓名"></ud-input>
