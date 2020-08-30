@@ -40,10 +40,13 @@ let vm = new Vue({
     this.getData();
     window.addEventListener('scroll', throttle(
         () => console.log(getPageScrollTop())
-      , 0)
+      )
     );
   },
   methods: {
+    thr: function(){
+      console.log(getRandom());
+    },
     success: function() {
       this.$alert({msg: '表單成功送出'});
     },

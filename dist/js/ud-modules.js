@@ -12,7 +12,6 @@
 編寫分頁ud-pagination
 編寫表單通用驗證
 Alert,Confirm,Modal統一修改樣式
-ud-button支援函式節流
 */
 /*
 ==================== Vue組件庫目錄 ====================
@@ -180,7 +179,7 @@ jumpReload();
 // Button 按鈕
 Vue.component('ud-button', {
     name: 'UdButton',
-    template: "\n    <button\n      class=\"ud-button\"\n      @click=\"handleClick\"\n      :disabled=\"disabled || loading\"\n      :type=\"nativeType\"\n      :class=\"[\n        type ? 'ud-button--' + type : '',\n        {\n          'is-disabled': disabled,\n          'is-loading': loading,\n          'is-plain': plain,\n          'is-round': round,\n          'is-circle': circle,\n          'is-block': block,\n        }\n      ]\"\n      :style=\"{\n        'border-radius': radius,\n        'width': width,\n        'min-width': minWidth,\n        'max-width': maxWidth,\n      }\"\n    >\n      <i class=\"fas fa-spinner fa-pulse\" v-if=\"loading\"></i>\n      <i :class=\"icon\" v-if=\"icon && !loading\"></i>\n      <span v-if=\"$slots.default\"><slot></slot></span>\n    </button>\n  ",
+    template: "\n    <button\n      class=\"ud-button\"\n      @click=\"handleClick\"\n      ref=\"btn\"\n      :disabled=\"disabled || loading\"\n      :type=\"nativeType\"\n      :class=\"[\n        type ? 'ud-button--' + type : '',\n        {\n          'is-disabled': disabled,\n          'is-loading': loading,\n          'is-plain': plain,\n          'is-round': round,\n          'is-circle': circle,\n          'is-block': block,\n        }\n      ]\"\n      :style=\"{\n        'border-radius': radius,\n        'width': width,\n        'min-width': minWidth,\n        'max-width': maxWidth,\n      }\"\n    >\n      <i class=\"fas fa-spinner fa-pulse\" v-if=\"loading\"></i>\n      <i :class=\"icon\" v-if=\"icon && !loading\"></i>\n      <span v-if=\"$slots.default\"><slot></slot></span>\n    </button>\n  ",
     props: {
         type: { default: 'default' },
         icon: { default: '' },
@@ -194,13 +193,22 @@ Vue.component('ud-button', {
         plain: Boolean,
         round: Boolean,
         circle: Boolean,
-        block: Boolean // 塊狀
+        block: Boolean,
+        throttle: Boolean // 函式節流
     },
     methods: {
         handleClick: function (evt) {
+            if (this.throttle)
+                return;
             this.$emit('click', evt);
         }
-    }
+    },
+    mounted: function () {
+        var _this = this;
+        if (!this.throttle)
+            return;
+        this.$refs.btn.addEventListener('click', throttle(function (evt) { _this.$emit('click', evt); }));
+    },
 });
 // Input 輸入框
 Vue.component('ud-input', {

@@ -14,7 +14,6 @@ declare var $: (selector: string) => any;
 編寫分頁ud-pagination
 編寫表單通用驗證
 Alert,Confirm,Modal統一修改樣式
-ud-button支援函式節流
 */
 
 /*
@@ -190,6 +189,7 @@ Vue.component('ud-button', {
     <button
       class="ud-button"
       @click="handleClick"
+      ref="btn"
       :disabled="disabled || loading"
       :type="nativeType"
       :class="[
@@ -228,13 +228,22 @@ Vue.component('ud-button', {
     plain: Boolean, // 線條化
     round: Boolean, // 圓角
     circle: Boolean, // 圓型
-    block: Boolean // 塊狀
+    block: Boolean, // 塊狀
+    throttle: Boolean // 函式節流
   },
   methods: {
     handleClick(evt) {
+      if(this.throttle) return;
       this.$emit('click', evt);
     }
-  }
+  },
+  mounted() {
+    if(!this.throttle) return;
+    this.$refs.btn.addEventListener('click', throttle(
+        (evt) => {this.$emit('click', evt)}
+      )
+    );
+  },
 })
 
 // Input 輸入框
