@@ -32,7 +32,7 @@ var vm = new Vue({
     },
     mounted: function () {
         this.getData();
-        window.addEventListener('scroll', debounce(function () { return console.log(getRandom()); }));
+        window.addEventListener('scroll', throttle(function () { return console.log(getPageScrollTop()); }, 0));
     },
     methods: {
         success: function () {

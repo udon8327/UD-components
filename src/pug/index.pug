@@ -53,7 +53,7 @@ block content
     //- formulate-input(type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="required|mime:application/pdf" multiple :validation-messages="{required: '此欄不可為空'}")
     //- formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
-  ud-flex
+  ud-flex.aaa
     ud-button(plain @click="$formulate.reset('my-form')") 清除
     ud-button(@click="$formulate.submit('my-form')") 送出
 block js

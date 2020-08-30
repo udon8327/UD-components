@@ -38,7 +38,10 @@ let vm = new Vue({
   },
   mounted: function() {
     this.getData();
-    window.addEventListener('scroll', debounce(() => console.log(getRandom())));
+    window.addEventListener('scroll', throttle(
+        () => console.log(getPageScrollTop())
+      , 0)
+    );
   },
   methods: {
     success: function() {

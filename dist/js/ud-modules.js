@@ -12,6 +12,7 @@
 編寫分頁ud-pagination
 編寫表單通用驗證
 Alert,Confirm,Modal統一修改樣式
+ud-button支援函式節流
 */
 /*
 ==================== Vue組件庫目錄 ====================
@@ -133,16 +134,13 @@ DOM
   平滑滾動到指定元素區域 -----> smoothScroll
   返回當前的滾動位置 -----> getScrollPosition
   獲取移動設備初始化大小 -----> getInitZoom
-  獲取頁面高度 -----> getPageHeight
+  獲取頁面總高度 -----> getPageHeight
   獲取頁面scrollLeft -----> getPageScrollLeft
   獲取頁面scrollTop -----> getPageScrollTop
   獲取頁面可視高度 -----> getPageViewHeight
   獲取頁面可視寬度 -----> getPageViewWidth
   獲取頁面寬度 -----> getPageWidth
-  獲取移動設備螢幕寬度 -----> getScreenWidth
   獲取網頁被捲去的位置 -----> getScrollXY
-  獲取窗體可見範圍的寬與高 -----> getViewSize
-  獲取移動設備最大化大小 -----> getZoom
 
 Verify
   各種校驗綜合函式 -----> validate
@@ -1864,10 +1862,10 @@ function anchorTop() {
 }
 /**
  * 瞬間滾動至指定元素
- * @param  {String} targetId 指定元素id
+ * @param  {String} element 指定元素CSS選擇器
  */
-function anchorElement(targetId) {
-    var target = document.getElementById(targetId);
+function anchorElement(element) {
+    var target = document.querySelector(element);
     window.scrollTo(0, target.offsetTop);
 }
 /**
@@ -1889,7 +1887,7 @@ function scrollToTop() {
 ;
 /**
  * 平滑滾動到指定元素區域
- * @param  {String} element 指定元素
+ * @param  {String} element 指定元素CSS選擇器
  * smoothScroll('#fooBar');
  */
 function smoothScroll(element) {
@@ -1922,7 +1920,7 @@ function getInitZoom() {
     return this._initZoom;
 }
 /**
- * 獲取頁面高度
+ * 獲取頁面總高度
  */
 function getPageHeight() {
     var g = document, a = g.body, f = g.documentElement, d = g.compatMode == "BackCompat" ? a : g.documentElement;
@@ -1964,21 +1962,6 @@ function getPageWidth() {
     return Math.max(f.scrollWidth, a.scrollWidth, d.clientWidth);
 }
 /**
- * 獲取移動設備螢幕寬度
- */
-function getScreenWidth() {
-    var smallerSide = Math.min(screen.width, screen.height);
-    var fixViewPortsExperiment = rendererModel.runningExperiments.FixViewport ||
-        rendererModel.runningExperiments.fixviewport;
-    var fixViewPortsExperimentRunning = fixViewPortsExperiment && fixViewPortsExperiment.toLowerCase() === "new";
-    if (fixViewPortsExperiment) {
-        if (this.isAndroidMobileDevice() && !this.isNewChromeOnAndroid()) {
-            smallerSide = smallerSide / window.devicePixelRatio;
-        }
-    }
-    return smallerSide;
-}
-/**
  * 獲取網頁被捲去的位置
  */
 function getScrollXY() {
@@ -1991,37 +1974,6 @@ function getScrollXY() {
             x: document.documentElement.scrollLeft,
             y: document.documentElement.scrollTop
         };
-}
-/**
- * 獲取窗體可見範圍的寬與高
- */
-function getViewSize() {
-    var de = document.documentElement;
-    var db = document.body;
-    var viewW = de.clientWidth == 0 ? db.clientWidth : de.clientWidth;
-    var viewH = de.clientHeight == 0 ? db.clientHeight : de.clientHeight;
-    return Array(viewW, viewH);
-}
-/**
- * 獲取移動設備最大化大小
- */
-function getZoom() {
-    var screenWidth = Math.abs(window.orientation) === 90
-        ? Math.max(screen.height, screen.width)
-        : Math.min(screen.height, screen.width);
-    if (this.isAndroidMobileDevice() && !this.isNewChromeOnAndroid()) {
-        screenWidth = screenWidth / window.devicePixelRatio;
-    }
-    var FixViewPortsExperiment = rendererModel.runningExperiments.FixViewport ||
-        rendererModel.runningExperiments.fixviewport;
-    var FixViewPortsExperimentRunning = FixViewPortsExperiment &&
-        (FixViewPortsExperiment === "New" || FixViewPortsExperiment === "new");
-    if (FixViewPortsExperimentRunning) {
-        return screenWidth / window.innerWidth;
-    }
-    else {
-        return screenWidth / document.body.offsetWidth;
-    }
 }
 //-----------------------Verify-----------------------
 /**
@@ -2146,8 +2098,10 @@ function insertPlugin(src) {
 }
 /**
  * 函式防抖
+ * @description 將幾次操作合併為一次操作進行
  * @param  {Function} fn 處理函式
- * @param  {Number} wait 處理間隔時間 預設為200ms
+ * @param  {Number} wait 停止後等待時間 預設為200ms
+ * window.addEventListener('scroll', debounce(() => console.log(getRandom), 500));
  */
 function debounce(fn, wait) {
     if (wait === void 0) { wait = 200; }
@@ -2158,13 +2112,26 @@ function debounce(fn, wait) {
         timeout = setTimeout(fn, wait);
     };
 }
-// window.addEventListener('scroll', debounce(console.log(getRandom), 1000));
 /**
  * 函式節流
+ * @description 一定時間內只觸發一次函式
  * @param  {Function} fn 處理函式
- * @param  {Number} wait 等待時間
- * window.addEventListener('scroll', debounce(handle, 1000));
+ * @param  {Number} delay 處理間隔時間 預設為1000ms
+ * window.addEventListener('scroll', throttle(() => console.log(getRandom), 2000));
  */
+function throttle(fn, delay) {
+    if (delay === void 0) { delay = 1000; }
+    var prev = Date.now();
+    return function () {
+        var context = this;
+        var args = arguments;
+        var now = Date.now();
+        if (now - prev >= delay) {
+            fn.apply(context, args);
+            prev = Date.now();
+        }
+    };
+}
 //-----------------------Web-----------------------
 /**
  * 查詢網址所帶參數

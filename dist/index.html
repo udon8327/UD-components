@@ -71,7 +71,7 @@
             <formulate-input type="radio" label="單選" name="radio" :options="formObj" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
             <formulate-input type="checkbox" label="多選" name="checkbox" :options="formObj" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
           </formulate-form>
-          <ud-flex>
+          <ud-flex class="aaa">
             <ud-button plain @click="$formulate.reset('my-form')">清除</ud-button>
             <ud-button @click="$formulate.submit('my-form')">送出</ud-button>
           </ud-flex>
