@@ -20,7 +20,6 @@
       <ud-modal v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-button @click="thr">節流</ud-button>
           <h1>{{ userData.name }}</h1>
           <ud-button @click="postData">POST</ud-button>
           <ud-flex>

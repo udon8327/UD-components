@@ -8,7 +8,6 @@ block modal
   ud-modal(v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
-  ud-button(@click="thr") 節流
   h1 {{ userData.name }}
   ud-button(@click="postData") POST
   ud-flex

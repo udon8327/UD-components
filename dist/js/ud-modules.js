@@ -126,20 +126,17 @@ Time
   時間人性化 -----> formatTime
 
 DOM
-  瞬間滾動至頂部 -----> anchorTop
-  瞬間滾動至指定元素 -----> anchorElement
-  瞬間滾動至底部 -----> anchorBottom
-  平滑滾動至頂部 -----> scrollToTop
-  平滑滾動到指定元素區域 -----> smoothScroll
-  返回當前的滾動位置 -----> getScrollPosition
-  獲取移動設備初始化大小 -----> getInitZoom
+  瞬間移動至頂部 -----> anchorTop
+  瞬間移動至指定元素 -----> anchorElement
+  瞬間移動至底部 -----> anchorBottom
+  平滑滾動至頂部 -----> scrollTop
+  平滑滾動到指定元素 -----> scrollElement
+  獲取頁面捲動高度 -----> getScrollTop
+  獲取頁面捲動寬度 -----> getScrollLeft
   獲取頁面總高度 -----> getPageHeight
-  獲取頁面scrollLeft -----> getPageScrollLeft
-  獲取頁面scrollTop -----> getPageScrollTop
+  獲取頁面總寬度 -----> getPageWidth
   獲取頁面可視高度 -----> getPageViewHeight
   獲取頁面可視寬度 -----> getPageViewWidth
-  獲取頁面寬度 -----> getPageWidth
-  獲取網頁被捲去的位置 -----> getScrollXY
 
 Verify
   各種校驗綜合函式 -----> validate
@@ -1863,21 +1860,22 @@ function formatTime(time, option) {
 }
 //-----------------------DOM-----------------------
 /**
- * 瞬間滾動至頂部
+ * 瞬間移動至頂部
  */
 function anchorTop() {
     window.scrollTo(0, 0);
 }
 /**
- * 瞬間滾動至指定元素
+ * 瞬間移動至指定元素
  * @param  {String} element 指定元素CSS選擇器
+ * anchorElement('.fooBar');
  */
 function anchorElement(element) {
     var target = document.querySelector(element);
     window.scrollTo(0, target.offsetTop);
 }
 /**
- * 瞬間滾動至底部
+ * 瞬間移動至底部
  */
 function anchorBottom() {
     window.scrollTo(0, document.body.scrollHeight);
@@ -1885,47 +1883,46 @@ function anchorBottom() {
 /**
  * 平滑滾動至頂部
  */
-function scrollToTop() {
+function scrollTop() {
     var c = document.documentElement.scrollTop || document.body.scrollTop;
     if (c > 0) {
-        window.requestAnimationFrame(scrollToTop);
+        window.requestAnimationFrame(scrollTop);
         window.scrollTo(0, c - c / 8);
     }
 }
 ;
 /**
- * 平滑滾動到指定元素區域
+ * 平滑滾動到指定元素
  * @param  {String} element 指定元素CSS選擇器
- * smoothScroll('#fooBar');
+ * scrollElement('.fooBar');
  */
-function smoothScroll(element) {
+function scrollElement(element) {
     document.querySelector(element).scrollIntoView({
         behavior: 'smooth'
     });
 }
 /**
- * 返回當前的滾動位置
- * @param  {String} el 指定元素 預設為window
+ * 獲取頁面捲動高度
  */
-function getScrollPosition(el) {
-    if (el === void 0) { el = window; }
-    return {
-        x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
-        y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop
-    };
+function getScrollTop() {
+    var bodyTop = 0;
+    if (typeof window.pageYOffset != "undefined") {
+        bodyTop = window.pageYOffset;
+    }
+    else if (typeof document.compatMode != "undefined"
+        && document.compatMode != "BackCompat") {
+        bodyTop = document.documentElement.scrollTop;
+    }
+    else if (typeof document.body != "undefined") {
+        bodyTop = document.body.scrollTop;
+    }
+    return bodyTop;
 }
 /**
- * 獲取移動設備初始化大小
+ * 獲取頁面捲動寬度
  */
-function getInitZoom() {
-    if (!this._initZoom) {
-        var screenWidth = Math.min(screen.height, screen.width);
-        if (this.isAndroidMobileDevice() && !this.isNewChromeOnAndroid()) {
-            screenWidth = screenWidth / window.devicePixelRatio;
-        }
-        this._initZoom = screenWidth / document.body.offsetWidth;
-    }
-    return this._initZoom;
+function getScrollLeft() {
+    return document.documentElement.scrollLeft || document.body.scrollLeft;
 }
 /**
  * 獲取頁面總高度
@@ -1935,18 +1932,11 @@ function getPageHeight() {
     return Math.max(f.scrollHeight, a.scrollHeight, d.clientHeight);
 }
 /**
- * 獲取頁面scrollLeft
+ * 獲取頁面總寬度
  */
-function getPageScrollLeft() {
-    var a = document;
-    return a.documentElement.scrollLeft || a.body.scrollLeft;
-}
-/**
- * 獲取頁面scrollTop
- */
-function getPageScrollTop() {
-    var a = document;
-    return a.documentElement.scrollTop || a.body.scrollTop;
+function getPageWidth() {
+    var g = document, a = g.body, f = g.documentElement, d = g.compatMode == "BackCompat" ? a : g.documentElement;
+    return Math.max(f.scrollWidth, a.scrollWidth, d.clientWidth);
 }
 /**
  * 獲取頁面可視高度
@@ -1961,27 +1951,6 @@ function getPageViewHeight() {
 function getPageViewWidth() {
     var d = document, a = d.compatMode == "BackCompat" ? d.body : d.documentElement;
     return a.clientWidth;
-}
-/**
- * 獲取頁面寬度
- */
-function getPageWidth() {
-    var g = document, a = g.body, f = g.documentElement, d = g.compatMode == "BackCompat" ? a : g.documentElement;
-    return Math.max(f.scrollWidth, a.scrollWidth, d.clientWidth);
-}
-/**
- * 獲取網頁被捲去的位置
- */
-function getScrollXY() {
-    return document.body.scrollTop
-        ? {
-            x: document.body.scrollLeft,
-            y: document.body.scrollTop
-        }
-        : {
-            x: document.documentElement.scrollLeft,
-            y: document.documentElement.scrollTop
-        };
 }
 //-----------------------Verify-----------------------
 /**

@@ -32,12 +32,9 @@ var vm = new Vue({
     },
     mounted: function () {
         this.getData();
-        window.addEventListener('scroll', throttle(function () { return console.log(getPageScrollTop()); }));
+        window.addEventListener('scroll', throttle(function () { return console.log(getScrollTop()); }));
     },
     methods: {
-        thr: function () {
-            console.log(getRandom());
-        },
         success: function () {
             this.$alert({ msg: '表單成功送出' });
         },
