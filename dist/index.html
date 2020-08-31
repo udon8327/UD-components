@@ -20,6 +20,7 @@
       <ud-modal v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
+          <p id="scr">{{ scr }}</p>
           <h1>{{ userData.name }}</h1>
           <ud-button @click="postData">POST</ud-button>
           <ud-flex>
@@ -68,10 +69,8 @@
             <vf-accept>
               <p>我同意酷必資訊<a href="https://goo.gl/">使用者條款</a>!</p>
             </vf-accept>
-            <formulate-input type="radio" label="單選" name="radio" :options="formObj" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
-            <formulate-input type="checkbox" label="多選" name="checkbox" :options="formObj" validation="required" :validation-messages="{required: '此欄不可為空'}"></formulate-input>
           </formulate-form>
-          <ud-flex class="aaa">
+          <ud-flex>
             <ud-button plain @click="$formulate.reset('my-form')">清除</ud-button>
             <ud-button @click="$formulate.submit('my-form')">送出</ud-button>
           </ud-flex>

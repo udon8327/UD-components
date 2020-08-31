@@ -29,12 +29,22 @@ var vm = new Vue({
         },
         formArr: ["妮可", "花丸", "步夢", "凜", "阿霞"],
         form: {},
+        scr: 0
     },
     mounted: function () {
+        var _this = this;
         this.getData();
-        window.addEventListener('scroll', throttle(function () { return console.log(getScrollTop()); }));
+        window.addEventListener('scroll', throttle(function () {
+            _this.scr = getScrollTop() + ", " + getPageViewHeight() + ", " + getPageHeight();
+            if (getPageHeight() - (getScrollTop() + getPageViewHeight()) < 10) {
+                console.log('loadMore ' + getRandom());
+            }
+        }, 0));
     },
     methods: {
+        load: function () {
+            console.log('加載!');
+        },
         success: function () {
             this.$alert({ msg: '表單成功送出' });
         },

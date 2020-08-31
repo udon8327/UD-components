@@ -22,3 +22,10 @@ p {
   padding: 0;
   letter-spacing: 0;
   text-align: left; }
+
+#scr {
+  position: fixed; }
+
+.load {
+  height: 100px;
+  overflow-y: auto; }
