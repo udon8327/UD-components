@@ -80,6 +80,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js"></script>
+    <script>
+      if(!window.Vue){
+        document.write(`
+          <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"><\/script>
+          <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"><\/script>
+        `);
+      }
+    </script>
     <script src="js/ud-modules.js"></script>
     <script src="js/index.js"></script>
   </body>

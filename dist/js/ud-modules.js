@@ -169,7 +169,7 @@ Animation
   RAF通用動畫函式 -----> animate
 */
 // 初始化執行
-cdnBackup();
+// cdnBackup();
 Vue.use(VueFormulate);
 jumpReload();
 //-----------------------Form-----------------------
@@ -958,7 +958,7 @@ Vue.component("ud-modal", {
 // Loading 載入中
 Vue.component('ud-loading', {
     name: "UdLoading",
-    template: "\n    <transition name=\"loading\">\n      <div class=\"ud-loading\" v-if=\"isShow\" :class=\"{'theme-white': theme === 'white'}\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <i :class=\"icon\"></i>\n            </div>\n            <div class=\"modal-body\">\n              <ud-html :text=\"msgHtml\" v-if=\"msgHtml\"></ud-html>\n              <p v-else>{{ msg }}</p>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
+    template: "\n    <transition name=\"loading\">\n      <div class=\"ud-loading\" v-show=\"isShow\" :class=\"{'theme-white': theme === 'white'}\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-content\">\n            <div class=\"modal-header\">\n              <i :class=\"icon\"></i>\n            </div>\n            <div class=\"modal-body\">\n              <ud-html :text=\"msgHtml\" v-if=\"msgHtml\"></ud-html>\n              <p v-else>{{ msg }}</p>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     data: function () {
         return {
             isShow: false
@@ -1131,7 +1131,7 @@ Vue.component('ud-countdown', {
 });
 // QrCode 取得QRcode圖片
 Vue.component('ud-qrcode', {
-    template: "\n    <div class=\"ud-qrcode\">\n      <i v-if=\"!ready\" class=\"fas fa-spinner fa-pulse\"></i>\n      <img v-show=\"ready\" ref=\"img\" :src=\"QrCodeSrc\" :alt=\"url\">\n    </div>\n  ",
+    template: "\n    <div class=\"ud-qrcode\">\n      <div v-if=\"!ready\" class=\"icon-css\"></div>\n      <img v-show=\"ready\" ref=\"img\" :src=\"QrCodeSrc\" :alt=\"url\">\n    </div>\n  ",
     mounted: function () {
         var _this = this;
         this.$refs.img.onload = function () {
@@ -2274,48 +2274,6 @@ function postApi(url, data, params) {
     if (params === void 0) { params = {}; }
     return new Promise(function (resolve, reject) {
         service.post(url, data, {
-            params: params
-        })
-            .then(function (res) {
-            resolve(res.data);
-        })
-            .catch(function (err) {
-            reject(err.data);
-        });
-    });
-}
-/**
- * putApi方法，對應put請求
- * @param  {String} url 請求的url地址
- * @param  {Object} data 請求時攜帶的資料
- * @param  {Object} params 請求時攜帶的參數
- */
-function putApi(url, data, params) {
-    if (data === void 0) { data = {}; }
-    if (params === void 0) { params = {}; }
-    return new Promise(function (resolve, reject) {
-        service.put(url, data, {
-            params: params
-        })
-            .then(function (res) {
-            resolve(res.data);
-        })
-            .catch(function (err) {
-            reject(err.data);
-        });
-    });
-}
-/**
- * deleteApi方法，對應delete請求
- * @param  {String} url 請求的url地址
- * @param  {Object} data 請求時攜帶的資料
- * @param  {Object} params 請求時攜帶的參數
- */
-function deleteApi(url, data, params) {
-    if (data === void 0) { data = {}; }
-    if (params === void 0) { params = {}; }
-    return new Promise(function (resolve, reject) {
-        service.delete(url, data, {
             params: params
         })
             .then(function (res) {

@@ -627,6 +627,9 @@
     .modal-wrapper
       .modal-content
         .modal-header
+          .icon-css
+            border: 3px solid rgba(#000, 0.2)
+            border-top: 3px solid #000
           i
             color: #666
         .modal-body
@@ -721,8 +724,18 @@
   display: flex
   justify-content: center
   align-items: center
-  i
-    color: #666
+  .icon-css
+    border: 3px solid rgba(#000, 0.2)
+    border-top: 3px solid #fff
+    border-radius: 50%
+    width: 32px
+    height: 32px
+    animation: spin .5s linear infinite
+    @keyframes spin
+      0%
+        transform: rotate(0deg)
+      100% 
+        transform: rotate(360deg)
 
 //Ratio 等比例自適應容器
 .ud-ratio

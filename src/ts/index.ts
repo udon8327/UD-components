@@ -38,6 +38,14 @@ let vm = new Vue({
     scr: 0
   },
   mounted: function() {
+    let aa = () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('成功');
+        }, 2000);
+      })
+    }
+    aa().then(res => console.log(res) );
     this.getData();
     window.addEventListener('scroll', throttle(
         () => { 

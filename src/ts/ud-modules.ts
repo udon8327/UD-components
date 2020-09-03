@@ -174,7 +174,7 @@ Animation
 */
 
 // 初始化執行
-cdnBackup();
+// cdnBackup();
 Vue.use(VueFormulate);
 jumpReload();
 
@@ -1414,7 +1414,7 @@ Vue.component('ud-loading', {
   name: "UdLoading",
   template: `
     <transition name="loading">
-      <div class="ud-loading" v-if="isShow" :class="{'theme-white': theme === 'white'}">
+      <div class="ud-loading" v-show="isShow" :class="{'theme-white': theme === 'white'}">
         <div class="modal-wrapper">
           <div class="modal-content">
             <div class="modal-header">
@@ -1647,7 +1647,7 @@ Vue.component('ud-countdown', {
 Vue.component('ud-qrcode', {
   template: `
     <div class="ud-qrcode">
-      <i v-if="!ready" class="fas fa-spinner fa-pulse"></i>
+      <div v-if="!ready" class="icon-css"></div>
       <img v-show="ready" ref="img" :src="QrCodeSrc" :alt="url">
     </div>
   `,
@@ -2898,46 +2898,6 @@ function getApi(url, params = {}){
 function postApi(url, data = {}, params = {}) {
   return new Promise((resolve, reject) => {
     service.post(url, data, {
-      params: params
-    })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.data);
-    })
-  });
-}
-
-/** 
- * putApi方法，對應put請求
- * @param  {String} url 請求的url地址
- * @param  {Object} data 請求時攜帶的資料
- * @param  {Object} params 請求時攜帶的參數
- */
-function putApi(url, data = {}, params = {}) {
-  return new Promise((resolve, reject) => {
-    service.put(url, data, {
-      params: params
-    })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.data);
-    })
-  });
-}
-
-/** 
- * deleteApi方法，對應delete請求
- * @param  {String} url 請求的url地址
- * @param  {Object} data 請求時攜帶的資料
- * @param  {Object} params 請求時攜帶的參數
- */
-function deleteApi(url, data = {}, params = {}) {
-  return new Promise((resolve, reject) => {
-    service.delete(url, data, {
       params: params
     })
     .then(res => {

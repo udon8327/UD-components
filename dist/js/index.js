@@ -33,6 +33,14 @@ var vm = new Vue({
     },
     mounted: function () {
         var _this = this;
+        var aa = function () {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    resolve('成功');
+                }, 2000);
+            });
+        };
+        aa().then(function (res) { return console.log(res); });
         this.getData();
         window.addEventListener('scroll', throttle(function () {
             _this.scr = getScrollTop() + ", " + getPageViewHeight() + ", " + getPageHeight();
