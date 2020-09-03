@@ -246,30 +246,24 @@ Vue.component('ud-button', {
 // Input 輸入框
 Vue.component('ud-input', {
   name: 'UdInput',
+  inheritAttrs: false,
   template: `
     <div class="ud-input">
       <input
-        :type="type"
         v-model="inputValue"
         :placeholder="placeholder"
-        :maxlength="maxlength"
+        v-bind="$attrs"
       >
     </div>
   `,
   props: {
     value: null, // value值
-    type: { default: "text" }, // 類型 (text, tel, date, hidden, number, password...等)
     placeholder: { default: "請輸入此欄位" }, // 取代文字
-    maxlength: { default: "" }, // 最大字數
   },
   computed: {
     inputValue: {
-      get: function(){
-        return this.value;
-      },
-      set: function(val){
-        this.$emit('input', val)
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
 })
@@ -277,15 +271,14 @@ Vue.component('ud-input', {
 // Textarea 多行輸入框
 Vue.component('ud-textarea', {
   name: "UdTextarea",
+  inheritAttrs: false,
   template: `
     <div class="ud-textarea">
       <textarea
         type="text"
         v-model="textareaValue"
-        :cols="cols"
-        :rows="rows"
         :placeholder="placeholder"
-        :maxlength="maxlength"
+        v-bind="$attrs"
       >
       </textarea>
     </div>
@@ -293,18 +286,11 @@ Vue.component('ud-textarea', {
   props: {
     value: null, // value值
     placeholder: { default: "請輸入此欄位" }, // 取代文字
-    maxlength: { default: "" }, // 最大字數
-    rows: null, // 行數
-    cols: null, // 列數
   },
   computed: {
     textareaValue: {
-      get: function(){
-        return this.value;
-      },
-      set: function(val){
-        this.$emit('input', val);
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
 })
@@ -335,12 +321,8 @@ Vue.component('ud-radio', {
   },
   computed: {
     radioValue: {
-      get: function(){
-        return this.value;
-      },
-      set: function(val){
-        this.$emit('input', val);
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
 })
@@ -380,12 +362,8 @@ Vue.component('ud-checkbox', {
   },
   computed: {
     checkboxValue: {
-      get: function(){
-        return this.value;
-      },
-      set: function(val){
-        this.$emit('input',val);
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
 })
@@ -410,12 +388,8 @@ Vue.component('ud-select', {
   },
   computed: {
     selectValue: {
-      get: function() {
-        return this.value;
-      },
-      set: function(val) {
-        this.$emit('input', val)
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
 })
@@ -439,12 +413,8 @@ Vue.component('ud-switch', {
   },
   computed: {
     switchValue: {
-      get: function() {
-        return this.value;
-      },
-      set: function(val) {
-        this.$emit('input', val)
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
 })
@@ -583,12 +553,8 @@ Vue.component('ud-captcha', {
   `,
   computed: {
     inputVal: {
-      get: function(){
-        return this.value;
-      },
-      set: function(val){
-        this.$emit('input', val)
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
   props: {
@@ -845,12 +811,8 @@ Vue.component('vf-captcha', {
   `,
   computed: {
     inputVal: {
-      get: function(){
-        return this.value;
-      },
-      set: function(val){
-        this.$emit('input', val)
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
   props: {
@@ -1394,12 +1356,8 @@ Vue.component("ud-modal", {
   },
   computed: {
     isShow: {
-      get: function(){
-        return this.value;
-      },
-      set: function(val){
-        this.$emit('input', val)
-      }
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
     }
   },
   methods: {

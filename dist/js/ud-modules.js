@@ -210,43 +210,32 @@ Vue.component('ud-button', {
 // Input 輸入框
 Vue.component('ud-input', {
     name: 'UdInput',
-    template: "\n    <div class=\"ud-input\">\n      <input\n        :type=\"type\"\n        v-model=\"inputValue\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n    </div>\n  ",
+    inheritAttrs: false,
+    template: "\n    <div class=\"ud-input\">\n      <input\n        v-model=\"inputValue\"\n        :placeholder=\"placeholder\"\n        v-bind=\"$attrs\"\n      >\n    </div>\n  ",
     props: {
         value: null,
-        type: { default: "text" },
         placeholder: { default: "請輸入此欄位" },
-        maxlength: { default: "" },
     },
     computed: {
         inputValue: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
 });
 // Textarea 多行輸入框
 Vue.component('ud-textarea', {
     name: "UdTextarea",
-    template: "\n    <div class=\"ud-textarea\">\n      <textarea\n        type=\"text\"\n        v-model=\"textareaValue\"\n        :cols=\"cols\"\n        :rows=\"rows\"\n        :placeholder=\"placeholder\"\n        :maxlength=\"maxlength\"\n      >\n      </textarea>\n    </div>\n  ",
+    inheritAttrs: false,
+    template: "\n    <div class=\"ud-textarea\">\n      <textarea\n        type=\"text\"\n        v-model=\"textareaValue\"\n        :placeholder=\"placeholder\"\n        v-bind=\"$attrs\"\n      >\n      </textarea>\n    </div>\n  ",
     props: {
         value: null,
         placeholder: { default: "請輸入此欄位" },
-        maxlength: { default: "" },
-        rows: null,
-        cols: null,
     },
     computed: {
         textareaValue: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
 });
@@ -262,12 +251,8 @@ Vue.component('ud-radio', {
     },
     computed: {
         radioValue: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
 });
@@ -282,12 +267,8 @@ Vue.component('ud-checkbox', {
     },
     computed: {
         checkboxValue: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
 });
@@ -302,12 +283,8 @@ Vue.component('ud-select', {
     },
     computed: {
         selectValue: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
 });
@@ -320,12 +297,8 @@ Vue.component('ud-switch', {
     },
     computed: {
         switchValue: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
 });
@@ -412,12 +385,8 @@ Vue.component('ud-captcha', {
     template: "\n    <div class=\"ud-captcha\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
     computed: {
         inputVal: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
     props: {
@@ -564,12 +533,8 @@ Vue.component('vf-captcha', {
     template: "\n    <div class=\"vf-captcha\">\n      <div class=\"canvas-area\" ref=\"canvasArea\">\n        <canvas id=\"verify-canvas\" width=\"100\" height=\"48\" style=\"display: none;\"></canvas>\n        <img ref=\"codeimg\" @click=\"refresh\">\n        <input type=\"hidden\" v-model=\"inputVal\">\n      </div>\n      <div class=\"refresh\" @click=\"refresh\" v-if=\"!noRefresh\">\n        <i class=\"fas fa-sync-alt\" id=\"refresh\"></i>\n      </div>\n    </div>\n  ",
     computed: {
         inputVal: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
     props: {
@@ -940,12 +905,8 @@ Vue.component("ud-modal", {
     },
     computed: {
         isShow: {
-            get: function () {
-                return this.value;
-            },
-            set: function (val) {
-                this.$emit('input', val);
-            }
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
         }
     },
     methods: {
