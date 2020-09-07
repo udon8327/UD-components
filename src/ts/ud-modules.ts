@@ -72,7 +72,7 @@ Tools
   Ratio 等比例自適應容器 -----> ud-ratio
 
 Application
-  Carousel 走馬燈 -----> ud-carousel
+  Carousel 圖片輪播 -----> ud-carousel
   Youtube 水管播放 -----> ud-youtube
   YoutubeApi 水管播放(控制版) -----> ud-youtube-api
   GoogleMap 估狗地圖 -----> ud-google-map
@@ -1653,16 +1653,132 @@ Vue.component('ud-ratio', {
   },
 })
 
-//-----------------------Application-----------------------
-// Carousel 走馬燈
-Vue.component('ud-carousel', {
-  name: "UdCarousel",
-  template: `
 
+//-----------------------Application-----------------------
+//Carousel 圖片輪播
+Vue.component('ud-carousel', {
+  name: "udCarousel",
+  template: `
+    <div class="ud-carousel" ref="carousel"
+      @mouseenter.stop="toggleTimer = false"
+      @mouseleave.stop="toggleTimer = true"
+      @touchstart.stop="touchStart"
+      @touchmove.stop="touchMove"
+      :style="'min-height:' + minHeight">
+      <keep-alive>
+        <transition :name="carouselName">
+          <div class="item"
+            v-for="(item, index) in carousels"
+            v-if="show == index"
+            :key="index"
+          >
+            <a :href="item.href"><img :src="item.img"/></a>
+          </div>
+        </transition>
+      </keep-alive>
+
+      <!-- arrows -->
+      <div class="arrows-group" v-if="arrows">
+        <a class="button-prev" href="#" @click.prevent="toPrev">
+          <slot name="arrows-prev">
+            <img src="//akveo.github.io/eva-icons/outline/png/128/arrow-ios-back-outline.png"/>
+          </slot>
+        </a>
+        <a class="button-next" href="#" @click.prevent="toNext">
+          <slot name="arrows-next">
+            <img src="//akveo.github.io/eva-icons/outline/png/128/arrow-ios-forward-outline.png"/>
+          </slot>
+        </a>
+      </div>
+
+      <!-- dots -->
+      <div class="dot-group" v-if="dots">
+        <a v-for="(l, index) in len" href="#"
+          :class="{ 'active': show == index }"
+          @click.prevent="show = index"
+        ></a>
+      </div>
+
+    </div>
   `,
   props: {
-    
+    carousels: {
+      type: Array
+    },
+    auto: {
+      type: Boolean,
+      default: false
+    },
+    delay: {
+      type: Number,
+      default: 3000
+    },
+    dots: {
+      type: Boolean,
+      default: true
+    },
+    arrows: {
+      type: Boolean,
+      default: true
+    }
   },
+  data: () => {
+    return {
+      carouselName: 'carousel-next',
+      len: 0,
+      show: 0,
+      xDown: null, // for swiper
+      yDown: null, // for swiper
+      autoplay: false, // 是否自動輪播
+      toggleTimer: true, // pause auto play
+      minHeight: 0 // 抓最小高度
+    }
+  },
+  methods: {
+		toNext() {
+			this.carouselName = 'carousel-next';
+			this.show + 1 >= this.len ? this.show = 0 : this.show = this.show + 1;
+		},
+		toPrev() {
+			this.carouselName = 'carousel-prev';
+			this.show - 1 < 0 ? this.show = this.len - 1 : this.show = this.show - 1;
+		},
+		// swiper event(for mobile)
+		touchStart(e) {
+			this.xDown = e.touches[0].clientX;
+			this.yDown = e.touches[0].clientY;
+		},
+		touchMove(e) {
+			const _this = this;
+			if(!this.xDown || !this.yDown) { return; }
+
+			let xUp = e.touches[0].clientX;
+			let yUp = e.touches[0].clientY;
+
+			let xDiff = this.xDown - xUp;
+			let yDiff = this.yDown - yUp;
+
+			if(Math.abs(xDiff) > Math.abs(yDiff)) {
+				xDiff > 0 ? _this.toNext() : _this.toPrev();
+			}
+			this.xDown = null;
+			this.yDown = null;
+		},
+		// 自動輪播
+		autoPlay() {
+			setInterval(() => {
+				if(this.toggleTimer) this.toNext();
+			}, this.delay);
+		}
+  },
+	mounted() {
+    this.len = this.carousels.length;
+    if(this.len <= 1) this.arrows = false;
+		if(this.auto) this.autoPlay();
+		window.addEventListener('load', () => {
+			this.minHeight = this.$refs.carousel.offsetHeight + 'px';
+		});
+	}
 })
 
 // Youtube 水管播放
@@ -2829,7 +2945,7 @@ service.interceptors.response.use(
 );
 
 /** 
- * getApi方法，對應get請求
+ * getApi方法，對應GET請求
  * @param  {String} url 請求的url地址
  * @param  {Object} params 請求時攜帶的參數
  */
@@ -2848,7 +2964,7 @@ function getApi(url, params = {}){
 }
 
 /** 
- * postApi方法，對應post請求
+ * postApi方法，對應POST請求
  * @param  {String} url 請求的url地址
  * @param  {Object} data 請求時攜帶的資料
  * @param  {Object} params 請求時攜帶的參數
@@ -2856,6 +2972,46 @@ function getApi(url, params = {}){
 function postApi(url, data = {}, params = {}) {
   return new Promise((resolve, reject) => {
     service.post(url, data, {
+      params: params
+    })
+    .then(res => {
+      resolve(res.data);
+    })
+    .catch(err => {
+      reject(err.data);
+    })
+  });
+}
+
+/** 
+ * putApi方法，對應PUT請求
+ * @param  {String} url 請求的url地址
+ * @param  {Object} data 請求時攜帶的資料
+ * @param  {Object} params 請求時攜帶的參數
+ */
+function putApi(url, data = {}, params = {}) {
+  return new Promise((resolve, reject) => {
+    service.put(url, data, {
+      params: params
+    })
+    .then(res => {
+      resolve(res.data);
+    })
+    .catch(err => {
+      reject(err.data);
+    })
+  });
+}
+
+/** 
+ * deleteApi方法，對應DELETE請求
+ * @param  {String} url 請求的url地址
+ * @param  {Object} data 請求時攜帶的資料
+ * @param  {Object} params 請求時攜帶的參數
+ */
+function deleteApi(url, data = {}, params = {}) {
+  return new Promise((resolve, reject) => {
+    service.delete(url, data, {
       params: params
     })
     .then(res => {

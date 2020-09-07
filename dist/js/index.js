@@ -14,6 +14,11 @@ var vm = new Vue({
         confirmMessage: "這是confirmMessage",
         modalMessage: "這是modalMessage",
         value: 0,
+        carouselList: [
+            { img: 'https://picsum.photos/900/506?image=508', href: '#' },
+            { img: 'https://picsum.photos/900/506?image=1068', href: '#' },
+            { img: 'https://picsum.photos/900/506?image=509', href: '#' }
+        ],
         inputVal: "",
         textareaVal: "",
         radioVal: "",
@@ -25,7 +30,7 @@ var vm = new Vue({
             maru: "花丸",
             pomu: "步夢",
             rin: "凜",
-            kasumin: "阿霞",
+            kasumin: "阿霞"
         },
         formArr: ["妮可", "花丸", "步夢", "凜", "阿霞"],
         form: {},
@@ -33,28 +38,21 @@ var vm = new Vue({
     },
     mounted: function () {
         var _this = this;
-        var aa = function () {
-            return new Promise(function (resolve, reject) {
-                setTimeout(function () {
-                    resolve('成功');
-                }, 2000);
-            });
-        };
-        aa().then(function (res) { return console.log(res); });
-        this.getData();
-        window.addEventListener('scroll', throttle(function () {
+        this.init();
+        // this.getData();
+        window.addEventListener("scroll", throttle(function () {
             _this.scr = getScrollTop() + ", " + getPageViewHeight() + ", " + getPageHeight();
             if (getPageHeight() - (getScrollTop() + getPageViewHeight()) < 10) {
-                console.log('loadMore ' + getRandom());
+                console.log("loadMore " + getRandom());
             }
         }, 0));
     },
     methods: {
         load: function () {
-            console.log('加載!');
+            console.log("加載!");
         },
         success: function () {
-            this.$alert({ msg: '表單成功送出' });
+            this.$alert({ msg: "表單成功送出" });
         },
         random: function () {
             console.log(getRandom());
@@ -78,7 +76,7 @@ var vm = new Vue({
                 msg: this.title + "\u60A8\u597D\uFF0C\u78BA\u5B9A\u8981\u9001\u51FA\u55CE?",
                 btnClose: true,
                 confirm: function () {
-                    _this.$formulate.submit('my-form');
+                    _this.$formulate.submit("my-form");
                     _this.$alert({
                         maskClose: true,
                         msg: "已成功送出!",
@@ -94,31 +92,33 @@ var vm = new Vue({
             this.$confirm({
                 msg: "真的要送出嗎?",
                 confirm: function () {
-                    _this.$formulate.submit('my-form');
+                    _this.$formulate.submit("my-form");
                     _this.$alert({
-                        msg: "已送出，謝謝您的回答",
+                        msg: "已送出，謝謝您的回答"
                     });
-                },
+                }
             });
         },
         submit: function () {
-            this.$formulate.submit('my-form');
+            this.$formulate.submit("my-form");
             this.isConfirmShow = 0;
         },
         //API
+        init: function () {
+            // putApi('https://private-80966-test21855.apiary-mock.com/message')
+            // .then(res => console.log(res));
+        },
         getData: function () {
             var _this = this;
-            getApi(baseURL + "ajax/success.php")
-                .then(function (res) {
+            getApi(baseURL + "ajax/success.php").then(function (res) {
                 _this.userData = res.userData;
             });
         },
         postData: function () {
-            postApi(baseURL + "ajax/validate.php", "123456")
-                .then(function (res) {
-                console.log('res: ', res);
+            postApi(baseURL + "ajax/validate.php", "123456").then(function (res) {
+                console.log("res: ", res);
             });
-        },
+        }
     }
 });
 //# sourceMappingURL=index.js.map

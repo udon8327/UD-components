@@ -20,6 +20,7 @@
       <ud-modal v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
+          <ud-carousel :carousels="carouselList"></ud-carousel>
           <p id="scr">{{ scr }}</p>
           <h1>{{ userData.name }}</h1>
           <ud-button @click="postData">POST</ud-button>

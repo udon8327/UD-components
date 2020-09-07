@@ -29,3 +29,42 @@ p {
 .load {
   height: 100px;
   overflow-y: auto; }
+
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
+.strive_slider {
+  width: 320px;
+  height: 148px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative; }
+  .strive_slider ul {
+    position: absolute;
+    left: 0;
+    top: 0; }
+    .strive_slider ul li {
+      float: left;
+      width: 320px;
+      height: 148px; }
+      .strive_slider ul li a {
+        display: block;
+        width: 100%;
+        height: 100%; }
+  .strive_slider ol {
+    width: 90px;
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    margin-left: -45px; }
+    .strive_slider ol li {
+      width: 10px;
+      height: 10px;
+      background: #999;
+      border-radius: 50%;
+      float: left;
+      margin: 3px; }
+      .strive_slider ol li.on {
+        background: #f60; }
