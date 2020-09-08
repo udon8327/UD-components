@@ -2,13 +2,47 @@ extends _layout.pug
 
 block css
   //- link(href='https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/snow.min.css' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/swiper@5.3.6/css/swiper.min.css' rel='stylesheet')
   link(href='css/index.css' rel='stylesheet')
 
 block modal
   ud-modal(v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
-  ud-carousel(:carousels="carouselList")
+  .thumb-example
+    // swiper1
+    swiper.swiper.gallery-top(:options="swiperOptionTop" ref="swiperTop")
+      swiper-slide.slide-1
+      swiper-slide.slide-2
+      swiper-slide.slide-3
+      swiper-slide.slide-4
+      swiper-slide.slide-5
+      .swiper-button-next.swiper-button-white(slot="button-next")
+      .swiper-button-prev.swiper-button-white(slot="button-prev")
+    // swiper2 Thumbs
+    swiper.swiper.gallery-thumbs(:options="swiperOptionThumbs" ref="swiperThumbs")
+      swiper-slide.slide-1
+      swiper-slide.slide-2
+      swiper-slide.slide-3
+      swiper-slide.slide-4
+      swiper-slide.slide-5
+  //- swiper.swiper(ref="swiperComponent" :options="swiperOptions")
+  //-   swiper-slide
+  //-     img(src="https://picsum.photos/900/506?image=508", alt="")
+  //-   swiper-slide
+  //-     img(src="https://picsum.photos/900/506?image=1068", alt="")
+  //-   swiper-slide
+  //-     img(src="https://picsum.photos/900/506?image=509", alt="")
+  //-   swiper-slide
+  //-     img(src="https://picsum.photos/900/506?image=518", alt="")
+  //-   swiper-slide
+  //-     img(src="https://picsum.photos/900/506?image=468", alt="")
+  //-   swiper-slide
+  //-     img(src="https://picsum.photos/900/506?image=519", alt="")
+  //-   .swiper-pagination(slot="pagination")
+  //-   .swiper-button-prev(slot="button-prev")
+  //-   .swiper-button-next(slot="button-next")
+  //- ud-carousel(:carousels="carouselList")
   p#scr {{ scr }}
   h1 {{ userData.name }}
   ud-button(@click="postData") POST
@@ -60,4 +94,6 @@ block content
     ud-button(@click="$formulate.submit('my-form')") 送出
 block js
   //- script(async="" src="https://www.youtube.com/iframe_api")
+  script(src="https://cdn.jsdelivr.net/npm/swiper@5.3.6/js/swiper.min.js")
+  script(src="https://cdn.jsdelivr.net/npm/vue-awesome-swiper")
   script(src="js/index.js")

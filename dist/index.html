@@ -12,6 +12,7 @@
     <title>frontend</title>
     <link href="css/main.css" rel="stylesheet">
     <link href="css/ud-modules.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/swiper@5.3.6/css/swiper.min.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
   </head>
   <body>
@@ -20,7 +21,26 @@
       <ud-modal v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-carousel :carousels="carouselList"></ud-carousel>
+          <div class="thumb-example">
+            <!-- swiper1-->
+            <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
+              <swiper-slide class="slide-1"></swiper-slide>
+              <swiper-slide class="slide-2"></swiper-slide>
+              <swiper-slide class="slide-3"></swiper-slide>
+              <swiper-slide class="slide-4"></swiper-slide>
+              <swiper-slide class="slide-5"></swiper-slide>
+              <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
+              <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+            </swiper>
+            <!-- swiper2 Thumbs-->
+            <swiper class="swiper gallery-thumbs" :options="swiperOptionThumbs" ref="swiperThumbs">
+              <swiper-slide class="slide-1"></swiper-slide>
+              <swiper-slide class="slide-2"></swiper-slide>
+              <swiper-slide class="slide-3"></swiper-slide>
+              <swiper-slide class="slide-4"></swiper-slide>
+              <swiper-slide class="slide-5"></swiper-slide>
+            </swiper>
+          </div>
           <p id="scr">{{ scr }}</p>
           <h1>{{ userData.name }}</h1>
           <ud-button @click="postData">POST</ud-button>
@@ -90,6 +110,8 @@
       }
     </script>
     <script src="js/ud-modules.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@5.3.6/js/swiper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-awesome-swiper"></script>
     <script src="js/index.js"></script>
   </body>
 </html>

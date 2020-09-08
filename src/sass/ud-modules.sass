@@ -250,6 +250,7 @@
     appearance: none
     border-radius: 5px
     border: 1px solid #cecece
+    background-color: #fff
     font-size: 14px
     padding: .75em
     width: 100%
@@ -773,7 +774,6 @@
       max-width: 100%
     a
       display: block
-  
   // buttons: prev, next
   .button-prev, .button-next, .dot-group
     position: absolute
@@ -789,7 +789,6 @@
       max-width: 50px
   .button-next
     right: 0
-
   // dots
   .dot-group
     right: 0
@@ -799,21 +798,19 @@
     justify-content: center
     a
       display: block
-      margin-right: 8px
-      margin-left: 8px
-      width: 16px
-      height: 16px
-      background: rgba(#fff, .5)
-      border: 2px solid rgba(#FFF, .5)
+      margin-right: 5px
+      margin-left: 5px
+      width: 10px
+      height: 10px
+      background: rgba(#000, .5)
       border-radius: 50%
       transition: .3s
       &:hover, &.active
         background: #fff
-
   // carousel effect
   .carousel-prev-enter-active, .carousel-prev-leave-active,
   .carousel-next-enter-active, .carousel-next-leave-active
-    transition: transform 1s ease
+    transition: transform 0.5s ease
     will-change: transform
   .carousel-next-enter, .carousel-prev-leave-to
     transform: translateX(100%)

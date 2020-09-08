@@ -1,5 +1,6 @@
 var baseURL = "https://udon8327.synology.me/";
 var officialAccountURL = "https://line.me/zh-hant/";
+Vue.use(VueAwesomeSwiper);
 var vm = new Vue({
     el: "#app",
     data: {
@@ -34,11 +35,45 @@ var vm = new Vue({
         },
         formArr: ["妮可", "花丸", "步夢", "凜", "阿霞"],
         form: {},
-        scr: 0
+        scr: 0,
+        swiperOptions: {
+            speed: 200,
+            slidesPerView: 2,
+            spaceBetween: 8,
+            pagination: {
+                el: '.swiper-pagination'
+            },
+            paginationClickable: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            }
+        },
+        swiperOptionTop: {
+            loopedSlides: 5,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        },
+        swiperOptionThumbs: {
+            loopedSlides: 5,
+            spaceBetween: 5,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            touchRatio: 0.2,
+            slideToClickedSlide: true
+        }
     },
     mounted: function () {
         var _this = this;
         this.init();
+        this.$nextTick(function () {
+            var swiperTop = _this.$refs.swiperTop.$swiper;
+            var swiperThumbs = _this.$refs.swiperThumbs.$swiper;
+            swiperTop.controller.control = swiperThumbs;
+            swiperThumbs.controller.control = swiperTop;
+        });
         // this.getData();
         window.addEventListener("scroll", throttle(function () {
             _this.scr = getScrollTop() + ", " + getPageViewHeight() + ", " + getPageHeight();

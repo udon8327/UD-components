@@ -2,7 +2,7 @@ declare var $: (selector: string) => any;
 
 const baseURL = "https://udon8327.synology.me/";
 const officialAccountURL = "https://line.me/zh-hant/";
-
+Vue.use(VueAwesomeSwiper)
 let vm = new Vue({
   el: "#app",
   data: {
@@ -39,10 +39,44 @@ let vm = new Vue({
     },
     formArr: ["妮可", "花丸", "步夢", "凜", "阿霞"],
     form: {},
-    scr: 0
+    scr: 0,
+    swiperOptions: {
+      speed: 200,
+      slidesPerView: 2,
+      spaceBetween: 8,
+      pagination: {
+        el: '.swiper-pagination'
+      },
+      paginationClickable: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      }
+    },
+    swiperOptionTop: {
+      loopedSlides: 5, // looped slides should be the same
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      }
+    },
+    swiperOptionThumbs: {
+      loopedSlides: 5, // looped slides should be the same
+      spaceBetween: 5,
+      centeredSlides: true,
+      slidesPerView: 'auto',
+      touchRatio: 0.2,
+      slideToClickedSlide: true
+    }
   },
   mounted: function () {
     this.init();
+    this.$nextTick(() => {
+      const swiperTop = this.$refs.swiperTop.$swiper
+      const swiperThumbs = this.$refs.swiperThumbs.$swiper
+      swiperTop.controller.control = swiperThumbs
+      swiperThumbs.controller.control = swiperTop
+    })
     // this.getData();
     window.addEventListener(
       "scroll",

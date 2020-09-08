@@ -68,3 +68,34 @@ p {
       margin: 3px; }
       .strive_slider ol li.on {
         background: #f60; }
+
+.thumb-example {
+  height: 480px;
+  background-color: #000; }
+  .thumb-example .swiper .swiper-slide {
+    background-size: cover;
+    background-position: center; }
+    .thumb-example .swiper .swiper-slide.slide-1 {
+      background-image: url("https://picsum.photos/900/506?image=508"); }
+    .thumb-example .swiper .swiper-slide.slide-2 {
+      background-image: url("https://picsum.photos/900/506?image=1068"); }
+    .thumb-example .swiper .swiper-slide.slide-3 {
+      background-image: url("https://picsum.photos/900/506?image=509"); }
+    .thumb-example .swiper .swiper-slide.slide-4 {
+      background-image: url("https://picsum.photos/900/506?image=518"); }
+    .thumb-example .swiper .swiper-slide.slide-5 {
+      background-image: url("https://picsum.photos/900/506?image=468"); }
+  .thumb-example .swiper.gallery-top {
+    height: 80%;
+    width: 100%; }
+  .thumb-example .swiper.gallery-thumbs {
+    height: 20%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 5px 0; }
+  .thumb-example .swiper.gallery-thumbs .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4; }
+  .thumb-example .swiper.gallery-thumbs .swiper-slide-active {
+    opacity: 1; }

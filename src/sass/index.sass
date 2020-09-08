@@ -72,3 +72,36 @@ p
 
       &.on
         background: #f60
+
+
+
+.thumb-example
+  height: 480px
+  background-color: #000
+  .swiper
+    .swiper-slide
+      background-size: cover
+      background-position: center
+      &.slide-1
+        background-image:url('https://picsum.photos/900/506?image=508')
+      &.slide-2
+        background-image:url('https://picsum.photos/900/506?image=1068')
+      &.slide-3
+        background-image:url('https://picsum.photos/900/506?image=509')
+      &.slide-4
+        background-image:url('https://picsum.photos/900/506?image=518')
+      &.slide-5
+        background-image:url('https://picsum.photos/900/506?image=468')
+    &.gallery-top
+      height: 80%
+      width: 100%
+    &.gallery-thumbs
+      height: 20%
+      box-sizing: border-box
+      padding: 5px 0
+    &.gallery-thumbs .swiper-slide
+      width: 25%
+      height: 100%
+      opacity: 0.4
+    &.gallery-thumbs .swiper-slide-active
+      opacity: 1
