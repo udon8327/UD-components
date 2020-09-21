@@ -2,7 +2,9 @@ declare var $: (selector: string) => any;
 
 const baseURL = "https://udon8327.synology.me/";
 const officialAccountURL = "https://line.me/zh-hant/";
-Vue.use(VueAwesomeSwiper)
+
+// Vue.use(VueAwesomeSwiper)
+
 let vm = new Vue({
   el: "#app",
   data: {
@@ -40,53 +42,55 @@ let vm = new Vue({
     formArr: ["妮可", "花丸", "步夢", "凜", "阿霞"],
     form: {},
     scr: 0,
-    swiperOptions: {
-      speed: 200,
-      slidesPerView: 2,
-      spaceBetween: 8,
-      pagination: {
-        el: '.swiper-pagination'
-      },
-      paginationClickable: true,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      }
-    },
-    swiperOptionTop: {
-      loopedSlides: 5, // looped slides should be the same
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev'
-      }
-    },
-    swiperOptionThumbs: {
-      loopedSlides: 5, // looped slides should be the same
-      spaceBetween: 5,
-      centeredSlides: true,
-      slidesPerView: 'auto',
-      touchRatio: 0.2,
-      slideToClickedSlide: true
-    }
   },
   mounted: function () {
     this.init();
-    this.$nextTick(() => {
-      const swiperTop = this.$refs.swiperTop.$swiper
-      const swiperThumbs = this.$refs.swiperThumbs.$swiper
-      swiperTop.controller.control = swiperThumbs
-      swiperThumbs.controller.control = swiperTop
-    })
-    // this.getData();
-    window.addEventListener(
-      "scroll",
-      throttle(() => {
-        this.scr = `${getScrollTop()}, ${getPageViewHeight()}, ${getPageHeight()}`;
-        if (getPageHeight() - (getScrollTop() + getPageViewHeight()) < 10) {
-          console.log("loadMore " + getRandom());
+    this.getData();
+    
+    let io = new IntersectionObserver(
+      entry => entry.forEach(e => {
+        if(e.isIntersecting){
+          e.target.src = e.target.dataset.src;
+          e.target.classList.remove('op-0');
+          e.target.classList.add(e.target.dataset.animate);
+          io.unobserve(e.target);
         }
-      }, 0)
-    );
+      }),
+      {threshold: [1]}
+    )
+    let imgList = document.querySelectorAll('.test');
+    imgList.forEach(img => io.observe(img));
+
+    let mo = new MutationObserver(mutationRecords => {
+      console.log(mutationRecords);
+    },)
+    mo.observe(document.querySelector('.mo'),{
+      subtree: true,
+      childList: true,
+      attributes: true,
+      characterData: true,
+    });
+
+
+    // let filterArr = ['にじさんじ','Vtuber','VTuber','HoloLive','hololive','ホロライブ'];
+
+    // $(function() {
+    //   let mo = new MutationObserver(() => {
+    //     $('.plurk:not(.filter)').each(function(){
+    //       let _this = $(this);
+    //       let text = _this.find('.text_holder').text() + _this.find('.ex_link').text();
+    //       if(filterArr.some(item => text.indexOf(item) != -1)){
+    //         _this.css('opacity', 0.1);
+    //       }
+    //       _this.addClass('filter');
+    //     })
+    //   });
+    //   mo.observe(document.querySelector('.block_cnt'),{
+    //     childList: true,
+    //   });
+    // })
+
+
   },
   methods: {
     load: function () {

@@ -99,3 +99,36 @@ p {
     opacity: 0.4; }
   .thumb-example .swiper.gallery-thumbs .swiper-slide-active {
     opacity: 1; }
+
+.material-icons {
+  font-size: 250px;
+  color: aqua; }
+
+.wrapper {
+  padding-top: 120vh !important; }
+
+.test {
+  margin-bottom: 100px; }
+
+.op-0 {
+  opacity: 0; }
+
+.custom {
+  -webkit-animation: classname 1.2s 1;
+  animation: classname 1.2s 1; }
+
+@-webkit-keyframes classname {
+  0% {
+    -webkit-transform: translateX(-50px);
+    transform: translateX(-50px); }
+  100% {
+    -webkit-transform: translateX(0px);
+    transform: translateX(0px); } }
+
+@keyframes classname {
+  0% {
+    -webkit-transform: translateX(-50px);
+    transform: translateX(-50px); }
+  100% {
+    -webkit-transform: translateX(0px);
+    transform: translateX(0px); } }

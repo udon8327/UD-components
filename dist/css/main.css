@@ -268,10 +268,6 @@ img {
   max-width: 100%;
   height: auto; }
 
-a {
-  color: #333;
-  text-decoration: none !important; }
-
 .container {
   max-width: 540px;
   margin: 0 auto;

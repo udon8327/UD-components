@@ -2,48 +2,21 @@ extends _layout.pug
 
 block css
   //- link(href='https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/snow.min.css' rel='stylesheet')
-  link(href='https://cdn.jsdelivr.net/npm/swiper@5.3.6/css/swiper.min.css' rel='stylesheet')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css' rel='stylesheet')
+  link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
   link(href='css/index.css' rel='stylesheet')
 
 block modal
   ud-modal(v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
-  .thumb-example
-    // swiper1
-    swiper.swiper.gallery-top(:options="swiperOptionTop" ref="swiperTop")
-      swiper-slide.slide-1
-      swiper-slide.slide-2
-      swiper-slide.slide-3
-      swiper-slide.slide-4
-      swiper-slide.slide-5
-      .swiper-button-next.swiper-button-white(slot="button-next")
-      .swiper-button-prev.swiper-button-white(slot="button-prev")
-    // swiper2 Thumbs
-    swiper.swiper.gallery-thumbs(:options="swiperOptionThumbs" ref="swiperThumbs")
-      swiper-slide.slide-1
-      swiper-slide.slide-2
-      swiper-slide.slide-3
-      swiper-slide.slide-4
-      swiper-slide.slide-5
-  //- swiper.swiper(ref="swiperComponent" :options="swiperOptions")
-  //-   swiper-slide
-  //-     img(src="https://picsum.photos/900/506?image=508", alt="")
-  //-   swiper-slide
-  //-     img(src="https://picsum.photos/900/506?image=1068", alt="")
-  //-   swiper-slide
-  //-     img(src="https://picsum.photos/900/506?image=509", alt="")
-  //-   swiper-slide
-  //-     img(src="https://picsum.photos/900/506?image=518", alt="")
-  //-   swiper-slide
-  //-     img(src="https://picsum.photos/900/506?image=468", alt="")
-  //-   swiper-slide
-  //-     img(src="https://picsum.photos/900/506?image=519", alt="")
-  //-   .swiper-pagination(slot="pagination")
-  //-   .swiper-button-prev(slot="button-prev")
-  //-   .swiper-button-next(slot="button-next")
-  //- ud-carousel(:carousels="carouselList")
-  p#scr {{ scr }}
+  .mo MutationObserver
+  img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__backInRight" data-src="https://i.picsum.photos/id/88/500/500.jpg?hmac=QSIyuv08g62ooomf9O-KngY-rZZ_5fdavDEeMsrTUm0")
+  img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__backInLeft" data-src="https://i.picsum.photos/id/364/500/500.jpg?hmac=5Ole9heOcwTkcW-e1EpjCfSv3g5YM_cNJP-d8YsbFcc")
+  img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__bounceIn" data-src="https://i.picsum.photos/id/949/500/500.jpg?hmac=KQGuFkBlY7lKgj7WAn4rrya3MgiVd8OVJflhQZLfwaY")
+  img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__fadeInLeft" data-src="https://i.picsum.photos/id/94/500/500.jpg?hmac=fU8eN6t-spj5f3-h0uf4clf5qttgWmR6Z6HwcYnsLlw")
+  img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__fadeIn" data-src="https://i.picsum.photos/id/836/500/500.jpg?hmac=sgkm9n_XWQrKibrc66UQJBl62zYdUBKrG6MsOYbRVLk")
+  img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="custom" data-src="https://i.picsum.photos/id/836/500/500.jpg?hmac=sgkm9n_XWQrKibrc66UQJBl62zYdUBKrG6MsOYbRVLk")
   h1 {{ userData.name }}
   ud-button(@click="postData") POST
   ud-flex
@@ -93,7 +66,4 @@ block content
     ud-button(plain @click="$formulate.reset('my-form')") 清除
     ud-button(@click="$formulate.submit('my-form')") 送出
 block js
-  //- script(async="" src="https://www.youtube.com/iframe_api")
-  script(src="https://cdn.jsdelivr.net/npm/swiper@5.3.6/js/swiper.min.js")
-  script(src="https://cdn.jsdelivr.net/npm/vue-awesome-swiper")
   script(src="js/index.js")

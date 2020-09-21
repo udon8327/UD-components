@@ -128,6 +128,7 @@ Time
   隨機數時間戳 -----> uniqueId
   解析時間 -----> parseTime
   時間人性化 -----> formatTime
+  時間格式化 -----> Date.prototype.format
 
 DOM
   瞬間移動至頂部 -----> anchorTop
@@ -2515,6 +2516,38 @@ function formatTime(time, option) {
   }
 }
 
+/**
+ * 時間格式化
+ * @param  {Any} format 轉換格式
+ * new Date().format('yyyyMMdd') -> "20200921"
+ * new Date().format('yyyy-MM-dd') -> "2020-09-21"
+ * new Date().format('yyyy-MM-dd hh:mm:ss') -> "2020-09-21 16:07:59"
+ */
+Date.prototype.format = function (format) {
+  if(!format){
+    format = "yyyy-MM-dd hh:mm:ss";
+  }
+  let o = {
+    "M+": this.getMonth() + 1, // 月份
+    "d+": this.getDate(), // 日
+    "H+": this.getHours(), // 小時
+    "h+": this.getHours(), // 小時
+    "m+": this.getMinutes(), // 分
+    "s+": this.getSeconds(), // 秒
+    "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+    "S": this.getMilliseconds() // 毫秒
+  };
+  if(/(y+)/.test(format)) {
+    format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  }
+  for (var k in o) {
+    if(new RegExp("(" + k + ")").test(format)) {
+      format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+    }
+  }
+  return format;
+};
+
 //-----------------------DOM-----------------------
 /**
  * 瞬間移動至頂部
@@ -3107,126 +3140,3 @@ Vue.component("ud-contenteditable", {
     }
   }
 });
-
-Vue.component("el-button", {
-  template: `
-    <button 
-      class="el-button"
-      :class="[
-        type ? 'el-button--' + type : '',
-        size ? 'el-button--' + size : '',
-        {
-          'is-plain': plain,
-          'is-round': round,
-          'is-circle': circle,
-          'is-disabled': disabled,
-          'is-loading': loading,
-        }
-      ]"
-      :autofocus="autofocus"
-      :disabled="disabled || loading"
-      @click="handleClick"
-    >
-      <el-i class="el-icon-loading" v-if="loading"></el-i>
-      <el-i :class="icon" v-if="icon && !loading"></el-i>
-      <span v-if="$slots.default"><slot></slot></span>
-    </button>
-  `,
-  name: "Button",
-  props: {
-    type: {
-      type: String,
-      default: "default"
-    },
-    size: String,
-    plain: Boolean,
-    round: Boolean,
-    circle: Boolean,
-    icon: {
-      type: String,
-      default: ""
-    },
-    autofocus: Boolean,
-    disabled: Boolean,
-    loading: Boolean
-  },
-  methods: {
-    handleClick(evt) {
-      this.$emit("click", evt);
-    }
-  }
-});
-
-
-Vue.component('img-lazy', {
-  name: 'imgLazy',
-  template: `
-    <img :class="['lazy', className]" :src="defaultImg" :data-src="url" :data-srcset="url" alt="fordeal">
-  `,
-  props: {
-    url: {
-      type: null
-    },
-    defaultImg: {
-      default: ['https://picsum.photos/500']
-    },
-    className: {
-      default: ''
-    }
-  },
-  mounted: function () {
-    this.LazyLoad();
-  },
-  methods: {
-    LazyLoad: function() {
-      // 这个active是节流throttle所用的标志位，这里用到了闭包知识
-      let active = false;
-    
-      const lazyLoad = () => {
-        // throttle相关：200ms内只会执行一次lazyLoad方法
-        if (active) return;
-        active = true;
-    
-        setTimeout(() => {
-          // 获取所有class为lazy的img标签，这里由于之前已经把处理过的img标签的class删掉了  所以不会重复查找
-          let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
-    
-          lazyImages.forEach(lazyImage => {
-            // 判断元素是否进入viewport
-            if (this.isInViewport(lazyImage)) {
-              // <img class="lazy" src="[占位图]" data-src="[真实url地址]" data-srcset="[不同屏幕密度下，不同的url地址]" alt="I'm an image!">
-              // ele.dataset.* 可以读取自定义属性集合，比如data-*
-              // img.srcset 属性用于设置不同屏幕密度下，image自动加载不同的图片  比如<img src="image-128.png" srcset="image-256.png 2x" />
-              lazyImage.src = lazyImage.dataset.src;
-              lazyImage.srcset = lazyImage.dataset.srcset;
-              // 删除class  防止下次重复查找到改img标签
-              lazyImage.classList.remove("lazy");
-            }
-    
-            // 当全部处理完了，移除监听
-            if (lazyImages.length === 0) {
-              document.removeEventListener("scroll", lazyLoad);
-              window.removeEventListener("resize", lazyLoad);
-              window.removeEventListener("orientationchange", lazyLoad);
-            }
-          })
-    
-          active = false;
-        }, 200);
-      }
-    
-      document.addEventListener("scroll", lazyLoad);
-      document.addEventListener("resize", lazyLoad);
-      document.addEventListener("orientationchange", lazyLoad);
-    },
-    isInViewport: function (ele) {
-      // 元素顶部 距离 视口左上角 的距离top <= 窗口高度 （反例：元素在屏幕下方的情况）
-      // 元素底部 距离 视口左上角 的距离bottom > 0 (反例：元素在屏幕上方的情况)
-      // 元素display样式不为none
-      const notBelow = ele.getBoundingClientRect().top <= window.innerHeight ? true : false;
-      const notAbove = ele.getBoundingClientRect().bottom >= 0 ? true : false;
-      const visable = getComputedStyle(ele).display !== "none" ? true : false;
-      return notBelow && notAbove && visable ? true : false;
-    }
-  },
-})
