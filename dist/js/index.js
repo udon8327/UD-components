@@ -40,14 +40,16 @@ var vm = new Vue({
     mounted: function () {
         this.init();
         this.getData();
-        var io = new IntersectionObserver(function (entry) { return entry.forEach(function (e) {
-            if (e.isIntersecting) {
-                e.target.src = e.target.dataset.src;
-                e.target.classList.remove('op-0');
-                e.target.classList.add(e.target.dataset.animate);
-                io.unobserve(e.target);
-            }
-        }); }, { threshold: [1] });
+        var io = new IntersectionObserver(function (entry) {
+            entry.forEach(function (e) {
+                if (e.isIntersecting) {
+                    e.target.src = e.target.dataset.src;
+                    e.target.classList.remove('op-0');
+                    e.target.classList.add(e.target.dataset.animate);
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: [1] });
         var imgList = document.querySelectorAll('.test');
         imgList.forEach(function (img) { return io.observe(img); });
         var mo = new MutationObserver(function (mutationRecords) {
@@ -59,22 +61,6 @@ var vm = new Vue({
             attributes: true,
             characterData: true,
         });
-        // let filterArr = ['にじさんじ','Vtuber','VTuber','HoloLive','hololive','ホロライブ'];
-        // $(function() {
-        //   let mo = new MutationObserver(() => {
-        //     $('.plurk:not(.filter)').each(function(){
-        //       let _this = $(this);
-        //       let text = _this.find('.text_holder').text() + _this.find('.ex_link').text();
-        //       if(filterArr.some(item => text.indexOf(item) != -1)){
-        //         _this.css('opacity', 0.1);
-        //       }
-        //       _this.addClass('filter');
-        //     })
-        //   });
-        //   mo.observe(document.querySelector('.block_cnt'),{
-        //     childList: true,
-        //   });
-        // })
     },
     methods: {
         load: function () {
