@@ -73,9 +73,18 @@ let vm = new Vue({
       characterData: true,
     });
 
-
+    window.addEventListener('scroll', () => {
+      this.test();
+    })
+    throttle(this.test, 2000);
   },
   methods: {
+    test: function(){
+      console.log(getRandom());
+    },
+    onFocus: function(){
+      console.log('aa');
+    },
     load: function () {
       console.log("加載!");
     },

@@ -254,6 +254,7 @@ Vue.component('ud-input', {
         v-model="inputValue"
         :placeholder="placeholder"
         v-bind="$attrs"
+        v-on="$listeners"
       >
     </div>
   `,
@@ -2820,6 +2821,30 @@ function throttle(fn, delay = 1000) {
   }
 }
 
+function throttle2(fn, delay){
+  let timer; 
+  let prevTime;
+  return function(...args){
+    let currTime = Date.now();
+    let context = this;
+    if(!prevTime) prevTime = currTime;
+    clearTimeout(timer);
+    
+    if(currTime - prevTime > delay){
+        prevTime = currTime;
+        fn.apply(context,args);
+        clearTimeout(timer);
+        return;
+    }
+
+    timer = setTimeout(function(){
+        prevTime = Date.now();
+        timer = null;
+        fn.apply(context,args);
+    },delay);
+  }
+}
+
 //-----------------------Web-----------------------
 /**
  * 查詢網址所帶參數
@@ -3140,3 +3165,11 @@ Vue.component("ud-contenteditable", {
     }
   }
 });
+
+
+
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus();
+  }
+})

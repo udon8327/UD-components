@@ -22,7 +22,8 @@
       <ud-modal v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <div class="mo">MutationObserver</div><img class="op-0 test animate__animated" src="https://fakeimg.pl/500x500/" data-animate="animate__backInRight" data-src="https://i.picsum.photos/id/88/500/500.jpg?hmac=QSIyuv08g62ooomf9O-KngY-rZZ_5fdavDEeMsrTUm0"><img class="op-0 test animate__animated" src="https://fakeimg.pl/500x500/" data-animate="animate__backInLeft" data-src="https://i.picsum.photos/id/364/500/500.jpg?hmac=5Ole9heOcwTkcW-e1EpjCfSv3g5YM_cNJP-d8YsbFcc"><img class="op-0 test animate__animated" src="https://fakeimg.pl/500x500/" data-animate="animate__bounceIn" data-src="https://i.picsum.photos/id/949/500/500.jpg?hmac=KQGuFkBlY7lKgj7WAn4rrya3MgiVd8OVJflhQZLfwaY"><img class="op-0 test animate__animated" src="https://fakeimg.pl/500x500/" data-animate="animate__fadeInLeft" data-src="https://i.picsum.photos/id/94/500/500.jpg?hmac=fU8eN6t-spj5f3-h0uf4clf5qttgWmR6Z6HwcYnsLlw"><img class="op-0 test animate__animated" src="https://fakeimg.pl/500x500/" data-animate="animate__fadeIn" data-src="https://i.picsum.photos/id/836/500/500.jpg?hmac=sgkm9n_XWQrKibrc66UQJBl62zYdUBKrG6MsOYbRVLk"><img class="op-0 test animate__animated" src="https://fakeimg.pl/500x500/" data-animate="custom" data-src="https://i.picsum.photos/id/836/500/500.jpg?hmac=sgkm9n_XWQrKibrc66UQJBl62zYdUBKrG6MsOYbRVLk">
+          <div class="mo">MutationObserver</div>
+          <ud-button max-width="200px">按鈕</ud-button>
           <h1>{{ userData.name }}</h1>
           <ud-button @click="postData">POST</ud-button>
           <ud-flex>
@@ -33,7 +34,7 @@
           <ud-switch v-model="switchVal"></ud-switch>
           <ud-flex>
             <p>inputVal: {{ inputVal }}</p>
-            <ud-input v-model="inputVal" placeholder="請輸入姓名"></ud-input>
+            <ud-input v-model="inputVal" placeholder="請輸入姓名" maxlength="4" @focus="onFocus"></ud-input>
             <p>textareaVal: {{ textareaVal }}</p>
             <ud-textarea v-model="textareaVal"></ud-textarea>
           </ud-flex>

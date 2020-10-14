@@ -38,6 +38,7 @@ var vm = new Vue({
         scr: 0,
     },
     mounted: function () {
+        var _this = this;
         this.init();
         this.getData();
         var io = new IntersectionObserver(function (entry) {
@@ -61,8 +62,18 @@ var vm = new Vue({
             attributes: true,
             characterData: true,
         });
+        window.addEventListener('scroll', function () {
+            _this.test();
+        });
+        throttle(this.test, 2000);
     },
     methods: {
+        test: function () {
+            console.log(getRandom());
+        },
+        onFocus: function () {
+            console.log('aa');
+        },
         load: function () {
             console.log("加載!");
         },
