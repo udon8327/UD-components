@@ -2,6 +2,7 @@ declare var $: (selector: string) => any;
 
 /*
 ==================== TODO ====================
+寫說明文件
 彈窗組件支援自定義top高度
 彈窗組件支援自定義body固定
 彈窗組件支援多重彈窗
@@ -2064,10 +2065,6 @@ function copyTextToClipboard(id) {
   vm.$alert({msg: '文字已複製到剪貼簿'});
 }
 
-function test(){
-  vm.$alert({msg: '文字已複製到剪貼簿'});
-}
-
 /**
  * 轉義HTML(防XSS攻擊)
  * @param  {String} str 代入值
@@ -3171,5 +3168,115 @@ Vue.component("ud-contenteditable", {
 Vue.directive('focus', {
   inserted: function (el) {
     el.focus();
+  }
+})
+
+
+Vue.component('ud-v-input', {
+  template: `
+    <div>
+      <input :value="value" @input="onInput" v-bind="$attrs">
+    </div>
+  `,
+  inheritAttrs: false,
+  props: {
+    value: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    onInput(e) {
+      this.$emit('input', e.target.value)
+      // 通知FormItem校验
+      this.$parent.$emit('validate')
+    }
+  }
+})
+
+Vue.component('ud-v-formitem', {
+  template: `
+    <div>
+      <label v-if="label">{{ label }}</label>
+      <slot></slot>
+      <p v-if="errorMessage">{{ errorMessage }}</p>
+    </div>
+  `,
+  data() {
+    return {
+      errorMessage: ''
+    }
+  },
+  inject: ["form"],
+  props: {
+    label: {
+      type: String,
+      default: ''
+    },
+    prop: {
+      type: String
+    }
+  },
+  mounted() {
+    this.$on('validate', () => {
+      this.validate()
+    })
+  },
+  methods: {
+    validate() {
+      //执行组件校验
+      //1.获取校验规则
+      const rules = this.form.rules[this.prop]
+      //2.获取数据
+      const value = this.form.model[this.prop]
+      //3.执行校验 参数2是校验错误对象数组
+      //   返回的Promise<boolean>
+      const desc = {
+        [this.prop] : rules
+      };
+      const schema = new Schema(desc);
+      //参数1是值
+      schema.validate({[this.prop]:value}, errors => {
+        if (errors) {
+          //有错
+          this.errorMessage = errors[0].message;
+        } else {
+          //没错，清除错误信息
+          this.errorMessage = "";
+        }
+      })
+    }
+  }
+})
+
+Vue.component('ud-v-form', {
+  template: `
+    <div>
+      <slot></slot>
+    </div>
+  `,
+  provide() {
+    return {
+        form: this  //传递Form实例给后代，比如FormItem用来校验
+    }
+  },
+  props: {
+    model: {
+      type: Object,
+      required: true
+    },
+    rules: {
+      type: Object
+    }
+  },
+  methods: {
+    validate(cb) {
+      const tasks = this.$children
+      .filter(item => item.prop)
+      .map(item => item.validate())
+      Promise.all(tasks)
+      .then(() => cb(true))
+      .then(() => cb(false))
+    }
   }
 })
