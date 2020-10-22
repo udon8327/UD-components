@@ -772,7 +772,7 @@ Vue.component("ud-modal", {
   name: "UdModal",
   template: `
     <transition name="fade">
-      <div class="ud-modal" v-if="isShow" v-cloak>
+      <div class="ud-modal" v-show="isShow" v-cloak>
         <div class="modal-wrapper" @click.self="onMaskClick">
           <div class="modal-content">
             <div class="modal-close" v-if="hasCancel" @click="isShow = 0">
