@@ -10,6 +10,8 @@ block modal
   ud-modal(v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
+  va-formitem
+    va-input
   //- .filter
   .mo MutationObserver
   ud-button(max-width="200px") 按鈕

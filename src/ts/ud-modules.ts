@@ -106,17 +106,10 @@ Time
   時間格式化 -----> Date.prototype.format
 
 DOM
-  瞬間移動至頂部 -----> anchorTop
-  瞬間移動至指定元素 -----> anchorElement
-  瞬間移動至底部 -----> anchorBottom
-  平滑滾動至頂部 -----> scrollTop
-  平滑滾動到指定元素 -----> scrollElement
-  獲取頁面捲動高度 -----> getScrollTop
-  獲取頁面捲動寬度 -----> getScrollLeft
-  獲取頁面總高度 -----> getPageHeight
-  獲取頁面總寬度 -----> getPageWidth
-  獲取頁面可視高度 -----> getPageViewHeight
-  獲取頁面可視寬度 -----> getPageViewWidth
+  滾動至指定位置 -----> scrollTo
+  取得頁面當前捲動高度(寬度) -----> getPageScroll
+  取得頁面總高度(寬度) -----> getPage
+  取得頁面可視高度(寬度) -----> getPageView
 
 Verify
   各種校驗綜合函式 -----> validate
@@ -939,11 +932,7 @@ Vue.component('ud-backtop', {
   `,
   methods: {
     scrollToTop: function(){
-      const c = document.documentElement.scrollTop || document.body.scrollTop;
-      if (c > 0) {
-        window.requestAnimationFrame(this.scrollToTop);
-        window.scrollTo(0, c - c / 6);
-      }
+      scrollTo();
     }
   },
 })
@@ -1529,112 +1518,87 @@ Date.prototype.format = function (format) {
 
 //-----------------------DOM-----------------------
 /**
- * 瞬間移動至頂部
+ * 滾動至指定位置
+ * @param  {String, Number} el 滾動位置(預設為'top',可選：'top', 'bottom', '.foobar', 300)
+ * @param  {Number} speed 滾動時間(預設為5,瞬移為1)
+ * @param  {Number} offset 自定偏移(可接受正負數字)
+ * @param  {Function} callback 回調函式
+ * scrollTo();
+ * scrollTo('top', 1);
+ * scrollTo('.foobar', 10, -30, () => {console.log('滾動完成')});
  */
-function anchorTop(){
-  window.scrollTo(0, 0);
-}
-
-/**
- * 瞬間移動至指定元素
- * @param  {String} element 指定元素CSS選擇器
- * anchorElement('.fooBar');
- */
-function anchorElement(element){
-  let target = document.querySelector(element);
-  window.scrollTo(0, target.offsetTop);
-}
-
-/**
- * 瞬間移動至底部
- */
-function anchorBottom(){
-  window.scrollTo(0, document.body.scrollHeight);
-}
-
-/**
- * 平滑滾動至頂部
- */
-function scrollTop(){
-  const c = document.documentElement.scrollTop || document.body.scrollTop;
-  if (c > 0) {
-    window.requestAnimationFrame(scrollTop);
-    window.scrollTo(0, c - c / 8);
+function scrollTo(el = "top", speed = 5, offset = 0, callback = () => {}) {
+  let scrollTop = document.scrollingElement.scrollTop;
+  let top = 0;
+  if(typeof el === 'number'){
+    top = el + offset;
+  }else{
+    if(el === 'top'){
+      top = 0 + offset;
+    }else if(el === 'bottom'){
+      top = document.body.scrollHeight - document.body.clientHeight + offset;
+    }else{
+      top = document.querySelector(el).offsetTop + offset;
+    }
   }
+  function scroll() {
+    scrollTop = scrollTop + (top - scrollTop) / speed;
+    if (Math.abs(scrollTop - top) <= 1) {
+      document.scrollingElement.scrollTop = top;
+      callback && callback();
+      return;
+    }
+    document.scrollingElement.scrollTop = scrollTop;
+    requestAnimationFrame(scroll);
+  };
+  scroll();
 };
 
 /**
- * 平滑滾動到指定元素
- * @param  {String} element 指定元素CSS選擇器
- * scrollElement('.fooBar');
+ * 取得頁面當前捲動高度(寬度)
+ * @param  {Any} direction 改取寬度
  */
-function scrollElement(element){
-  document.querySelector(element).scrollIntoView({
-    behavior: 'smooth'
-  });
-}
-
-/**
- * 獲取頁面捲動高度
- */
-function getScrollTop(){
-  let bodyTop = 0;
-  if(typeof window.pageYOffset != "undefined") {
-    bodyTop = window.pageYOffset;
-  }else if(typeof document.compatMode != "undefined"
-      && document.compatMode != "BackCompat") {
-    bodyTop = document.documentElement.scrollTop;
-  }else if(typeof document.body != "undefined") {
-    bodyTop = document.body.scrollTop;
+function getPageScroll(direction){
+  if(direction){
+    return document.documentElement.scrollLeft || document.body.scrollLeft;
+  }else{
+    let bodyTop = 0;
+    if(typeof window.pageYOffset != "undefined") {
+      bodyTop = window.pageYOffset;
+    }else if(typeof document.compatMode != "undefined"
+        && document.compatMode != "BackCompat") {
+      bodyTop = document.documentElement.scrollTop;
+    }else if(typeof document.body != "undefined") {
+      bodyTop = document.body.scrollTop;
+    }
+    return bodyTop;
   }
-  return bodyTop;
 }
 
 /**
- * 獲取頁面捲動寬度
+ * 取得頁面總高度(寬度)
+ * @param  {Any} direction 改取寬度
  */
-function getScrollLeft() {
-  return document.documentElement.scrollLeft || document.body.scrollLeft;
+function getPage(direction) {
+  let el = document.compatMode == "BackCompat" ? document.body : document.documentElement;
+  if(direction){
+    return Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, el.clientWidth);
+  }else{
+    return Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, el.clientHeight);
+  }
 }
 
 /**
- * 獲取頁面總高度
+ * 取得頁面可視高度(寬度)
+ * @param  {Any} direction 改取寬度
  */
-function getPageHeight() {
-  let g = document,
-    a = g.body,
-    f = g.documentElement,
-    d = g.compatMode == "BackCompat" ? a : g.documentElement;
-  return Math.max(f.scrollHeight, a.scrollHeight, d.clientHeight);
-}
-
-/**
- * 獲取頁面總寬度
- */
-function getPageWidth() {
-  let g = document,
-    a = g.body,
-    f = g.documentElement,
-    d = g.compatMode == "BackCompat" ? a : g.documentElement;
-  return Math.max(f.scrollWidth, a.scrollWidth, d.clientWidth);
-}
-
-/**
- * 獲取頁面可視高度
- */
-function getPageViewHeight() {
-  let d = document,
-    a = d.compatMode == "BackCompat" ? d.body : d.documentElement;
-  return a.clientHeight;
-}
-
-/**
- * 獲取頁面可視寬度
- */
-function getPageViewWidth() {
-  let d = document,
-    a = d.compatMode == "BackCompat" ? d.body : d.documentElement;
-  return a.clientWidth;
+function getPageView(direction) {
+  let el = document.compatMode == "BackCompat" ? document.body : document.documentElement;
+  if(direction){
+    return el.clientWidth;
+  }else{
+    return el.clientHeight;
+  } 
 }
 
 //-----------------------Verify-----------------------

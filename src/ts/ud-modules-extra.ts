@@ -195,8 +195,8 @@ Vue.component('ud-captcha', {
     // 繪製驗證碼
     drawCode() {
       let nums = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz".split("");
-      let canvas = document.getElementById('verify-canvas'); // 獲取HTML端畫布
-      let context = canvas.getContext("2d"); // 獲取畫布2D上下文
+      let canvas = document.getElementById('verify-canvas'); // 取得HTML端畫布
+      let context = canvas.getContext("2d"); // 取得畫布2D上下文
       context.fillStyle = this.bgColor; // 畫布填充色
       context.fillRect(0, 0, canvas.width, canvas.height); // 清空畫布
       context.fillStyle = this.color; // 設置字體顏色
@@ -299,8 +299,8 @@ Vue.component('vf-captcha', {
     // 繪製驗證碼
     drawCode() {
       let nums = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz".split("");
-      let canvas = document.getElementById('verify-canvas'); // 獲取HTML端畫布
-      let context = canvas.getContext("2d"); // 獲取畫布2D上下文
+      let canvas = document.getElementById('verify-canvas'); // 取得HTML端畫布
+      let context = canvas.getContext("2d"); // 取得畫布2D上下文
       context.fillStyle = this.bgColor; // 畫布填充色
       context.fillRect(0, 0, canvas.width, canvas.height); // 清空畫布
       context.fillStyle = this.color; // 設置字體顏色
@@ -616,12 +616,12 @@ Vue.component('ud-countdown-expire', {
     setInterval(function() { // 設置倒數計時: 結束時間 - 當前時間
       // 當前時間
       let time = new Date();
-      let nowTime = time.getTime(); // 獲取當前毫秒數
+      let nowTime = time.getTime(); // 取得當前毫秒數
       // 設置結束時間 : 5月13號 15點0分0秒
-      time.setMonth(4); // 獲取當前 月份 (從 '0' 開始算)
-      time.setDate(13); // 獲取當前 日
-      time.setHours(15); // 獲取當前 時
-      time.setMinutes(0); // 獲取當前 分
+      time.setMonth(4); // 取得當前 月份 (從 '0' 開始算)
+      time.setDate(13); // 取得當前 日
+      time.setHours(15); // 取得當前 時
+      time.setMinutes(0); // 取得當前 分
       time.setSeconds(0);
       let endTime = time.getTime();
       // 倒數計時: 差值
@@ -1157,6 +1157,122 @@ Vue.component('ud-v-formitem', {
 })
 
 Vue.component('ud-v-form', {
+  template: `
+    <div>
+      <slot></slot>
+    </div>
+  `,
+  provide() {
+    return {
+        form: this  //传递Form实例给后代，比如FormItem用来校验
+    }
+  },
+  props: {
+    model: {
+      type: Object,
+      required: true
+    },
+    rules: {
+      type: Object
+    }
+  },
+  methods: {
+    validate(cb) {
+      const tasks = this.$children
+      .filter(item => item.prop)
+      .map(item => item.validate())
+      Promise.all(tasks)
+      .then(() => cb(true))
+      .then(() => cb(false))
+    }
+  }
+})
+
+
+
+
+Vue.component('va-input', {
+  template: `
+    <div>
+      <input :value="value" @input="onInput" v-bind="$attrs">
+    </div>
+  `,
+  inheritAttrs: false,
+  props: {
+    value: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    onInput(e) {
+      this.$emit('input', e.target.value);
+      // 通知FormItem校验
+      this.$parent.$emit('validate');
+    }
+  }
+})
+
+Vue.component('va-formitem', {
+  template: `
+    <div>
+      <label v-if="label">
+          {{ label }}
+      </label>
+      <slot></slot>
+      <p v-if="errorMessage">
+          {{ errorMessage }}
+      </p>
+    </div>
+  `,
+  data() {
+    return {
+      errorMessage: ''
+    }
+  },
+  inject: ["form"],
+  props: {
+    label: {
+      type: String,
+      default: ''
+    },
+    prop: {
+      type: String
+    }
+  },
+  mounted() {
+    this.$on('validate', () => {
+      this.validate()
+    })
+  },
+  methods: {
+    validate() {
+      //执行组件校验
+      //1.获取校验规则
+      const rules = this.form.rules[this.prop]
+      //2.获取数据
+      const value = this.form.model[this.prop]
+      //3.执行校验 参数2是校验错误对象数组
+      //   返回的Promise<boolean>
+      const desc = {
+        [this.prop] : rules
+      };
+      const schema = new Schema(desc);
+      //参数1是值
+      schema.validate({[this.prop]:value}, errors => {
+        if (errors) {
+          //有错
+          this.errorMessage = errors[0].message;
+        } else {
+          //没错，清除错误信息
+          this.errorMessage = "";
+        }
+      })
+    }
+  }
+})
+
+Vue.component('va-form', {
   template: `
     <div>
       <slot></slot>
