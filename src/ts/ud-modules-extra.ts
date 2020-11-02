@@ -1079,9 +1079,13 @@ Vue.directive('focus', {
 })
 
 
-Vue.component('ud-v-input', {
+
+
+// ================= 表單驗證組件開發 =================
+
+Vue.component('va-input', {
   template: `
-    <div>
+    <div class="va-input">
       <input :value="value" @input="onInput" v-bind="$attrs">
     </div>
   `,
@@ -1094,16 +1098,16 @@ Vue.component('ud-v-input', {
   },
   methods: {
     onInput(e) {
-      this.$emit('input', e.target.value)
+      this.$emit('input', e.target.value);
       // 通知FormItem校验
-      this.$parent.$emit('validate')
+      this.$parent.$emit('validate');
     }
   }
 })
 
-Vue.component('ud-v-formitem', {
+Vue.component('va-form-item', {
   template: `
-    <div>
+    <div class="va-form-item">
       <label v-if="label">{{ label }}</label>
       <slot></slot>
       <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -1126,7 +1130,7 @@ Vue.component('ud-v-formitem', {
   },
   mounted() {
     this.$on('validate', () => {
-      this.validate()
+      this.validate();
     })
   },
   methods: {
@@ -1141,146 +1145,35 @@ Vue.component('ud-v-formitem', {
       const desc = {
         [this.prop] : rules
       };
-      const schema = new Schema(desc);
-      //参数1是值
-      schema.validate({[this.prop]:value}, errors => {
-        if (errors) {
-          //有错
-          this.errorMessage = errors[0].message;
-        } else {
-          //没错，清除错误信息
-          this.errorMessage = "";
-        }
-      })
-    }
-  }
-})
-
-Vue.component('ud-v-form', {
-  template: `
-    <div>
-      <slot></slot>
-    </div>
-  `,
-  provide() {
-    return {
-        form: this  //传递Form实例给后代，比如FormItem用来校验
-    }
-  },
-  props: {
-    model: {
-      type: Object,
-      required: true
-    },
-    rules: {
-      type: Object
-    }
-  },
-  methods: {
-    validate(cb) {
-      const tasks = this.$children
-      .filter(item => item.prop)
-      .map(item => item.validate())
-      Promise.all(tasks)
-      .then(() => cb(true))
-      .then(() => cb(false))
-    }
-  }
-})
-
-
-
-
-Vue.component('va-input', {
-  template: `
-    <div>
-      <input :value="value" @input="onInput" v-bind="$attrs">
-    </div>
-  `,
-  inheritAttrs: false,
-  props: {
-    value: {
-      type: String,
-      default: ''
-    }
-  },
-  methods: {
-    onInput(e) {
-      this.$emit('input', e.target.value);
-      // 通知FormItem校验
-      this.$parent.$emit('validate');
-    }
-  }
-})
-
-Vue.component('va-formitem', {
-  template: `
-    <div>
-      <label v-if="label">
-          {{ label }}
-      </label>
-      <slot></slot>
-      <p v-if="errorMessage">
-          {{ errorMessage }}
-      </p>
-    </div>
-  `,
-  data() {
-    return {
-      errorMessage: ''
-    }
-  },
-  inject: ["form"],
-  props: {
-    label: {
-      type: String,
-      default: ''
-    },
-    prop: {
-      type: String
-    }
-  },
-  mounted() {
-    this.$on('validate', () => {
-      this.validate()
-    })
-  },
-  methods: {
-    validate() {
-      //执行组件校验
-      //1.获取校验规则
-      const rules = this.form.rules[this.prop]
-      //2.获取数据
-      const value = this.form.model[this.prop]
-      //3.执行校验 参数2是校验错误对象数组
-      //   返回的Promise<boolean>
-      const desc = {
-        [this.prop] : rules
-      };
-      const schema = new Schema(desc);
-      //参数1是值
-      schema.validate({[this.prop]:value}, errors => {
-        if (errors) {
-          //有错
-          this.errorMessage = errors[0].message;
-        } else {
-          //没错，清除错误信息
-          this.errorMessage = "";
-        }
-      })
+      // if(errors){
+      //   this.errorMessage = errors[0].message;
+      // }else{
+      //   this.errorMessage = "";
+      // }
+      // const schema = new Schema(desc);
+      // //参数1是值
+      // schema.validate({[this.prop]:value}, errors => {
+      //   if (errors) {
+      //     //有错
+      //     this.errorMessage = errors[0].message;
+      //   } else {
+      //     //没错，清除错误信息
+      //     this.errorMessage = "";
+      //   }
+      // })
     }
   }
 })
 
 Vue.component('va-form', {
   template: `
-    <div>
+    <div class="va-form">
       <slot></slot>
     </div>
   `,
   provide() {
     return {
-        form: this  //传递Form实例给后代，比如FormItem用来校验
+      form: this  //传递Form实例给后代，比如FormItem用来校验
     }
   },
   props: {
@@ -1294,9 +1187,7 @@ Vue.component('va-form', {
   },
   methods: {
     validate(cb) {
-      const tasks = this.$children
-      .filter(item => item.prop)
-      .map(item => item.validate())
+      const tasks = this.$children.filter(item => item.prop).map(item => item.validate())
       Promise.all(tasks)
       .then(() => cb(true))
       .then(() => cb(false))

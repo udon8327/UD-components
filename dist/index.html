@@ -22,9 +22,11 @@
       <ud-modal v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <va-formitem>
-            <va-input></va-input>
-          </va-formitem>
+          <va-form :rules="rules" :model="model">
+            <va-form-item :label="姓名" :prop="name">
+              <va-input placeholder="請輸入您的姓名" v-model="user.name"></va-input>
+            </va-form-item>
+          </va-form>
           <div class="mo">MutationObserver</div>
           <ud-button max-width="200px">按鈕</ud-button>
           <h1>{{ userData.name }}</h1>

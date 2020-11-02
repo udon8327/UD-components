@@ -4,6 +4,11 @@ var officialAccountURL = "https://line.me/zh-hant/";
 var vm = new Vue({
     el: "#app",
     data: {
+        user: {
+            name: ""
+        },
+        rules: {},
+        models: {},
         title: "UDON",
         switchVal: false,
         userData: {},

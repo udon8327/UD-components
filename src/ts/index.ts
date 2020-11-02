@@ -8,6 +8,17 @@ const officialAccountURL = "https://line.me/zh-hant/";
 let vm = new Vue({
   el: "#app",
   data: {
+
+
+    user: {
+      name: ""
+    },
+    rules: {
+    },
+    models: {
+    },
+
+
     title: "UDON",
     switchVal: false,
     userData: {},
