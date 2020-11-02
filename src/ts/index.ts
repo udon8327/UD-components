@@ -14,8 +14,9 @@ let vm = new Vue({
       name: ""
     },
     rules: {
-    },
-    models: {
+      name: [
+        { required: true, message: '姓名不可為空', trigger: 'blur' },
+      ],
     },
 
 
@@ -90,6 +91,12 @@ let vm = new Vue({
     throttle(this.test, 2000);
   },
   methods: {
+    formSubmit: function(cb){
+      this.$refs.form.validate(cb);
+    },
+    ok: function(){
+      console.log('送出成功');
+    },
     test: function(){
       console.log(getRandom());
     },

@@ -1135,16 +1135,19 @@ Vue.component('va-form-item', {
   },
   methods: {
     validate() {
+      console.log(`va-form-item: ${getRandom()}`);
       //执行组件校验
       //1.获取校验规则
-      const rules = this.form.rules[this.prop]
+      const rules = this.form.rules[this.prop];
+      console.log('rules: ', rules);
       //2.获取数据
-      const value = this.form.model[this.prop]
+      const value = this.form.model[this.prop];
+      console.log('value: ', value);
       //3.执行校验 参数2是校验错误对象数组
       //   返回的Promise<boolean>
-      const desc = {
-        [this.prop] : rules
-      };
+      // const desc = {
+      //   [this.prop] : rules
+      // };
       // if(errors){
       //   this.errorMessage = errors[0].message;
       // }else{
@@ -1187,6 +1190,7 @@ Vue.component('va-form', {
   },
   methods: {
     validate(cb) {
+      console.log(`va-form: ${getRandom()}`);
       const tasks = this.$children.filter(item => item.prop).map(item => item.validate())
       Promise.all(tasks)
       .then(() => cb(true))

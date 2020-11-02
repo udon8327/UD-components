@@ -10,9 +10,10 @@ block modal
   ud-modal(v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
-  va-form(:rules="rules" :model="model")
-    va-form-item(:label="姓名" :prop="name")
+  va-form(:rules="rules" :model="user" ref="form")
+    va-form-item(label="姓名" prop="name")
       va-input(placeholder="請輸入您的姓名" v-model="user.name")
+  ud-button(@click="formSubmit(ok)") 送出表單
   //- .filter
   .mo MutationObserver
   ud-button(max-width="200px") 按鈕

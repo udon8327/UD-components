@@ -7,8 +7,11 @@ var vm = new Vue({
         user: {
             name: ""
         },
-        rules: {},
-        models: {},
+        rules: {
+            name: [
+                { required: true, message: '姓名不可為空', trigger: 'blur' },
+            ],
+        },
         title: "UDON",
         switchVal: false,
         userData: {},
@@ -73,6 +76,12 @@ var vm = new Vue({
         throttle(this.test, 2000);
     },
     methods: {
+        formSubmit: function (cb) {
+            this.$refs.form.validate(cb);
+        },
+        ok: function () {
+            console.log('送出成功');
+        },
         test: function () {
             console.log(getRandom());
         },
