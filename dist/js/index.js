@@ -5,12 +5,18 @@ var vm = new Vue({
     el: "#app",
     data: {
         user: {
-            name: ""
+            name: "",
+            phone: ""
         },
         rules: {
             name: [
                 { required: true, message: '姓名不可為空', trigger: 'blur' },
+                { match: "^[a-zA-Z0-9_\u4e00-\u9fa5]+$", message: '格式有誤 不接受特殊符號', trigger: 'blur' }
             ],
+            phone: [
+                { required: true, message: '電話不可為空', trigger: 'blur' },
+                { match: "^09[0-9]{8}$", message: '格式有誤', trigger: 'blur' }
+            ]
         },
         title: "UDON",
         switchVal: false,

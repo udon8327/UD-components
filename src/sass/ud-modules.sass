@@ -1465,10 +1465,19 @@
 
 //-----------------------開發區-----------------------
 .va-form-item
+  input
+    outline: none
+    &::placeholder
+      font-size: 12px
+      color: #aaa
+    &:focus
+      border: 1px solid $main !important
   &.is-error
     input
       border: 1px solid $red
       border-radius: 3px
+      &:focus
+        border: 1px solid $red !important
     >p
       color: $red
       font-size: 14px

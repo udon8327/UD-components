@@ -1099,7 +1099,7 @@ Vue.component('va-input', {
   methods: {
     onInput(e) {
       this.$emit('input', e.target.value);
-      // 通知FormItem校验
+      // 通知FormItem校驗
       this.$parent.$emit('validate');
     }
   }
@@ -1107,7 +1107,7 @@ Vue.component('va-input', {
 
 Vue.component('va-form-item', {
   template: `
-    <div class="va-form-item">
+    <div class="va-form-item" :class="{'is-error': errorMessage}">
       <label v-if="label">{{ label }}</label>
       <slot></slot>
       <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -1135,15 +1135,29 @@ Vue.component('va-form-item', {
   },
   methods: {
     validate() {
-      console.log(`va-form-item: ${getRandom()}`);
-      //执行组件校验
-      //1.获取校验规则
+      //執行組件校驗
+      //1.獲取校驗規則
       const rules = this.form.rules[this.prop];
       console.log('rules: ', rules);
-      //2.获取数据
+      //2.獲取數據
       const value = this.form.model[this.prop];
       console.log('value: ', value);
-      //3.执行校验 参数2是校验错误对象数组
+      console.log(rules[1].match);
+      let reg = new RegExp(rules[1].match);
+
+      if(!value){
+        this.errorMessage = rules[0].message;
+      }else{
+        this.errorMessage = "";
+        if(reg.test(value)){
+          console.log('驗證成功');
+          this.errorMessage = "";
+        }else{
+          console.log('驗證失敗');
+          this.errorMessage = rules[1].message;
+        }
+      }
+      //3.執行校驗 參數2是校驗錯誤對象數組
       //   返回的Promise<boolean>
       // const desc = {
       //   [this.prop] : rules
@@ -1154,13 +1168,13 @@ Vue.component('va-form-item', {
       //   this.errorMessage = "";
       // }
       // const schema = new Schema(desc);
-      // //参数1是值
+      // //參數1是值
       // schema.validate({[this.prop]:value}, errors => {
       //   if (errors) {
-      //     //有错
+      //     //有錯
       //     this.errorMessage = errors[0].message;
       //   } else {
-      //     //没错，清除错误信息
+      //     //没錯，清除錯誤跨息
       //     this.errorMessage = "";
       //   }
       // })
@@ -1176,7 +1190,7 @@ Vue.component('va-form', {
   `,
   provide() {
     return {
-      form: this  //传递Form实例给后代，比如FormItem用来校验
+      form: this  //傳遞Form實例给後代，比如FormItem用來校驗
     }
   },
   props: {
@@ -1190,7 +1204,6 @@ Vue.component('va-form', {
   },
   methods: {
     validate(cb) {
-      console.log(`va-form: ${getRandom()}`);
       const tasks = this.$children.filter(item => item.prop).map(item => item.validate())
       Promise.all(tasks)
       .then(() => cb(true))
