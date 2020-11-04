@@ -1100,7 +1100,7 @@ Vue.component('va-input', {
     onInput(e) {
       this.$emit('input', e.target.value);
       // 通知FormItem校驗
-      this.$parent.$emit('validate');
+      this.$parent.$emit('validate', false);
     }
   }
 })
@@ -1115,7 +1115,8 @@ Vue.component('va-form-item', {
   `,
   data() {
     return {
-      errorMessage: ''
+      errorMessage: '',
+      error: false,
     }
   },
   inject: ["form"],
@@ -1130,33 +1131,47 @@ Vue.component('va-form-item', {
   },
   mounted() {
     this.$on('validate', () => {
-      this.validate();
+      this.validate(this.$event);
     })
   },
   methods: {
-    validate() {
+    validate(submit) {
+      if(this.form.submitLock) return;
       //執行組件校驗
       //1.獲取校驗規則
       const rules = this.form.rules[this.prop];
       //2.獲取數據
       const value = this.form.model[this.prop];
-      let reg = new RegExp(rules[1].match);
+      let reg;
+      switch (rules[1].match) {
+        case 'name':
+          reg = new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$');
+          break;
+        case 'phone':
+          reg = new RegExp('^09[0-9]{8}$');
+          break;
+        default:
+          reg = new RegExp(rules[1].match);
+          break;
+      }
 
-      return new Promise((resolve, reject) => {
-        if(!value){
-          this.errorMessage = rules[0].message;
-          reject('驗證失敗');
-        }else{
+      if(!value){
+        this.errorMessage = rules[0].message;
+        this.error = true;
+      }else{
+        this.errorMessage = "";
+        if(reg.test(value)){
           this.errorMessage = "";
-          if(reg.test(value)){
-            this.errorMessage = "";
-            resolve('驗證成功');
-          }else{
-            this.errorMessage = rules[1].message;
-            reject('驗證失敗');
-          }
+          this.error = false;
+        }else{
+          this.errorMessage = rules[1].message;
+          this.error = true;
         }
+      }
 
+      if(!submit) return;
+      return new Promise((resolve, reject) => {
+        this.error ? reject() : resolve();
       })
 
       //3.執行校驗 參數2是校驗錯誤對象數組
@@ -1195,6 +1210,11 @@ Vue.component('va-form', {
       form: this  //傳遞Form實例给後代，比如FormItem用來校驗
     }
   },
+  data() {
+    return {
+      submitLock: true
+    }
+  },
   props: {
     model: {
       type: Object,
@@ -1202,14 +1222,15 @@ Vue.component('va-form', {
     },
     rules: {
       type: Object
-    }
+    },
   },
   methods: {
-    validate(cb) {
-      const tasks = this.$children.filter(item => item.prop).map(item => item.validate())
+    validate(callback) {
+      this.submitLock = false;
+      const tasks = this.$children.filter(item => item.prop).map(item => item.validate(true))
       console.log('tasks: ', tasks);
       Promise.all(tasks)
-        .then(() => cb())
+        .then(() => callback())
         .catch(() => console.log('驗證失敗'))
     }
   }

@@ -18,11 +18,11 @@ let vm = new Vue({
       // phone: { rule: "required|match:^09[0-9]{8}$", message: "電話不可為空|格式有誤"},
       name: [
         { required: true, message: '姓名不可為空'},
-        { match: "^[a-zA-Z0-9_\u4e00-\u9fa5]+$", message: '格式有誤，不接受特殊符號'}
+        { match: "name", message: '格式有誤，不接受特殊符號'}
       ],
       phone: [
         { required: true, message: '電話不可為空'},
-        { match: "^09[0-9]{8}$", message: '格式有誤'}
+        { match: "phone", message: '格式有誤'}
       ]
     },
 
