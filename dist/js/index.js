@@ -9,13 +9,15 @@ var vm = new Vue({
             phone: ""
         },
         rules: {
+            // name: { rule: "required|match:^[a-zA-Z0-9_\u4e00-\u9fa5]+$", message: "姓名不可為空|格式有誤，不接受特殊符號"},
+            // phone: { rule: "required|match:^09[0-9]{8}$", message: "電話不可為空|格式有誤"},
             name: [
-                { required: true, message: '姓名不可為空', trigger: 'blur' },
-                { match: "^[a-zA-Z0-9_\u4e00-\u9fa5]+$", message: '格式有誤 不接受特殊符號', trigger: 'blur' }
+                { required: true, message: '姓名不可為空' },
+                { match: "^[a-zA-Z0-9_\u4e00-\u9fa5]+$", message: '格式有誤，不接受特殊符號' }
             ],
             phone: [
-                { required: true, message: '電話不可為空', trigger: 'blur' },
-                { match: "^09[0-9]{8}$", message: '格式有誤', trigger: 'blur' }
+                { required: true, message: '電話不可為空' },
+                { match: "^09[0-9]{8}$", message: '格式有誤' }
             ]
         },
         title: "UDON",
@@ -82,11 +84,10 @@ var vm = new Vue({
         throttle(this.test, 2000);
     },
     methods: {
-        formSubmit: function (cb) {
-            this.$refs.form.validate(cb);
-        },
-        ok: function () {
-            console.log('送出成功');
+        formSubmit: function () {
+            this.$refs.form.validate(function () {
+                console.log('表單送出成功');
+            });
         },
         test: function () {
             console.log(getRandom());

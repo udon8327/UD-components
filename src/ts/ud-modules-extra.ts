@@ -1138,25 +1138,27 @@ Vue.component('va-form-item', {
       //執行組件校驗
       //1.獲取校驗規則
       const rules = this.form.rules[this.prop];
-      console.log('rules: ', rules);
       //2.獲取數據
       const value = this.form.model[this.prop];
-      console.log('value: ', value);
-      console.log(rules[1].match);
       let reg = new RegExp(rules[1].match);
 
-      if(!value){
-        this.errorMessage = rules[0].message;
-      }else{
-        this.errorMessage = "";
-        if(reg.test(value)){
-          console.log('驗證成功');
-          this.errorMessage = "";
+      return new Promise((resolve, reject) => {
+        if(!value){
+          this.errorMessage = rules[0].message;
+          reject('驗證失敗');
         }else{
-          console.log('驗證失敗');
-          this.errorMessage = rules[1].message;
+          this.errorMessage = "";
+          if(reg.test(value)){
+            this.errorMessage = "";
+            resolve('驗證成功');
+          }else{
+            this.errorMessage = rules[1].message;
+            reject('驗證失敗');
+          }
         }
-      }
+
+      })
+
       //3.執行校驗 參數2是校驗錯誤對象數組
       //   返回的Promise<boolean>
       // const desc = {
@@ -1205,9 +1207,10 @@ Vue.component('va-form', {
   methods: {
     validate(cb) {
       const tasks = this.$children.filter(item => item.prop).map(item => item.validate())
+      console.log('tasks: ', tasks);
       Promise.all(tasks)
-      .then(() => cb(true))
-      .then(() => cb(false))
+        .then(() => cb())
+        .catch(() => console.log('驗證失敗'))
     }
   }
 })
