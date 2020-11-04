@@ -6,18 +6,26 @@ var vm = new Vue({
     data: {
         user: {
             name: "",
-            phone: ""
+            phone: "",
+            verify: "",
+            code: "test"
         },
         rules: {
-            // name: { rule: "required|match:^[a-zA-Z0-9_\u4e00-\u9fa5]+$", message: "姓名不可為空|格式有誤，不接受特殊符號"},
-            // phone: { rule: "required|match:^09[0-9]{8}$", message: "電話不可為空|格式有誤"},
+            // name: { required: "姓名不可為空", name: "不接受特殊符號" },
+            // phone: { required: "電話不可為空", phone: "格式有誤" }
+            // name: { rule: ['required','name'], message: ['姓名不可為空','格式有誤，不接受特殊符號'],
+            // phone: { rule: "required|^09[0-9]{8}$", message: "電話不可為空|格式有誤"},
             name: [
-                { required: true, message: '姓名不可為空' },
-                { match: "name", message: '格式有誤，不接受特殊符號' }
+                { type: "required" },
+                { type: "name" },
             ],
             phone: [
-                { required: true, message: '電話不可為空' },
-                { match: "phone", message: '格式有誤' }
+                { type: "required" },
+                { type: "phone", message: '幹你娘' }
+            ],
+            verify: [
+                { type: "required" },
+                { type: "equl", equlTo: "code" }
             ]
         },
         title: "UDON",

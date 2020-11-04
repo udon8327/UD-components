@@ -1099,11 +1099,12 @@ Vue.component('va-input', {
   methods: {
     onInput(e) {
       this.$emit('input', e.target.value);
-      // 通知FormItem校驗
-      this.$parent.$emit('validate', false);
+      this.$parent.$emit('validate', false); // 通知FormItem校驗
     }
   }
 })
+
+
 
 Vue.component('va-form-item', {
   template: `
@@ -1117,6 +1118,7 @@ Vue.component('va-form-item', {
     return {
       errorMessage: '',
       error: false,
+      lock: false,
     }
   },
   inject: ["form"],
@@ -1135,38 +1137,36 @@ Vue.component('va-form-item', {
     })
   },
   methods: {
+    errorFn: function(data, msg){
+      this.errorMessage = data.message || msg;
+      this.error = true;
+    },
     validate(submit) {
       if(this.form.submitLock) return;
-      //執行組件校驗
-      //1.獲取校驗規則
-      const rules = this.form.rules[this.prop];
-      //2.獲取數據
-      const value = this.form.model[this.prop];
-      let reg;
-      switch (rules[1].match) {
-        case 'name':
-          reg = new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$');
-          break;
-        case 'phone':
-          reg = new RegExp('^09[0-9]{8}$');
-          break;
-        default:
-          reg = new RegExp(rules[1].match);
-          break;
-      }
+      const rules = this.form.rules[this.prop]; //獲取校驗規則
+      const value = this.form.model[this.prop]; //獲取數據
 
-      if(!value){
-        this.errorMessage = rules[0].message;
-        this.error = true;
-      }else{
+      for(let rule of rules){
         this.errorMessage = "";
-        if(reg.test(value)){
-          this.errorMessage = "";
-          this.error = false;
-        }else{
-          this.errorMessage = rules[1].message;
-          this.error = true;
+        this.error = false;
+        switch (rule.type) {
+          case "required":
+            if(!value) this.errorFn(rule, "此欄位為必填項目");
+            break;
+          case "name":
+            if(!new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$').test(value)) this.errorFn(rule, "格式有誤，不接受特殊符號");
+            break;
+          case "phone":
+            if(!new RegExp('^09[0-9]{8}$').test(value)) this.errorFn(rule, "格式有誤，例:0929123456");
+            break;
+          case "equl":
+            if(value !== this.form.model[rule.equlTo]) this.errorFn(rule, "驗證碼錯誤");
+            break;
+          default:
+            if(!new RegExp(rule.type).test(value)) this.errorFn(rule, "格式有誤");
+            break;
         }
+        if(this.error) break;
       }
 
       if(!submit) return;
@@ -1198,6 +1198,8 @@ Vue.component('va-form-item', {
     }
   }
 })
+
+
 
 Vue.component('va-form', {
   template: `
