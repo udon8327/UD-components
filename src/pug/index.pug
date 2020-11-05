@@ -24,11 +24,15 @@ block content
     ud-form-item(label="多選" prop="checkbox")
       ud-checkbox(v-model="user.checkbox" :options="formObj" flex)
     ud-form-item(label="下拉" prop="select")
-      ud-select(v-model="user.select" :options="formArr")
+      ud-select(v-model="user.select" :options="formObj")
   br
   ud-button(@click="formSubmit") 送出表單
   br
   br
+  p 單選：{{ user.radio }}
+  p 同意：{{ user.agree }}
+  p 多選：{{ user.checkbox }}
+  p 下拉：{{ user.select }}
   //- .filter
   //- .mo MutationObserver
   //- ud-button(max-width="200px") 按鈕

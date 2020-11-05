@@ -15,28 +15,28 @@ let vm = new Vue({
       verify: "",
       code: "test",
       radio: "",
-      agree: "",
+      agree: false,
       checkbox: [],
       select: [],
     },
     rules: {
       name: [
-        { type: "required" },
+        // { type: "required" },
         { type: "name" },
       ],
       birthday: [
-        { type: "required" },
+        // { type: "required" },
         { type: "date" }
       ],
       verify: [
-        { type: "required" },
+        // { type: "required" },
         { type: "equl", equlTo: "code", caseIgnore: "true"}
       ],
       radio: [
         { type: "required" },
       ],
       agree: [
-        { type: "required" },
+        { type: "required" , message: "請先同意相關使用條款"},
       ],
       checkbox: [
         { type: "required" },

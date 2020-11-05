@@ -42,10 +42,14 @@
               <ud-checkbox v-model="user.checkbox" :options="formObj" flex></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="下拉" prop="select">
-              <ud-select v-model="user.select" :options="formArr"></ud-select>
+              <ud-select v-model="user.select" :options="formObj"></ud-select>
             </ud-form-item>
           </ud-form><br>
           <ud-button @click="formSubmit">送出表單</ud-button><br><br>
+          <p>單選：{{ user.radio }}</p>
+          <p>同意：{{ user.agree }}</p>
+          <p>多選：{{ user.checkbox }}</p>
+          <p>下拉：{{ user.select }}</p>
         </div>
       </div>
     </div>

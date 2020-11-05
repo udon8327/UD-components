@@ -272,6 +272,7 @@ Vue.component('ud-textarea', {
 // Radio 單選框
 Vue.component('ud-radio', {
   name: "UdRadio",
+  inheritAttrs: false,
   template: `
     <div class="ud-radio" :class="{'flex-radio': flex}">
       <label v-for="(value, key) in options" :key="key">
@@ -279,6 +280,7 @@ Vue.component('ud-radio', {
           type="radio"
           v-model="radioValue"
           :value="key"
+          v-bind="$attrs"
           @change="onChange"
         >
         <div class="input-decorator"
@@ -310,6 +312,7 @@ Vue.component('ud-radio', {
 // Checkbox 多選框
 Vue.component('ud-checkbox', {
   name: "UdCheckbox",
+  inheritAttrs: false,
   template: `
     <div class="ud-checkbox" :class="{'flex-checkbox': flex}">
       <template v-if="typeof options === 'boolean'">
@@ -317,6 +320,7 @@ Vue.component('ud-checkbox', {
           <input
             type="checkbox"
             v-model="checkboxValue"
+            v-bind="$attrs"
             @change="onChange"
           >
           <div class="input-decorator"></div>
@@ -329,6 +333,8 @@ Vue.component('ud-checkbox', {
             type="checkbox"
             :value="key"
             v-model="checkboxValue"
+            v-bind="$attrs"
+            @change="onChange"
           >
           <div class="input-decorator"></div>
           <p>{{ value }}</p>
@@ -357,12 +363,14 @@ Vue.component('ud-checkbox', {
 // Select 下拉框
 Vue.component('ud-select', {
   name: "UdSelect",
+  inheritAttrs: false,
   template: `
     <div class="ud-select">
       <select 
         class="ud-select" 
         v-model="selectValue" 
         :data-placeholder-selected="selectValue === ''"
+        v-bind="$attrs"
         @change="onChange"
       >
         <option value="" disabled selected>{{ placeholder }}</option>
@@ -393,10 +401,15 @@ Vue.component('ud-select', {
 // Switch 開關
 Vue.component('ud-switch', {
   name: "UdSwitch",
+  inheritAttrs: false,
   template: `
     <div class="ud-switch">
       <label>
-        <input type="checkbox" v-model="switchValue">
+        <input 
+          type="checkbox"
+          v-model="switchValue"
+          v-bind="$attrs"
+        >
         <div class="switch-decorator">
           <div class="circle"></div>
         </div>
@@ -463,7 +476,7 @@ Vue.component('ud-form-item', {
         this.error = false;
         switch (rule.type) {
           case "required": //必填驗證
-            if(!value) this.errorFn(rule, "此欄位為必填項目");
+            if(value.length === 0 || value === false) this.errorFn(rule, "此欄位為必填項目");
             break;
           case "name": //姓名驗證
             if(value && !new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$').test(value)) this.errorFn(rule, "姓名格式有誤，不接受特殊符號");
