@@ -95,13 +95,8 @@ var vm = new Vue({
         formSubmit: function () {
             var _this = this;
             this.$refs.form.validate(function () {
-                console.log('表單送出成功');
-                _this.$confirm({
-                    msg: "確定送出表單嗎?",
-                    confirm: function () {
-                        _this.$alert({ msg: '表單送出成功' });
-                    }
-                });
+                console.log('驗證成功!!');
+                _this.$alert({ msg: "驗證成功!!" });
             });
         },
         test: function () {

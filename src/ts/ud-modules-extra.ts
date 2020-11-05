@@ -1138,7 +1138,7 @@ Vue.component('ud-form-item', {
         this.errorMessage = "";
         this.error = false;
         switch (rule.type) {
-          case "required":
+          case "required": //必填驗證
             if(!value) this.errorFn(rule, "此欄位為必填項目");
             break;
           case "name": //姓名驗證
@@ -1164,9 +1164,6 @@ Vue.component('ud-form-item', {
             break;
           case "hex": //Hex色碼驗證
             if(value && !new RegExp('^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$').test(value)) this.errorFn(rule, "Hex色碼格式有誤，例: #ff0000");
-            break;
-          case "number": //數字驗證
-            if(value && !new RegExp('').test(value)) this.errorFn(rule, "數字格式有誤，數字超出範圍");
             break;
           case "equl": //相等驗證
             if(rule.caseIgnore){ //不區分大小寫
