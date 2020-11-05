@@ -6,40 +6,26 @@ var vm = new Vue({
     data: {
         user: {
             name: "",
-            phone: "",
             birthday: "",
             verify: "",
-            idcard: "",
-            email: "",
             code: "test",
-            any: ""
+            test: ""
         },
         rules: {
             name: [
                 { type: "required" },
                 { type: "name" },
             ],
-            phone: [
-                { type: "required" },
-                { type: "phone", message: '電話錯了啦!!' }
-            ],
             birthday: [
+                { type: "required" },
                 { type: "date" }
             ],
             verify: [
                 { type: "required" },
                 { type: "equl", equlTo: "code", caseIgnore: "true" }
             ],
-            idcard: [
-                { type: "required" },
-                { type: "idcard" },
-            ],
-            email: [
-                { type: "required" },
-                { type: "email" }
-            ],
-            any: [
-                { type: "url" }
+            test: [
+                { type: "hex" }
             ],
         },
         title: "UDON",
@@ -107,8 +93,15 @@ var vm = new Vue({
     },
     methods: {
         formSubmit: function () {
+            var _this = this;
             this.$refs.form.validate(function () {
                 console.log('表單送出成功');
+                _this.$confirm({
+                    msg: "確定送出表單嗎?",
+                    confirm: function () {
+                        _this.$alert({ msg: '表單送出成功' });
+                    }
+                });
             });
         },
         test: function () {

@@ -6,7 +6,6 @@ Form
   Upload 上傳 -----> ud-upload
   ImageUpload 圖片上傳預覽 -----> ud-image-upload
   ImageMultiUpload 圖片上傳預覽(多張) -----> ud-image-multi-upload
-  Form 表單 -----> ud-form
   Captcha 圖形驗證碼 -----> ud-captcha
 
 Validation
@@ -145,17 +144,6 @@ Vue.component("ud-image-multi-upload", {
     }
   }
 });
-
-// Form 表單
-Vue.component('ud-form', {
-  name: "UdForm",
-  template: `
-
-  `,
-  props: {
-    
-  },
-})
 
 // Captcha 圖形驗證碼
 Vue.component('ud-captcha', {
@@ -1083,35 +1071,35 @@ Vue.directive('focus', {
 
 // ================= 表單驗證組件開發 =================
 
-Vue.component('va-input', {
+// Vue.component('va-input', {
+//   name: "VaInput",
+//   template: `
+//     <div class="va-input">
+//       <input :value="value" @input="onInput" v-bind="$attrs">
+//     </div>
+//   `,
+//   inheritAttrs: false,
+//   props: {
+//     value: {
+//       type: String,
+//       default: ''
+//     }
+//   },
+//   methods: {
+//     onInput(e) {
+//       this.$emit('input', e.target.value);
+//       this.$parent.$emit('validate', false); // 通知FormItem校驗
+//     }
+//   }
+// })
+
+Vue.component('ud-form-item', {
+  name: "UdFormItem",
   template: `
-    <div class="va-input">
-      <input :value="value" @input="onInput" v-bind="$attrs">
-    </div>
-  `,
-  inheritAttrs: false,
-  props: {
-    value: {
-      type: String,
-      default: ''
-    }
-  },
-  methods: {
-    onInput(e) {
-      this.$emit('input', e.target.value);
-      this.$parent.$emit('validate', false); // 通知FormItem校驗
-    }
-  }
-})
-
-
-
-Vue.component('va-form-item', {
-  template: `
-    <div class="va-form-item" :class="{'is-error': errorMessage}">
+    <div class="ud-form-item" :class="{'is-error': errorMessage}">
       <label v-if="label">{{ label }}</label>
       <slot></slot>
-      <p v-if="errorMessage">{{ errorMessage }}</p>
+      <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
     </div>
   `,
   data() {
@@ -1163,7 +1151,7 @@ Vue.component('va-form-item', {
             if(value && !new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$').test(value)) this.errorFn(rule, "Email格式有誤，需包含'@'符號");
             break;
           case "idcard": //身分證字號驗證
-            if(value && !new RegExp('^[A-Za-z][0-9]{9}$').test(value)) this.errorFn(rule, "身分證字號格式有誤，例: A123456789");
+            if(value && !new RegExp('^[A-Z](1|2)[0-9]{8}$').test(value)) this.errorFn(rule, "身分證字號格式有誤，例: A123456789");
             break;
           case "date": //日期驗證
             if(value && !new RegExp('^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$').test(value)) this.errorFn(rule, "日期格式有誤或不存在，例: 2020-03-04");
@@ -1198,37 +1186,14 @@ Vue.component('va-form-item', {
       return new Promise((resolve, reject) => {
         this.error ? reject() : resolve();
       })
-
-      //3.執行校驗 參數2是校驗錯誤對象數組
-      //   返回的Promise<boolean>
-      // const desc = {
-      //   [this.prop] : rules
-      // };
-      // if(errors){
-      //   this.errorMessage = errors[0].message;
-      // }else{
-      //   this.errorMessage = "";
-      // }
-      // const schema = new Schema(desc);
-      // //參數1是值
-      // schema.validate({[this.prop]:value}, errors => {
-      //   if (errors) {
-      //     //有錯
-      //     this.errorMessage = errors[0].message;
-      //   } else {
-      //     //没錯，清除錯誤跨息
-      //     this.errorMessage = "";
-      //   }
-      // })
     }
   }
 })
 
-
-
-Vue.component('va-form', {
+Vue.component('ud-form', {
+  name: "UdForm",
   template: `
-    <div class="va-form">
+    <div class="ud-form">
       <slot></slot>
     </div>
   `,

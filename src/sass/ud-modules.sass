@@ -1464,20 +1464,13 @@
         padding: 0
 
 //-----------------------開發區-----------------------
-.va-form-item
-  input
-    outline: none
-    &::placeholder
-      font-size: 12px
-      color: #aaa
-    &:focus
-      border: 1px solid $main !important
+.ud-form-item
   &.is-error
-    input
-      border: 1px solid $red
-      border-radius: 3px
-      &:focus
-        border: 1px solid $red !important
-    >p
+    .ud-input,.ud-textarea
+      input,textarea
+        border: 1px solid $red
+        &:focus
+          border: 1px solid $red
+    >p.error-message
       color: $red
       font-size: 14px

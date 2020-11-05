@@ -221,20 +221,23 @@ Vue.component('ud-input', {
     <div class="ud-input">
       <input
         v-model="inputValue"
-        :placeholder="placeholder"
         v-bind="$attrs"
-        v-on="$listeners"
+        @input="onInput"
       >
     </div>
   `,
   props: {
-    value: null, // value值
-    placeholder: { default: "請輸入此欄位" }, // 取代文字
+    value: null,
   },
   computed: {
     inputValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
+    }
+  },
+  methods: {
+    onInput: function(){
+      this.$parent.$emit('validate', false); // 通知FormItem校驗
     }
   },
 })
@@ -248,20 +251,24 @@ Vue.component('ud-textarea', {
       <textarea
         type="text"
         v-model="textareaValue"
-        :placeholder="placeholder"
         v-bind="$attrs"
+        @input="onInput"
       >
       </textarea>
     </div>
   `,
   props: {
-    value: null, // value值
-    placeholder: { default: "請輸入此欄位" }, // 取代文字
+    value: null,
   },
   computed: {
     textareaValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
+    }
+  },
+  methods: {
+    onInput: function(){
+      this.$parent.$emit('validate', false); // 通知FormItem校驗
     }
   },
 })

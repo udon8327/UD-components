@@ -10,21 +10,15 @@ block modal
   ud-modal(v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0")
 
 block content
-  va-form(:rules="rules" :model="user" ref="form")
-    va-form-item(label="姓名" prop="name")
-      va-input(placeholder="請輸入您的姓名" v-model="user.name")
-    va-form-item(label="電話" prop="phone")
-      va-input(placeholder="請輸入您的電話" v-model="user.phone" maxlength="10")
-    va-form-item(label="生日" prop="birthday")
-      va-input(placeholder="請輸入您的生日" v-model="user.birthday")
-    va-form-item(label="驗證碼" prop="verify")
-      va-input(placeholder="驗證碼" v-model="user.verify")
-    va-form-item(label="身分證字號" prop="idcard")
-      va-input(placeholder="請輸入您的身分證字號" v-model="user.idcard")
-    va-form-item(label="電子郵件" prop="email")
-      va-input(placeholder="請輸入您的電子郵件" v-model="user.email")
-    va-form-item(label="測試用" prop="any")
-      va-input(v-model="user.any")
+  ud-form(:rules="rules" :model="user" ref="form")
+    ud-form-item(label="姓名" prop="name")
+      ud-input(placeholder="請輸入您的姓名" v-model="user.name")
+    ud-form-item(label="生日" prop="birthday")
+      ud-input(placeholder="請輸入您的生日" v-model="user.birthday")
+    ud-form-item(label="驗證碼" prop="verify")
+      ud-input(placeholder="驗證碼" v-model="user.verify")
+    ud-form-item(label="測試用" prop="test")
+      ud-textarea(v-model="user.test")
   ud-button(@click="formSubmit") 送出表單
   //- .filter
   .mo MutationObserver
