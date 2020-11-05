@@ -5,28 +5,32 @@ var vm = new Vue({
     el: "#app",
     data: {
         user: {
-            name: "",
-            phone: "",
-            verify: "",
-            code: "test"
+            code: "test",
         },
         rules: {
-            // name: { required: "姓名不可為空", name: "不接受特殊符號" },
-            // phone: { required: "電話不可為空", phone: "格式有誤" }
-            // name: { rule: ['required','name'], message: ['姓名不可為空','格式有誤，不接受特殊符號'],
-            // phone: { rule: "required|^09[0-9]{8}$", message: "電話不可為空|格式有誤"},
             name: [
                 { type: "required" },
                 { type: "name" },
             ],
             phone: [
                 { type: "required" },
-                { type: "phone", message: '幹你娘' }
+                { type: "phone", message: '電話錯了啦!!' }
+            ],
+            birthday: [
+                { type: "date" }
             ],
             verify: [
                 { type: "required" },
-                { type: "equl", equlTo: "code" }
-            ]
+                { type: "equl", equlTo: "code", caseIgnore: "true" }
+            ],
+            idcard: [
+                { type: "required" },
+                { type: "idcard" },
+            ],
+            email: [
+                { type: "required" },
+                { type: "email" }
+            ],
         },
         title: "UDON",
         switchVal: false,

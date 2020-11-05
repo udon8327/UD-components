@@ -1153,17 +1153,45 @@ Vue.component('va-form-item', {
           case "required":
             if(!value) this.errorFn(rule, "此欄位為必填項目");
             break;
-          case "name":
-            if(!new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$').test(value)) this.errorFn(rule, "格式有誤，不接受特殊符號");
+          case "name": //姓名驗證
+            if(value && !new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$').test(value)) this.errorFn(rule, "姓名格式有誤，不接受特殊符號");
             break;
-          case "phone":
-            if(!new RegExp('^09[0-9]{8}$').test(value)) this.errorFn(rule, "格式有誤，例:0929123456");
+          case "phone": //電話驗證
+            if(value && !new RegExp('^09[0-9]{8}$').test(value)) this.errorFn(rule, "電話格式有誤，例：0929123456");
             break;
-          case "equl":
-            if(value !== this.form.model[rule.equlTo]) this.errorFn(rule, "驗證碼錯誤");
+          case "email": //電子郵件驗證
+            if(value && !new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$').test(value)) this.errorFn(rule, "Email格式有誤，需包含'@'符號");
+            break;
+          case "idcard": //身分證字號驗證
+            if(value && !new RegExp('^[A-Za-z][0-9]{9}$').test(value)) this.errorFn(rule, "身分證字號格式有誤，例：A123456789");
+            break;
+          case "date": //日期驗證
+            if(value && !new RegExp('^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$').test(value)) this.errorFn(rule, "日期格式有誤或不存在，例：2020-03-04");
+            break;
+          case "url": //網址驗證
+            if(value && !new RegExp('^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$').test(value)) this.errorFn(rule, "網址格式有誤，例：https://www.google.com");
+            break;
+          case "ip": //IP地址驗證
+            if(value && !new RegExp('^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$').test(value)) this.errorFn(rule, "IP地址格式有誤，例：115.28.47.26");
+            break;
+          case "hex": //Hex色碼驗證
+            if(value && !new RegExp('^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$').test(value)) this.errorFn(rule, "Hex色碼格式有誤，例：#ff0000");
+            break;
+          case "html": //HTML標籤驗證
+            if(value && !new RegExp('^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$').test(value)) this.errorFn(rule, "HTML標籤格式有誤，例：<body>");
+            break;
+          case "number": //數字驗證
+            if(value && !new RegExp('').test(value)) this.errorFn(rule, "數字格式有誤，數字超出範圍");
+            break;
+          case "equl": //相等驗證
+            if(rule.caseIgnore){ //不區分大小寫
+              if(value && value.toLowerCase() !== this.form.model[rule.equlTo].toLowerCase()) this.errorFn(rule, "驗證碼錯誤");
+            }else{ //區分大小寫
+              if(value && value !== this.form.model[rule.equlTo]) this.errorFn(rule, "驗證碼錯誤");
+            }
             break;
           default:
-            if(!new RegExp(rule.type).test(value)) this.errorFn(rule, "格式有誤");
+            if(!new RegExp(rule.type).test(value)) this.errorFn(rule, "格式有誤，請重新輸入");
             break;
         }
         if(this.error) break;

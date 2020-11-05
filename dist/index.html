@@ -29,8 +29,17 @@
             <va-form-item label="電話" prop="phone">
               <va-input placeholder="請輸入您的電話" v-model="user.phone" maxlength="10"></va-input>
             </va-form-item>
+            <va-form-item label="生日" prop="birthday">
+              <va-input placeholder="請輸入您的生日" v-model="user.birthday"></va-input>
+            </va-form-item>
             <va-form-item label="驗證碼" prop="verify">
               <va-input placeholder="驗證碼" v-model="user.verify"></va-input>
+            </va-form-item>
+            <va-form-item label="身分證字號" prop="idcard">
+              <va-input placeholder="請輸入您的身分證字號" v-model="user.idcard"></va-input>
+            </va-form-item>
+            <va-form-item label="電子郵件" prop="email">
+              <va-input placeholder="請輸入您的電子郵件" v-model="user.email"></va-input>
             </va-form-item>
           </va-form>
           <ud-button @click="formSubmit">送出表單</ud-button>
