@@ -17,65 +17,67 @@ block content
       ud-input(placeholder="請輸入您的生日" v-model="user.birthday")
     ud-form-item(label="驗證碼" prop="verify")
       ud-input(placeholder="驗證碼" v-model="user.verify")
-    ud-form-item(label="測試用" prop="test")
-      ud-textarea(v-model="user.test")
+    ud-form-item(label="單選" prop="radio")
+      ud-radio(v-model="user.radio" :options="formObj" flex)
+    ud-form-item(label="是否同意使用者條款?" prop="agree")
+      ud-checkbox(v-model="user.agree" :options="{false: '同意'}")
+    ud-form-item(label="多選" prop="checkbox")
+      ud-checkbox(v-model="user.checkbox" :options="formObj" flex)
+    ud-form-item(label="下拉" prop="select")
+      ud-select(v-model="user.select" :options="formArr")
+  br
   ud-button(@click="formSubmit") 送出表單
+  br
+  br
   //- .filter
-  .mo MutationObserver
-  ud-button(max-width="200px") 按鈕
+  //- .mo MutationObserver
+  //- ud-button(max-width="200px") 按鈕
   //- img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__backInRight" data-src="https://i.picsum.photos/id/88/500/500.jpg?hmac=QSIyuv08g62ooomf9O-KngY-rZZ_5fdavDEeMsrTUm0")
   //- img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__backInLeft" data-src="https://i.picsum.photos/id/364/500/500.jpg?hmac=5Ole9heOcwTkcW-e1EpjCfSv3g5YM_cNJP-d8YsbFcc")
   //- img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__bounceIn" data-src="https://i.picsum.photos/id/949/500/500.jpg?hmac=KQGuFkBlY7lKgj7WAn4rrya3MgiVd8OVJflhQZLfwaY")
   //- img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__fadeInLeft" data-src="https://i.picsum.photos/id/94/500/500.jpg?hmac=fU8eN6t-spj5f3-h0uf4clf5qttgWmR6Z6HwcYnsLlw")
   //- img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="animate__fadeIn" data-src="https://i.picsum.photos/id/836/500/500.jpg?hmac=sgkm9n_XWQrKibrc66UQJBl62zYdUBKrG6MsOYbRVLk")
   //- img.op-0.test.animate__animated(src="https://fakeimg.pl/500x500/" data-animate="custom" data-src="https://i.picsum.photos/id/836/500/500.jpg?hmac=sgkm9n_XWQrKibrc66UQJBl62zYdUBKrG6MsOYbRVLk")
-  h1 {{ userData.name }}
-  ud-button(@click="postData") POST
-  ud-flex
-    ud-button(@click="alert") Alert
-    ud-button(@click="confirm") Confirm
-    ud-button(@click="isModalShow = 1") Modal
-  ud-switch(v-model="switchVal")
-  ud-flex
-    p inputVal: {{ inputVal }}
-    ud-input(v-model="inputVal" placeholder="請輸入姓名" maxlength="4" @focus="onFocus")
-    p textareaVal: {{ textareaVal }}
-    ud-textarea(v-model="textareaVal")
-  p radioVal: {{ radioVal }}
-  ud-radio(v-model="radioVal" :options="formObj" flex)
-  p acceptVal: {{ acceptVal }}
-  ud-checkbox(v-model="acceptVal" :options="{false: '我同意使用者條款'}")
-  p checkboxVal: {{ checkboxVal }}
-  ud-checkbox(v-model="checkboxVal" :options="formObj" flex)
-  p selectVal: {{ selectVal }}
-  ud-select(v-model="selectVal" :options="formArr" ref="test")
-  h1 {{ form }}
-  //- h1 {{ generate }}
-  formulate-form(v-model="form" @submit="success" name="my-form")
-    vf-item(label="姓名")
-      vf-name
-    vf-item(label="性別")
-      vf-gender
-    vf-item(label="手機")
-      vf-phone
-    vf-item(label="E-mail")
-      vf-mail
-    vf-item(label="身分證字號")
-      vf-idcard
-    vf-item(label="開始日期")
-      vf-date(name="startAt")
-    vf-item(label="地址")
-      vf-address-group
-    vf-accept
-      p 我同意酷必資訊#[a(href="https://goo.gl/") 使用者條款]!
-    //- formulate-input(type="textarea" label="長文框" name="textarea" placeholder="請輸入簡介" validation="required" :validation-messages="{required: '此欄不可為空'}")
-    //- formulate-input(type="radio" label="單選" name="radio" :options="formObj" validation="required" :validation-messages="{required: '此欄不可為空'}")
-    //- formulate-input(type="checkbox" label="多選" name="checkbox" :options="formObj" validation="required" :validation-messages="{required: '此欄不可為空'}")
-    //- formulate-input(type="select" label="下拉" name="select" placeholder="請選擇你的主推" :options="testOptions" validation="required" :validation-messages="{required: '此欄不可為空'}")
-    //- formulate-input(type="file" name="file" label="file" help="Select one or more PDFs to upload" validation="required|mime:application/pdf" multiple :validation-messages="{required: '此欄不可為空'}")
-    //- formulate-input(type="range" label="範圍條"  name="range" min="0" max="100" value="45" validation="required|min:10|max:90" error-behavior="live")
-  ud-flex
-    ud-button(plain @click="$formulate.reset('my-form')") 清除
-    ud-button(@click="$formulate.submit('my-form')") 送出
+  //- h1 {{ userData.name }}
+  //- ud-button(@click="postData") POST
+  //- ud-flex
+  //-   ud-button(@click="alert") Alert
+  //-   ud-button(@click="confirm") Confirm
+  //-   ud-button(@click="isModalShow = 1") Modal
+  //- ud-switch(v-model="switchVal")
+  //- ud-flex
+  //-   p inputVal: {{ inputVal }}
+  //-   ud-input(v-model="inputVal" placeholder="請輸入姓名" maxlength="4" @focus="onFocus")
+  //-   p textareaVal: {{ textareaVal }}
+  //-   ud-textarea(v-model="textareaVal")
+  //- p radioVal: {{ radioVal }}
+  //- ud-radio(v-model="radioVal" :options="formObj" flex)
+  //- p acceptVal: {{ acceptVal }}
+  //- ud-checkbox(v-model="acceptVal" :options="{false: '我同意使用者條款'}")
+  //- p checkboxVal: {{ checkboxVal }}
+  //- ud-checkbox(v-model="checkboxVal" :options="formObj" flex)
+  //- p selectVal: {{ selectVal }}
+  //- ud-select(v-model="selectVal" :options="formArr" ref="test")
+  //- h1 {{ form }}
+  //- formulate-form(v-model="form" @submit="success" name="my-form")
+  //-   vf-item(label="姓名")
+  //-     vf-name
+  //-   vf-item(label="性別")
+  //-     vf-gender
+  //-   vf-item(label="手機")
+  //-     vf-phone
+  //-   vf-item(label="E-mail")
+  //-     vf-mail
+  //-   vf-item(label="身分證字號")
+  //-     vf-idcard
+  //-   vf-item(label="開始日期")
+  //-     vf-date(name="startAt")
+  //-   vf-item(label="地址")
+  //-     vf-address-group
+  //-   vf-accept
+  //-     p 我同意酷必資訊#[a(href="https://goo.gl/") 使用者條款]!
+  //- ud-flex
+  //-   ud-button(plain @click="$formulate.reset('my-form')") 清除
+  //-   ud-button(@click="$formulate.submit('my-form')") 送出
 block js
   script(src="js/index.js")

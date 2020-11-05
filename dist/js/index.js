@@ -9,7 +9,10 @@ var vm = new Vue({
             birthday: "",
             verify: "",
             code: "test",
-            test: ""
+            radio: "",
+            agree: "",
+            checkbox: [],
+            select: [],
         },
         rules: {
             name: [
@@ -24,8 +27,17 @@ var vm = new Vue({
                 { type: "required" },
                 { type: "equl", equlTo: "code", caseIgnore: "true" }
             ],
-            test: [
-                { type: "hex" }
+            radio: [
+                { type: "required" },
+            ],
+            agree: [
+                { type: "required" },
+            ],
+            checkbox: [
+                { type: "required" },
+            ],
+            select: [
+                { type: "required" },
             ],
         },
         title: "UDON",
@@ -62,34 +74,35 @@ var vm = new Vue({
         scr: 0,
     },
     mounted: function () {
-        var _this = this;
-        this.init();
-        this.getData();
-        var io = new IntersectionObserver(function (entry) {
-            entry.forEach(function (e) {
-                if (e.isIntersecting) {
-                    e.target.src = e.target.dataset.src;
-                    e.target.classList.remove('op-0');
-                    e.target.classList.add(e.target.dataset.animate);
-                    io.unobserve(e.target);
-                }
-            });
-        }, { threshold: [1] });
-        var imgList = document.querySelectorAll('.test');
-        imgList.forEach(function (img) { return io.observe(img); });
-        var mo = new MutationObserver(function (mutationRecords) {
-            console.log(mutationRecords);
-        });
-        mo.observe(document.querySelector('.mo'), {
-            subtree: true,
-            childList: true,
-            attributes: true,
-            characterData: true,
-        });
-        window.addEventListener('scroll', function () {
-            _this.test();
-        });
-        throttle(this.test, 2000);
+        // this.init();
+        // this.getData();
+        // let io = new IntersectionObserver(entry => {
+        //     entry.forEach(e => {
+        //       if(e.isIntersecting){
+        //         e.target.src = e.target.dataset.src;
+        //         e.target.classList.remove('op-0');
+        //         e.target.classList.add(e.target.dataset.animate);
+        //         io.unobserve(e.target);
+        //       }
+        //     });
+        //   },
+        //   { threshold: [1] }
+        // );
+        // let imgList = document.querySelectorAll('.test');
+        // imgList.forEach(img => io.observe(img));
+        // let mo = new MutationObserver(mutationRecords => {
+        //   console.log(mutationRecords);
+        // },)
+        // mo.observe(document.querySelector('.mo'),{
+        //   subtree: true,
+        //   childList: true,
+        //   attributes: true,
+        //   characterData: true,
+        // });
+        // window.addEventListener('scroll', () => {
+        //   this.test();
+        // })
+        // throttle(this.test, 2000);
     },
     methods: {
         formSubmit: function () {

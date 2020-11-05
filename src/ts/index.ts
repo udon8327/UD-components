@@ -14,7 +14,10 @@ let vm = new Vue({
       birthday: "",
       verify: "",
       code: "test",
-      test: ""
+      radio: "",
+      agree: "",
+      checkbox: [],
+      select: [],
     },
     rules: {
       name: [
@@ -29,8 +32,17 @@ let vm = new Vue({
         { type: "required" },
         { type: "equl", equlTo: "code", caseIgnore: "true"}
       ],
-      test: [
-        { type: "hex" }
+      radio: [
+        { type: "required" },
+      ],
+      agree: [
+        { type: "required" },
+      ],
+      checkbox: [
+        { type: "required" },
+      ],
+      select: [
+        { type: "required" },
       ],
     },
 
@@ -71,39 +83,39 @@ let vm = new Vue({
   },
   mounted: function () {
 
-    this.init();
-    this.getData();
+    // this.init();
+    // this.getData();
     
-    let io = new IntersectionObserver(entry => {
-        entry.forEach(e => {
-          if(e.isIntersecting){
-            e.target.src = e.target.dataset.src;
-            e.target.classList.remove('op-0');
-            e.target.classList.add(e.target.dataset.animate);
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: [1] }
-    );
-    let imgList = document.querySelectorAll('.test');
-    imgList.forEach(img => io.observe(img));
+    // let io = new IntersectionObserver(entry => {
+    //     entry.forEach(e => {
+    //       if(e.isIntersecting){
+    //         e.target.src = e.target.dataset.src;
+    //         e.target.classList.remove('op-0');
+    //         e.target.classList.add(e.target.dataset.animate);
+    //         io.unobserve(e.target);
+    //       }
+    //     });
+    //   },
+    //   { threshold: [1] }
+    // );
+    // let imgList = document.querySelectorAll('.test');
+    // imgList.forEach(img => io.observe(img));
 
 
-    let mo = new MutationObserver(mutationRecords => {
-      console.log(mutationRecords);
-    },)
-    mo.observe(document.querySelector('.mo'),{
-      subtree: true,
-      childList: true,
-      attributes: true,
-      characterData: true,
-    });
+    // let mo = new MutationObserver(mutationRecords => {
+    //   console.log(mutationRecords);
+    // },)
+    // mo.observe(document.querySelector('.mo'),{
+    //   subtree: true,
+    //   childList: true,
+    //   attributes: true,
+    //   characterData: true,
+    // });
 
-    window.addEventListener('scroll', () => {
-      this.test();
-    })
-    throttle(this.test, 2000);
+    // window.addEventListener('scroll', () => {
+    //   this.test();
+    // })
+    // throttle(this.test, 2000);
   },
   methods: {
     formSubmit: function(){
@@ -112,6 +124,8 @@ let vm = new Vue({
         this.$alert({msg: "驗證成功!!"})
       });
     },
+
+
     test: function(){
       console.log(getRandom());
     },

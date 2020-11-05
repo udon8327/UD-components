@@ -25,14 +25,10 @@ Form
   Checkbox 多選框 -----> ud-checkbox
   Select 下拉框 -----> ud-select
   Switch 開關 -----> ud-switch
+  FormItem 表單驗證容器 -----> ud-form-item
+  Form 表單驗證 -----> ud-form
 
 Validation
-  VfItem 表單容器 -----> vf-item
-  VfName 姓名驗證 -----> vf-name
-  VfGender 性別驗證 -----> vf-gender
-  VfPhone 電話驗證 -----> vf-phone
-  VfMail 郵件驗證 -----> vf-mail
-  VfIdcard 身分證驗證 -----> vf-idcard
   VfDate 日期驗證 -----> vf-date
   VfAccept 條款驗證 -----> vf-accept
 
@@ -283,6 +279,7 @@ Vue.component('ud-radio', {
           type="radio"
           v-model="radioValue"
           :value="key"
+          @change="onChange"
         >
         <div class="input-decorator"
           :style="{'border-radius': radius}"
@@ -303,6 +300,11 @@ Vue.component('ud-radio', {
       set(val){ this.$emit('input', val) }
     }
   },
+  methods: {
+    onChange: function(){
+      this.$parent.$emit('validate', false); // 通知FormItem校驗
+    }
+  },
 })
 
 // Checkbox 多選框
@@ -315,6 +317,7 @@ Vue.component('ud-checkbox', {
           <input
             type="checkbox"
             v-model="checkboxValue"
+            @change="onChange"
           >
           <div class="input-decorator"></div>
           <p><slot>{{ value }}</slot></p>
@@ -344,6 +347,11 @@ Vue.component('ud-checkbox', {
       set(val){ this.$emit('input', val) }
     }
   },
+  methods: {
+    onChange: function(){
+      this.$parent.$emit('validate', false); // 通知FormItem校驗
+    }
+  },
 })
 
 // Select 下拉框
@@ -351,7 +359,12 @@ Vue.component('ud-select', {
   name: "UdSelect",
   template: `
     <div class="ud-select">
-      <select class="ud-select" v-model="selectValue" :data-placeholder-selected="selectValue === ''">
+      <select 
+        class="ud-select" 
+        v-model="selectValue" 
+        :data-placeholder-selected="selectValue === ''"
+        @change="onChange"
+      >
         <option value="" disabled selected>{{ placeholder }}</option>
         <option v-for="(value, key) in options" :value="key" :key="key">
           {{ value }}
@@ -368,6 +381,11 @@ Vue.component('ud-select', {
     selectValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
+    }
+  },
+  methods: {
+    onChange: function(){
+      this.$parent.$emit('validate', false); // 通知FormItem校驗
     }
   },
 })
@@ -398,109 +416,141 @@ Vue.component('ud-switch', {
 })
 
 
-//-----------------------Validation-----------------------
-// VfItem 表單容器
-Vue.component("vf-item", {
-  name: "VfItem",
+// FormItem 表單驗證容器
+Vue.component('ud-form-item', {
+  name: "UdFormItem",
   template: `
-    <div class="vf-item">
-      <div class="vf-item-label">{{ label }}</div>
-      <div class="vf-item-input">
-        <slot></slot>
-      </div>
+    <div class="ud-form-item" :class="{'is-error': errorMessage}">
+      <label v-if="label">{{ label }}</label>
+      <slot></slot>
+      <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
     </div>
-  `,
-  props: {
-    label: { default: "" } // 標籤文字
-  }
-});
-
-// VfName 姓名驗證
-Vue.component("vf-name", {
-  name: "VfName",
-  template: `
-    <formulate-input
-      type="text"
-      name="name"
-      placeholder="請輸入姓名"
-      validation="^required|^matches:/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/"
-      :validation-messages="{required: '姓名不可為空', matches: '姓名格式有誤，不接受特殊符號'}"
-    >
-    </formulate-input>
-  `,
-});
-
-// VfGender 性別驗證
-Vue.component("vf-gender", {
-  name: "VfGender",
-  template: `
-    <formulate-input
-      type="select"
-      name="gender"
-      :options="options"
-      placeholder="請選擇性別"
-      validation="^required"
-      :validation-messages="{required: '性別不可為空'}"
-    >
-    </formulate-input>
   `,
   data() {
     return {
-      options: {
-        0: "男",
-        1: "女"
-      },
+      errorMessage: '',
+      error: false,
+      lock: false,
     }
   },
-});
+  inject: ["form"],
+  props: {
+    label: {
+      type: String,
+      default: ''
+    },
+    prop: {
+      type: String
+    }
+  },
+  mounted() {
+    this.$on('validate', () => {
+      this.validate(this.$event);
+    })
+  },
+  methods: {
+    errorFn: function(data, msg){
+      this.errorMessage = data.message || msg;
+      this.error = true;
+    },
+    validate(submit) {
+      if(this.form.submitLock) return;
+      const rules = this.form.rules[this.prop]; //獲取校驗規則
+      const value = this.form.model[this.prop]; //獲取數據
 
-// VfPhone 電話驗證
-Vue.component("vf-phone", {
-  name: "VfPhone",
+      for(let rule of rules){
+        this.errorMessage = "";
+        this.error = false;
+        switch (rule.type) {
+          case "required": //必填驗證
+            if(!value) this.errorFn(rule, "此欄位為必填項目");
+            break;
+          case "name": //姓名驗證
+            if(value && !new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$').test(value)) this.errorFn(rule, "姓名格式有誤，不接受特殊符號");
+            break;
+          case "phone": //電話驗證
+            if(value && !new RegExp('^09[0-9]{8}$').test(value)) this.errorFn(rule, "電話格式有誤，例: 0929123456");
+            break;
+          case "email": //電子郵件驗證
+            if(value && !new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$').test(value)) this.errorFn(rule, "Email格式有誤，需包含'@'符號");
+            break;
+          case "idcard": //身分證字號驗證
+            if(value && !new RegExp('^[A-Z](1|2)[0-9]{8}$').test(value)) this.errorFn(rule, "身分證字號格式有誤，例: A123456789");
+            break;
+          case "date": //日期驗證
+            if(value && !new RegExp('^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$').test(value)) this.errorFn(rule, "日期格式有誤或不存在，例: 2020-03-04");
+            break;
+          case "url": //網址驗證
+            if(value && !new RegExp('^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$').test(value)) this.errorFn(rule, "網址格式有誤，例: https://www.google.com");
+            break;
+          case "ip": //IP地址驗證
+            if(value && !new RegExp('^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$').test(value)) this.errorFn(rule, "IP地址格式有誤，例: 115.28.47.26");
+            break;
+          case "hex": //Hex色碼驗證
+            if(value && !new RegExp('^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$').test(value)) this.errorFn(rule, "Hex色碼格式有誤，例: #ff0000");
+            break;
+          case "equl": //相等驗證
+            if(rule.caseIgnore){ //不區分大小寫
+              if(value && value.toLowerCase() !== this.form.model[rule.equlTo].toLowerCase()) this.errorFn(rule, "驗證碼錯誤");
+            }else{ //區分大小寫
+              if(value && value !== this.form.model[rule.equlTo]) this.errorFn(rule, "驗證碼錯誤");
+            }
+            break;
+          default:
+            if(!new RegExp(rule.type).test(value)) this.errorFn(rule, "格式有誤，請重新輸入");
+            break;
+        }
+        if(this.error) break;
+      }
+
+      if(!submit) return;
+      return new Promise((resolve, reject) => {
+        this.error ? reject() : resolve();
+      })
+    }
+  }
+})
+
+// Form 表單驗證
+Vue.component('ud-form', {
+  name: "UdForm",
   template: `
-    <formulate-input
-      type="tel"
-      name="phone"
-      placeholder="請輸入手機號碼"
-      validation="^required|matches:/^09[0-9]{8}$/"
-      :validation-messages="{required: '手機不可為空', matches: '手機格式有誤，例：0912345678'}"
-      maxlength="10"
-    >
-    </formulate-input>
+    <div class="ud-form">
+      <slot></slot>
+    </div>
   `,
-});
+  provide() {
+    return {
+      form: this  //傳遞Form實例给後代，比如FormItem用來校驗
+    }
+  },
+  data() {
+    return {
+      submitLock: true
+    }
+  },
+  props: {
+    model: {
+      type: Object,
+      required: true
+    },
+    rules: {
+      type: Object
+    },
+  },
+  methods: {
+    validate(callback) {
+      this.submitLock = false;
+      const tasks = this.$children.filter(item => item.prop).map(item => item.validate(true))
+      console.log('tasks: ', tasks);
+      Promise.all(tasks)
+        .then(() => callback())
+        .catch(() => console.log('驗證失敗'))
+    }
+  }
+})
 
-// VfMail 郵件驗證
-Vue.component("vf-mail", {
-  name: "VfMail",
-  template: `
-    <formulate-input
-      type="text"
-      name="email"
-      placeholder="請輸入E-mail"
-      validation="^required|email"
-      :validation-messages="{required: 'E-mail不可為空',email: 'E-mail格式有誤，需包含@'}"
-    >
-    </formulate-input>
-  `,
-});
-
-// VfIdcard 身分證驗證
-Vue.component("vf-idcard", {
-  name: "VfIdcard",
-  template: `
-    <formulate-input
-      type="text"
-      name="idcard"
-      placeholder="請輸入身分證號碼"
-      validation="^required|matches:/^[A-Z]{1}[0-9]{9}$/"
-      :validation-messages="{required: '身分證號碼不可為空', matches: '身分證號碼格式有誤，例：A123456789'}"
-      maxlength="10"
-    >
-    </formulate-input>
-  `,
-});
-
+//-----------------------Validation-----------------------
 // VfDate 日期驗證
 Vue.component("vf-date", {
   name: "VfDate",
