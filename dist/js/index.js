@@ -5,7 +5,14 @@ var vm = new Vue({
     el: "#app",
     data: {
         user: {
+            name: "",
+            phone: "",
+            birthday: "",
+            verify: "",
+            idcard: "",
+            email: "",
             code: "test",
+            any: ""
         },
         rules: {
             name: [
@@ -30,6 +37,9 @@ var vm = new Vue({
             email: [
                 { type: "required" },
                 { type: "email" }
+            ],
+            any: [
+                { type: "url" }
             ],
         },
         title: "UDON",

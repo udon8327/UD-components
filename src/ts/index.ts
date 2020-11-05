@@ -10,7 +10,14 @@ let vm = new Vue({
   data: {
 
     user: {
+      name: "",
+      phone: "",
+      birthday: "",
+      verify: "",
+      idcard: "",
+      email: "",
       code: "test",
+      any: ""
     },
     rules: {
       name: [
@@ -35,6 +42,9 @@ let vm = new Vue({
       email: [
         { type: "required" },
         { type: "email" }
+      ],
+      any: [
+        { type: "url" }
       ],
     },
 
