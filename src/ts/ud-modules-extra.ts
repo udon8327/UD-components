@@ -17,8 +17,6 @@ Data
   Table 表格 -----> ud-table
   Pagination 分頁 -----> ud-pagination
 
-Layout
-
 Notice
   Notify 通知訊息 -----> ud-notify
   Popover 氣泡框 -----> ud-popover
@@ -563,8 +561,6 @@ Vue.component('ud-pagination', {
     
   },
 })
-
-//-----------------------Layout-----------------------
 
 //-----------------------Notice-----------------------
 // Notify 通知訊息

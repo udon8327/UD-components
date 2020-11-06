@@ -13,7 +13,6 @@ declare var $: (selector: string) => any;
 編寫日期連動select
 編寫表格ud-table
 編寫分頁ud-pagination
-編寫表單通用驗證
 Alert,Confirm,Modal統一修改樣式
 
 ==================== Vue組件庫(Basic)目錄 ====================
@@ -27,12 +26,6 @@ Form
   Switch 開關 -----> ud-switch
   FormItem 表單驗證容器 -----> ud-form-item
   Form 表單驗證 -----> ud-form
-
-Validation
-  VfDate 日期驗證 -----> vf-date
-  VfAccept 條款驗證 -----> vf-accept
-
-Data
 
 Layout
   Flex 通用排版容器 -----> ud-flex
@@ -50,8 +43,6 @@ Tools
   Backtop 回到頂部 -----> ud-backtop
   Ellipsis 文字省略 -----> ud-ellipsis
   Ratio 等比例自適應容器 -----> ud-ratio
-
-Application
 
 ==================== 工具函數目錄 ====================
 String
@@ -212,7 +203,6 @@ Vue.component('ud-button', {
 // Input 輸入框
 Vue.component('ud-input', {
   name: 'UdInput',
-  inheritAttrs: false,
   template: `
     <div class="ud-input">
       <input
@@ -222,6 +212,7 @@ Vue.component('ud-input', {
       >
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null,
   },
@@ -562,62 +553,6 @@ Vue.component('ud-form', {
     }
   }
 })
-
-//-----------------------Validation-----------------------
-// VfDate 日期驗證
-Vue.component("vf-date", {
-  name: "VfDate",
-  template: `
-    <formulate-input
-      type="date"
-      :name="name"
-      placeholder="請輸入日期"
-      validation="^required|^date:YYYY-MM-DD|exist"
-      :validation-rules="{
-        exist: ({ value }) => {
-          let dateArr = value.split('-');
-          let limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-          let theYear = parseInt(dateArr[0]);
-          let theMonth = parseInt(dateArr[1]);
-          let theDay = parseInt(dateArr[2]);
-          let isLeap = new Date(theYear, 1, 29).getDate() === 29; 
-          if (isLeap) limitInMonth[1] = 29;
-          return theDay > 0 && theDay <= limitInMonth[theMonth - 1];
-        }
-      }"
-      :validation-messages="{required: '日期不可為空', date: '日期格式有誤，例：2020-01-31', exist: '日期不存在，請重新選擇'}"
-    >
-    </formulate-input>
-  `,
-  props: {
-    name: {
-      type: String,
-      defalt: "date"
-    },
-  }
-});
-
-// VfAccept 條款驗證
-Vue.component("vf-accept", {
-  name: "VfAccept",
-  template: `
-    <label class="vf-accept">
-      <formulate-input
-        type="checkbox"
-        name="accept"
-        validation="accepted"
-        :validation-messages="{accepted: '請先同意使用者條款'}"
-      >
-      </formulate-input>
-      <p v-if="!$slots.default">我同意使用者條款</p>
-      <slot></slot>
-    </label>
-  `,
-});
-
-
-//-----------------------Data-----------------------
-
 
 //-----------------------Layout-----------------------
 // Flex 通用排版容器
@@ -1037,9 +972,6 @@ Vue.component('ud-ratio', {
     bgSize: { default: "cover" } // 背景尺寸 (cover, contain, 100%...等)
   },
 })
-
-
-//-----------------------Application-----------------------
 
 
 //-----------------------String-----------------------
