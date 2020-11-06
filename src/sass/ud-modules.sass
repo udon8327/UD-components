@@ -15,6 +15,8 @@
 //Layout
 //   Flex 通用排版容器 -----> ud-flex
 //   Arrow CSS箭頭 -----> ud-arrow
+//   Collapse -----> ud-collapse
+//   Ratio 等比例自適應容器 -----> ud-ratio
 
 // Notice
 //   Alert 警告彈窗 -----> ud-alert
@@ -26,7 +28,6 @@
 //   Html 用戶自定義訊息 -----> ud-html
 //   Backtop 回到頂部 -----> ud-backtop
 //   Ellipsis 文字省略 -----> ud-ellipsis
-//   Ratio 等比例自適應容器 -----> ud-ratio
 
 //-----------------------Form-----------------------
 //Button 按鈕
@@ -73,8 +74,9 @@
     border-radius: 5px
     border: 1px solid #cecece
     font-size: 14px
-    padding: .75em
+    padding: 5px 10px
     width: 100%
+    min-height: 40px
     box-sizing: border-box
     background-color: #fff
     transition: all 0.2s ease
@@ -300,6 +302,22 @@
     transform: rotate(-135deg)
   &.down
     transform: rotate(45deg)
+
+// Collapse 摺疊容器
+.ud-collapse
+  transition: height .2s ease
+  height: 0
+  overflow: hidden
+
+// Ratio 等比例自適應容器
+.ud-ratio
+  .ud-ratio-bg
+    overflow: hidden
+    width: 100%
+    padding-bottom: 100%
+    height: 0
+    background: url('https://i.imgur.com/s3w1Sm3.jpg') no-repeat center center
+    background-size: cover
 
 //-----------------------Notice-----------------------
 // Alert 警告彈窗
@@ -535,16 +553,6 @@
   // text-overflow: ellipsis
   -webkit-line-clamp: 2
   -webkit-box-orient: vertical
-
-//Ratio 等比例自適應容器
-.ud-ratio
-  .ratio-bg
-    overflow: hidden
-    width: 100%
-    padding-bottom: 100%
-    height: 0
-    background: url('https://i.imgur.com/s3w1Sm3.jpg') no-repeat center center
-    background-size: cover
 
 
 //-----------------------Global-----------------------

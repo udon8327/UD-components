@@ -30,6 +30,8 @@ Form
 Layout
   Flex 通用排版容器 -----> ud-flex
   Arrow CSS箭頭 -----> ud-arrow
+  Collapse 摺疊容器 -----> ud-collapse
+  Ratio 等比例自適應容器 -----> ud-ratio
 
 Notice
   Alert 警告彈窗 -----> ud-alert
@@ -42,7 +44,6 @@ Tools
   Html 用戶自定義訊息 -----> ud-html
   Backtop 回到頂部 -----> ud-backtop
   Ellipsis 文字省略 -----> ud-ellipsis
-  Ratio 等比例自適應容器 -----> ud-ratio
 
 ==================== 工具函數目錄 ====================
 String
@@ -587,6 +588,73 @@ Vue.component('ud-arrow', {
   }
 })
 
+// Collapse 摺疊容器
+Vue.component('ud-collapse', {
+  name: "UdCollapse",
+  template: `
+    <div class="ud-collapse" :style="{'transition-duration': durationSecond}">
+      <div class="ud-collapse-wrapper">
+        <slot></slot>
+      </div>
+    </div>
+  `,
+  props: {
+    value: {
+      default: false
+    },
+    duration: {
+      default: 0.2
+    }
+  },
+  computed: {
+    durationSecond: function(){
+      return `${this.duration}s`
+    }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      handler(){
+        this.$nextTick(() => {
+          this.collapse();
+        })
+      }
+    }
+  },
+  methods: {
+    collapse: function(){
+      let el = this.$el;
+      if (this.value) {
+        el.style.height = el.querySelector('.ud-collapse-wrapper').clientHeight + "px";
+      } else {
+        el.style.height = 0;
+      }
+    }
+  },
+})
+
+// Ratio 等比例自適應容器
+Vue.component('ud-ratio', {
+  template: `
+    <div class="ud-ratio">
+      <div class="ud-ratio-bg" :style="{
+        backgroundImage: 'url(' + src + ')', 
+        paddingBottom: height + '%', 
+        borderRadius: radius,
+        backgroundSize: bgSize
+      }">
+        <slot></slot>
+      </div>
+    </div>
+  `,
+  props: {
+    src: { default: "https://i.imgur.com/s3w1Sm3.jpg" }, // 背景圖片
+    height: { default: 100 }, // 高度比例
+    radius: { default: '0px' }, // 圓角
+    bgSize: { default: "cover" } // 背景尺寸 (cover, contain, 100%...等)
+  },
+})
+
 
 //-----------------------Notice-----------------------
 // Alert 警告彈窗
@@ -946,28 +1014,6 @@ Vue.component('ud-ellipsis', {
   template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine}"><slot></slot></p>',
   props: {
     maxLine: { default: 1, } // 指定省略行數
-  },
-})
-
-// Ratio 等比例自適應容器
-Vue.component('ud-ratio', {
-  template: `
-    <div class="ud-ratio">
-      <div class="ratio-bg" :style="{
-        backgroundImage: 'url(' + src + ')', 
-        paddingBottom: height + '%', 
-        borderRadius: radius,
-        backgroundSize: bgSize
-      }">
-        <slot></slot>
-      </div>
-    </div>
-  `,
-  props: {
-    src: { default: "https://i.imgur.com/s3w1Sm3.jpg" }, // 背景圖片
-    height: { default: 100 }, // 高度比例
-    radius: { default: '0px' }, // 圓角
-    bgSize: { default: "cover" } // 背景尺寸 (cover, contain, 100%...等)
   },
 })
 

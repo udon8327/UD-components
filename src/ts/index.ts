@@ -51,6 +51,8 @@ let vm = new Vue({
       ],
     },
 
+    isTabOpen: false,
+
     title: "UDON",
     switchVal: false,
     userData: {},
@@ -129,8 +131,6 @@ let vm = new Vue({
         this.$alert({msg: "驗證成功!!"})
       });
     },
-
-
     test: function(){
       console.log(getRandom());
     },

@@ -45,6 +45,7 @@ var vm = new Vue({
                 { type: "required" },
             ],
         },
+        isTabOpen: false,
         title: "UDON",
         switchVal: false,
         userData: {},

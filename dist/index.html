@@ -28,7 +28,7 @@
               <ud-input placeholder="請輸入您的姓名" v-model="user.name"></ud-input>
             </ud-form-item>
             <ud-form-item label="年齡" prop="age">
-              <ud-input placeholder="請輸入您的年齡" v-model="user.age"></ud-input>
+              <ud-input placeholder="請輸入您的年齡" v-model="user.age" type="tel"></ud-input>
             </ud-form-item>
             <ud-form-item label="生日" prop="birthday">
               <ud-input placeholder="請輸入您的生日" v-model="user.birthday"></ud-input>
@@ -50,11 +50,12 @@
             </ud-form-item>
           </ud-form><br>
           <ud-button @click="formSubmit">送出表單</ud-button><br><br>
-          <p>單選：{{ user.radio }}</p>
-          <p>同意：{{ user.agree }}</p>
-          <p>多選：{{ user.checkbox }}</p>
-          <p>下拉：{{ user.select }}</p>
-          <p>下拉多選：{{ user.multiple }}</p>
+          <ud-button @click="isTabOpen = !isTabOpen">開關</ud-button>
+          <ud-collapse v-model="isTabOpen">
+            <h1>測試文字</h1>
+            <h1>測試文字</h1>
+            <h1>測試文字</h1>
+          </ud-collapse><br>
         </div>
       </div>
     </div>
