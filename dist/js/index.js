@@ -12,7 +12,8 @@ var vm = new Vue({
             radio: "",
             agree: false,
             checkbox: [],
-            select: [],
+            select: "",
+            multiple: [],
         },
         rules: {
             name: [
@@ -37,6 +38,9 @@ var vm = new Vue({
                 { type: "required" },
             ],
             select: [
+                { type: "required" },
+            ],
+            multiple: [
                 { type: "required" },
             ],
         },

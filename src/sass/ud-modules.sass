@@ -253,14 +253,16 @@
     margin: 0
     transition: border 0.2s ease
     cursor: pointer
-    &::placeholder
-      color: #a8a8a8
-      line-height: normal
+    option
+      color: #333
     &:focus
       outline: 0
       border: 1px solid $main
     &[data-placeholder-selected]
       color: #a8a8a8
+    &[multiple]
+      option:nth-of-type(1)
+        color: #a8a8a8
 
 // Switch 開關
 .ud-switch

@@ -20,11 +20,13 @@ block content
     ud-form-item(label="單選" prop="radio")
       ud-radio(v-model="user.radio" :options="formObj" flex)
     ud-form-item(label="是否同意使用者條款?" prop="agree")
-      ud-checkbox(v-model="user.agree" :options="{false: '同意'}")
+      ud-checkbox(v-model="user.agree" :options="{false: '我同意使用者條款'}")
     ud-form-item(label="多選" prop="checkbox")
       ud-checkbox(v-model="user.checkbox" :options="formObj" flex)
     ud-form-item(label="下拉" prop="select")
       ud-select(v-model="user.select" :options="formObj")
+    ud-form-item(label="下拉多選" prop="multiple")
+      ud-select(v-model="user.multiple" :options="formObj" multiple)
   br
   ud-button(@click="formSubmit") 送出表單
   br
@@ -33,6 +35,7 @@ block content
   p 同意：{{ user.agree }}
   p 多選：{{ user.checkbox }}
   p 下拉：{{ user.select }}
+  p 下拉多選：{{ user.multiple }}
   //- .filter
   //- .mo MutationObserver
   //- ud-button(max-width="200px") 按鈕

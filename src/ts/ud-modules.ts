@@ -360,7 +360,7 @@ Vue.component('ud-select', {
       <select 
         class="ud-select" 
         v-model="selectValue" 
-        :data-placeholder-selected="selectValue === ''"
+        :data-placeholder-selected="selectValue.length === 0"
         v-bind="$attrs"
         @change="onChange"
       >
