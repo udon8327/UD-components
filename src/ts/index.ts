@@ -12,25 +12,29 @@ let vm = new Vue({
     user: {
       name: "",
       birthday: "",
+      age: "",
       verify: "",
       code: "test",
       radio: "",
       agree: false,
       checkbox: [],
       select: "",
-      multiple: [],
     },
     rules: {
       name: [
-        // { type: "required" },
+        { type: "required" },
         { type: "name" },
       ],
       birthday: [
-        // { type: "required" },
+        { type: "required" },
         { type: "date" }
       ],
+      age: [
+        { type: "required" },
+        { type: "number" },
+      ],
       verify: [
-        // { type: "required" },
+        { type: "required" },
         { type: "equl", equlTo: "code", caseIgnore: "true"}
       ],
       radio: [
@@ -43,9 +47,6 @@ let vm = new Vue({
         { type: "required" },
       ],
       select: [
-        { type: "required" },
-      ],
-      multiple: [
         { type: "required" },
       ],
     },

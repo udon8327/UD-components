@@ -131,7 +131,7 @@ Animation
 
 // 初始化執行
 // cdnBackup();
-Vue.use(VueFormulate);
+// Vue.use(VueFormulate);
 jumpReload();
 
 
@@ -479,6 +479,9 @@ Vue.component('ud-form-item', {
           case "date": //日期驗證
             if(value && !new RegExp('^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$').test(value)) this.errorMessage = rule.message || "日期格式有誤或不存在，例: 2020-03-04";
             break;
+          case "number": //數字驗證
+            if(value && !new RegExp('^[0-9]+$').test(value)) this.errorMessage = rule.message || "格式有誤，只接受數字";
+            break;
           case "url": //網址驗證
             if(value && !new RegExp('^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$').test(value)) this.errorMessage = rule.message || "網址格式有誤，例: https://www.google.com";
             break;
@@ -499,7 +502,7 @@ Vue.component('ud-form-item', {
             if(!new RegExp(rule.type).test(value)) this.errorMessage = rule.message || "格式有誤，請重新輸入";
             break;
         }
-        if(this.error) break;
+        if(this.errorMessage) break;
       }
 
       if(!submit) return;

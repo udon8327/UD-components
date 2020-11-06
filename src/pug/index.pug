@@ -13,6 +13,8 @@ block content
   ud-form(:rules="rules" :model="user" ref="form")
     ud-form-item(label="姓名" prop="name")
       ud-input(placeholder="請輸入您的姓名" v-model="user.name")
+    ud-form-item(label="年齡" prop="age")
+      ud-input(placeholder="請輸入您的年齡" v-model="user.age")
     ud-form-item(label="生日" prop="birthday")
       ud-input(placeholder="請輸入您的生日" v-model="user.birthday")
     ud-form-item(label="驗證碼" prop="verify")
@@ -25,8 +27,6 @@ block content
       ud-checkbox(v-model="user.checkbox" :options="formObj" flex)
     ud-form-item(label="下拉" prop="select")
       ud-select(v-model="user.select" :options="formObj")
-    ud-form-item(label="下拉多選" prop="multiple")
-      ud-select(v-model="user.multiple" :options="formObj" multiple)
   br
   ud-button(@click="formSubmit") 送出表單
   br
