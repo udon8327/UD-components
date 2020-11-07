@@ -207,7 +207,7 @@ Vue.component('ud-input', {
   template: `
     <div class="ud-input">
       <input
-        v-model="inputValue"
+        v-model="modelValue"
         v-bind="$attrs"
         @input="onInput"
       >
@@ -218,7 +218,7 @@ Vue.component('ud-input', {
     value: null,
   },
   computed: {
-    inputValue: {
+    modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     }
@@ -410,7 +410,7 @@ Vue.component('ud-switch', {
     </div>
   `,
   props: {
-    value: { default: false }, //value值
+    value: { default: false }, // value值
   },
   computed: {
     switchValue: {
@@ -443,20 +443,20 @@ Vue.component('ud-form-item', {
   },
   inject: ["form"],
   props: {
-    label: {
+    label: { // 標籤內容
       type: String,
     },
-    prop: {
+    prop: { // 驗證名稱
       type: String
     },
-    flex: {
+    flex: { // 是否橫排排版
       type: Boolean
     },
-    labelWidth: {
+    labelWidth: { // 標籤寬度
       type: String,
       default: "30%"
     },
-    labelAlign: {
+    labelAlign: { // 標籤對齊
       type: String,
     }
   },
@@ -468,46 +468,46 @@ Vue.component('ud-form-item', {
   methods: {
     validate(submit) {
       if(this.form.submitLock) return;
-      const rules = this.form.rules[this.prop]; //獲取校驗規則
-      const value = this.form.model[this.prop]; //獲取數據
+      const rules = this.form.rules[this.prop]; // 獲取校驗規則
+      const value = this.form.model[this.prop]; // 獲取數據
 
       for(let rule of rules){
         this.errorMessage = "";
         switch (rule.type) {
-          case "required": //必填驗證
+          case "required": // 必填驗證
             if(value.length === 0 || value === false) this.errorMessage = rule.message || "此欄位為必填項目";
             break;
-          case "name": //姓名驗證
+          case "name": // 姓名驗證
             if(value && !new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$').test(value)) this.errorMessage = rule.message || "姓名格式有誤，不接受特殊符號";
             break;
-          case "phone": //電話驗證
+          case "phone": // 電話驗證
             if(value && !new RegExp('^09[0-9]{8}$').test(value)) this.errorMessage = rule.message || "電話格式有誤，例: 0929123456";
             break;
-          case "email": //電子郵件驗證
+          case "email": // 電子郵件驗證
             if(value && !new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$').test(value)) this.errorMessage = rule.message || "Email格式有誤，需包含'@'符號";
             break;
-          case "idcard": //身分證字號驗證
+          case "idcard": // 身分證字號驗證
             if(value && !new RegExp('^[A-Z](1|2)[0-9]{8}$').test(value)) this.errorMessage = rule.message || "身分證字號格式有誤，例: A123456789";
             break;
-          case "date": //日期驗證
+          case "date": // 日期驗證
             if(value && !new RegExp('^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$').test(value)) this.errorMessage = rule.message || "日期格式有誤或不存在，例: 2020-03-04";
             break;
-          case "number": //數字驗證
+          case "number": // 數字驗證
             if(value && !new RegExp('^[0-9]+$').test(value)) this.errorMessage = rule.message || "格式有誤，只接受數字";
             break;
-          case "url": //網址驗證
+          case "url": // 網址驗證
             if(value && !new RegExp('^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$').test(value)) this.errorMessage = rule.message || "網址格式有誤，例: https://www.google.com";
             break;
-          case "ip": //IP地址驗證
+          case "ip": // IP地址驗證
             if(value && !new RegExp('^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$').test(value)) this.errorMessage = rule.message || "IP地址格式有誤，例: 115.28.47.26";
             break;
-          case "hex": //Hex色碼驗證
+          case "hex": // Hex色碼驗證
             if(value && !new RegExp('^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$').test(value)) this.errorMessage = rule.message || "Hex色碼格式有誤，例: #ff0000";
             break;
-          case "equl": //相等驗證
-            if(rule.caseIgnore){ //不區分大小寫
+          case "equl": // 相等驗證
+            if(rule.caseIgnore){ // 不區分大小寫
               if(value && value.toLowerCase() !== this.form.model[rule.equlTo].toLowerCase()) this.errorMessage = rule.message || "驗證碼錯誤";
-            }else{ //區分大小寫
+            }else{ // 區分大小寫
               if(value && value !== this.form.model[rule.equlTo]) this.errorMessage = rule.message || "驗證碼錯誤";
             }
             break;
@@ -536,7 +536,7 @@ Vue.component('ud-form', {
   `,
   provide() {
     return {
-      form: this  //傳遞Form實例给後代，比如FormItem用來校驗
+      form: this  // 傳遞Form實例给後代，比如FormItem用來校驗
     }
   },
   data() {
@@ -545,11 +545,11 @@ Vue.component('ud-form', {
     }
   },
   props: {
-    model: {
+    model: { // 驗證資料
       type: Object,
       required: true
     },
-    rules: {
+    rules: { // 驗證規則
       type: Object
     },
   },
