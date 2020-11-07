@@ -263,15 +263,29 @@
 
 // FormItem 表單驗證容器
 .ud-form-item
+  &.is-flex
+    display: flex
+    margin-bottom: 15px
+    .ud-form-item-left
+      flex: 0 0 30%
+      text-align: right
+      padding-right: 10px
+      label
+        line-height: 40px
+    .ud-form-item-right
+      flex: 1 1 100%
   &.is-error
-    .ud-input,.ud-textarea,.ud-select
-      input,textarea,select
-        border: 1px solid $red
-        &:focus
+    .ud-form-item-right
+      .ud-input,.ud-textarea,.ud-select
+        input,textarea,select
           border: 1px solid $red
-    >p.error-message
-      color: $red
-      font-size: 14px
+          &:focus
+            border: 1px solid $red
+      >p.error-message
+        color: $red
+        font-size: 14px
+  &.is-flex.is-error
+    margin-bottom: 0
 
 // Form 表單驗證
 .ud-form

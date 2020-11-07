@@ -24,22 +24,22 @@
       <div class="container">
         <div class="wrapper">
           <ud-form :rules="rules" :model="user" ref="form">
-            <ud-form-item label="姓名" prop="name">
+            <ud-form-item label="姓名" prop="name" flex>
               <ud-input placeholder="請輸入您的姓名" v-model="user.name"></ud-input>
             </ud-form-item>
-            <ud-form-item label="年齡" prop="age">
+            <ud-form-item label="年齡" prop="age" flex>
               <ud-input placeholder="請輸入您的年齡" v-model="user.age" type="tel"></ud-input>
             </ud-form-item>
-            <ud-form-item label="生日" prop="birthday">
+            <ud-form-item label="電話生日" prop="birthday" flex>
               <ud-input placeholder="請輸入您的生日" v-model="user.birthday"></ud-input>
             </ud-form-item>
-            <ud-form-item label="驗證碼" prop="verify">
+            <ud-form-item label="驗證碼" prop="verify" flex>
               <ud-input placeholder="驗證碼" v-model="user.verify"></ud-input>
             </ud-form-item>
             <ud-form-item label="單選" prop="radio">
               <ud-radio v-model="user.radio" :options="formObj" flex></ud-radio>
             </ud-form-item>
-            <ud-form-item label="是否同意使用者條款?" prop="agree">
+            <ud-form-item label="條款" prop="agree">
               <ud-checkbox v-model="user.agree" :options="{false: '我同意使用者條款'}"></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="多選" prop="checkbox">

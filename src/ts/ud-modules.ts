@@ -425,16 +425,19 @@ Vue.component('ud-switch', {
 Vue.component('ud-form-item', {
   name: "UdFormItem",
   template: `
-    <div class="ud-form-item" :class="{'is-error': errorMessage}">
-      <label v-if="label">{{ label }}</label>
-      <slot></slot>
-      <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+    <div class="ud-form-item" :class="{'is-error': errorMessage, 'is-flex': flex}">
+      <div class="ud-form-item-left" :style="{ 'flex-basis': labelWidth, 'text-align': labelAlign }">  
+        <label v-if="label">{{ label }}</label>
+      </div>
+      <div class="ud-form-item-right">  
+        <slot></slot>
+        <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+      </div>
     </div>
   `,
   data() {
     return {
       errorMessage: '',
-      error: false,
       lock: false,
     }
   },
@@ -442,10 +445,19 @@ Vue.component('ud-form-item', {
   props: {
     label: {
       type: String,
-      default: ''
     },
     prop: {
       type: String
+    },
+    flex: {
+      type: Boolean
+    },
+    labelWidth: {
+      type: String,
+      default: "30%"
+    },
+    labelAlign: {
+      type: String,
     }
   },
   mounted() {
