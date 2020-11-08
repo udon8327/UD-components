@@ -231,40 +231,11 @@
 
 // SelectLink 連動下拉框
 .ud-select-link
-  position: relative
-  &:before
-    content: ""
-    width: 0
-    height: 0
-    border-color: #cecece transparent transparent
-    border-style: solid
-    border-width: .3em .3em 0
-    top: 50%
-    margin-top: -.1em
-    right: 1em
-    position: absolute
-    z-index: 1
-  select
-    appearance: none
-    border-radius: 5px
-    border: 1px solid #cecece
-    background-color: #fff
-    font-size: 14px
-    padding: .75em
-    width: 100%
-    margin: 0
-    transition: border 0.2s ease
-    cursor: pointer
-    option
-      color: #333
-    &:focus
-      outline: 0
-      border: 1px solid $main
-    &[data-placeholder-selected]
-      color: #a8a8a8
-    &[multiple]
-      option:nth-of-type(1)
-        color: #a8a8a8
+  display: flex
+  justify-content: center
+  align-items: center
+  .ud-select
+    flex: 1 1 0
 
 // Switch 開關
 .ud-switch

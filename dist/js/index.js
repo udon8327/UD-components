@@ -16,10 +16,7 @@ var vm = new Vue({
             agree: false,
             checkbox: [],
             select: "",
-            store: {
-                county: "",
-                area: ""
-            }
+            store: ["", ""]
         },
         rules: {
             name: [

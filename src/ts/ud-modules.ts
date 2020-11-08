@@ -393,32 +393,40 @@ Vue.component('ud-select', {
 // SelectLink 連動下拉框
 Vue.component('ud-select-link', {
   name: "UdSelectLink",
-  inheritAttrs: false,
   template: `
     <div class="ud-select-link">
-      <select 
-        v-model="modelValue" 
-        :data-placeholder-selected="modelValue.length === 0"
-        v-bind="$attrs"
-        @change="onChange"
-      >
-        <option value="" disabled selected>{{ placeholder }}</option>
-        <option v-for="option in options" :value="option.value" :key="option.value">
-          {{ option.label }}
-        </option>
-      </select>
+      <ud-select v-model="modelValue[0]" :options="firstArr" :placeholder="placeholder[0]"></ud-select>
+      <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]"></ud-select>
+      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" v-if="third"></ud-select>
     </div>
   `,
   props: {
-    value: null, // value值
-    options: null, // 選項
-    placeholder: { default: "請選擇一項" } // 取代文字
+    value: null, // value值  user.store: ["", ""]
+    options: null, // 選項  storeArr: []
+    placeholder: {
+      default: () => {
+        return ["請選擇一項", "請選擇一項", "請選擇一項"];
+      }
+    },
+    third: Boolean
   },
   computed: {
     modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
-    }
+    },
+    firstArr: function(){
+      let temp = this.options;
+      return temp;
+    },
+    secondArr: function(){
+      let temp = [];
+      if(this.modelValue[0]){
+        temp = this.options.find(option => option.value === this.modelValue[0]).children;
+        // this.modelValue[1] = "";
+      }
+      return temp;
+    },
   },
   methods: {
     onChange: function(){
