@@ -23,6 +23,7 @@ Form
   Radio 單選框 -----> ud-radio
   Checkbox 多選框 -----> ud-checkbox
   Select 下拉框 -----> ud-select
+  SelectLink 連動下拉框 -----> ud-select-link
   Switch 開關 -----> ud-switch
   FormItem 表單驗證容器 -----> ud-form-item
   Form 表單驗證 -----> ud-form
@@ -266,19 +267,19 @@ Vue.component('ud-radio', {
   name: "UdRadio",
   inheritAttrs: false,
   template: `
-    <div class="ud-radio" :class="{'flex-radio': flex}">
-      <label v-for="(value, key) in options" :key="key">
+    <div class="ud-radio" :class="{'is-flex': flex}">
+      <label v-for="option in options" :key="option.value">
         <input
           type="radio"
           v-model="modelValue"
-          :value="key"
+          :value="option.value"
           v-bind="$attrs"
           @change="onChange"
         >
-        <div class="input-decorator"
+        <div class="radio-decorator"
           :style="{'border-radius': radius}"
         ></div>
-        <p>{{ value }}</p>
+        <p>{{ option.label }}</p>
       </label>
     </div>
   `,
@@ -306,8 +307,8 @@ Vue.component('ud-checkbox', {
   name: "UdCheckbox",
   inheritAttrs: false,
   template: `
-    <div class="ud-checkbox" :class="{'flex-checkbox': flex}">
-      <template v-if="typeof options === 'boolean'">
+    <div class="ud-checkbox" :class="{'is-flex': flex}">
+      <template v-if="typeof options === 'string'">
         <label>
           <input
             type="checkbox"
@@ -315,28 +316,28 @@ Vue.component('ud-checkbox', {
             v-bind="$attrs"
             @change="onChange"
           >
-          <div class="input-decorator"></div>
-          <p><slot>{{ value }}</slot></p>
+          <div class="checkbox-decorator"></div>
+          <p><slot>{{ options }}</slot></p>
         </label>
       </template>
       <template v-else>
-        <label v-for="(value, key) in options" :key="key">
+        <label v-for="option in options" :key="option.value">
           <input
             type="checkbox"
-            :value="key"
+            :value="option.value"
             v-model="modelValue"
             v-bind="$attrs"
             @change="onChange"
           >
-          <div class="input-decorator"></div>
-          <p>{{ value }}</p>
+          <div class="checkbox-decorator"></div>
+          <p>{{ option.label }}</p>
         </label>
       </template>
     </div>
   `,
   props: {
     value: null, // value值 單個時綁定Boolean 多個時綁定Array
-    options: { default: false }, // 選項
+    options: null, // 選項
     flex: Boolean, // 是否並排
   },
   computed: {
@@ -359,15 +360,51 @@ Vue.component('ud-select', {
   template: `
     <div class="ud-select">
       <select 
-        class="ud-select" 
         v-model="modelValue" 
         :data-placeholder-selected="modelValue.length === 0"
         v-bind="$attrs"
         @change="onChange"
       >
         <option value="" disabled selected>{{ placeholder }}</option>
-        <option v-for="(value, key) in options" :value="key" :key="key">
-          {{ value }}
+        <option v-for="option in options" :value="option.value" :key="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  `,
+  props: {
+    value: null, // value值
+    options: null, // 選項
+    placeholder: { default: "請選擇一項" } // 取代文字
+  },
+  computed: {
+    modelValue: {
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
+    }
+  },
+  methods: {
+    onChange: function(){
+      this.$parent.$emit('validate'); // 通知FormItem校驗
+    }
+  },
+})
+
+// SelectLink 連動下拉框
+Vue.component('ud-select-link', {
+  name: "UdSelectLink",
+  inheritAttrs: false,
+  template: `
+    <div class="ud-select-link">
+      <select 
+        v-model="modelValue" 
+        :data-placeholder-selected="modelValue.length === 0"
+        v-bind="$attrs"
+        @change="onChange"
+      >
+        <option value="" disabled selected>{{ placeholder }}</option>
+        <option v-for="option in options" :value="option.value" :key="option.value">
+          {{ option.label }}
         </option>
       </select>
     </div>
@@ -448,7 +485,7 @@ Vue.component('ud-form-item', {
     prop: { // 驗證名稱
       type: String
     },
-    flex: { // 是否橫排排版
+    flex: { // 是否並排
       type: Boolean
     },
     labelWidth: { // 標籤寬度

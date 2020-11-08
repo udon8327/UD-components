@@ -20,7 +20,7 @@
   <body>
     <noscript>Your browser does not support JavaScript!</noscript>
     <div id="app">
-      <ud-modal v-model="isModalShow" mask-cancel has-cancel :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
+      <ud-modal v-model="isModalShow" :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
           <ud-form :rules="rules" :model="user" ref="form">
@@ -37,25 +37,20 @@
               <ud-input placeholder="驗證碼" v-model="user.verify"></ud-input>
             </ud-form-item>
             <ud-form-item label="單選" prop="radio">
-              <ud-radio v-model="user.radio" :options="charaObj" flex></ud-radio>
+              <ud-radio v-model="user.radio" :options="charaArr" flex></ud-radio>
             </ud-form-item>
             <ud-form-item label="條款" prop="agree">
-              <ud-checkbox v-model="user.agree" :options="{false: '我同意使用者條款'}"></ud-checkbox>
+              <ud-checkbox v-model="user.agree" options="我同意使用者條款"></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="多選" prop="checkbox">
-              <ud-checkbox v-model="user.checkbox" :options="charaObj" flex></ud-checkbox>
+              <ud-checkbox v-model="user.checkbox" :options="charaArr" flex></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="下拉" prop="select">
               <ud-select v-model="user.select" :options="charaArr"></ud-select>
             </ud-form-item>
           </ud-form><br>
-          <ud-button @click="formSubmit">送出表單</ud-button><br><br>
-          <ud-button @click="isTabOpen = !isTabOpen">開關</ud-button>
-          <ud-collapse v-model="isTabOpen">
-            <h1>測試文字</h1>
-            <h1>測試文字</h1>
-            <h1>測試文字</h1>
-          </ud-collapse><br>
+          <ud-button @click="formSubmit">送出表單</ud-button>
+          <ud-select-link v-model="user.store" :option="storeArr"></ud-select-link>
         </div>
       </div>
     </div>

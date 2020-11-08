@@ -4,6 +4,8 @@ var officialAccountURL = "https://line.me/zh-hant/";
 var vm = new Vue({
     el: "#app",
     data: {
+        isModalShow: 0,
+        modalMessage: "這是modalMessage",
         user: {
             name: "",
             birthday: "",
@@ -14,6 +16,10 @@ var vm = new Vue({
             agree: false,
             checkbox: [],
             select: "",
+            store: {
+                county: "",
+                area: ""
+            }
         },
         rules: {
             name: [
@@ -45,29 +51,6 @@ var vm = new Vue({
                 { type: "required" },
             ],
         },
-        isTabOpen: false,
-        title: "UDON",
-        switchVal: false,
-        userData: {},
-        captcha: "",
-        isAlertShow: 0,
-        isConfirmShow: 0,
-        isModalShow: 0,
-        alertMessage: "這是alertMessage",
-        confirmMessage: "這是confirmMessage",
-        modalMessage: "這是modalMessage",
-        value: 0,
-        carouselList: [
-            { img: 'https://picsum.photos/900/506?image=508', href: '#' },
-            { img: 'https://picsum.photos/900/506?image=1068', href: '#' },
-            { img: 'https://picsum.photos/900/506?image=509', href: '#' }
-        ],
-        inputVal: "",
-        textareaVal: "",
-        radioVal: "",
-        acceptVal: false,
-        checkboxVal: [],
-        selectVal: "",
         charaObj: {
             nico: "妮可",
             maru: "花丸",
@@ -86,7 +69,7 @@ var vm = new Vue({
         storeArr: [
             {
                 label: "基隆市", value: "KL",
-                area: [
+                children: [
                     { label: "仁愛區", value: "200" },
                     { label: "信義區", value: "201" },
                     { label: "中正區", value: "202" },
@@ -96,7 +79,7 @@ var vm = new Vue({
             },
             {
                 label: "台北市", value: "TP",
-                area: [
+                children: [
                     { label: "中正區", value: "100" },
                     { label: "大同區", value: "103" },
                     { label: "中山區", value: "104" },
@@ -106,7 +89,7 @@ var vm = new Vue({
             },
             {
                 label: "新北市", value: "NT",
-                area: [
+                children: [
                     { label: "萬里區", value: "207" },
                     { label: "金山區", value: "208" },
                     { label: "板橋區", value: "220" },
@@ -115,108 +98,17 @@ var vm = new Vue({
                 ]
             },
         ],
-        form: {},
-        scr: 0,
     },
     mounted: function () {
         // this.init();
         // this.getData();
-        // let io = new IntersectionObserver(entry => {
-        //     entry.forEach(e => {
-        //       if(e.isIntersecting){
-        //         e.target.src = e.target.dataset.src;
-        //         e.target.classList.remove('op-0');
-        //         e.target.classList.add(e.target.dataset.animate);
-        //         io.unobserve(e.target);
-        //       }
-        //     });
-        //   },
-        //   { threshold: [1] }
-        // );
-        // let imgList = document.querySelectorAll('.test');
-        // imgList.forEach(img => io.observe(img));
-        // let mo = new MutationObserver(mutationRecords => {
-        //   console.log(mutationRecords);
-        // },)
-        // mo.observe(document.querySelector('.mo'),{
-        //   subtree: true,
-        //   childList: true,
-        //   attributes: true,
-        //   characterData: true,
-        // });
-        // window.addEventListener('scroll', () => {
-        //   this.test();
-        // })
-        // throttle(this.test, 2000);
     },
     methods: {
         formSubmit: function () {
             var _this = this;
             this.$refs.form.validate(function () {
-                console.log('驗證成功!!');
                 _this.$alert({ msg: "驗證成功!!" });
             });
-        },
-        test: function () {
-            console.log(getRandom());
-        },
-        onFocus: function () {
-            console.log('aa');
-        },
-        load: function () {
-            console.log("加載!");
-        },
-        success: function () {
-            this.$alert({ msg: "表單成功送出" });
-        },
-        random: function () {
-            console.log(getRandom());
-        },
-        showAlert: function (msg) {
-            this.isAlertShow = 1;
-            this.alertMessage = msg;
-        },
-        showConfirm: function (msg) {
-            this.isConfirmShow = 1;
-            this.confirmMessage = msg;
-        },
-        showModal: function (msg) {
-            this.isModalShow = 1;
-            this.modalMessage = msg;
-        },
-        alert: function () {
-            var _this = this;
-            this.$alert({
-                title: "警告",
-                msg: this.title + "\u60A8\u597D\uFF0C\u78BA\u5B9A\u8981\u9001\u51FA\u55CE?",
-                btnClose: true,
-                confirm: function () {
-                    _this.$formulate.submit("my-form");
-                    _this.$alert({
-                        maskClose: true,
-                        msg: "已成功送出!",
-                        confirm: function () {
-                            _this.$alert();
-                        }
-                    });
-                }
-            });
-        },
-        confirm: function () {
-            var _this = this;
-            this.$confirm({
-                msg: "真的要送出嗎?",
-                confirm: function () {
-                    _this.$formulate.submit("my-form");
-                    _this.$alert({
-                        msg: "已送出，謝謝您的回答"
-                    });
-                }
-            });
-        },
-        submit: function () {
-            this.$formulate.submit("my-form");
-            this.isConfirmShow = 0;
         },
         //API
         init: function () {
