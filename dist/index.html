@@ -30,23 +30,23 @@
             <ud-form-item label="年齡" prop="age" flex>
               <ud-input placeholder="請輸入您的年齡" v-model="user.age" type="tel"></ud-input>
             </ud-form-item>
-            <ud-form-item label="電話生日" prop="birthday" flex>
+            <ud-form-item label="生日" prop="birthday" flex>
               <ud-input placeholder="請輸入您的生日" v-model="user.birthday"></ud-input>
             </ud-form-item>
             <ud-form-item label="驗證碼" prop="verify" flex>
               <ud-input placeholder="驗證碼" v-model="user.verify"></ud-input>
             </ud-form-item>
             <ud-form-item label="單選" prop="radio">
-              <ud-radio v-model="user.radio" :options="formObj" flex></ud-radio>
+              <ud-radio v-model="user.radio" :options="charaObj" flex></ud-radio>
             </ud-form-item>
             <ud-form-item label="條款" prop="agree">
               <ud-checkbox v-model="user.agree" :options="{false: '我同意使用者條款'}"></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="多選" prop="checkbox">
-              <ud-checkbox v-model="user.checkbox" :options="formObj" flex></ud-checkbox>
+              <ud-checkbox v-model="user.checkbox" :options="charaObj" flex></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="下拉" prop="select">
-              <ud-select v-model="user.select" :options="formObj"></ud-select>
+              <ud-select v-model="user.select" :options="charaArr"></ud-select>
             </ud-form-item>
           </ud-form><br>
           <ud-button @click="formSubmit">送出表單</ud-button><br><br>

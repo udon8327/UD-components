@@ -136,3 +136,8 @@ p {
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.1);
   z-index: 200; }
+
+.d-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }

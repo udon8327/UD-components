@@ -225,7 +225,7 @@ Vue.component('ud-input', {
   },
   methods: {
     onInput: function(){
-      this.$parent.$emit('validate', false); // 通知FormItem校驗
+      this.$parent.$emit('validate'); // 通知FormItem校驗
     }
   },
 })
@@ -238,7 +238,7 @@ Vue.component('ud-textarea', {
     <div class="ud-textarea">
       <textarea
         type="text"
-        v-model="textareaValue"
+        v-model="modelValue"
         v-bind="$attrs"
         @input="onInput"
       >
@@ -249,14 +249,14 @@ Vue.component('ud-textarea', {
     value: null,
   },
   computed: {
-    textareaValue: {
+    modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     }
   },
   methods: {
     onInput: function(){
-      this.$parent.$emit('validate', false); // 通知FormItem校驗
+      this.$parent.$emit('validate'); // 通知FormItem校驗
     }
   },
 })
@@ -270,7 +270,7 @@ Vue.component('ud-radio', {
       <label v-for="(value, key) in options" :key="key">
         <input
           type="radio"
-          v-model="radioValue"
+          v-model="modelValue"
           :value="key"
           v-bind="$attrs"
           @change="onChange"
@@ -289,14 +289,14 @@ Vue.component('ud-radio', {
     radius: { default: "1em" }, // 圓角
   },
   computed: {
-    radioValue: {
+    modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     }
   },
   methods: {
     onChange: function(){
-      this.$parent.$emit('validate', false); // 通知FormItem校驗
+      this.$parent.$emit('validate'); // 通知FormItem校驗
     }
   },
 })
@@ -311,7 +311,7 @@ Vue.component('ud-checkbox', {
         <label>
           <input
             type="checkbox"
-            v-model="checkboxValue"
+            v-model="modelValue"
             v-bind="$attrs"
             @change="onChange"
           >
@@ -324,7 +324,7 @@ Vue.component('ud-checkbox', {
           <input
             type="checkbox"
             :value="key"
-            v-model="checkboxValue"
+            v-model="modelValue"
             v-bind="$attrs"
             @change="onChange"
           >
@@ -340,14 +340,14 @@ Vue.component('ud-checkbox', {
     flex: Boolean, // 是否並排
   },
   computed: {
-    checkboxValue: {
+    modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     }
   },
   methods: {
     onChange: function(){
-      this.$parent.$emit('validate', false); // 通知FormItem校驗
+      this.$parent.$emit('validate'); // 通知FormItem校驗
     }
   },
 })
@@ -360,8 +360,8 @@ Vue.component('ud-select', {
     <div class="ud-select">
       <select 
         class="ud-select" 
-        v-model="selectValue" 
-        :data-placeholder-selected="selectValue.length === 0"
+        v-model="modelValue" 
+        :data-placeholder-selected="modelValue.length === 0"
         v-bind="$attrs"
         @change="onChange"
       >
@@ -378,14 +378,14 @@ Vue.component('ud-select', {
     placeholder: { default: "請選擇一項" } // 取代文字
   },
   computed: {
-    selectValue: {
+    modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     }
   },
   methods: {
     onChange: function(){
-      this.$parent.$emit('validate', false); // 通知FormItem校驗
+      this.$parent.$emit('validate'); // 通知FormItem校驗
     }
   },
 })
@@ -399,7 +399,7 @@ Vue.component('ud-switch', {
       <label>
         <input 
           type="checkbox"
-          v-model="switchValue"
+          v-model="modelValue"
           v-bind="$attrs"
         >
         <div class="switch-decorator">
@@ -413,13 +413,12 @@ Vue.component('ud-switch', {
     value: { default: false }, // value值
   },
   computed: {
-    switchValue: {
+    modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     }
   },
 })
-
 
 // FormItem 表單驗證容器
 Vue.component('ud-form-item', {
@@ -462,7 +461,7 @@ Vue.component('ud-form-item', {
   },
   mounted() {
     this.$on('validate', () => {
-      this.validate(this.$event);
+      this.validate(false);
     })
   },
   methods: {
@@ -556,7 +555,7 @@ Vue.component('ud-form', {
   methods: {
     validate(callback) {
       this.submitLock = false;
-      const tasks = this.$children.filter(item => item.prop).map(item => item.validate(true))
+      const tasks = this.$children.filter(item => item.prop).map(item => item.validate(true));
       console.log('tasks: ', tasks);
       Promise.all(tasks)
         .then(() => callback())
