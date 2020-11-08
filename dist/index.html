@@ -50,7 +50,7 @@
             </ud-form-item>
           </ud-form><br>
           <ud-button @click="formSubmit">送出表單</ud-button>
-          <ud-select-link v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區']"></ud-select-link>
+          <ud-select-link v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區']"><span>~</span></ud-select-link>
           <p>{{ user.store }}</p>
         </div>
       </div>

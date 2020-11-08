@@ -3,8 +3,6 @@ declare var $: (selector: string) => any;
 const baseURL = "https://udon8327.synology.me/";
 const officialAccountURL = "https://line.me/zh-hant/";
 
-// Vue.use(VueAwesomeSwiper)
-
 let vm = new Vue({
   el: "#app",
   data: {
@@ -25,34 +23,14 @@ let vm = new Vue({
       store: ["", ""]
     },
     rules: {
-      name: [
-        { type: "required" },
-        { type: "name" },
-      ],
-      birthday: [
-        { type: "required" },
-        { type: "date" }
-      ],
-      age: [
-        { type: "required" },
-        { type: "number" },
-      ],
-      verify: [
-        { type: "required" },
-        { type: "equl", equlTo: "code", caseIgnore: "true"}
-      ],
-      radio: [
-        { type: "required" },
-      ],
-      agree: [
-        { type: "required" , message: "請先同意相關使用條款"},
-      ],
-      checkbox: [
-        { type: "required" },
-      ],
-      select: [
-        { type: "required" },
-      ],
+      name: [{ type: "required" }, { type: "name" }],
+      birthday: [{ type: "required" }, { type: "date" }],
+      age: [{ type: "required" }, { type: "number" },],
+      verify: [{ type: "required" }, { type: "equl", equlTo: "code", caseIgnore: "true"}],
+      radio: [{ type: "required" },],
+      agree: [{ type: "required", message: "請先同意相關使用條款"},],
+      checkbox: [{ type: "required" },],
+      select: [{ type: "required" },],
     },
 
     charaObj: {
@@ -69,7 +47,6 @@ let vm = new Vue({
       {label: "凜", value: "rin"},
       {label: "阿霞", value: "kasumin"},
     ],
-    // formArr: ["妮可", "花丸", "步夢", "凜", "阿霞"],
     storeArr: [
       {
         label: "基隆市", value: "KL",

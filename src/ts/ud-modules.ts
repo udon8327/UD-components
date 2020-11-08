@@ -396,8 +396,10 @@ Vue.component('ud-select-link', {
   template: `
     <div class="ud-select-link">
       <ud-select v-model="modelValue[0]" :options="firstArr" :placeholder="placeholder[0]"></ud-select>
+      <slot></slot>
       <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]"></ud-select>
-      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" v-if="third"></ud-select>
+      <slot name="second"></slot>
+      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" v-if="isThird"></ud-select>
     </div>
   `,
   props: {
@@ -408,12 +410,21 @@ Vue.component('ud-select-link', {
         return ["請選擇一項", "請選擇一項", "請選擇一項"];
       }
     },
-    third: Boolean
+    isThird: Boolean
   },
   computed: {
     modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
+    },
+    firstValue: function(){
+      return this.modelValue[0];
+    },
+    secondValue: function(){
+      return this.modelValue[1];
+    },
+    thirdValue: function(){
+      return this.modelValue[2];
     },
     firstArr: function(){
       let temp = this.options;
@@ -423,9 +434,24 @@ Vue.component('ud-select-link', {
       let temp = [];
       if(this.modelValue[0]){
         temp = this.options.find(option => option.value === this.modelValue[0]).children;
-        // this.modelValue[1] = "";
       }
       return temp;
+    },
+    thirdArr: function(){
+      let temp = [
+        { label: "AAA", value: "a"},
+        { label: "BBB", value: "b"},
+        { label: "CCC", value: "c"},
+      ];
+      return temp;
+    },
+  },
+  watch: {
+    firstValue: function(){
+      this.modelValue.splice(1, 1, "");
+    },
+    secondValue: function(){
+      if(this.third) this.modelValue.splice(2, 1, "");
     },
   },
   methods: {

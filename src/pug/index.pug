@@ -31,6 +31,8 @@ block content
   ud-button(@click="formSubmit") 送出表單
 
   ud-select-link(v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區']")
+    span ~
   p {{ user.store }}
+
 block js
   script(src="js/index.js")
