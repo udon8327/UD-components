@@ -37,21 +37,25 @@
               <ud-input placeholder="驗證碼" v-model="user.verify"></ud-input>
             </ud-form-item>
             <ud-form-item label="單選" prop="radio">
-              <ud-radio v-model="user.radio" :options="charaArr" flex combine></ud-radio>
+              <ud-radio v-model="user.radio" :options="charaArr" flex></ud-radio>
             </ud-form-item>
             <ud-form-item label="條款" prop="agree">
               <ud-checkbox v-model="user.agree" options="我同意使用者條款"></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="多選" prop="checkbox">
-              <ud-checkbox v-model="user.checkbox" :options="charaArr" flex combine></ud-checkbox>
+              <ud-checkbox v-model="user.checkbox" :options="charaArr" flex></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="下拉" prop="select">
-              <ud-select v-model="user.select" :options="charaArr" combine></ud-select>
+              <ud-select v-model="user.select" :options="charaArr"></ud-select>
             </ud-form-item>
           </ud-form><br>
           <ud-button @click="formSubmit">送出表單</ud-button>
           <ud-select-link v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區']" flex third></ud-select-link>
+          <ud-select-twzip v-model="user.twzip" flex></ud-select-twzip>
+          <ud-select-date v-model="user.date" flex third></ud-select-date>
           <p>{{ user.store }}</p>
+          <p>{{ user.twzip }}</p>
+          <p>{{ user.date }}</p>
         </div>
       </div>
     </div>

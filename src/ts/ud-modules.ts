@@ -24,6 +24,7 @@ Form
   Checkbox 多選框 -----> ud-checkbox
   Select 下拉框 -----> ud-select
   SelectLink 連動下拉框 -----> ud-select-link
+  SelectDate 日期連動下拉框 -----> ud-select-date
   Switch 開關 -----> ud-switch
   FormItem 表單驗證容器 -----> ud-form-item
   Form 表單驗證 -----> ud-form
@@ -446,6 +447,87 @@ Vue.component('ud-select-link', {
       let temp = [];
       if(this.modelValue[1]){
         temp = this.secondArr.find(option => option.value === this.modelValue[1]).children;
+      }
+      return temp;
+    },
+  },
+  watch: {
+    firstValue: function(){
+      this.modelValue.splice(1, 1, "");
+    },
+    secondValue: function(){
+      if(this.third) this.modelValue.splice(2, 1, "");
+    },
+  },
+  methods: {
+    onChange: function(){
+      this.$parent.$emit('validate'); // 通知FormItem校驗
+    }
+  },
+})
+
+// SelectDate 日期連動下拉框
+Vue.component('ud-select-date', {
+  name: "UdSelectDate",
+  template: `
+    <div class="ud-select-date" :class="{'is-flex': flex}">
+      <ud-select v-model="modelValue[0]" :options="firstArr" :placeholder="placeholder[0]" combine></ud-select>
+      <slot></slot>
+      <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]" combine></ud-select>
+      <slot name="second"></slot>
+      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" combine v-if="third"></ud-select>
+    </div>
+  `,
+  props: {
+    value: null, // value值
+    placeholder: { // placeholder值 [Array]
+      default: () => {
+        return ["年", "月", "日"];
+      }
+    },
+    third: Boolean, // 是否有第三項
+    flex: Boolean, // 是否並排
+  },
+  computed: {
+    modelValue: {
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
+    },
+    firstValue: function(){
+      return this.modelValue[0];
+    },
+    secondValue: function(){
+      return this.modelValue[1];
+    },
+    thirdValue: function(){
+      return this.modelValue[2];
+    },
+    firstArr: function(){
+      let temp = [];
+      let time = new Date();
+      let year = time.getFullYear();
+      let yearAfter = year - 120;
+      for(let i = year; i >= yearAfter; i--){
+        temp.push({value: i});
+      }
+      return temp;
+    },
+    secondArr: function(){
+      let temp = [];
+      if(this.firstValue){
+        for(let i = 1; i <= 12; i++){
+          temp.push({value: i});
+        }
+      }
+      return temp;
+    },
+    thirdArr: function(){
+      let temp = [];
+      if(this.firstValue && this.secondValue){
+        let date = new Date(this.firstValue,this.secondValue,0).getDate();
+        for(let i = 1; i <= date; i++){
+          temp.push({value: i});
+        }
       }
       return temp;
     },

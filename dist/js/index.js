@@ -15,7 +15,9 @@ var vm = new Vue({
             agree: false,
             checkbox: [],
             select: "",
-            store: ["", "", ""]
+            store: ["", "", ""],
+            twzip: ["", ""],
+            date: [2020, 11, 9]
         },
         rules: {
             name: [{ type: "required" }, { type: "name" }],

@@ -20,20 +20,28 @@ block content
     ud-form-item(label="驗證碼" prop="verify" flex)
       ud-input(placeholder="驗證碼" v-model="user.verify")
     ud-form-item(label="單選" prop="radio")
-      ud-radio(v-model="user.radio" :options="charaArr" flex combine)
+      ud-radio(v-model="user.radio" :options="charaArr" flex)
     ud-form-item(label="條款" prop="agree")
       ud-checkbox(v-model="user.agree" options="我同意使用者條款")
     ud-form-item(label="多選" prop="checkbox")
-      ud-checkbox(v-model="user.checkbox" :options="charaArr" flex combine)
+      ud-checkbox(v-model="user.checkbox" :options="charaArr" flex)
     ud-form-item(label="下拉" prop="select")
-      ud-select(v-model="user.select" :options="charaArr" combine)
+      ud-select(v-model="user.select" :options="charaArr")
   br
   ud-button(@click="formSubmit") 送出表單
 
   ud-select-link(v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區']" flex third)
     //- p >
     //- p(slot="second") >
+  ud-select-twzip(v-model="user.twzip" flex)
+    //- p 縣市
+    //- p(slot="second") 區
+  ud-select-date(v-model="user.date" flex third)
+    //- p 年
+    //- p(slot="second") 月
   p {{ user.store }}
+  p {{ user.twzip }}
+  p {{ user.date }}
 
 block js
   script(src="js/index.js")
