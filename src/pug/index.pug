@@ -20,17 +20,17 @@ block content
     ud-form-item(label="驗證碼" prop="verify" flex)
       ud-input(placeholder="驗證碼" v-model="user.verify")
     ud-form-item(label="單選" prop="radio")
-      ud-radio(v-model="user.radio" :options="charaArr" flex)
+      ud-radio(v-model="user.radio" :options="charaArr" flex combine)
     ud-form-item(label="條款" prop="agree")
       ud-checkbox(v-model="user.agree" options="我同意使用者條款")
     ud-form-item(label="多選" prop="checkbox")
-      ud-checkbox(v-model="user.checkbox" :options="charaArr" flex)
+      ud-checkbox(v-model="user.checkbox" :options="charaArr" flex combine)
     ud-form-item(label="下拉" prop="select")
-      ud-select(v-model="user.select" :options="charaArr")
+      ud-select(v-model="user.select" :options="charaArr" combine)
   br
   ud-button(@click="formSubmit") 送出表單
 
-  ud-select-link(v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區', '分店']" flex third)
+  ud-select-link(v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區']" flex third)
     //- p >
     //- p(slot="second") >
   p {{ user.store }}

@@ -279,7 +279,7 @@ Vue.component('ud-radio', {
         <div class="radio-decorator"
           :style="{'border-radius': radius}"
         ></div>
-        <p>{{ option.label }}</p>
+        <p>{{ combine ? option.value : option.label }}</p>
       </label>
     </div>
   `,
@@ -288,6 +288,7 @@ Vue.component('ud-radio', {
     options: null, // 選項
     flex: Boolean, // 是否並排
     radius: { default: "1em" }, // 圓角
+    combine: Boolean // 使用value做為label
   },
   computed: {
     modelValue: {
@@ -330,7 +331,7 @@ Vue.component('ud-checkbox', {
             @change="onChange"
           >
           <div class="checkbox-decorator"></div>
-          <p>{{ option.label }}</p>
+          <p>{{ combine ? option.value : option.label }}</p>
         </label>
       </template>
     </div>
@@ -339,6 +340,7 @@ Vue.component('ud-checkbox', {
     value: null, // value值 單個時綁定Boolean 多個時綁定Array
     options: null, // 選項
     flex: Boolean, // 是否並排
+    combine: Boolean // 使用value做為label
   },
   computed: {
     modelValue: {
@@ -367,7 +369,7 @@ Vue.component('ud-select', {
       >
         <option value="" disabled selected>{{ placeholder }}</option>
         <option v-for="option in options" :value="option.value" :key="option.value">
-          {{ option.label }}
+          {{ combine ? option.value : option.label }}
         </option>
       </select>
     </div>
@@ -375,7 +377,8 @@ Vue.component('ud-select', {
   props: {
     value: null, // value值
     options: null, // 選項
-    placeholder: { default: "請選擇一項" } // 取代文字
+    placeholder: { default: "請選擇一項" }, // 取代文字
+    combine: Boolean // 使用value做為label
   },
   computed: {
     modelValue: {
@@ -395,11 +398,11 @@ Vue.component('ud-select-link', {
   name: "UdSelectLink",
   template: `
     <div class="ud-select-link" :class="{'is-flex': flex}">
-      <ud-select v-model="modelValue[0]" :options="firstArr" :placeholder="placeholder[0]"></ud-select>
+      <ud-select v-model="modelValue[0]" :options="firstArr" :placeholder="placeholder[0]" :combine="combine"></ud-select>
       <slot></slot>
-      <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]"></ud-select>
+      <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]" :combine="combine"></ud-select>
       <slot name="second"></slot>
-      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" v-if="third"></ud-select>
+      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" :combine="combine" v-if="third"></ud-select>
     </div>
   `,
   props: {
@@ -411,7 +414,8 @@ Vue.component('ud-select-link', {
       }
     },
     third: Boolean, // 是否有第三項
-    flex: Boolean // 是否並排
+    flex: Boolean, // 是否並排
+    combine: Boolean, // 是否label直接使用value值
   },
   computed: {
     modelValue: {

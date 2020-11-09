@@ -33,18 +33,11 @@ let vm = new Vue({
       select: [{ type: "required" },],
     },
 
-    charaObj: {
-      nico: "妮可",
-      maru: "花丸",
-      pomu: "步夢",
-      rin: "凜",
-      kasumin: "阿霞"
-    },
     charaArr: [
       {label: "妮可", value: "nico"},
       {label: "花丸", value: "maru"},
       {label: "步夢", value: "pomu"},
-      {label: "凜", value: "rin"},
+      {label: "凜喵", value: "rin"},
       {label: "阿霞", value: "kasumin"},
     ],
     storeArr: [
