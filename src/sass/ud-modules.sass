@@ -207,6 +207,7 @@
     right: 1em
     position: absolute
     z-index: 1
+    pointer-events: none
   select
     appearance: none
     border-radius: 5px
@@ -231,11 +232,17 @@
 
 // SelectLink 連動下拉框
 .ud-select-link
-  display: flex
-  justify-content: center
-  align-items: center
+  margin-bottom: 0
+  &.is-flex
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-bottom: 15px
+    .ud-select
+      flex: 1 1 0
+      margin-bottom: 0
   .ud-select
-    flex: 1 1 0
+    margin-bottom: 15px
   >span,>p
     margin: 0 5px
 

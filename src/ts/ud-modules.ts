@@ -394,23 +394,24 @@ Vue.component('ud-select', {
 Vue.component('ud-select-link', {
   name: "UdSelectLink",
   template: `
-    <div class="ud-select-link">
+    <div class="ud-select-link" :class="{'is-flex': flex}">
       <ud-select v-model="modelValue[0]" :options="firstArr" :placeholder="placeholder[0]"></ud-select>
       <slot></slot>
       <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]"></ud-select>
       <slot name="second"></slot>
-      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" v-if="isThird"></ud-select>
+      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" v-if="third"></ud-select>
     </div>
   `,
   props: {
-    value: null, // value值  user.store: ["", ""]
-    options: null, // 選項  storeArr: []
-    placeholder: {
+    value: null, // value值
+    options: null, // 選項 [Array]
+    placeholder: { // placeholder值 [Array]
       default: () => {
         return ["請選擇一項", "請選擇一項", "請選擇一項"];
       }
     },
-    isThird: Boolean
+    third: Boolean, // 是否有第三項
+    flex: Boolean // 是否並排
   },
   computed: {
     modelValue: {
@@ -438,11 +439,10 @@ Vue.component('ud-select-link', {
       return temp;
     },
     thirdArr: function(){
-      let temp = [
-        { label: "AAA", value: "a"},
-        { label: "BBB", value: "b"},
-        { label: "CCC", value: "c"},
-      ];
+      let temp = [];
+      if(this.modelValue[1]){
+        temp = this.secondArr.find(option => option.value === this.modelValue[1]).children;
+      }
       return temp;
     },
   },
