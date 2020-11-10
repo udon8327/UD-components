@@ -240,11 +240,15 @@
     margin-bottom: 15px
     .ud-select
       flex: 1 1 0
-      margin-bottom: 0
+      margin: 0 5px 0 0
+      &:last-of-type
+        margin: 0
+        + span,+ p
+          margin: 0 5px
+      + span,+ p
+        margin: 0 5px 0 0
   .ud-select
     margin-bottom: 15px
-  >span,>p
-    margin: 0 5px
 
 // Switch 開關
 .ud-switch
