@@ -50,9 +50,13 @@
             </ud-form-item>
           </ud-form><br>
           <ud-button @click="formSubmit">送出表單</ud-button>
-          <ud-select-link v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區']" flex third></ud-select-link>
+          <ud-select-link v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區', '分店']" flex third></ud-select-link>
           <ud-select-twzip v-model="user.twzip" flex></ud-select-twzip>
-          <ud-select-date v-model="user.date" flex third></ud-select-date>
+          <ud-select-date v-model="user.date" flex third roc>
+            <p>年</p>
+            <p slot="second">月</p>
+            <p slot="third">日</p>
+          </ud-select-date>
           <p>{{ user.store }}</p>
           <p>{{ user.twzip }}</p>
           <p>{{ user.date }}</p>

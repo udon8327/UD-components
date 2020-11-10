@@ -17,7 +17,7 @@ var vm = new Vue({
             select: "",
             store: ["", "", ""],
             twzip: ["", ""],
-            date: [2020, 11, 9]
+            date: [109, 11, 10]
         },
         rules: {
             name: [{ type: "required" }, { type: "name" }],

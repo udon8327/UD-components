@@ -30,15 +30,16 @@ block content
   br
   ud-button(@click="formSubmit") 送出表單
 
-  ud-select-link(v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區']" flex third)
+  ud-select-link(v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區', '分店']" flex third)
     //- p >
     //- p(slot="second") >
   ud-select-twzip(v-model="user.twzip" flex)
     //- p 縣市
     //- p(slot="second") 區
-  ud-select-date(v-model="user.date" flex third)
-    //- p 年
-    //- p(slot="second") 月
+  ud-select-date(v-model="user.date" flex third roc)
+    p 年
+    p(slot="second") 月
+    p(slot="third") 日
   p {{ user.store }}
   p {{ user.twzip }}
   p {{ user.date }}

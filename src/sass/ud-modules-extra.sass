@@ -10,7 +10,6 @@
 
 // Validation
 //   VfCaptcha 圖形驗證碼 -----> vf-captcha
-//   VfDateGroup 日期群組驗證 -----> vf-date-group
 
 // Data
 //   Table 表格 -----> ud-table
@@ -109,29 +108,6 @@
   .refresh
     cursor: pointer
     transform: translate(0,5px)
-
-// VfDateGroup 日期群組驗證
-.vf-date-group
-  display: flex
-  justify-content: space-between
-  align-items: center
-  select
-    flex: 1 1 auto
-  p
-    flex: 0 0 auto
-    margin: 0
-    padding: 0 8px
-    &:nth-of-type(3)
-      padding: 0 0px 0 8px
-    @media (max-width: 340px)
-      padding: 0 3px
-      &:nth-of-type(3)
-        padding: 0 0px 0 3px
-
-// VfAddressGroup 地址群組驗證
-.vf-address-group
-  >div
-    margin-bottom: 5px
 
 //-----------------------Data-----------------------
 // Table 表格

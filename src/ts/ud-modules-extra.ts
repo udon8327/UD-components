@@ -11,7 +11,6 @@ Form
 
 Validation
   VfCaptcha 圖形驗證碼 -----> vf-captcha
-  VfDateGroup 日期群組驗證 -----> vf-date-group
 
 Data
   Table 表格 -----> ud-table
@@ -548,72 +547,6 @@ Vue.component('vf-captcha', {
       document.getElementById('verify-canvas').remove();
       this.$refs.canvasArea.insertAdjacentHTML('afterbegin', '<canvas width="100" height="48" id="verify-canvas" style="display: none;"></canvas>')
       this.drawCode();
-    }
-  },
-})
-
-// DateGroup 日期群組驗證
-Vue.component('vf-date-group', {
-  name: "VfDateGroup",
-  template: `
-    <div class="vf-date-select">
-      <select name="year" ref="year"></select>
-      <p>年</p>
-      <select name="month" ref="month"></select>
-      <p>月</p>
-      <select name="date" ref="date"></select>
-      <p>日</p>
-    </div>
-  `,
-  props: {
-    roc: Boolean //民國
-  },
-  mounted() {
-    this.dateSelect();
-  },
-  methods: {
-    dateSelect: function() {
-      let _this = this;
-      let time = new Date();
-      let year = time.getFullYear();
-      let selectYear = this.$refs.year;
-      let selectMonth = this.$refs.month;
-      let selectDate = this.$refs.date;
-      if (this.roc) {
-        for (let i = 0; i < year - 1911; i++) {
-          selectYear.insertAdjacentHTML("beforeEnd",`<option value=${year - 1911 - i}>${year - 1911 - i}</option>`);
-        }
-      } else {
-        for (let i = 0; i <= 120; i++) {
-          selectYear.insertAdjacentHTML("beforeEnd",`<option value=${year - i}>${year - i}</option>`);
-        }
-      }
-      selectYear.insertAdjacentHTML("afterbegin","<option value='' disabled selected></option>");
-      for (let i = 1; i <= 12; i++) {
-        selectMonth.insertAdjacentHTML("beforeEnd",`<option value=${i}>${i}</option>`);
-      }
-      selectMonth.insertAdjacentHTML("afterbegin","<option value='' disabled selected></option>");
-      selectYear.addEventListener("change", () => {
-        changeDate();
-      });
-      selectMonth.addEventListener("change", () => {
-        changeDate();
-      });
-    
-      function changeDate() {
-        let year = parseInt(selectYear.value);
-        let month = parseInt(selectMonth.value);
-        let day = new Date(_this.roc?year + 1911:year,month,0).getDate();
-        dateOption(day);
-    
-        function dateOption(n) {
-          selectDate.innerHTML = "";
-          for (let i = 1; i <= n; i++) {
-            selectDate.insertAdjacentHTML("beforeEnd",`<option value=${i}>${i}</option>`);
-          }
-          selectDate.insertAdjacentHTML("afterbegin","<option value='' disabled selected></option>");
-        }
-      }
     }
   },
 })

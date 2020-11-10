@@ -9,8 +9,6 @@ declare var $: (selector: string) => any;
 彈窗組件支援多種動畫效果
 表單組件樣式重整
 表單組件支援disabled
-編寫通用連動select
-編寫日期連動select
 編寫表格ud-table
 編寫分頁ud-pagination
 Alert,Confirm,Modal統一修改樣式
@@ -404,6 +402,7 @@ Vue.component('ud-select-link', {
       <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]" :combine="combine"></ud-select>
       <slot name="second"></slot>
       <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" :combine="combine" v-if="third"></ud-select>
+      <slot name="third"></slot>
     </div>
   `,
   props: {
@@ -476,6 +475,7 @@ Vue.component('ud-select-date', {
       <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]" combine></ud-select>
       <slot name="second"></slot>
       <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" combine v-if="third"></ud-select>
+      <slot name="third"></slot>
     </div>
   `,
   props: {
@@ -487,6 +487,7 @@ Vue.component('ud-select-date', {
     },
     third: Boolean, // 是否有第三項
     flex: Boolean, // 是否並排
+    roc: Boolean // 是否為民國年
   },
   computed: {
     modelValue: {
@@ -506,7 +507,9 @@ Vue.component('ud-select-date', {
       let temp = [];
       let time = new Date();
       let year = time.getFullYear();
+      if(this.roc) year = year - 1911;
       let yearAfter = year - 120;
+      if(this.roc && yearAfter <= 0) yearAfter = 1;
       for(let i = year; i >= yearAfter; i--){
         temp.push({value: i});
       }
@@ -524,7 +527,9 @@ Vue.component('ud-select-date', {
     thirdArr: function(){
       let temp = [];
       if(this.firstValue && this.secondValue){
-        let date = new Date(this.firstValue,this.secondValue,0).getDate();
+        let year = this.firstValue;
+        if(this.roc) year = year + 1911;
+        let date = new Date(year, this.secondValue, 0).getDate();
         for(let i = 1; i <= date; i++){
           temp.push({value: i});
         }
