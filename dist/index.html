@@ -48,15 +48,21 @@
             <ud-form-item label="下拉" prop="select">
               <ud-select v-model="user.select" :options="charaArr"></ud-select>
             </ud-form-item>
+            <ud-form-item label="櫃點" prop="store">
+              <ud-select-link v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區', '分店']" flex third></ud-select-link>
+            </ud-form-item>
+            <ud-form-item label="地址" prop="twzip">
+              <ud-select-twzip v-model="user.twzip" flex></ud-select-twzip>
+            </ud-form-item>
+            <ud-form-item label="預約日期" prop="date">
+              <ud-select-date v-model="user.date" flex third roc>
+                <p>年</p>
+                <p slot="second">月</p>
+                <p slot="third">日</p>
+              </ud-select-date>
+            </ud-form-item>
           </ud-form><br>
           <ud-button @click="formSubmit">送出表單</ud-button>
-          <ud-select-link v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區', '分店']" flex third></ud-select-link>
-          <ud-select-twzip v-model="user.twzip" flex></ud-select-twzip>
-          <ud-select-date v-model="user.date" flex third roc>
-            <p>年</p>
-            <p slot="second">月</p>
-            <p slot="third">日</p>
-          </ud-select-date>
           <p>{{ user.store }}</p>
           <p>{{ user.twzip }}</p>
           <p>{{ user.date }}</p>

@@ -458,10 +458,12 @@ Vue.component('ud-select-link', {
       if(this.third) this.modelValue.splice(2, 1, "");
     },
   },
-  methods: {
-    onChange: function(){
-      this.$parent.$emit('validate'); // 通知FormItem校驗
-    }
+  mounted() {
+    this.$on('validate', () => {
+      this.$nextTick(() => {
+        this.$parent.$emit('validate'); // 通知FormItem校驗
+      })
+    })
   },
 })
 
@@ -545,10 +547,12 @@ Vue.component('ud-select-date', {
       if(this.third) this.modelValue.splice(2, 1, "");
     },
   },
-  methods: {
-    onChange: function(){
-      this.$parent.$emit('validate'); // 通知FormItem校驗
-    }
+  mounted() {
+    this.$on('validate', () => {
+      this.$nextTick(() => {
+        this.$parent.$emit('validate'); // 通知FormItem校驗
+      })
+    })
   },
 })
 
@@ -636,7 +640,11 @@ Vue.component('ud-form-item', {
         this.errorMessage = "";
         switch (rule.type) {
           case "required": // 必填驗證
-            if(value.length === 0 || value === false) this.errorMessage = rule.message || "此欄位為必填項目";
+            if(Array.isArray(value) && value.length != 0){
+              if(value.some(i => i.length === 0)) this.errorMessage = rule.message || "此欄位為必填項目";
+            }else{
+              if(value.length === 0 || value === false) this.errorMessage = rule.message || "此欄位為必填項目";
+            }
             break;
           case "name": // 姓名驗證
             if(value && !new RegExp('^[a-zA-Z0-9_\u4e00-\u9fa5]+$').test(value)) this.errorMessage = rule.message || "姓名格式有誤，不接受特殊符號";

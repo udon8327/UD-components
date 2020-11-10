@@ -445,6 +445,13 @@ Vue.component('ud-select-twzip', {
       this.$parent.$emit('validate'); // 通知FormItem校驗
     }
   },
+  mounted() {
+    this.$on('validate', () => {
+      this.$nextTick(() => {
+        this.$parent.$emit('validate'); // 通知FormItem校驗
+      })
+    })
+  },
 })
 
 //-----------------------Validation-----------------------

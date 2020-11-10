@@ -28,6 +28,9 @@ var vm = new Vue({
             agree: [{ type: "required", message: "請先同意相關使用條款" },],
             checkbox: [{ type: "required" },],
             select: [{ type: "required" },],
+            store: [{ type: "required", message: "櫃點為必填項目" }],
+            twzip: [{ type: "required" }],
+            date: [{ type: "required" }],
         },
         charaArr: [
             { label: "妮可", value: "nico" },
@@ -113,46 +116,6 @@ var vm = new Vue({
                             { label: "大安分店01", value: "10601" },
                             { label: "大安分店02", value: "10602" },
                             { label: "大安分店03", value: "10603" },
-                        ]
-                    },
-                ]
-            },
-            {
-                label: "新北市", value: "NT",
-                children: [
-                    { label: "萬里區", value: "207",
-                        children: [
-                            { label: "萬里分店01", value: "20701" },
-                            { label: "萬里分店02", value: "20702" },
-                            { label: "萬里分店03", value: "20703" },
-                        ]
-                    },
-                    { label: "金山區", value: "208",
-                        children: [
-                            { label: "金山分店01", value: "20801" },
-                            { label: "金山分店02", value: "20802" },
-                            { label: "金山分店03", value: "20803" },
-                        ]
-                    },
-                    { label: "板橋區", value: "220",
-                        children: [
-                            { label: "板橋分店01", value: "22001" },
-                            { label: "板橋分店02", value: "22002" },
-                            { label: "板橋分店03", value: "22003" },
-                        ]
-                    },
-                    { label: "汐止區", value: "221",
-                        children: [
-                            { label: "汐止分店01", value: "22101" },
-                            { label: "汐止分店02", value: "22102" },
-                            { label: "汐止分店03", value: "22103" },
-                        ]
-                    },
-                    { label: "深坑區", value: "222",
-                        children: [
-                            { label: "深坑分店01", value: "22201" },
-                            { label: "深坑分店02", value: "22202" },
-                            { label: "深坑分店03", value: "22203" },
                         ]
                     },
                 ]

@@ -27,19 +27,18 @@ block content
       ud-checkbox(v-model="user.checkbox" :options="charaArr" flex)
     ud-form-item(label="下拉" prop="select")
       ud-select(v-model="user.select" :options="charaArr")
+    ud-form-item(label="櫃點" prop="store")
+      ud-select-link(v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區', '分店']" flex third)
+    ud-form-item(label="地址" prop="twzip")
+      ud-select-twzip(v-model="user.twzip" flex)
+    ud-form-item(label="預約日期" prop="date")
+      ud-select-date(v-model="user.date" flex third roc)
+        p 年
+        p(slot="second") 月
+        p(slot="third") 日
   br
   ud-button(@click="formSubmit") 送出表單
 
-  ud-select-link(v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區', '分店']" flex third)
-    //- p >
-    //- p(slot="second") >
-  ud-select-twzip(v-model="user.twzip" flex)
-    //- p 縣市
-    //- p(slot="second") 區
-  ud-select-date(v-model="user.date" flex third roc)
-    p 年
-    p(slot="second") 月
-    p(slot="third") 日
   p {{ user.store }}
   p {{ user.twzip }}
   p {{ user.date }}
