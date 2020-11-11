@@ -642,6 +642,8 @@ Vue.component('ud-form-item', {
           case "required": // 必填驗證
             if(Array.isArray(value) && value.length != 0){
               if(value.some(i => i.length === 0)) this.errorMessage = rule.message || "此欄位為必填項目";
+            }else if(value === null){
+              this.errorMessage = rule.message || "此欄位為必填項目";
             }else{
               if(value.length === 0 || value === false) this.errorMessage = rule.message || "此欄位為必填項目";
             }
@@ -699,7 +701,7 @@ Vue.component('ud-form-item', {
 Vue.component('ud-form', {
   name: "UdForm",
   template: `
-    <div class="ud-form">
+    <div class="ud-form" :class="{'is-no-error-msg': noErrorMsg}">
       <slot></slot>
     </div>
   `,
@@ -721,15 +723,18 @@ Vue.component('ud-form', {
     rules: { // 驗證規則
       type: Object
     },
+    noErrorMsg: {
+      type: Boolean // 有無錯誤提示
+    }
   },
   methods: {
-    validate(callback) {
+    validate(successCb = () => {console.log('驗證成功')}, failedCb = () => {console.log('驗證失敗')}) {
       this.submitLock = false;
       const tasks = this.$children.filter(item => item.prop).map(item => item.validate(true));
-      console.log('tasks: ', tasks);
+      // console.log('tasks: ', tasks);
       Promise.all(tasks)
-        .then(() => callback())
-        .catch(() => console.log('驗證失敗'))
+        .then(() => successCb())
+        .catch(() => failedCb())
     }
   }
 })

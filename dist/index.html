@@ -23,7 +23,7 @@
       <ud-modal v-model="isModalShow" :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-form :rules="rules" :model="user" ref="form">
+          <ud-form :rules="rules" :model="user" ref="form" no-error-msg>
             <ud-form-item label="姓名" prop="name" flex>
               <ud-input placeholder="請輸入您的姓名" v-model="user.name"></ud-input>
             </ud-form-item>
@@ -40,13 +40,13 @@
               <ud-radio v-model="user.radio" :options="charaArr" flex></ud-radio>
             </ud-form-item>
             <ud-form-item label="條款" prop="agree">
-              <ud-checkbox v-model="user.agree" options="我同意使用者條款"></ud-checkbox>
+              <ud-checkbox v-model="user.agree" options="我同意使用者條款" flex></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="多選" prop="checkbox">
               <ud-checkbox v-model="user.checkbox" :options="charaArr" flex></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="下拉" prop="select">
-              <ud-select v-model="user.select" :options="charaArr"></ud-select>
+              <ud-select v-model="user.select" :options="charaArr" flex></ud-select>
             </ud-form-item>
             <ud-form-item label="櫃點" prop="store">
               <ud-select-link v-model="user.store" :options="storeArr" :placeholder="['縣市', '行政區', '分店']" flex third></ud-select-link>
@@ -63,9 +63,6 @@
             </ud-form-item>
           </ud-form><br>
           <ud-button @click="formSubmit">送出表單</ud-button>
-          <p>{{ user.store }}</p>
-          <p>{{ user.twzip }}</p>
-          <p>{{ user.date }}</p>
         </div>
       </div>
     </div>

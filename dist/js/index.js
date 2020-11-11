@@ -36,8 +36,6 @@ var vm = new Vue({
             { label: "妮可", value: "nico" },
             { label: "花丸", value: "maru" },
             { label: "步夢", value: "pomu" },
-            { label: "凜喵", value: "rin" },
-            { label: "阿霞", value: "kasumin" },
         ],
         storeArr: [
             {
