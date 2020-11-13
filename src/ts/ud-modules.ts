@@ -44,6 +44,7 @@ Tools
   Html 用戶自定義訊息 -----> ud-html
   Backtop 回到頂部 -----> ud-backtop
   Ellipsis 文字省略 -----> ud-ellipsis
+  Phone 撥打電話 -----> ud-phone
 
 ==================== 工具函數目錄 ====================
 String
@@ -100,7 +101,9 @@ DOM
   取得頁面可視高度(寬度) -----> getPageView
 
 Verify
-  各種校驗綜合函式 -----> validate
+  各式驗證函式 -----> isRegex
+  精準數字驗證 -----> isNumber
+  未填入驗證 -----> isEmpty
 
 Browser
   動態加載css文件 -----> loadStyle
@@ -1203,6 +1206,27 @@ Vue.component('ud-ellipsis', {
   },
 })
 
+// Phone 撥打電話
+// 需取消meta標籤的禁止撥打電話
+Vue.component('ud-phone', {
+  name: "UdPhone",
+  template: `
+    <div class="ud-phone">
+      <a :href="phoneHref">
+        <slot>></slot>
+      </a>
+    </div>
+  `,
+  props: {
+    number: { default: "0912345678" } // 指定省略行數
+  },
+  computed: {
+    phoneHref: function(){
+      return `tel:${this.number}`
+    }
+  },
+})
+
 
 //-----------------------String-----------------------
 /**
@@ -1835,51 +1859,97 @@ function getPageView(direction) {
 
 //-----------------------Verify-----------------------
 /**
- * 各種校驗綜合函式
- * @param  {String} type 校驗類型
- * @param  {String} str 正則表達式
+ * 各式驗證函式
+ * @param  {String} type 驗證類型
+ * @param  {Any} val 要驗證的值
  * @param  {String} regex 指定正則表達式
  */
-function validate(type, str, regex){
+function isRegex(type, val, regex){
   switch (type) {
-    //校驗是否為姓名(不含符號)
+    // 姓名驗證
     case "name":
-      return /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(str);
+      return /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(val);
       break;
-    //校驗是否為手機號碼
+    // 電話驗證
     case "phone":
-      return /^09\d{8}$/.test(str);
+      return /^09[0-9]{8}$/.test(val);
       break;
-    //校驗是否為電子郵件
+    // 電子郵件驗證
     case "email":
-      return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(str);
+      return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(val);
       break;
-    //校驗是否為身分證字號
-    case "id":
-      return /^[A-Z]\d{9}$/.test(str);
+    // 身分證字號驗證
+    case "idcard":
+      return /^[A-Z](1|2)[0-9]{8}$/.test(val);
       break;
-    //校驗是否為西元日期格式(1996-08-06)
+    // 日期驗證(1988-05-27)
     case "date":
-      return /^\d{4}-\d{2}-\d{2}$/.test(str);
+      return /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/.test(val);
       break;
-    //校驗是否為網址
+    // 數字驗證
+    case "number":
+      return !isNaN(val);
+      break;
+    // 網址驗證
     case "url":
-      return /^(https:\/\/|http:\/\/|ftp:\/\/|rtsp:\/\/|mms:\/\/)?[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/.test(str);
+      return /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(val);
       break;
-    //校驗是否為不含端口號的IP地址
+    // IP地址驗證
     case "ip":
-      return /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/.test(str);
+      return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(val);
       break;
-    //校驗是否為IPv6地址
-    case "ipv6":
-      return Boolean(str.match(/:/g)?str.match(/:/g).length<=7:false && /::/.test(str)?/^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(str):/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str));
+    // Hex色碼驗證
+    case "hex":
+      return /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/.test(val);
       break;
     //校驗是否為指定正則表達式
     case "regex":
       let regexMode = new RegExp(regex);
-      return regexMode.test(str);
+      return regexMode.test(val);
       break;
   }
+}
+
+/**
+ * 精準數字驗證
+ * @param  {Any} val 要驗證的值
+ */
+function isNumber(val){
+  if(typeOf(val) !== "number"){
+    return false;
+  }else{
+    return !isNaN(val);
+  }
+}
+
+/**
+ * 未填入驗證
+ * @param  {Any} val 要驗證的值
+ */
+function isEmpty(val){
+  switch(typeOf(val)){
+    case "string":
+      if(val.length === 0) return true;
+      break;
+    case "number":
+      break;
+    case "boolean":
+      if(!val) return true;
+      break;
+    case "array":
+      if(val.length === 0) return true;
+      if(val.some(i => i.length === 0)) return true;
+      break;
+    case "object":
+      break;
+    case "null":
+      return true;
+      break;
+    case "undefined":
+      return true;
+      break;
+  }
+  return false;
 }
 
 //-----------------------Browser-----------------------
