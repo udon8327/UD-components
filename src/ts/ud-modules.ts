@@ -1207,18 +1207,17 @@ Vue.component('ud-ellipsis', {
 })
 
 // Phone 撥打電話
-// 需取消meta標籤的禁止撥打電話
 Vue.component('ud-phone', {
   name: "UdPhone",
   template: `
     <div class="ud-phone">
       <a :href="phoneHref">
-        <slot>></slot>
+        <slot>{{ number }}</slot>
       </a>
     </div>
   `,
   props: {
-    number: { default: "0912345678" } // 指定省略行數
+    number: { default: "0912345678" } // 電話號碼
   },
   computed: {
     phoneHref: function(){
