@@ -23,7 +23,7 @@
       <ud-modal v-model="isModalShow" :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-form :rules="rules" :model="user" ref="form" no-error-msg>
+          <ud-form :rules="rules" :model="user" ref="form">
             <ud-form-item label="姓名" prop="name" flex>
               <ud-input placeholder="請輸入您的姓名" v-model="user.name"></ud-input>
             </ud-form-item>

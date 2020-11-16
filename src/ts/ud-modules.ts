@@ -1928,7 +1928,7 @@ function isNumber(val){
 function isEmpty(val){
   switch(typeOf(val)){
     case "string":
-      if(val.length === 0) return true;
+      if(val.trim().length === 0) return true;
       break;
     case "number":
       break;
