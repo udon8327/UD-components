@@ -532,7 +532,7 @@ Vue.component('ud-select-date', {
     thirdArr: function(){
       let temp = [];
       if(this.firstValue && this.secondValue){
-        let year = this.firstValue;
+        let year = parseInt(this.firstValue);
         if(this.roc) year = year + 1911;
         let date = new Date(year, this.secondValue, 0).getDate();
         for(let i = 1; i <= date; i++){
