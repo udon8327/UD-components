@@ -920,8 +920,8 @@ Vue.component("ud-confirm", {
             </div>
             <div class="modal-footer">
               <div class="button-area">
-                <ud-button plain @click="$emit('input', 0)">{{ cancelTxt }}</ud-button>
-                <ud-button @click="$emit('confirm')">{{ confirmTxt }}</ud-button>
+                <ud-button plain @click="$emit('input', 0)">{{ cancelText }}</ud-button>
+                <ud-button @click="$emit('confirm')">{{ confirmText }}</ud-button>
               </div>
             </div>
           </div>
@@ -933,8 +933,8 @@ Vue.component("ud-confirm", {
     title: { default: "確認標題" }, // 確認標題
     message: { default: "確認訊息" }, // 確認訊息
     value: { default: false }, // 開關值
-    cancelTxt: { default: "取消" }, // 取消鈕文字
-    confirmTxt: { default: "確定" }, // 確定鈕文字
+    cancelText: { default: "取消" }, // 取消鈕文字
+    confirmText: { default: "確定" }, // 確定鈕文字
     maskCancel: Boolean, // 遮罩關閉
     hasCancel: Boolean, // 按鈕關閉
   },
@@ -950,18 +950,16 @@ let UdModalExtend = Vue.extend({
             <div class="modal-close" v-if="btnClose" @click="destroy">
               <i class="fas fa-times"></i>
             </div>
-            <div class="modal-header" v-if="title || titleHtml">
-              <ud-html :text="titleHtml" v-if="titleHtml"></ud-html>
-              <p v-else>{{ title }}</p>
+            <div class="modal-header" v-if="title">
+              <p v-html="nl2br(title)"></p>
             </div>
             <div class="modal-body">
-              <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
-              <p v-else>{{ msg }}</p>
+              <p v-html="nl2br(msg)"></p>
             </div>
             <div class="modal-footer">
               <ud-flex>
-                <ud-button @click="cancelHandler" plain v-if="isConfirm">{{ cancelTxt }}</ud-button>
-                <ud-button @click="confirmHandler">{{ confirmTxtAfter }}</ud-button>
+                <ud-button @click="cancelHandler" plain v-if="isConfirm">{{ cancelText }}</ud-button>
+                <ud-button @click="confirmHandler">{{ confirmTextAfter }}</ud-button>
               </ud-flex>
             </div>
           </div>
@@ -976,18 +974,16 @@ let UdModalExtend = Vue.extend({
       maskClose: false, // 遮罩關閉
       btnClose: false, // 按鈕關閉
       title: "", // 警告標題
-      titleHtml: "", // 警告標題HTML
       msg: "網路通信錯誤，請稍候再試", // 警告訊息
-      msgHtml: "", // 警告訊息HTML
-      cancelTxt: "取消", // 取消鈕文字
+      cancelText: "取消", // 取消鈕文字
       cancel: () => {}, // 取消鈕動作
-      confirmTxt: "", // 確認鈕文字
+      confirmText: "", // 確認鈕文字
       confirm: () => {}, // 確認鈕動作
     }
   },
   computed: {
-    confirmTxtAfter: function(){
-      if(this.confirmTxt) return this.confirmTxt;
+    confirmTextAfter: function(){
+      if(this.confirmText) return this.confirmText;
       return this.isConfirm ? "確定" : "OK";
     }
   },
@@ -995,6 +991,9 @@ let UdModalExtend = Vue.extend({
     this.isShow = true;
   },
   methods: {
+    nl2br: function(val){
+      return nl2br(val);
+    },
     confirmHandler: function() {
       if(typeof this.confirm === 'function') this.confirm();
       this.destroy();
@@ -1016,7 +1015,7 @@ let UdModalExtend = Vue.extend({
   },
 });
 
-Vue.prototype.$alert = options => { // 加到vue原型方法
+Vue.prototype.udAlert = options => { // 加到vue原型方法
   let UdAlert = new UdModalExtend({
     el: document.createElement('div'),
     data() {
@@ -1097,8 +1096,7 @@ Vue.component('ud-loading', {
               <i :class="icon"></i>
             </div>
             <div class="modal-body">
-              <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
-              <p v-else>{{ msg }}</p>
+              <p v-html="nl2br(msg)"></p>
             </div>
           </div>
         </div>
@@ -1112,7 +1110,12 @@ Vue.component('ud-loading', {
   },
   props: {
     label:{ default: "載入中..." } // 載入中文字
-  }
+  },
+  methods: {
+    nl2br: function(val){
+      return nl2br(val);
+    },
+  },
 })
 
 // Loading 載入中(調用式) ud-loading
@@ -1128,8 +1131,7 @@ let UdLoadingExtend = Vue.extend({
               <img v-else class="icon-img" :src="iconImg">
             </div>
             <div class="modal-body">
-              <ud-html :text="msgHtml" v-if="msgHtml"></ud-html>
-              <p v-else>{{ msg }}</p>
+              <p v-html="nl2br(msg)"></p>
             </div>
           </div>
         </div>
@@ -1145,13 +1147,15 @@ let UdLoadingExtend = Vue.extend({
       iconFont: "fas fa-spinner fa-pulse", // 字型icon的class
       iconImg: "https://image.flaticon.com/icons/svg/553/553265.svg", // 圖片icon的路徑
       msg: "", // 載入訊息
-      msgHtml: "", // 載入訊息HTML
     }
   },
   mounted() {
     this.isShow = true;
   },
   methods: {
+    nl2br: function(val){
+      return nl2br(val);
+    },
     destroy: function() {
       this.isShow = false;
       document.body.style.overflowY = 'auto';
@@ -1164,7 +1168,7 @@ let UdLoadingExtend = Vue.extend({
 });
 
 let UdLoading;
-Vue.prototype.$loading = { // 加至vue原型方法
+Vue.prototype.udLoading = { // 加至vue原型方法
   open: (options = {}) => {
     UdLoading = new UdLoadingExtend({
       el: document.createElement("div"),
@@ -1250,7 +1254,7 @@ Vue.component('ud-phone', {
  * @param  {String} val 傳入值
  * @param  {Boolean} is_xhtml 是否為xhtml
  */
-function nl2br(val, is_xhtml) {
+function nl2br(val, is_xhtml = false) {
   if (typeof val === 'undefined' || val === null) {
       return '';
   }
@@ -1304,7 +1308,7 @@ function copyTextToClipboard(id) {
   sel.removeAllRanges();
   sel.addRange(textRange);
   document.execCommand("copy");
-  vm.$alert({msg: '文字已複製到剪貼簿'});
+  vm.udAlert({msg: '文字已複製到剪貼簿'});
 }
 
 /**
@@ -2218,30 +2222,21 @@ function jumpReload(){
 }
 
 /**
- * Axios封装
+ * Axios封裝
  * axiosPackage
  */
 const service = axios.create({
-  // baseURL: baseURL, // url = base url + request url
+  // baseURL: baseURL,
   timeout: 5000, // 請求超時時間
   // withCredentials: true, // 充許攜帶cookie
   // headers: {"Content-Type": "application/x-www-form-urlencoded"}, //改用formdata格式發送
 })
 
-// service.defaults.xsrfCookieName = "CSRF-TOKEN";
-// service.defaults.xsrfHeaderName = "X-CSRF-Token";
-
-// if (process.env.NODE_ENV == 'development') {
-//   axios.defaults.baseURL = '/api';
-// } else {
-//   axios.defaults.baseURL = 'http://api.123dailu.com/';
-// }
-
 // 請求攔截器
 service.interceptors.request.use(
   config => {
-    vm.$loading.open();
-    config.data = JSON.stringify(config.data);
+    vm.udLoading.open();
+    // config.data = JSON.stringify(config.data);
 
     // 每次發送請求之前判斷是否存在token，如果存在，則統一在http請求的header都加上token，不用每次請求都手動添加了
     // 即使本地存在token，也有可能token是過期的，所以在響應攔截器中要對返回狀態進行判斷
@@ -2261,7 +2256,7 @@ service.interceptors.request.use(
 // 響應攔截器
 service.interceptors.response.use(
   response => {
-    vm.$loading.close();
+    vm.udLoading.close();
     if (response.status === 200) {
       return Promise.resolve(response);
     } else {
@@ -2269,106 +2264,127 @@ service.interceptors.response.use(
     }
   },
   error => {
-    vm.$loading.close();
+    vm.udLoading.close();
     if (error && error.response) {
       switch (error.response.status) {
         case 404:
-          vm.$alert({title: error.message, msg: "找不到該頁面，請稍候再試"});
+          vm.udAlert({title: error.message, msg: "找不到該頁面，請稍候再試"});
           break;
         case 500:
-          vm.$alert({title: error.message, msg: "伺服器出錯，請稍候再試"});
+          vm.udAlert({title: error.message, msg: "伺服器出錯，請稍候再試"});
           break;
         case 503:
-          vm.$alert({title: error.message, msg: "服務失效，請稍候再試"});
+          vm.udAlert({title: error.message, msg: "服務失效，請稍候再試"});
           break;
         default:
-          vm.$alert({title: error.message, msg: `連接錯誤：${error.response.status}，請稍候再試`});
+          vm.udAlert({title: error.message, msg: `連接錯誤：${error.response.status}，請稍候再試`});
       }
     } else {
-      vm.$alert({title: error.message, msg: "連接到伺服器失敗，請稍候再試"});
+      vm.udAlert({title: error.message, msg: "連接到伺服器失敗，請稍候再試"});
     }
     return Promise.reject(error)
   }
 );
 
-/** 
- * getApi方法，對應GET請求
- * @param  {String} url 請求的url地址
- * @param  {Object} params 請求時攜帶的參數
- */
-function getApi(url, params = {}){
-  return new Promise((resolve, reject) =>{
-    service.get(url, {
-      params: params
-    })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.data);
-    })
-  });
+function apiErrorHandler(res, next = false) {
+  if(res.data.errorMsg){
+    if(res.data.errorAct){
+      if(res.data.errorAct === 'reload'){
+        vm.udAlert({ msg: res.data.errorMsg, title: res.data.errorTitle, confirm: () => location.reload() });
+      }else{
+        vm.udAlert({ msg: res.data.errorMsg, title: res.data.errorTitle, confirm: () => toUrl(res.data.errorAct) });
+      }
+    }else{
+      vm.udAlert({msg: res.data.errorMsg, title: res.data.errorTitle});
+    }
+  }
 }
 
-/** 
- * postApi方法，對應POST請求
- * @param  {String} url 請求的url地址
- * @param  {Object} data 請求時攜帶的資料
- * @param  {Object} params 請求時攜帶的參數
- */
-function postApi(url, data = {}, params = {}) {
-  return new Promise((resolve, reject) => {
-    service.post(url, data, {
-      params: params
-    })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.data);
-    })
-  });
+let ud = {
+  /** 
+   * get方法，對應GET請求
+   * @param  {String} url 請求的url地址
+   * @param  {Object} config 請求的config
+   */
+  get(url, config = {}, next = false){
+    return new Promise((resolve, reject) =>{
+      service.get(url, config)
+      .then(res => {
+        apiErrorHandler(res);
+        if(res.data.errorMsg){
+          if(!next) return;
+        }
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      })
+    });
+  },
+  /** 
+   * post方法，對應POST請求
+   * @param  {String} url 請求的url地址
+   * @param  {Object} data 請求時攜帶的資料
+   * @param  {Object} config 請求的config
+   */
+  post(url, data = {}, config = {}, next = false) {
+    return new Promise((resolve, reject) => {
+      service.post(url, data, config)
+      .then(res => {
+        apiErrorHandler(res);
+        if(res.data.errorMsg){
+          if(!next) return;
+        }
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      })
+    });
+  },
+  /** 
+   * put方法，對應PUT請求
+   * @param  {String} url 請求的url地址
+   * @param  {Object} data 請求時攜帶的資料
+   * @param  {Object} config 請求的config
+   */
+  put(url, data = {}, config = {}, next = false) {
+    return new Promise((resolve, reject) => {
+      service.put(url, data, config)
+      .then(res => {
+        apiErrorHandler(res);
+        if(res.data.errorMsg){
+          if(!next) return;
+        }
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      })
+    });
+  },
+  /** 
+   * delete方法，對應DELETE請求
+   * @param  {String} url 請求的url地址
+   * @param  {Object} config 請求的config
+   */
+  delete(url, config = {}, next = false) {
+    return new Promise((resolve, reject) => {
+      service.delete(url, config)
+      .then(res => {
+        apiErrorHandler(res);
+        if(res.data.errorMsg){
+          if(!next) return;
+        }
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      })
+    });
+  }
 }
 
-/** 
- * putApi方法，對應PUT請求
- * @param  {String} url 請求的url地址
- * @param  {Object} data 請求時攜帶的資料
- * @param  {Object} params 請求時攜帶的參數
- */
-function putApi(url, data = {}, params = {}) {
-  return new Promise((resolve, reject) => {
-    service.put(url, data, {
-      params: params
-    })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.data);
-    })
-  });
-}
-
-/** 
- * deleteApi方法，對應DELETE請求
- * @param  {String} url 請求的url地址
- * @param  {Object} data 請求時攜帶的資料
- * @param  {Object} params 請求時攜帶的參數
- */
-function deleteApi(url, data = {}, params = {}) {
-  return new Promise((resolve, reject) => {
-    service.delete(url, data, {
-      params: params
-    })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.data);
-    })
-  });
-}
 
 /**
  * CDN備援

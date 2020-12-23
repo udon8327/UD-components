@@ -1,5 +1,4 @@
-var baseURL = "https://udon8327.synology.me/";
-var officialAccountURL = "https://line.me/zh-hant/";
+var BASE_URL = "https://udon8327.synology.me/";
 var vm = new Vue({
     el: "#app",
     data: {
@@ -121,29 +120,42 @@ var vm = new Vue({
         ],
     },
     mounted: function () {
+        // Promise.all([this.init(), this.postData()]).then(res => console.log(res))
         // this.init();
         // this.getData();
+        this.postData();
     },
     methods: {
         formSubmit: function () {
             var _this = this;
             this.$refs.form.validate(function () {
-                _this.$alert({ msg: "驗證成功!!" });
+                _this.udAlert({ msg: "驗證成功!!" });
             });
         },
         //API
         init: function () {
-            // putApi('https://private-80966-test21855.apiary-mock.com/message')
-            // .then(res => console.log(res));
+            ud.get(BASE_URL + 'ajax/success.php', {
+                params: {
+                    from: "123",
+                    to: "456"
+                },
+            })
+                .then(function (res) { return console.log(res); });
+            // .catch(err => console.log(err))
         },
         getData: function () {
             var _this = this;
-            getApi(baseURL + "ajax/success.php").then(function (res) {
+            ud.get(BASE_URL + "ajax/success.php").then(function (res) {
                 _this.userData = res.userData;
             });
         },
         postData: function () {
-            postApi(baseURL + "ajax/validate.php", "123456").then(function (res) {
+            var sendData = {
+                mail: "udon8327@gmail.com",
+                name: "UDON",
+            };
+            ud.post(BASE_URL + "ajax/success.php?from=123&to=456", sendData)
+                .then(function (res) {
                 console.log("res: ", res);
             });
         }

@@ -1,7 +1,6 @@
 declare var $: (selector: string) => any;
 
-const baseURL = "https://udon8327.synology.me/";
-const officialAccountURL = "https://line.me/zh-hant/";
+const BASE_URL = "https://udon8327.synology.me/";
 
 let vm = new Vue({
   el: "#app",
@@ -127,29 +126,42 @@ let vm = new Vue({
     ],
   },
   mounted: function () {
+    // Promise.all([this.init(), this.postData()]).then(res => console.log(res))
     // this.init();
     // this.getData();
+    this.postData();
   },
   methods: {
     formSubmit: function(){
       this.$refs.form.validate(() => {
-        this.$alert({msg: "驗證成功!!"})
+        this.udAlert({msg: "驗證成功!!"})
       });
     },
     //API
     init: function () {
-      // putApi('https://private-80966-test21855.apiary-mock.com/message')
-      // .then(res => console.log(res));
+      ud.get(BASE_URL + 'ajax/success.php', {
+        params: {
+          from: "123",
+          to: "456"
+        },
+      })
+        .then(res => console.log(res))
+        // .catch(err => console.log(err))
     },
     getData() {
-      getApi(baseURL + `ajax/success.php`).then(res => {
+      ud.get(BASE_URL + `ajax/success.php`).then(res => {
         this.userData = res.userData;
       });
     },
     postData() {
-      postApi(baseURL + `ajax/validate.php`, "123456").then(res => {
-        console.log("res: ", res);
-      });
+      let sendData = {
+        mail: "udon8327@gmail.com",
+        name: "UDON",
+      }
+      ud.post(BASE_URL + `ajax/success.php?from=123&to=456`, sendData)
+        .then(res => {
+          console.log("res: ", res);
+        })
     }
   }
 });
