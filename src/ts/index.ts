@@ -139,7 +139,7 @@ let vm = new Vue({
     },
     //API
     init: function () {
-      ud.get(BASE_URL + 'ajax/success.php', {
+      udApi.get(BASE_URL + 'ajax/success.php', {
         params: {
           from: "123",
           to: "456"
@@ -149,16 +149,20 @@ let vm = new Vue({
         // .catch(err => console.log(err))
     },
     getData() {
-      ud.get(BASE_URL + `ajax/success.php`).then(res => {
+      udApi.get(BASE_URL + `ajax/success.php`).then(res => {
         this.userData = res.userData;
       });
     },
     postData() {
-      let sendData = {
-        mail: "udon8327@gmail.com",
-        name: "UDON",
-      }
-      ud.post(BASE_URL + `ajax/success.php?from=123&to=456`, sendData)
+      udApi.post(BASE_URL + `ajax/success.php`, {
+          mail: "udon8327@gmail.com",
+          name: "UDON",
+        }, {
+        params: {
+          from: 123,
+          to: 456
+        }
+      })
         .then(res => {
           console.log("res: ", res);
         })

@@ -2257,14 +2257,31 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     vm.udLoading.close();
-    if (response.status === 200) {
-      return Promise.resolve(response);
-    } else {
-      return Promise.reject(response);
+    // errorMsg處理
+    // 後端可回傳errorMsg, errorTitle, errorAct("reload": 重整頁面, "url": 跳轉至url)
+    if(response.data.errorMsg){
+      if(response.data.errorAct){
+        if(response.data.errorAct === 'reload'){
+          vm.udAlert({ msg: response.data.errorMsg, title: response.data.errorTitle, confirm: () => location.reload() });
+        }else{
+          vm.udAlert({ msg: response.data.errorMsg, title: response.data.errorTitle, confirm: () => toUrl(response.data.errorAct) });
+        }
+      }else{
+        vm.udAlert({msg: response.data.errorMsg, title: response.data.errorTitle});
+      }
     }
+
+    return Promise.resolve(response);
+
+    // if (response.status === 200) { // 200
+    //   return Promise.resolve(response);
+    // } else { // 2xx
+    //   return Promise.reject(response);
+    // }
   },
   error => {
     vm.udLoading.close();
+    console.log('error', error);
     if (error && error.response) {
       switch (error.response.status) {
         case 404:
@@ -2286,38 +2303,25 @@ service.interceptors.response.use(
   }
 );
 
-function apiErrorHandler(res, next = false) {
-  if(res.data.errorMsg){
-    if(res.data.errorAct){
-      if(res.data.errorAct === 'reload'){
-        vm.udAlert({ msg: res.data.errorMsg, title: res.data.errorTitle, confirm: () => location.reload() });
-      }else{
-        vm.udAlert({ msg: res.data.errorMsg, title: res.data.errorTitle, confirm: () => toUrl(res.data.errorAct) });
-      }
-    }else{
-      vm.udAlert({msg: res.data.errorMsg, title: res.data.errorTitle});
-    }
-  }
-}
-
-let ud = {
+let udApi = {
   /** 
    * get方法，對應GET請求
    * @param  {String} url 請求的url地址
    * @param  {Object} config 請求的config
+   * @param  {Boolean} next 有errorMsg時是否繼續執行
+   * @param  {Boolean} detail 是否回傳完整response
    */
-  get(url, config = {}, next = false){
+  get(url, config = {}, next = false, detail = false){
     return new Promise((resolve, reject) =>{
       service.get(url, config)
       .then(res => {
-        apiErrorHandler(res);
         if(res.data.errorMsg){
           if(!next) return;
         }
-        resolve(res.data);
+        detail ? resolve(res) : resolve(res.data);
       })
       .catch(err => {
-        reject(err.data);
+        detail ? reject(err) : reject(err.data);
       })
     });
   },
@@ -2326,19 +2330,20 @@ let ud = {
    * @param  {String} url 請求的url地址
    * @param  {Object} data 請求時攜帶的資料
    * @param  {Object} config 請求的config
+   * @param  {Boolean} next 有errorMsg時是否繼續執行
+   * @param  {Boolean} detail 是否回傳完整response
    */
-  post(url, data = {}, config = {}, next = false) {
+  post(url, data = {}, config = {}, next = false, detail = false) {
     return new Promise((resolve, reject) => {
       service.post(url, data, config)
       .then(res => {
-        apiErrorHandler(res);
         if(res.data.errorMsg){
           if(!next) return;
         }
-        resolve(res.data);
+        detail ? resolve(res) : resolve(res.data);
       })
       .catch(err => {
-        reject(err.data);
+        detail ? reject(err) : reject(err.data);
       })
     });
   },
@@ -2347,19 +2352,20 @@ let ud = {
    * @param  {String} url 請求的url地址
    * @param  {Object} data 請求時攜帶的資料
    * @param  {Object} config 請求的config
+   * @param  {Boolean} next 有errorMsg時是否繼續執行
+   * @param  {Boolean} detail 是否回傳完整response
    */
-  put(url, data = {}, config = {}, next = false) {
+  put(url, data = {}, config = {}, next = false, detail = false) {
     return new Promise((resolve, reject) => {
       service.put(url, data, config)
       .then(res => {
-        apiErrorHandler(res);
         if(res.data.errorMsg){
           if(!next) return;
         }
-        resolve(res.data);
+        detail ? resolve(res) : resolve(res.data);
       })
       .catch(err => {
-        reject(err.data);
+        detail ? reject(err) : reject(err.data);
       })
     });
   },
@@ -2367,24 +2373,24 @@ let ud = {
    * delete方法，對應DELETE請求
    * @param  {String} url 請求的url地址
    * @param  {Object} config 請求的config
+   * @param  {Boolean} next 有errorMsg時是否繼續執行
+   * @param  {Boolean} detail 是否回傳完整response
    */
-  delete(url, config = {}, next = false) {
+  delete(url, config = {}, next = false, detail = false) {
     return new Promise((resolve, reject) => {
       service.delete(url, config)
       .then(res => {
-        apiErrorHandler(res);
         if(res.data.errorMsg){
           if(!next) return;
         }
-        resolve(res.data);
+        detail ? resolve(res) : resolve(res.data);
       })
       .catch(err => {
-        reject(err.data);
+        detail ? reject(err) : reject(err.data);
       })
     });
   }
 }
-
 
 /**
  * CDN備援
