@@ -695,11 +695,11 @@ Vue.component('ud-form-item', {
           case "hex": // Hex色碼驗證
             if(value && !new RegExp('^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$').test(value)) this.errorMessage = rule.message || "Hex色碼格式有誤，例: #ff0000";
             break;
-          case "equl": // 相等驗證
+          case "equal": // 相等驗證
             if(rule.caseIgnore){ // 不區分大小寫
-              if(value && value.toLowerCase() !== this.form.model[rule.equlTo].toLowerCase()) this.errorMessage = rule.message || "驗證碼錯誤";
+              if(value && value.toLowerCase() !== this.form.model[rule.equalTo].toLowerCase()) this.errorMessage = rule.message || "驗證碼錯誤";
             }else{ // 區分大小寫
-              if(value && value !== this.form.model[rule.equlTo]) this.errorMessage = rule.message || "驗證碼錯誤";
+              if(value && value !== this.form.model[rule.equalTo]) this.errorMessage = rule.message || "驗證碼錯誤";
             }
             break;
           default:

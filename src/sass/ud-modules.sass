@@ -300,14 +300,19 @@
       flex: 1 1 100%
   &.is-error
     .ud-form-item-right
+      position: relative
       .ud-input,.ud-textarea,.ud-select
         input,textarea,select
+          border-radius: 0
           border: 1px solid $red
           &:focus
             border: 1px solid $red
       >p.error-message
         color: $red
         font-size: 14px
+        position: absolute
+        bottom: -22px
+        left: 0%
   &.is-flex.is-error
     margin-bottom: 0
 

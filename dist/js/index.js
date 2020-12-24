@@ -22,7 +22,7 @@ var vm = new Vue({
             name: [{ type: "required" }, { type: "name" }],
             birthday: [{ type: "required" }, { type: "date" }],
             age: [{ type: "required" }, { type: "number" },],
-            verify: [{ type: "required" }, { type: "equl", equlTo: "code", caseIgnore: "true" }],
+            verify: [{ type: "required" }, { type: "equal", equalTo: "code", caseIgnore: "true" }],
             radio: [{ type: "required" },],
             agree: [{ type: "required", message: "請先同意相關使用條款" },],
             checkbox: [{ type: "required" },],
