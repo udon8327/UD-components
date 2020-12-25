@@ -147,20 +147,15 @@ Vue.component('ud-button', {
     <button
       class="ud-button"
       @click="handleClick"
-      ref="btn"
       :disabled="disabled || loading"
-      :type="nativeType"
-      :class="[
-        type ? 'ud-button--' + type : '',
-        {
-          'is-disabled': disabled,
-          'is-loading': loading,
-          'is-plain': plain,
-          'is-round': round,
-          'is-circle': circle,
-          'is-block': block,
-        }
-      ]"
+      :type="type"
+      :class="{
+        'is-disabled': disabled,
+        'is-loading': loading,
+        'is-plain': plain,
+        'is-round': round,
+        'is-circle': circle,
+      }"
       :style="{
         'border-radius': radius,
         'width': width,
@@ -170,13 +165,12 @@ Vue.component('ud-button', {
     >
       <i class="fas fa-spinner fa-pulse" v-if="loading"></i>
       <i :class="icon" v-if="icon && !loading"></i>
-      <span v-if="$slots.default"><slot></slot></span>
+      <span><slot>按鈕</slot></span>
     </button>
   `,
   props: {
-    type: { default: 'default' }, // 類型
     icon: { default: '' }, // icon
-    nativeType: { default: 'button' }, // 原始類型 (button, submit, reset)
+    type: { default: 'button' }, // 原始類型 (button, submit, reset)
     radius: { default: '5px' }, // 圓角
     width: { default: '100%' }, // 寬度
     minWidth: { default: '0px' }, // 最小寬度
@@ -186,7 +180,6 @@ Vue.component('ud-button', {
     plain: Boolean, // 線條化
     round: Boolean, // 圓角
     circle: Boolean, // 圓型
-    block: Boolean, // 塊狀
     throttle: Boolean // 函式節流
   },
   methods: {
@@ -197,7 +190,7 @@ Vue.component('ud-button', {
   },
   mounted() {
     if(!this.throttle) return;
-    this.$refs.btn.addEventListener('click', throttle(
+    this.$el.addEventListener('click', throttle(
         (evt) => {this.$emit('click', evt)}
       )
     );
@@ -207,6 +200,7 @@ Vue.component('ud-button', {
 // Input 輸入框
 Vue.component('ud-input', {
   name: 'UdInput',
+  inheritAttrs: false,
   template: `
     <div class="ud-input">
       <input
@@ -216,7 +210,6 @@ Vue.component('ud-input', {
       >
     </div>
   `,
-  inheritAttrs: false,
   props: {
     value: null,
   },
@@ -720,9 +713,12 @@ Vue.component('ud-form-item', {
 // Form 表單驗證
 Vue.component('ud-form', {
   name: "UdForm",
+  inheritAttrs: false,
   template: `
     <div class="ud-form" :class="{'is-no-error-msg': noErrorMsg}">
-      <slot></slot>
+      <form v-bind="$attrs">
+        <slot></slot>
+      </form>
     </div>
   `,
   provide() {

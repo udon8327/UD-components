@@ -8,7 +8,7 @@ let vm = new Vue({
 
     isModalShow: 0,
     modalMessage: "這是modalMessage",
-
+    isLoad: 1,
     user: {
       name: "",
       birthday: "",

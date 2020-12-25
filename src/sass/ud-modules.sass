@@ -31,24 +31,30 @@
 //   Ellipsis 文字省略 -----> ud-ellipsis
 //   Phone 播打電話 -----> ud-phone
 
+//-----------------------Global-----------------------
+html,#app
+  font-size: 62.5%
+  @media (min-width: 540px)
+    font-size: 72%
+
 //-----------------------Form-----------------------
 //Button 按鈕
 .ud-button
-  display: inline-block
-  white-space: nowrap
-  cursor: pointer
   background-color: $main
   border: 1px solid $main
   color: #fff
-  line-height: 1
+  padding: 10px
+  cursor: pointer
   box-shadow: none
-  padding: .75em
+  white-space: nowrap
   appearance: none
   text-align: center
   outline: none !important
-  transition: .1s
-  width: 100%
+  transition: .2s
   position: relative
+  span
+    font-size: 1.6rem
+    line-height: 2rem
   &:hover,&:focus
     background-color: lighten($main, 10%)
   &.is-plain
@@ -56,19 +62,20 @@
     border: 1px solid $main
     color: $main
     &:hover,&:focus
+      background-color: $main
+      border: 1px solid $main
+      color: #fff
   &.is-disabled
     background-color: #ccc
+    border: 1px solid #aaa
+    color: #888
     cursor: not-allowed
   &.is-round
     border-radius: 50px !important
   &.is-circle
     border-radius: 50% !important
-    width: 40px
-    height: 40px
-  &.is-block
-    display: block
-    width: 100%
-    margin: 0 0 10px 0
+    width: 40px !important
+    height: 40px !important
 
 // Input 輸入框
 .ud-input
