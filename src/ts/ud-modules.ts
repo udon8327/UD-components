@@ -321,16 +321,17 @@ Vue.component('ud-checkbox', {
   inheritAttrs: false,
   template: `
     <div class="ud-checkbox" :class="{'is-flex': flex}">
-      <template v-if="typeof options === 'string'">
+      <template v-if="option">
         <label>
           <input
             type="checkbox"
             v-model="modelValue"
+            :value="option"
             v-bind="$attrs"
             @change="onChange"
           >
           <div class="checkbox-decorator"></div>
-          <p><slot>{{ options }}</slot></p>
+          <p v-if="!noLabel"><slot>{{ options }}</slot></p>
         </label>
       </template>
       <template v-else>
@@ -343,16 +344,18 @@ Vue.component('ud-checkbox', {
             @change="onChange"
           >
           <div class="checkbox-decorator"></div>
-          <p>{{ combine ? option.value : option.label }}</p>
+          <p v-if="!noLabel">{{ combine ? option.value : option.label }}</p>
         </label>
       </template>
     </div>
   `,
   props: {
     value: null, // value值 單個時綁定Boolean 多個時綁定Array
-    options: null, // 選項
+    option: null, // 單選項
+    options: null, // 多選項
     flex: Boolean, // 是否並排
-    combine: Boolean // 使用value做為label
+    combine: Boolean, // 使用value做為label
+    noLabel: Boolean // 是否有label
   },
   computed: {
     modelValue: {
@@ -2387,6 +2390,9 @@ let udApi = {
     });
   }
 }
+
+// 掛載到Vue原型上
+Vue.prototype.udApi = udApi;
 
 /**
  * CDN備援

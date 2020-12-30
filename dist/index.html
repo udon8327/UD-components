@@ -20,7 +20,7 @@
   </head>
   <body>
     <noscript>Your browser does not support JavaScript!</noscript>
-    <div id="app">
+    <div id="app" v-cloak>
       <ud-modal v-model="isModalShow" :message="modalMessage" @cancel="isModalShow = 0"></ud-modal>
       <div class="container">
         <div class="wrapper">
@@ -41,7 +41,7 @@
               <ud-radio v-model="user.radio" :options="charaArr" flex></ud-radio>
             </ud-form-item>
             <ud-form-item label="條款" prop="agree">
-              <ud-checkbox v-model="user.agree" options="我同意使用者條款" flex></ud-checkbox>
+              <ud-checkbox v-model="user.agree" option="我同意使用者條款" flex></ud-checkbox>
             </ud-form-item>
             <ud-form-item label="多選" prop="checkbox">
               <ud-checkbox v-model="user.checkbox" :options="charaArr" flex></ud-checkbox>
@@ -61,9 +61,9 @@
                 <p slot="second">月</p>
                 <p slot="third">日</p>
               </ud-select-date>
-            </ud-form-item>
-          </ud-form><br>
-          <ud-button @click="formSubmit">送出表單</ud-button>
+            </ud-form-item><br>
+            <ud-button @click="formSubmit">送出表單</ud-button>
+          </ud-form>
         </div>
       </div>
     </div>

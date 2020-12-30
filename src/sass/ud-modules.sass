@@ -225,7 +225,7 @@ html,#app
     border: 1px solid #cecece
     background-color: #fff
     font-size: 14px
-    padding: .75em
+    padding: 5px 10px
     width: 100%
     margin: 0
     transition: border 0.2s ease
@@ -316,10 +316,11 @@ html,#app
             border: 1px solid $red
       >p.error-message
         color: $red
-        font-size: 14px
+        font-size: 1.2rem
         position: absolute
-        bottom: -22px
+        bottom: -1.8rem
         left: 0%
+        white-space: nowrap
   &.is-flex.is-error
     margin-bottom: 0
 
@@ -397,6 +398,11 @@ html,#app
     display: flex
     justify-content: center
     align-items: center
+    .modal-header
+      p
+        font-size: 18px
+        margin-bottom: 15px
+        font-weight: bold
     .modal-content
       width: 90%
       max-width: 420px
@@ -425,11 +431,6 @@ html,#app
           transition: all 0.2s ease
           font-size: 18px
           color: #777
-      .modal-header
-        p
-          font-size: 18px
-          margin-bottom: 15px
-          font-weight: bold
 
 // Confirm 確認彈窗
 .ud-confirm
