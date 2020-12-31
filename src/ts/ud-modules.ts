@@ -2226,7 +2226,7 @@ function jumpReload(){
  */
 const service = axios.create({
   // baseURL: baseURL,
-  timeout: 5000, // 請求超時時間
+  timeout: 10000, // 請求超時時間
   // withCredentials: true, // 充許攜帶cookie
   // headers: {"Content-Type": "application/x-www-form-urlencoded"}, //改用formdata格式發送
 })
