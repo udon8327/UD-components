@@ -251,7 +251,7 @@ html, #app {
       font-size: 72%; } }
   @media (max-width: 340px) {
     html, #app {
-      font-size: 54% !important; } }
+      font-size: 54%; } }
 
 body {
   font-family: "Helvetica Neue", Helvetica, "PingFang TC", "LiHei Pro", "Hiragino Sans GB", "Microsoft JhengHei", "微軟正黑體", Arial ,sans-serif;
@@ -263,7 +263,7 @@ body {
   background-color: #fdfdfd; }
 
 p, span, h1, h2, h3, h4, h5, h6, label, div {
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: normal;
   -webkit-text-size-adjust: none;
   margin: 0; }
@@ -284,20 +284,72 @@ img {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
-  flex-direction: column; }
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
   .container .wrapper {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 0px;
     flex: 1 1 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    overflow-y: hidden;
     background-color: #fff;
     padding: 15px 3% 60px 3%; }
+    .container .wrapper .scroll-wrapper {
+      -webkit-box-flex: 1;
+      -ms-flex: 1 1 0px;
+      flex: 1 1 0;
+      overflow: hidden;
+      overflow-y: auto; }
 
 .d-none, [v-cloak] {
   display: none; }
 
+.d-block {
+  display: block; }
+
+.d-inline-block {
+  display: inline-block; }
+
+.d-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+.d-inline-flex {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex; }
+
+.v-hidden {
+  visibility: hidden; }
+
+.hover {
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease; }
+  .hover:hover {
+    opacity: 0.75; }
+
 .animated {
   -webkit-animation-duration: 0.5s !important;
   animation-duration: 0.5s !important; }
+
+.loading-enter-active, .loading-leave-active {
+  -webkit-transition: opacity .1s;
+  -o-transition: opacity .1s;
+  transition: opacity .1s; }
+
+.loading-enter, .loading-leave-to {
+  opacity: 0; }
 
 .fade-enter-active, .fade-leave-active {
   -webkit-transition: opacity .1s;

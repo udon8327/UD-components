@@ -5,16 +5,13 @@ const BASE_URL = "https://udon8327.synology.me/";
 let vm = new Vue({
   el: "#app",
   data: {
-
     isModalShow: 0,
-    modalMessage: "這是modalMessage",
-    isLoad: 1,
     user: {
       name: "",
-      birthday: "",
       age: "",
+      birthday: "",
+      code: "test", // verify需相等
       verify: "",
-      code: "test",
       radio: "",
       agree: false,
       checkbox: [],
@@ -36,13 +33,12 @@ let vm = new Vue({
       twzip: [{ type: "required" }],
       date: [{ type: "required" }],
     },
-
-    charaArr: [
+    charaOptions: [
       {label: "妮可", value: "nico"},
       {label: "花丸", value: "maru"},
       {label: "步夢", value: "pomu"},
     ],
-    storeArr: [
+    storeOptions: [
       {
         label: "基隆市", value: "KL",
         children: [
@@ -59,27 +55,6 @@ let vm = new Vue({
               { label: "信義分店02", value: "20102"},
               { label: "信義分店03", value: "20103"},
             ]
-          },
-          { label: "中正區", value: "202", 
-            children: [
-              { label: "中正分店01", value: "20201"},
-              { label: "中正分店02", value: "20202"},
-              { label: "中正分店03", value: "20203"},
-            ]
-          },
-          { label: "中山區", value: "203", 
-            children: [
-              { label: "中山分店01", value: "20301"},
-              { label: "中山分店02", value: "20302"},
-              { label: "中山分店03", value: "20303"},
-            ]
-          },
-          { label: "安樂區", value: "204",
-            children: [
-              { label: "安樂分店01", value: "20401"},
-              { label: "安樂分店02", value: "20402"},
-              { label: "安樂分店03", value: "20403"},
-            ] 
           },
         ]
       },
@@ -100,35 +75,11 @@ let vm = new Vue({
               { label: "大同分店03", value: "10303"},
             ]  
           },
-          { label: "中山區", value: "104",
-            children: [
-              { label: "中正分店01", value: "10401"},
-              { label: "中正分店02", value: "10402"},
-              { label: "中正分店03", value: "10403"},
-            ]
-          },
-          { label: "松山區", value: "105", 
-            children: [
-              { label: "松山分店01", value: "10501"},
-              { label: "松山分店02", value: "10502"},
-              { label: "松山分店03", value: "10503"},
-            ]
-          },
-          { label: "大安區", value: "106", 
-            children: [
-              { label: "大安分店01", value: "10601"},
-              { label: "大安分店02", value: "10602"},
-              { label: "大安分店03", value: "10603"},
-            ] 
-          },
         ]
       },
     ],
   },
   mounted: function () {
-    // Promise.all([this.init(), this.postData()]).then(res => console.log(res))
-    // this.init();
-    // this.getData();
     this.postData();
   },
   methods: {
@@ -139,7 +90,7 @@ let vm = new Vue({
     },
     //API
     init: function () {
-      udApi.get(BASE_URL + 'ajax/success.php', {
+      udApi.get(BASE_URL + `ajax/success.php`, {
         params: {
           from: "123",
           to: "456"

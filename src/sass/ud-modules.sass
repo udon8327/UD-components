@@ -8,8 +8,13 @@
 //   Radio 單選框 -----> ud-radio
 //   Checkbox 多選框 -----> ud-checkbox
 //   Select 下拉框 -----> ud-select
+//   SelectMultiple 下拉多選框 -----> ud-select-multiple
 //   SelectLink 連動下拉框 -----> ud-select-link
+//   SelectDate 日期連動下拉框 -----> ud-select-date
+//   SelectTwzip 台灣行政區連動下拉框 -----> ud-select-twzip
 //   Switch 開關 -----> ud-switch
+//   DatePicker 日期選擇器 -----> ud-date-picker
+//   Captcha 圖形驗證碼 -----> ud-captcha
 //   FormItem 表單驗證容器 -----> ud-form-item
 //   Form 表單驗證 -----> ud-form
 
@@ -30,12 +35,16 @@
 //   Backtop 回到頂部 -----> ud-backtop
 //   Ellipsis 文字省略 -----> ud-ellipsis
 //   Phone 播打電話 -----> ud-phone
+//   Countdown 倒數計時 -----> ud-countdown
+//   QrCode 取得QRcode圖片 -----> ud-qrcode
 
 //-----------------------Global-----------------------
 html,#app
   font-size: 62.5%
   @media (min-width: 540px)
     font-size: 72%
+  @media (max-width: 340px)
+    font-size: 54%
 
 //-----------------------Form-----------------------
 //Button 按鈕
@@ -83,7 +92,7 @@ html,#app
     appearance: none
     border-radius: 5px
     border: 1px solid #cecece
-    font-size: 14px
+    font-size: 1.4rem
     padding: 5px 10px
     width: 100%
     min-height: 40px
@@ -171,6 +180,8 @@ html,#app
     cursor: pointer
     display: flex
     align-items: center
+    p
+      font-size: 1.4rem
     input
       position: absolute
       left: -999px
@@ -224,7 +235,7 @@ html,#app
     border-radius: 5px
     border: 1px solid #cecece
     background-color: #fff
-    font-size: 14px
+    font-size: 1.4rem
     padding: 5px 10px
     width: 100%
     margin: 0
@@ -241,7 +252,45 @@ html,#app
       option:nth-of-type(1)
         color: #a8a8a8
 
+// SelectMultiple 下拉多選框
+.ud-select-multiple
+  position: relative
+  cursor: pointer
+  &:before
+    content: ""
+    width: 0
+    height: 0
+    border-color: #333 transparent transparent
+    border-style: solid
+    border-width: 11px 7px 0
+    top: 50%
+    margin-top: -.2em
+    right: 10%
+    position: absolute
+    z-index: 1
+    pointer-events: none
+
+// Select 多選下拉框
+.ud-select-multiple
+  position: relative
+  cursor: pointer
+  &:before
+    content: ""
+    width: 0
+    height: 0
+    border-color: #333 transparent transparent
+    border-style: solid
+    border-width: 11px 7px 0
+    top: 50%
+    margin-top: -.2em
+    right: 10%
+    position: absolute
+    z-index: 1
+    pointer-events: none
+
 // SelectLink 連動下拉框
+// SelectDate 日期連動下拉框
+// SelectTwzip 台灣行政區連動下拉框
 .ud-select-link,.ud-select-twzip,.ud-select-date
   margin-bottom: 0
   &.is-flex
@@ -292,6 +341,49 @@ html,#app
         background: #f7f7f7
         transition: all .2s ease
 
+// Date-picker 日期選擇器
+.ud-date-picker
+  .ud-select
+    width: 100% !important
+  .el-input__prefix
+    display: none
+  .el-input__inner
+    padding: 0 !important
+    transition: all 0s ease
+  .el-input__suffix
+    display: none
+  input
+    appearance: none
+    border-radius: 0px
+    border: 1px solid #f3f5f6
+    font-size: 14px
+    padding: 5px 10px
+    width: 100%
+    min-height: 38px
+    box-sizing: border-box
+    background-color: #f3f5f6
+    transition: all 0.2s ease
+    cursor: pointer
+    font-size: 1.4rem
+    &::placeholder
+      color: #868686
+    &:focus
+      outline: 0
+      border: 1px solid $main
+
+// Captcha 圖形驗證碼
+.ud-captcha
+  position: relative
+  display: flex
+  .canvas-area
+    cursor: pointer
+    border: 1px solid #ced4da
+    img
+      height: 48px
+  .refresh
+    cursor: pointer
+    transform: translate(10px,5px)
+
 // FormItem 表單驗證容器
 .ud-form-item
   &.is-flex
@@ -308,7 +400,7 @@ html,#app
   &.is-error
     .ud-form-item-right
       position: relative
-      .ud-input,.ud-textarea,.ud-select
+      >div
         input,textarea,select
           border-radius: 0
           border: 1px solid $red
@@ -319,7 +411,7 @@ html,#app
         font-size: 1.2rem
         position: absolute
         bottom: -1.8rem
-        left: 0%
+        left: 1%
         white-space: nowrap
   &.is-flex.is-error
     margin-bottom: 0
@@ -344,11 +436,11 @@ html,#app
   display: flex
   justify-content: center
   align-items: center
-  >div
+  >*
     flex: 1 1 50%
     max-width: 50%
-  >div + div
-    margin-left: 5px
+  >* + *
+    margin-left: 15px
 
 // Arrow CSS箭頭
 .ud-arrow
@@ -370,6 +462,7 @@ html,#app
   transition: height .2s ease
   height: 0
   overflow: hidden
+  will-change: transform
 
 // Ratio 等比例自適應容器
 .ud-ratio
@@ -589,6 +682,8 @@ html,#app
 //-----------------------Tools-----------------------
 // Html 用戶自定義訊息
 .ud-html
+  text-align: left
+  font-size: 1.4rem
   h1
     font-size: 32px
   h2
@@ -620,18 +715,23 @@ html,#app
 // Phone 播打電話
 .ud-phone
 
+// Countdown 倒數計時
+.ud-countdown
 
-//-----------------------Global-----------------------
-// transition
-.loading-enter-active, .loading-leave-active
-  transition: opacity .2s
-.loading-enter, .loading-leave-to
-  opacity: 0
-
-.fade-enter-active, .fade-leave-active
-  transition: opacity .2s
-.fade-enter, .fade-leave-to
-  opacity: 0
-
-.overhidden
-  overflow: hidden
+// QrCode 取得QRcode圖片
+.ud-qrcode
+  display: flex
+  justify-content: center
+  align-items: center
+  .icon-css
+    border: 3px solid rgba(#000, 0.2)
+    border-top: 3px solid #fff
+    border-radius: 50%
+    width: 32px
+    height: 32px
+    animation: spin .5s linear infinite
+    @keyframes spin
+      0%
+        transform: rotate(0deg)
+      100% 
+        transform: rotate(360deg)
