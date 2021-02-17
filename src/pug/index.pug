@@ -2,14 +2,35 @@ extends _layout.pug
 
 block css
   //- link(href='https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/snow.min.css' rel='stylesheet')
-  link(href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css' rel='stylesheet')
-  link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
+  //- link(href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css' rel='stylesheet')
+  //- link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
   link(href='css/index.css' rel='stylesheet')
 
 block modal
   ud-modal(v-model="isModalShow")
 
 block content
+  el-upload.upload-demo(
+    ref="file"
+    :http-request="upload"
+    action='' 
+    :on-preview='handlePreview' 
+    :on-remove='handleRemove' 
+    :file-list='fileList' 
+    :before-upload="beforeUpload"
+    list-type='picture'
+    drag
+    multiple
+  )
+    i.el-icon-upload
+    .el-upload__text
+      | 將文件拖到此處，或
+      em 點擊上傳
+    .el-upload__tip(slot='tip') 只能上傳jpg/png文件，且不超過500kb
+    | 
+    //- el-button(size='small' type='primary') 点击上传
+  //- ud-image-upload
+  //- input(type="file" ref="file" @change="upload")
   ud-form(:rules="rules" :model="user" ref="form")
     ud-form-item(label="姓名" prop="name" flex)
       ud-input(placeholder="請輸入您的姓名" v-model="user.name")

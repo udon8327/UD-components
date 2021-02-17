@@ -64,7 +64,7 @@ String
   將字串內URL轉為超連結 -----> replaceURLToLink
 
 Number
-  取得範圍內隨機數 -----> getRandom
+  取得範圍內隨機整數 -----> getRandom
   四捨五入到指定位數 -----> round
 
 Image
@@ -1497,7 +1497,7 @@ Vue.prototype.udAlert = options => { // 加到vue原型方法
   document.body.appendChild(UdAlert.$el);
 };
 
-Vue.prototype.$confirm = options => { // 加到vue原型方法
+Vue.prototype.udConfirm = options => { // 加到vue原型方法
   options.isConfirm = true;
   let UdConfirm = new UdModalExtend({
     el: document.createElement('div'),
@@ -1812,7 +1812,7 @@ function randomHexColorCode(){
  * 取得隨機字串
  * @param  {Number} length 指定字串長度
  */
-function randomString(length) {
+function randomString(length = 10) {
   let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
   let temp = "";
   for (let i = 0; i < length; i++) {
@@ -1826,7 +1826,7 @@ function randomString(length) {
  * 例：formatNumber(99999) -> 99,999
  * @param  {Number} val 傳入值
  */
-function formatNumber(val){
+function formatNumber(val = 0){
   let temp = val.toString();
   let pattern = /(-?\d+)(\d{3})/;
   while(pattern.test(temp)){
@@ -1870,7 +1870,7 @@ function escapeHTML(str){
  * @param  {String} str 代入值
  * convertCamelCase("camelCase"); -> camel-case
  */
-function convertCamelCase(str){
+function convertCamelCase(str = ''){
   return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
 
@@ -1889,7 +1889,7 @@ function replaceURLToLink(text) {
 
 //-----------------------Number-----------------------
 /**
- * 取得範圍內隨機數
+ * 取得範圍內隨機整數
  * @param {Number} min 隨機數最小值 預設為0
  * @param {Number} max 隨機數最小值 預設為100
  */
@@ -1899,11 +1899,11 @@ function getRandom(min = 0, max = 100) {
 
 /**
  * 四捨五入到指定位數
- * @param  {String} n 代入值
+ * @param  {String} n 代入值 預設為0
  * @param  {Number} decimals 指定位數 預設為0
  * round(1.235, 2); -> 1.24
  */
-function round(n, decimals = 0){
+function round(n = 0, decimals = 0){
   return Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
 }
 

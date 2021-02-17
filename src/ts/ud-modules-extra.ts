@@ -45,17 +45,20 @@ Vue.component("ud-image-upload", {
   name: "UdImageUpload",
   template: `
     <div class="ud-image-upload">
-      <input type="file" accept="image/*" ref="input" @change="previewImage">
-      <template v-if="preview">
-        <div class="image-preview">
-          <img :src="preview" class="img-fluid" />
-          <div class="image-info">
-            <p>檔案名稱：{{ image.name }}</p>
-            <p>檔案大小：{{ parseInt(image.size/1024) }}KB</p>
-          </div>
+      <div class="preview-area">
+        <img :src="preview" ref="preview">
+      </div>
+      <div class="info-area">
+        <div class="info-left">
+          <p v-if="!image">未選擇檔案</p>
+          <p v-if="image" ref="fileName">檔案名稱：{{ image.name }}</p>
+          <p v-if="image" ref="fileSize">檔案大小：{{ parseInt(image.size/1024) }}KB</p>
         </div>
-        <ud-button @click="reset">刪除圖片</ud-button>
-      </template>
+        <div class="info-right">
+          <input type="file" accept="image/*" ref="file" @change="previewImage">
+          <ud-button @click="clickInput">上傳圖片</ud-button>
+        </div>
+      </div>
     </div>
   `,
   data: function () {
@@ -64,7 +67,43 @@ Vue.component("ud-image-upload", {
       image: ""
     };
   },
+  mounted() {
+    let dropbox = this.$refs.preview;
+    dropbox.addEventListener('dragenter', this.onDrag, false);
+    dropbox.addEventListener('dragover', this.onDrag, false);
+    dropbox.addEventListener('drop', this.onDrop, false);
+  },
   methods: {
+    clickInput() {
+      this.$refs.file.click();
+    },
+    onDrag(e) {
+      e.stopPropagation();
+      e.preventDefault();
+    },
+    onDrop(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      console.log('drop');
+      let dt = e.dataTransfer;
+      this.pre = this.$refs.file.files[0].name;
+      let reader = new FileReader();
+      reader.readAsDataURL(dt.files[0]);
+      reader.onload = function() {
+      document.querySelector('img').src = this.result;
+      };
+      this.file = e.target.files;
+    },
+    uploadImg(e) {
+      let imgfile = this.$refs.img;
+      let reader = new FileReader();
+      reader.readAsDataURL(imgfile.files[0]);
+      document.querySelector('.imgName').innerHTML = imgfile.files[0].name;
+      reader.onload = function() {
+      document.querySelector('img').src = this.result;
+      };
+      this.file = e.target.files;
+    },
     previewImage: function (event) {
       let input = event.target;
       if (input.files) {

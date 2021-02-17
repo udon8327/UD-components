@@ -2,6 +2,8 @@ var BASE_URL = "https://udon8327.synology.me/";
 var vm = new Vue({
     el: "#app",
     data: {
+        fileList: [],
+        file: "",
         isModalShow: 0,
         user: {
             name: "",
@@ -77,9 +79,36 @@ var vm = new Vue({
         ],
     },
     mounted: function () {
-        this.postData();
+        // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
+        this.init();
+        // this.postData();
+        var aa = function () {
+            console.log(1);
+            return new Promise(function (res) {
+                setTimeout(function () { return res(2); }, 1000);
+            });
+            // return new Promise( resolve => resolve(2) )
+            console.log(3);
+            // return Promise.resolve(4);
+            // return new Promise( resolve => resolve(5) )
+        };
+        aa()
+            .then(function (res) { return console.log(res); })
+            .then(function (res) { return console.log(6); });
     },
     methods: {
+        upload: function (param) {
+            console.log('param: ', param);
+            // let file = this.$refs.file.files[0];
+            var formData = new FormData();
+            formData.append('image', param.file);
+            axios.post('https://api.imgur.com/3/image', formData, {
+                headers: {
+                    Authorization: "Client-ID " + '0259aa13deafaac' //放置你剛剛申請的Client-ID
+                },
+            }).then(function (res) { return console.log(res); })
+                .catch(function (err) { return console.log(err); });
+        },
         formSubmit: function () {
             var _this = this;
             this.$refs.form.validate(function () {
@@ -88,11 +117,14 @@ var vm = new Vue({
         },
         //API
         init: function () {
-            udApi.get(BASE_URL + "ajax/success.php", {
+            udApi.get("https://07067335-8a87-4b24-98a8-50aaa93a19b2.mock.pstmn.io/test", {
                 params: {
                     from: "123",
                     to: "456"
                 },
+                headers: {
+                    channel_id: "12345678"
+                }
             })
                 .then(function (res) { return console.log(res); });
             // .catch(err => console.log(err))
@@ -116,6 +148,15 @@ var vm = new Vue({
                 .then(function (res) {
                 console.log("res: ", res);
             });
+        },
+        handlePreview: function (item) {
+            console.log(item);
+        },
+        handleRemove: function (item) {
+            console.log(item);
+        },
+        beforeUpload: function (item) {
+            console.log(item);
         }
     }
 });

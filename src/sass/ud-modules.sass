@@ -386,29 +386,28 @@ html,#app
 
 // FormItem 表單驗證容器
 .ud-form-item
-  margin-bottom: 18px
+  margin-bottom: 1.8rem
   &.is-flex
     display: flex
     .ud-form-item-left
       flex: 0 0 30%
+      padding: 0 10px
       text-align: right
-      padding-right: 10px
       label
         line-height: 40px
     .ud-form-item-right
-      flex: 1 1 100%
+      flex: 1 1 0
   &.is-error
     .ud-form-item-right
       position: relative
       >div
         input,textarea,select
-          border-radius: 0
           border: 1px solid $red
           &:focus
             border: 1px solid $red
       >p.error-message
         color: $red
-        font-size: 12px
+        font-size: 1.2rem
         position: absolute
         left: 5px
         white-space: nowrap

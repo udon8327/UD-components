@@ -32,15 +32,18 @@
 
 // ImageUpload 圖片上傳預覽
 .ud-image-upload
-  input
-    width: 100%
-    max-width: 100%
-    margin-bottom: 5px
-  .image-preview
-    border: 1px solid #ccc
-    padding: 10px
-    border-radius: 5px
-    margin-bottom: 15px
+  border: 1px solid #ccc
+  border-radius: 5px
+  margin-bottom: 15px
+  text-align: center
+  overflow: hidden
+  .preview-area
+    background-color: #eee
+    padding: 5px
+    min-height: 200px
+    >img
+      max-height: 300px
+      width: auto
     >div
       margin-bottom: 10px
       .image-info
@@ -49,6 +52,18 @@
         p
           margin-bottom: 5px
           font-size: 14px
+  .info-area
+    display: flex
+    justify-content: space-between
+    align-items: center
+    background-color: #fff
+    padding: 8px
+    .info-left
+      p
+        font-size: 1.2rem
+    .info-right
+      input
+        display: none
 
 // ImageMultiUpload 圖片上傳預覽(多張)
 .ud-image-multi-upload

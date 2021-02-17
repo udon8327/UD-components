@@ -5,6 +5,8 @@ const BASE_URL = "https://udon8327.synology.me/";
 let vm = new Vue({
   el: "#app",
   data: {
+    fileList: [],
+    file: "",
     isModalShow: 0,
     user: {
       name: "",
@@ -80,9 +82,39 @@ let vm = new Vue({
     ],
   },
   mounted: function () {
-    this.postData();
+    // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
+    this.init();
+    // this.postData();
+    let aa = () => {
+      console.log(1);
+      
+      return new Promise(res => {
+        setTimeout(() => res(2), 1000)
+      })
+      // return new Promise( resolve => resolve(2) )
+    
+      console.log(3);
+      // return Promise.resolve(4);
+      // return new Promise( resolve => resolve(5) )
+    }
+    
+    aa()
+      .then(res => console.log(res))
+      .then(res => console.log(6))
   },
   methods: {
+    upload(param) {
+      console.log('param: ', param);
+      // let file = this.$refs.file.files[0];
+      let formData = new FormData();
+      formData.append('image', param.file);
+      axios.post('https://api.imgur.com/3/image', formData, {
+        headers: {
+          Authorization: "Client-ID " + '0259aa13deafaac' //放置你剛剛申請的Client-ID
+        },
+      }).then(res => console.log(res))
+      .catch(err => console.log(err));
+    },
     formSubmit: function(){
       this.$refs.form.validate(() => {
         this.udAlert({msg: "驗證成功!!"})
@@ -90,11 +122,14 @@ let vm = new Vue({
     },
     //API
     init: function () {
-      udApi.get(BASE_URL + `ajax/success.php`, {
+      udApi.get(`https://07067335-8a87-4b24-98a8-50aaa93a19b2.mock.pstmn.io/test`, {
         params: {
           from: "123",
           to: "456"
         },
+        headers: {
+          channel_id: "12345678"
+        }
       })
         .then(res => console.log(res))
         // .catch(err => console.log(err))
@@ -117,6 +152,15 @@ let vm = new Vue({
         .then(res => {
           console.log("res: ", res);
         })
+    },
+    handlePreview(item) {
+      console.log(item);
+    },
+    handleRemove(item) {
+      console.log(item);
+    },
+    beforeUpload(item) {
+      console.log(item);
     }
   }
 });
