@@ -72,7 +72,7 @@ Image
   圖片戴入回調 -----> onImageLoaded
 
 Array
-  陣列是否有重複值 -----> isRepeat
+  陣列是否有重複值(不分型別) -----> isRepeat
   移除陣列中的重複元素 -----> uniqArray
   二維陣列扁平化(第二參數可指定深度) -----> flatArray
   返回陣列中某值的所有索引 -----> indexOfAll
@@ -1936,16 +1936,15 @@ function onImageLoaded(url, callback) {
 
 //-----------------------Array-----------------------
 /**
- * 陣列是否有重複值
+ * 陣列是否有重複值(不分型別)
  * @param  {Array} arr 代入值
  */
 function isRepeat(arr){
-  let arrStr = JSON.stringify(arr);
-  for (let i = 0; i < arr.length; i++) {
-    if ((arrStr.match(new RegExp(arr[i],"g")).length)>1){
-      return true;
-    }
-  };
+  let obj = {};
+  for(let i in arr) {
+    if(obj[arr[i]]) return true;
+    obj[arr[i]] = true;
+  }
   return false;
 }
 
@@ -2770,10 +2769,14 @@ const service = axios.create({
   // headers: {"Content-Type": "application/x-www-form-urlencoded"}, //改用formdata格式發送
 })
 
+let ajaxCount = 0;
+
 // 請求攔截器
 service.interceptors.request.use(
   config => {
-    vm.udLoading.open();
+    if(ajaxCount === 0) vm.udLoading.open();
+    ajaxCount++;
+    
     // config.data = JSON.stringify(config.data);
 
     // 每次發送請求之前判斷是否存在token，如果存在，則統一在http請求的header都加上token，不用每次請求都手動添加了
@@ -2794,7 +2797,9 @@ service.interceptors.request.use(
 // 響應攔截器
 service.interceptors.response.use(
   response => {
-    vm.udLoading.close();
+    ajaxCount--;
+    if(ajaxCount === 0) vm.udLoading.close();
+
     // errorMsg處理
     // 後端可回傳errorMsg, errorTitle, errorAct("reload": 重整頁面, "url": 跳轉至url)
     if(response.data.errorMsg){
@@ -2818,7 +2823,9 @@ service.interceptors.response.use(
     // }
   },
   error => {
-    vm.udLoading.close();
+    ajaxCount--;
+    if(ajaxCount === 0) vm.udLoading.close();
+
     console.log('error', error);
     if (error && error.response) {
       switch (error.response.status) {
