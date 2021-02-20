@@ -123,6 +123,7 @@ Browser
 
 Web
   查詢網址所帶參數 -----> queryString
+  解析網址 -----> parseUrl
   HTTP跳轉HTTPS -----> httpsRedirect
   檢驗URL連接是否有效 -----> getUrlState
   網址跳轉 -----> toUrl
@@ -2699,15 +2700,20 @@ function throttle2(fn, delay){
 /**
  * 查詢網址所帶參數
  * @param  {String} key 鍵值
+ * @param  {String} url 網址
  */
-function queryString(key) {
-  let url = location.href;
-  if (url.indexOf("?") != -1) {
-    let arr = url.split("?")[1].split("&");
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i].split("=")[0] == key) return arr[i].split("=")[1];
-    }
-  }
+function queryString(key = "", url = location.href) {
+  let parseUrl = new URL(url);
+  return parseUrl.searchParams.get(key);
+}
+
+/**
+ * 解析網址
+ * @param  {String} url 網址
+ */
+function parseUrl(url = location.href) {
+  let parseUrl = new URL(url);
+  return parseUrl;
 }
 
 /**
