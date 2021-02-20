@@ -2768,7 +2768,7 @@ function jumpReload(){
  * Axios封裝
  * axiosPackage
  */
-const service = axios.create({
+const udApi = axios.create({
   // baseURL: baseURL,
   timeout: 10000, // 請求超時時間
   // withCredentials: true, // 充許攜帶cookie
@@ -2778,7 +2778,7 @@ const service = axios.create({
 let ajaxCount = 0;
 
 // 請求攔截器
-service.interceptors.request.use(
+udApi.interceptors.request.use(
   config => {
     if(ajaxCount === 0) vm.udLoading.open();
     ajaxCount++;
@@ -2801,7 +2801,7 @@ service.interceptors.request.use(
 )
 
 // 響應攔截器
-service.interceptors.response.use(
+udApi.interceptors.response.use(
   response => {
     ajaxCount--;
     if(ajaxCount === 0) vm.udLoading.close();
@@ -2854,94 +2854,94 @@ service.interceptors.response.use(
   }
 );
 
-let udApi = {
-  /** 
-   * get方法，對應GET請求
-   * @param  {String} url 請求的url地址
-   * @param  {Object} config 請求的config
-   * @param  {Boolean} next 有errorMsg時是否繼續執行
-   * @param  {Boolean} detail 是否回傳完整response
-   */
-  get(url, config = {}, next = false, detail = false){
-    return new Promise((resolve, reject) =>{
-      service.get(url, config)
-      .then(res => {
-        if(res.data.errorMsg){
-          if(!next) return;
-        }
-        detail ? resolve(res) : resolve(res.data);
-      })
-      .catch(err => {
-        detail ? reject(err) : reject(err.data);
-      })
-    });
-  },
-  /** 
-   * post方法，對應POST請求
-   * @param  {String} url 請求的url地址
-   * @param  {Object} data 請求時攜帶的資料
-   * @param  {Object} config 請求的config
-   * @param  {Boolean} next 有errorMsg時是否繼續執行
-   * @param  {Boolean} detail 是否回傳完整response
-   */
-  post(url, data = {}, config = {}, next = false, detail = false) {
-    return new Promise((resolve, reject) => {
-      service.post(url, data, config)
-      .then(res => {
-        if(res.data.errorMsg){
-          if(!next) return;
-        }
-        detail ? resolve(res) : resolve(res.data);
-      })
-      .catch(err => {
-        detail ? reject(err) : reject(err.data);
-      })
-    });
-  },
-  /** 
-   * put方法，對應PUT請求
-   * @param  {String} url 請求的url地址
-   * @param  {Object} data 請求時攜帶的資料
-   * @param  {Object} config 請求的config
-   * @param  {Boolean} next 有errorMsg時是否繼續執行
-   * @param  {Boolean} detail 是否回傳完整response
-   */
-  put(url, data = {}, config = {}, next = false, detail = false) {
-    return new Promise((resolve, reject) => {
-      service.put(url, data, config)
-      .then(res => {
-        if(res.data.errorMsg){
-          if(!next) return;
-        }
-        detail ? resolve(res) : resolve(res.data);
-      })
-      .catch(err => {
-        detail ? reject(err) : reject(err.data);
-      })
-    });
-  },
-  /** 
-   * delete方法，對應DELETE請求
-   * @param  {String} url 請求的url地址
-   * @param  {Object} config 請求的config
-   * @param  {Boolean} next 有errorMsg時是否繼續執行
-   * @param  {Boolean} detail 是否回傳完整response
-   */
-  delete(url, config = {}, next = false, detail = false) {
-    return new Promise((resolve, reject) => {
-      service.delete(url, config)
-      .then(res => {
-        if(res.data.errorMsg){
-          if(!next) return;
-        }
-        detail ? resolve(res) : resolve(res.data);
-      })
-      .catch(err => {
-        detail ? reject(err) : reject(err.data);
-      })
-    });
-  }
-}
+// let udApi = {
+//   /** 
+//    * get方法，對應GET請求
+//    * @param  {String} url 請求的url地址
+//    * @param  {Object} config 請求的config
+//    * @param  {Boolean} next 有errorMsg時是否繼續執行
+//    * @param  {Boolean} detail 是否回傳完整response
+//    */
+//   get(url, config = {}, next = false, detail = false){
+//     return new Promise((resolve, reject) =>{
+//       service.get(url, config)
+//       .then(res => {
+//         if(res.data.errorMsg){
+//           if(!next) return;
+//         }
+//         detail ? resolve(res) : resolve(res.data);
+//       })
+//       .catch(err => {
+//         detail ? reject(err) : reject(err.data);
+//       })
+//     });
+//   },
+//   /** 
+//    * post方法，對應POST請求
+//    * @param  {String} url 請求的url地址
+//    * @param  {Object} data 請求時攜帶的資料
+//    * @param  {Object} config 請求的config
+//    * @param  {Boolean} next 有errorMsg時是否繼續執行
+//    * @param  {Boolean} detail 是否回傳完整response
+//    */
+//   post(url, data = {}, config = {}, next = false, detail = false) {
+//     return new Promise((resolve, reject) => {
+//       service.post(url, data, config)
+//       .then(res => {
+//         if(res.data.errorMsg){
+//           if(!next) return;
+//         }
+//         detail ? resolve(res) : resolve(res.data);
+//       })
+//       .catch(err => {
+//         detail ? reject(err) : reject(err.data);
+//       })
+//     });
+//   },
+//   /** 
+//    * put方法，對應PUT請求
+//    * @param  {String} url 請求的url地址
+//    * @param  {Object} data 請求時攜帶的資料
+//    * @param  {Object} config 請求的config
+//    * @param  {Boolean} next 有errorMsg時是否繼續執行
+//    * @param  {Boolean} detail 是否回傳完整response
+//    */
+//   put(url, data = {}, config = {}, next = false, detail = false) {
+//     return new Promise((resolve, reject) => {
+//       service.put(url, data, config)
+//       .then(res => {
+//         if(res.data.errorMsg){
+//           if(!next) return;
+//         }
+//         detail ? resolve(res) : resolve(res.data);
+//       })
+//       .catch(err => {
+//         detail ? reject(err) : reject(err.data);
+//       })
+//     });
+//   },
+//   /** 
+//    * delete方法，對應DELETE請求
+//    * @param  {String} url 請求的url地址
+//    * @param  {Object} config 請求的config
+//    * @param  {Boolean} next 有errorMsg時是否繼續執行
+//    * @param  {Boolean} detail 是否回傳完整response
+//    */
+//   delete(url, config = {}, next = false, detail = false) {
+//     return new Promise((resolve, reject) => {
+//       service.delete(url, config)
+//       .then(res => {
+//         if(res.data.errorMsg){
+//           if(!next) return;
+//         }
+//         detail ? resolve(res) : resolve(res.data);
+//       })
+//       .catch(err => {
+//         detail ? reject(err) : reject(err.data);
+//       })
+//     });
+//   }
+// }
 
 // 掛載到Vue原型上
 Vue.prototype.udApi = udApi;

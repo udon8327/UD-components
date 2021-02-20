@@ -82,19 +82,6 @@ var vm = new Vue({
         // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
         this.init();
         // this.postData();
-        var aa = function () {
-            console.log(1);
-            return new Promise(function (res) {
-                setTimeout(function () { return res(2); }, 1000);
-            });
-            // return new Promise( resolve => resolve(2) )
-            console.log(3);
-            // return Promise.resolve(4);
-            // return new Promise( resolve => resolve(5) )
-        };
-        aa()
-            .then(function (res) { return console.log(res); })
-            .then(function (res) { return console.log(6); });
     },
     methods: {
         upload: function (param) {
@@ -117,7 +104,7 @@ var vm = new Vue({
         },
         //API
         init: function () {
-            udApi.get("https://07067335-8a87-4b24-98a8-50aaa93a19b2.mock.pstmn.io/test", {
+            udAxios.post("fail.php", { '123': 456 }, {
                 params: {
                     from: "123",
                     to: "456"
@@ -126,17 +113,17 @@ var vm = new Vue({
                     channel_id: "12345678"
                 }
             })
-                .then(function (res) { return console.log(res); });
-            // .catch(err => console.log(err))
+                .then(function (res) { return console.log(res); })
+                .catch(function (err) { return location.href = 'https://goo.gl/'; });
         },
         getData: function () {
             var _this = this;
-            udApi.get(BASE_URL + "ajax/success.php").then(function (res) {
+            udAxios.get(BASE_URL + "ajax/success.php").then(function (res) {
                 _this.userData = res.userData;
             });
         },
         postData: function () {
-            udApi.post(BASE_URL + "ajax/success.php", {
+            udAxios.post(BASE_URL + "ajax/success.php", {
                 mail: "udon8327@gmail.com",
                 name: "UDON",
             }, {

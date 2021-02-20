@@ -85,22 +85,6 @@ let vm = new Vue({
     // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
     this.init();
     // this.postData();
-    let aa = () => {
-      console.log(1);
-      
-      return new Promise(res => {
-        setTimeout(() => res(2), 1000)
-      })
-      // return new Promise( resolve => resolve(2) )
-    
-      console.log(3);
-      // return Promise.resolve(4);
-      // return new Promise( resolve => resolve(5) )
-    }
-    
-    aa()
-      .then(res => console.log(res))
-      .then(res => console.log(6))
   },
   methods: {
     upload(param) {
@@ -122,25 +106,26 @@ let vm = new Vue({
     },
     //API
     init: function () {
-      udApi.get(`https://07067335-8a87-4b24-98a8-50aaa93a19b2.mock.pstmn.io/test`, {
-        params: {
-          from: "123",
-          to: "456"
-        },
-        headers: {
-          channel_id: "12345678"
+      udAxios.post(`fail.php`, {'123': 456}, {
+          params: {
+            from: "123",
+            to: "456"
+          },
+          headers: {
+            channel_id: "12345678"
+          }
         }
-      })
+      )
         .then(res => console.log(res))
-        // .catch(err => console.log(err))
+        .catch(err => location.href='https://goo.gl/')
     },
     getData() {
-      udApi.get(BASE_URL + `ajax/success.php`).then(res => {
+      udAxios.get(BASE_URL + `ajax/success.php`).then(res => {
         this.userData = res.userData;
       });
     },
     postData() {
-      udApi.post(BASE_URL + `ajax/success.php`, {
+      udAxios.post(BASE_URL + `ajax/success.php`, {
           mail: "udon8327@gmail.com",
           name: "UDON",
         }, {
