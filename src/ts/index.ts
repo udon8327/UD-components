@@ -117,7 +117,7 @@ let vm = new Vue({
         }
       )
         .then(res => console.log('res', res))
-        .catch(err => console.log('err', err));
+        .catch(err => console.log('err', err))
     },
     getData() {
       udAxios.get(BASE_URL + `ajax/success.php`).then(res => {

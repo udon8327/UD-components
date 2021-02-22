@@ -1,5 +1,6 @@
 /**
  * udAxios 額外config值
+ * @param {Boolean} noLoading 關閉loading效果
  * @param {Boolean} noAlert 錯誤時不觸發alert
  * @param {Boolean} fullRes 成功時回傳完整res
  */
@@ -20,7 +21,7 @@ let ajaxCount = 0;
 // 請求攔截器
 udAxios.interceptors.request.use(
   config => {
-    if(vm.udLoading){
+    if(vm.udLoading && !config.noLoading){
       if(ajaxCount === 0) vm.udLoading.open();
       ajaxCount++;
     }
@@ -28,32 +29,31 @@ udAxios.interceptors.request.use(
     return config;
   },
   error => {
-    return new Promise(reject => {
-      vm.udAlert ? vm.udAlert({title: error.message, msg: "請求發送失敗，請稍候再試", confirm: () => reject(error)}) : alert("請求發送失敗，請稍候再試");
-    })
+    vm.udAlert ? vm.udAlert({title: error.message, msg: "請求發送失敗，請稍候再試"}) : alert("請求發送失敗，請稍候再試");
   }
 )
 
 // 回應攔截器
 udAxios.interceptors.response.use(
   // 狀態碼 2xx: 回應成功
-  response => { 
-    if(vm.udLoading){
+  response => {
+    if(vm.udLoading && !response.config.noLoading){
       ajaxCount--;
       if(ajaxCount === 0) vm.udLoading.close();
     }
     return Promise.resolve(response.config.fullRes ? response : response.data);
   },
   // 狀態碼 3xx: 重新導向, 4xx: 用戶端錯誤, 5xx: 伺服器錯誤
-  error => { 
-    if(vm.udLoading) {
+  error => {
+    if(vm.udLoading && !error.config.noLoading) {
       ajaxCount--;
       if(ajaxCount === 0) vm.udLoading.close();
     }
 
     return new Promise(reject => {
-      // 請求已發出，有收到錯誤回應
       let errorMsg = "";
+
+      // 請求已發出，有收到錯誤回應
       if(error.response) {
         switch (error.response.status) {
           case 400:
@@ -75,7 +75,7 @@ udAxios.interceptors.response.use(
             errorMsg = "服務失效，請稍候再試";
             break;
           default:
-            errorMsg = `發生錯誤：${error.response.status}，請稍候再試`;
+            errorMsg = "發生錯誤，請稍候再試";
         }
         // 自定義錯誤訊息
         if(error.response.data.message) errorMsg = error.response.data.message;
@@ -83,6 +83,7 @@ udAxios.interceptors.response.use(
       // 請求已發出，但没有收到回應
       }else if(error.request) {
         errorMsg = "伺服器沒有回應，請稍候再試";
+
       // 請求被取消或發送請求時異常
       }else {
         errorMsg = "請求被取消或發送請求時異常，請稍候再試";
@@ -90,11 +91,15 @@ udAxios.interceptors.response.use(
 
       if(error.config.noAlert){
         reject(error);
+        return;
+      }
+      if(vm.udAlert) {
+        vm.udAlert({title: error.message, msg: errorMsg, confirm: () => reject(error)});
       }else {
-        vm.udAlert ? vm.udAlert({title: error.message, msg: errorMsg, confirm: () => reject(error)}) : alert(errorMsg);
+        alert(errorMsg);
+        reject(error);
       }
 
     })
-    // return Promise.reject(error)
   }
 );

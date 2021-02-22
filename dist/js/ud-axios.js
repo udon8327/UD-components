@@ -1,5 +1,6 @@
 /**
  * udAxios 額外config值
+ * @param {Boolean} noLoading 關閉loading效果
  * @param {Boolean} noAlert 錯誤時不觸發alert
  * @param {Boolean} fullRes 成功時回傳完整res
  */
@@ -12,7 +13,7 @@ var udAxios = axios.create({
 var ajaxCount = 0;
 // 請求攔截器
 udAxios.interceptors.request.use(function (config) {
-    if (vm.udLoading) {
+    if (vm.udLoading && !config.noLoading) {
         if (ajaxCount === 0)
             vm.udLoading.open();
         ajaxCount++;
@@ -20,15 +21,13 @@ udAxios.interceptors.request.use(function (config) {
     // config.data = JSON.stringify(config.data);
     return config;
 }, function (error) {
-    return new Promise(function (reject) {
-        vm.udAlert ? vm.udAlert({ title: error.message, msg: "請求發送失敗，請稍候再試", confirm: function () { return reject(error); } }) : alert("請求發送失敗，請稍候再試");
-    });
+    vm.udAlert ? vm.udAlert({ title: error.message, msg: "請求發送失敗，請稍候再試" }) : alert("請求發送失敗，請稍候再試");
 });
 // 回應攔截器
 udAxios.interceptors.response.use(
 // 狀態碼 2xx: 回應成功
 function (response) {
-    if (vm.udLoading) {
+    if (vm.udLoading && !response.config.noLoading) {
         ajaxCount--;
         if (ajaxCount === 0)
             vm.udLoading.close();
@@ -37,14 +36,14 @@ function (response) {
 }, 
 // 狀態碼 3xx: 重新導向, 4xx: 用戶端錯誤, 5xx: 伺服器錯誤
 function (error) {
-    if (vm.udLoading) {
+    if (vm.udLoading && !error.config.noLoading) {
         ajaxCount--;
         if (ajaxCount === 0)
             vm.udLoading.close();
     }
     return new Promise(function (reject) {
-        // 請求已發出，有收到錯誤回應
         var errorMsg = "";
+        // 請求已發出，有收到錯誤回應
         if (error.response) {
             switch (error.response.status) {
                 case 400:
@@ -66,7 +65,7 @@ function (error) {
                     errorMsg = "服務失效，請稍候再試";
                     break;
                 default:
-                    errorMsg = "\u767C\u751F\u932F\u8AA4\uFF1A" + error.response.status + "\uFF0C\u8ACB\u7A0D\u5019\u518D\u8A66";
+                    errorMsg = "發生錯誤，請稍候再試";
             }
             // 自定義錯誤訊息
             if (error.response.data.message)
@@ -82,12 +81,16 @@ function (error) {
         }
         if (error.config.noAlert) {
             reject(error);
+            return;
+        }
+        if (vm.udAlert) {
+            vm.udAlert({ title: error.message, msg: errorMsg, confirm: function () { return reject(error); } });
         }
         else {
-            vm.udAlert ? vm.udAlert({ title: error.message, msg: errorMsg, confirm: function () { return reject(error); } }) : alert(errorMsg);
+            alert(errorMsg);
+            reject(error);
         }
     });
-    // return Promise.reject(error)
 });
 //# sourceMappingURL=ud-axios.js.map
 //# sourceMappingURL=ud-axios.js.map
