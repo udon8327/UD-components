@@ -22,8 +22,9 @@ udAxios.interceptors.request.use(
     return config;
   },
   error => {
-    vm.udAlert ? vm.udAlert({title: error.message, msg: "請求發送失敗，請稍候再試"}) : alert("請求發送失敗，請稍候再試");
-    return Promise.reject(error);
+    return new Promise(reject => {
+      vm.udAlert ? vm.udAlert({title: error.message, msg: "請求發送失敗，請稍候再試", confirm: () => reject(error)}) : alert("請求發送失敗，請稍候再試");
+    })
   }
 )
 
@@ -36,7 +37,7 @@ udAxios.interceptors.response.use(
       if(ajaxCount === 0) vm.udLoading.close();
     }
 
-    return Promise.resolve(response);
+    return Promise.resolve(response.data);
   },
   // 狀態碼 3xx: 重新導向, 4xx: 用戶端錯誤, 5xx: 伺服器錯誤
   error => { 
@@ -73,14 +74,14 @@ udAxios.interceptors.response.use(
         }
         // 自定義錯誤訊息
         if(error.response.data.message) errorMsg = error.response.data.message;
-  
+
         vm.udAlert ? vm.udAlert({title: error.message, msg: errorMsg, confirm: () => reject(error)}) : alert(errorMsg);
-  
+
       // 請求已發出，但没有收到回應
       }else if(error.request) {
-        vm.udAlert ? vm.udAlert({title: error.message, msg: "伺服器沒有回應，請稍候再試", confirm: () => reject(error)}) : alert("伺服器沒有回應，請稍候再試");
-  
-      // 請求被取消或發送請求時異常
+        vm.udAlert ? vm.udAlert({title: error.message, msg: "伺服器沒有回應\n，請稍候再試", confirm: () => reject(error)}) : alert("伺服器沒有回應，請稍候再試");
+
+        // 請求被取消或發送請求時異常
       }else { 
         vm.udAlert ? vm.udAlert({title: error.message, msg: "請求被取消或發送請求時異常，請稍候再試", confirm: () => reject(error)}) : alert("請求被取消或發送請求時異常，請稍候再試");
       }

@@ -104,7 +104,7 @@ var vm = new Vue({
         },
         //API
         init: function () {
-            udAxios.post("fail.php", { '123': 456 }, {
+            udAxios.post("success123.php", { '123': 456 }, {
                 params: {
                     from: "123",
                     to: "456"
@@ -114,7 +114,7 @@ var vm = new Vue({
                 }
             })
                 .then(function (res) { return console.log(res); })
-                .catch(function (err) { return location.href = 'https://goo.gl/'; });
+                .catch(function (err) { return location.href = 'https://lovelivecalendar.udonsite.com'; });
         },
         getData: function () {
             var _this = this;

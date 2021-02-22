@@ -106,7 +106,7 @@ let vm = new Vue({
     },
     //API
     init: function () {
-      udAxios.post(`fail.php`, {'123': 456}, {
+      udAxios.post(`success123.php`, {'123': 456}, {
           params: {
             from: "123",
             to: "456"
@@ -117,7 +117,7 @@ let vm = new Vue({
         }
       )
         .then(res => console.log(res))
-        .catch(err => location.href='https://goo.gl/')
+        .catch(err => location.href = 'https://lovelivecalendar.udonsite.com');
     },
     getData() {
       udAxios.get(BASE_URL + `ajax/success.php`).then(res => {
