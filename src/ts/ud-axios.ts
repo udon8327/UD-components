@@ -1,3 +1,9 @@
+/**
+ * udAxios 額外config值
+ * @param {Boolean} noAlert 錯誤時不觸發alert
+ * @param {Boolean} fullRes 成功時回傳完整res
+ */
+
 // 自定義axios實例預設值
 const udAxios = axios.create({
   baseURL: "https://udon8327.synology.me/ajax",
@@ -36,8 +42,7 @@ udAxios.interceptors.response.use(
       ajaxCount--;
       if(ajaxCount === 0) vm.udLoading.close();
     }
-
-    return Promise.resolve(response.data);
+    return Promise.resolve(response.config.fullRes ? response : response.data);
   },
   // 狀態碼 3xx: 重新導向, 4xx: 用戶端錯誤, 5xx: 伺服器錯誤
   error => { 
@@ -46,10 +51,10 @@ udAxios.interceptors.response.use(
       if(ajaxCount === 0) vm.udLoading.close();
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise(reject => {
       // 請求已發出，有收到錯誤回應
+      let errorMsg = "";
       if(error.response) {
-        let errorMsg = "";
         switch (error.response.status) {
           case 400:
             errorMsg = "錯誤的請求，請稍候再試";
@@ -75,15 +80,18 @@ udAxios.interceptors.response.use(
         // 自定義錯誤訊息
         if(error.response.data.message) errorMsg = error.response.data.message;
 
-        vm.udAlert ? vm.udAlert({title: error.message, msg: errorMsg, confirm: () => reject(error)}) : alert(errorMsg);
-
       // 請求已發出，但没有收到回應
       }else if(error.request) {
-        vm.udAlert ? vm.udAlert({title: error.message, msg: "伺服器沒有回應\n，請稍候再試", confirm: () => reject(error)}) : alert("伺服器沒有回應，請稍候再試");
+        errorMsg = "伺服器沒有回應，請稍候再試";
+      // 請求被取消或發送請求時異常
+      }else {
+        errorMsg = "請求被取消或發送請求時異常，請稍候再試";
+      }
 
-        // 請求被取消或發送請求時異常
-      }else { 
-        vm.udAlert ? vm.udAlert({title: error.message, msg: "請求被取消或發送請求時異常，請稍候再試", confirm: () => reject(error)}) : alert("請求被取消或發送請求時異常，請稍候再試");
+      if(error.config.noAlert){
+        reject(error);
+      }else {
+        vm.udAlert ? vm.udAlert({title: error.message, msg: errorMsg, confirm: () => reject(error)}) : alert(errorMsg);
       }
 
     })

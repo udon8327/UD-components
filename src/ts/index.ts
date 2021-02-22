@@ -106,18 +106,18 @@ let vm = new Vue({
     },
     //API
     init: function () {
-      udAxios.post(`success123.php`, {'123': 456}, {
+      udAxios.post(`echo123.php`, {'123': 456}, {
           params: {
-            from: "123",
-            to: "456"
+            from: "02-22",
+            to: "02-29"
           },
           headers: {
             channel_id: "12345678"
-          }
+          },
         }
       )
-        .then(res => console.log(res))
-        .catch(err => location.href = 'https://lovelivecalendar.udonsite.com');
+        .then(res => console.log('res', res))
+        .catch(err => console.log('err', err));
     },
     getData() {
       udAxios.get(BASE_URL + `ajax/success.php`).then(res => {

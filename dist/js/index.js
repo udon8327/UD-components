@@ -104,17 +104,17 @@ var vm = new Vue({
         },
         //API
         init: function () {
-            udAxios.post("success123.php", { '123': 456 }, {
+            udAxios.post("echo123.php", { '123': 456 }, {
                 params: {
-                    from: "123",
-                    to: "456"
+                    from: "02-22",
+                    to: "02-29"
                 },
                 headers: {
                     channel_id: "12345678"
-                }
+                },
             })
-                .then(function (res) { return console.log(res); })
-                .catch(function (err) { return location.href = 'https://lovelivecalendar.udonsite.com'; });
+                .then(function (res) { return console.log('res', res); })
+                .catch(function (err) { return console.log('err', err); });
         },
         getData: function () {
             var _this = this;
