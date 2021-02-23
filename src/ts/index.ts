@@ -81,7 +81,7 @@ let vm = new Vue({
       },
     ],
   },
-  mounted: function () {
+  mounted() {
     // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
     this.init();
     // this.postData();
@@ -105,8 +105,8 @@ let vm = new Vue({
       });
     },
     //API
-    init: function () {
-      udAxios.post(`echo123.php`, {'123': 456}, {
+    init() {
+      udAxios.post(`echo.php`, {'123': 456}, {
           params: {
             from: "02-22",
             to: "02-29"

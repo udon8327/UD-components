@@ -1,8 +1,9 @@
 /**
  * udAxios 額外config值
- * @param {Boolean} noLoading 關閉loading效果
  * @param {Boolean} noAlert 錯誤時不觸發alert
+ * @param {Object} alert 客製化錯誤時alert
  * @param {Boolean} fullRes 成功時回傳完整res
+ * @param {Boolean} noLoading 關閉loading效果
  */
 
 // 自定義axios實例預設值
@@ -50,56 +51,61 @@ udAxios.interceptors.response.use(
       if(ajaxCount === 0) vm.udLoading.close();
     }
 
-    return new Promise(reject => {
-      let errorMsg = "";
-
-      // 請求已發出，有收到錯誤回應
-      if(error.response) {
-        switch (error.response.status) {
-          case 400:
-            errorMsg = "錯誤的請求，請稍候再試";
-            break;
-          case 401:
-            errorMsg = "拒絕存取，請稍候再試";
-            break;
-          case 403:
-            errorMsg = "禁止使用，請稍候再試";
-            break;
-          case 404:
-            errorMsg = "找不到該頁面，請稍候再試";
-            break;
-          case 500:
-            errorMsg = "伺服器出錯，請稍候再試";
-            break;
-          case 503:
-            errorMsg = "服務失效，請稍候再試";
-            break;
-          default:
-            errorMsg = "發生錯誤，請稍候再試";
-        }
-        // 自定義錯誤訊息
-        if(error.response.data.message) errorMsg = error.response.data.message;
-
-      // 請求已發出，但没有收到回應
-      }else if(error.request) {
-        errorMsg = "伺服器沒有回應，請稍候再試";
-
-      // 請求被取消或發送請求時異常
-      }else {
-        errorMsg = "請求被取消或發送請求時異常，請稍候再試";
+    let errorMsg = "";
+    // 請求已發出，有收到錯誤回應
+    if(error.response) {
+      switch (error.response.status) {
+        case 400:
+          errorMsg = "錯誤的請求，請稍候再試";
+          break;
+        case 401:
+          errorMsg = "拒絕存取，請稍候再試";
+          break;
+        case 403:
+          errorMsg = "禁止使用，請稍候再試";
+          break;
+        case 404:
+          errorMsg = "找不到該頁面，請稍候再試";
+          break;
+        case 500:
+          errorMsg = "伺服器出錯，請稍候再試";
+          break;
+        case 503:
+          errorMsg = "服務失效，請稍候再試";
+          break;
+        default:
+          errorMsg = "發生錯誤，請稍候再試";
       }
+      // 自定義錯誤訊息
+      if(error.response.data.message) errorMsg = error.response.data.message;
 
+    // 請求已發出，但没有收到回應
+    }else if(error.request) {
+      errorMsg = "伺服器沒有回應，請稍候再試";
+
+    // 請求被取消或發送請求時異常
+    }else {
+      errorMsg = "請求被取消或發送請求時異常，請稍候再試";
+    }
+
+    return new Promise(reject => {
       if(error.config.noAlert){
         reject(error);
         return;
       }
       if(vm.udAlert) {
-        vm.udAlert({title: error.message, msg: errorMsg, confirm: () => reject(error)});
+        let alertConfig = {
+          title: error.message,
+          msg: errorMsg,
+          confirm: () => reject(error),
+        }
+        Object.assign(alertConfig, error.config.alert);
+        vm.udAlert(alertConfig);
       }else {
         alert(errorMsg);
         reject(error);
       }
-
     })
+
   }
 );
