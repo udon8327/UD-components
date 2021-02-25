@@ -1,9 +1,10 @@
 /**
  * udAxios 額外config值
- * @param {Boolean} noAlert 錯誤時不觸發alert
- * @param {Object} alert 客製化錯誤時alert
- * @param {Boolean} fullRes 成功時回傳完整res
+ * @param {Boolean} noAlert 關閉alert效果
  * @param {Boolean} noLoading 關閉loading效果
+ * @param {Boolean} fullRes 成功時回傳完整res
+ * @param {Object} alert 客製化alert效果
+ * @param {Object} loading 客製化loading效果
  */
 // 自定義axios實例預設值
 var udAxios = axios.create({
@@ -16,7 +17,7 @@ var ajaxCount = 0;
 udAxios.interceptors.request.use(function (config) {
     if (vm.udLoading && !config.noLoading) {
         if (ajaxCount === 0)
-            vm.udLoading.open();
+            vm.udLoading.open(config.loading);
         ajaxCount++;
     }
     // config.data = JSON.stringify(config.data);
