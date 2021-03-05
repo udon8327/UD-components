@@ -66,9 +66,11 @@ function (error) {
                 errorMsg = "服務失效，請稍候再試";
                 break;
             default:
-                // 自定義錯誤訊息
-                errorMsg = error.response.data && error.response.data.message || "發生錯誤，請稍候再試";
+                errorMsg = "發生錯誤，請稍候再試";
         }
+        // 自定義錯誤訊息
+        if (error.response.data)
+            errorMsg = error.response.data.message || "發生錯誤，請稍候再試";
         // 請求已發出，但没有收到回應
     }
     else if (error.request) {
@@ -87,7 +89,7 @@ function (error) {
             var alertConfig = {
                 title: error.message,
                 msg: errorMsg,
-                confirm: function () { return reject(error); },
+                confirm: function () { return reject(error); }
             };
             Object.assign(alertConfig, error.config.alert);
             vm.udAlert(alertConfig);
