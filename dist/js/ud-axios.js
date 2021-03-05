@@ -66,11 +66,9 @@ function (error) {
                 errorMsg = "服務失效，請稍候再試";
                 break;
             default:
-                errorMsg = "發生錯誤，請稍候再試";
+                // 自定義錯誤訊息
+                errorMsg = error.response.data && error.response.data.message || "發生錯誤，請稍候再試";
         }
-        // 自定義錯誤訊息
-        if (error.response.data.message)
-            errorMsg = error.response.data.message;
         // 請求已發出，但没有收到回應
     }
     else if (error.request) {
@@ -80,7 +78,7 @@ function (error) {
     else {
         errorMsg = "請求被取消或發送請求時異常，請稍候再試";
     }
-    return new Promise(function (reject) {
+    return new Promise(function (resolve, reject) {
         if (error.config.noAlert) {
             reject(error);
             return;
