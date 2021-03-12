@@ -68,8 +68,8 @@ Number
   四捨五入到指定位數 -----> round
 
 Image
-  預載圖片 -----> imagePreload
-  圖片戴入回調 -----> onImageLoaded
+  預載單張圖片 -----> imageLoaded
+  預載多張圖片 -----> imageAllLoaded
 
 Array
   陣列是否有重複值(不分型別) -----> isRepeat
@@ -1910,29 +1910,38 @@ function round(n = 0, decimals = 0){
 
 //-----------------------Image-----------------------
 /**
- * 預載圖片
- * @param  {String} src 圖片路徑
+ * 預載單張圖片
+ * @param  {String} url 圖片路徑
+ * imageLoaded('imgUrl').then(...);
  */
-function imagePreload(src) {
+function imageLoaded(url) {
   let img = new Image();
-  img.src = src;
+  img.src = url;
+  return new Promise((resolve, reject) => {
+    if(img.complete) {
+      resolve(img);
+    }else {
+      img.onload = () => resolve(img);
+      img.onerror = (e) => reject(e);
+    }
+  })
 }
 
 /**
- * 圖片戴入回調
- * @param  {String} url 圖片路徑
- * @param  {Function} callback 回調函式
+ * 預載多張圖片
+ * @param  {Array} arr 多張圖片路徑陣列
+ * imageAllLoaded(['imgUrl1','imgUrl2']).then(...);
  */
-function onImageLoaded(url, callback) {
-  let image = new Image()
-  image.src = url
-  if (image.complete) {
-    callback(image)
-  } else {
-    image.onload = function () {
-      callback(image)
-    }
-  }
+function imageAllLoaded(arr) {
+  let result = [];
+  arr.forEach(item => {
+    result.push(imageLoaded(item));
+  });
+  return new Promise((resolve, reject) => {
+    Promise.all(result)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  })
 }
 
 //-----------------------Array-----------------------
