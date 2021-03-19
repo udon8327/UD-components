@@ -110,6 +110,7 @@ Verify
   各式驗證函式 -----> isRegex
   精準數字驗證 -----> isNumber
   未填入驗證 -----> isEmpty
+  身分證驗證 -----> isIdCard
 
 Browser
   動態加載css文件 -----> loadStyle
@@ -124,20 +125,14 @@ Browser
 Web
   查詢網址所帶參數 -----> queryString
   解析網址 -----> parseUrl
-  HTTP跳轉HTTPS -----> httpsRedirect
-  檢驗URL連接是否有效 -----> getUrlState
   網址跳轉 -----> toUrl
   跳頁重整 -----> jumpReload
-  Axios封裝 -----> axiosPackage
-  CDN備援 -----> cdnBackup
 
 Device
   判斷是否移動裝置 -----> isMobileUserAgent
   判斷是否蘋果移動裝置 -----> isAppleMobileDevice
   判斷是否安卓移動裝置 -----> isAndroidMobileDevice
 
-Animation
-  RAF通用動畫函式 -----> animate
 */
 
 // 初始化執行
@@ -232,7 +227,7 @@ Vue.component('ud-input', {
     if(this.center) this.$refs.input.style.textAlign = 'center';
   },
   methods: {
-    onInput: function(){
+    onInput() {
       this.$parent.$emit('validate'); // 通知FormItem校驗
     },
     focus() {
@@ -266,7 +261,7 @@ Vue.component('ud-textarea', {
     }
   },
   methods: {
-    onInput: function(){
+    onInput() {
       this.$parent.$emit('validate'); // 通知FormItem校驗
     }
   },
@@ -326,7 +321,7 @@ Vue.component('ud-radio', {
     }
   },
   methods: {
-    onChange: function(){
+    onChange() {
       this.$parent.$emit('validate'); // 通知FormItem校驗
       this.$emit('change', this.$refs.radio.value);
     }
@@ -384,7 +379,7 @@ Vue.component('ud-checkbox', {
     }
   },
   methods: {
-    onChange: function(){
+    onChange() {
       this.$parent.$emit('validate'); // 通知FormItem校驗
       this.$emit('change', this.$refs.checkbox.value);
     }
@@ -529,27 +524,27 @@ Vue.component('ud-select-link', {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     },
-    firstValue: function(){
+    firstValue() {
       return this.modelValue[0];
     },
-    secondValue: function(){
+    secondValue() {
       return this.modelValue[1];
     },
-    thirdValue: function(){
+    thirdValue() {
       return this.modelValue[2];
     },
-    firstArr: function(){
+    firstArr() {
       let temp = this.options;
       return temp;
     },
-    secondArr: function(){
+    secondArr() {
       let temp = [];
       if(this.modelValue[0]){
         temp = this.options.find(option => option.value === this.modelValue[0]).children;
       }
       return temp;
     },
-    thirdArr: function(){
+    thirdArr() {
       let temp = [];
       if(this.modelValue[1]){
         temp = this.secondArr.find(option => option.value === this.modelValue[1]).children;
@@ -558,10 +553,10 @@ Vue.component('ud-select-link', {
     },
   },
   watch: {
-    firstValue: function(){
+    firstValue() {
       this.modelValue.splice(1, 1, "");
     },
-    secondValue: function(){
+    secondValue() {
       if(this.third) this.modelValue.splice(2, 1, "");
     },
   },
@@ -603,16 +598,16 @@ Vue.component('ud-select-date', {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     },
-    firstValue: function(){
+    firstValue() {
       return this.modelValue[0];
     },
-    secondValue: function(){
+    secondValue() {
       return this.modelValue[1];
     },
-    thirdValue: function(){
+    thirdValue() {
       return this.modelValue[2];
     },
-    firstArr: function(){
+    firstArr() {
       let temp = [];
       let time = new Date();
       let year = time.getFullYear();
@@ -624,7 +619,7 @@ Vue.component('ud-select-date', {
       }
       return temp;
     },
-    secondArr: function(){
+    secondArr() {
       let temp = [];
       if(this.firstValue){
         for(let i = 1; i <= 12; i++){
@@ -633,7 +628,7 @@ Vue.component('ud-select-date', {
       }
       return temp;
     },
-    thirdArr: function(){
+    thirdArr() {
       let temp = [];
       if(this.firstValue && this.secondValue){
         let year = parseInt(this.firstValue);
@@ -647,10 +642,10 @@ Vue.component('ud-select-date', {
     },
   },
   watch: {
-    firstValue: function(){
+    firstValue() {
       this.modelValue.splice(1, 1, "");
     },
-    secondValue: function(){
+    secondValue() {
       if(this.third) this.modelValue.splice(2, 1, "");
     },
   },
@@ -822,27 +817,27 @@ Vue.component('ud-select-twzip', {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     },
-    firstValue: function(){
+    firstValue() {
       return this.modelValue[0];
     },
-    secondValue: function(){
+    secondValue() {
       return this.modelValue[1];
     },
-    thirdValue: function(){
+    thirdValue() {
       return this.modelValue[2];
     },
-    firstArr: function(){
+    firstArr() {
       let temp = this.options;
       return temp;
     },
-    secondArr: function(){
+    secondArr() {
       let temp = [];
       if(this.modelValue[0]){
         temp = this.options.find(option => option.value === this.modelValue[0]).children;
       }
       return temp;
     },
-    thirdArr: function(){
+    thirdArr() {
       let temp = [];
       if(this.modelValue[1]){
         temp = this.secondArr.find(option => option.value === this.modelValue[1]).children;
@@ -851,15 +846,15 @@ Vue.component('ud-select-twzip', {
     },
   },
   watch: {
-    firstValue: function(){
+    firstValue() {
       this.modelValue.splice(1, 1, "");
     },
-    secondValue: function(){
+    secondValue() {
       if(this.third) this.modelValue.splice(2, 1, "");
     },
   },
   methods: {
-    onChange: function(){
+    onChange() {
       this.$parent.$emit('validate'); // 通知FormItem校驗
     }
   },
@@ -1047,14 +1042,14 @@ Vue.component('ud-captcha', {
       }
       this.convertCanvasToImage(canvas);
     },
-    drawline: function(canvas, context) { // 隨機線
+    drawline(canvas, context) { // 隨機線
       context.moveTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height)); // 隨機線的起點x座標是畫布x座標0位置 y座標是畫布高度的隨機數
       context.lineTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height)); // 隨機線的終點x座標是畫布寬度 y座標是畫布高度的隨機數
       context.lineWidth = 0.5; // 隨機線寬
       context.strokeStyle = this.randomColor; // 隨機線描邊屬性
       context.stroke(); // 描邊 即起點描到終點
     },
-    drawDot: function(canvas, context) { // 隨機點(所謂畫點其實就是畫1px像素的線)
+    drawDot(canvas, context) { // 隨機點(所謂畫點其實就是畫1px像素的線)
       let px = Math.floor(Math.random() * canvas.width);
       let py = Math.floor(Math.random() * canvas.height);
       context.moveTo(px, py);
@@ -1063,12 +1058,12 @@ Vue.component('ud-captcha', {
       context.strokeStyle = this.randomColor;
       context.stroke();
     },
-    convertCanvasToImage: function(canvas) { // 繪製圖片
+    convertCanvasToImage(canvas) { // 繪製圖片
       let image = this.$refs.codeimg;
       image.src = canvas.toDataURL("image/png");
       return image;
     },
-    refresh: function() { // 刷新驗證碼
+    refresh() { // 刷新驗證碼
       document.getElementById('verify-canvas').remove();
       this.$refs.canvasArea.insertAdjacentHTML('afterbegin', '<canvas width="100" height="38" id="verify-canvas" style="display: none;"></canvas>')
       this.drawCode();
@@ -1286,7 +1281,7 @@ Vue.component('ud-collapse', {
     }
   },
   computed: {
-    durationSecond: function(){
+    durationSecond() {
       return `${this.duration}s`
     }
   },
@@ -1301,7 +1296,7 @@ Vue.component('ud-collapse', {
     }
   },
   methods: {
-    collapse: function(){
+    collapse() {
       let el = this.$el;
       if (this.value) {
         el.style.height = el.querySelector('.ud-collapse-wrapper').clientHeight + "px";
@@ -1455,7 +1450,7 @@ let UdModalExtend = Vue.extend({
     }
   },
   computed: {
-    confirmTextAfter: function(){
+    confirmTextAfter() {
       if(this.confirmText) return this.confirmText;
       return this.isConfirm ? "確定" : "OK";
     }
@@ -1464,21 +1459,21 @@ let UdModalExtend = Vue.extend({
     this.isShow = true;
   },
   methods: {
-    nl2br: function(val){
+    nl2br(val) {
       return nl2br(val);
     },
-    confirmHandler: function() {
+    confirmHandler() {
       if(typeof this.confirm === 'function') this.confirm();
       this.destroy();
     },
-    cancelHandler: function() {
+    cancelHandler() {
       if(typeof this.cancel === 'function') this.cancel();
       this.destroy();
     },
-    maskHandler: function() {
+    maskHandler() {
       if(this.maskClose) this.destroy();
     },
-    destroy: function() {
+    destroy() {
       this.isShow = false;
       setTimeout(() => {
         this.$destroy(true);
@@ -1551,7 +1546,7 @@ Vue.component("ud-modal", {
     }
   },
   methods: {
-    onMaskClick: function(){
+    onMaskClick() {
       if(this.maskCancel) this.isShow = 0;
     }
   },
@@ -1585,7 +1580,7 @@ Vue.component('ud-loading', {
     label:{ default: "載入中..." } // 載入中文字
   },
   methods: {
-    nl2br: function(val){
+    nl2br(val) {
       return nl2br(val);
     },
   },
@@ -1626,10 +1621,10 @@ let UdLoadingExtend = Vue.extend({
     this.isShow = true;
   },
   methods: {
-    nl2br: function(val){
+    nl2br(val) {
       return nl2br(val);
     },
-    destroy: function() {
+    destroy() {
       this.isShow = false;
       document.body.style.overflowY = 'auto';
       setTimeout(() => {
@@ -1668,7 +1663,7 @@ Vue.component('ud-html', {
     text: { default: "<h1>H1 用戶自定義訊息</h1><h2>H2 用戶自定義訊息</h2><h3>H3 用戶自定義訊息</h3><h4>H4 用戶自定義訊息</h4><h5>H5 用戶自定義訊息</h5><h6>H6 用戶自定義訊息</h6>\n<p>p 用戶自定義訊息</p><span>span 用戶自定義訊息</span>" } // 文字
   },
   methods: {
-    nl2br: function(str, is_xhtml) {
+    nl2br(str, is_xhtml) {
       if (typeof str === 'undefined' || str === null) {
           return '';
       }
@@ -1685,7 +1680,7 @@ Vue.component('ud-backtop', {
     <ud-button @click="scrollToTop">回最頂</ud-button>
   `,
   methods: {
-    scrollToTop: function(){
+    scrollToTop(){
       scrollTo();
     }
   },
@@ -1714,7 +1709,7 @@ Vue.component('ud-phone', {
     number: { default: "0912345678" } // 電話號碼
   },
   computed: {
-    phoneHref: function(){
+    phoneHref(){
       return `tel:${this.number}`
     }
   },
@@ -1724,33 +1719,32 @@ Vue.component('ud-phone', {
 Vue.component('ud-countdown', {
   name: "UdCountdown",
   template: `
-    <span class="ud-countdown" ref="count">{{cTime}}</span>
+    <span class="ud-countdown" ref="count">{{countTime}}</span>
   `,
   props: {
-    time: { default: 60 }, // 時間
-    delay: Boolean // 延遲
+    time: { default: 60 }, // 倒數秒數
+    delay: Boolean // 不馬上開始倒數
   },
   data() {
     return {
-      cTime: this.time
+      countTime: this.time
     }
   },
   mounted() {
     if(!this.delay) this.countdown();
   },
   methods: {
-    countdown: function(){
-      let _this = this;
-      let countdown = setInterval(function(){
-        _this.cTime -= 1;
-        if(_this.cTime <= 0){
-          _this.$emit("timeup");
+    countdown(){
+      let countdown = setInterval(() => {
+        this.countTime -= 1;
+        if(this.countTime <= 0){
+          this.$emit("timeup");
           clearInterval(countdown);
         }
       }, 1000);
     },
-    reset: function(){
-      this.cTime = 10;
+    reset(){
+      this.countTime = this.time;
       this.countdown();
     }
   },
@@ -1780,7 +1774,7 @@ Vue.component('ud-qrcode', {
     height: { default: "300" }, // 高度
   },
   computed: {
-    QrCodeSrc: function(){
+    QrCodeSrc() {
       return `http://chart.apis.google.com/chart?cht=qr&choe=UTF-8&chs=${this.width}x${this.height}&chl=${this.url}`
     }
   },
@@ -2654,7 +2648,7 @@ function insertPlugin(src){
  */
 function debounce(fn, wait = 200) {
   let timeout = null;
-  return function() {
+  return () => {
     if(timeout !== null)
       clearTimeout(timeout);
     timeout = setTimeout(fn, wait);
@@ -2670,7 +2664,7 @@ function debounce(fn, wait = 200) {
  */
 function throttle(fn, delay = 1000) {
   let prev = Date.now();
-  return function() {
+  return () => {
     let context = this;
     let args = arguments;
     let now = Date.now();
@@ -2697,7 +2691,7 @@ function throttle2(fn, delay){
         return;
     }
 
-    timer = setTimeout(function(){
+    timer = setTimeout(() => {
         prevTime = Date.now();
         timer = null;
         fn.apply(context,args);
@@ -2726,37 +2720,6 @@ function parseUrl(url = location.href) {
 }
 
 /**
- * HTTP跳轉HTTPS
- */
-function httpsRedirect(){
-  if (location.protocol !== 'https:') location.replace('https://' + location.href.split('//')[1]);
-};
-
-/**
- * 檢驗URL連接是否有效
- * @param  {String} URL 網址
- */
-function getUrlState(URL) {
-  var xmlhttp = new ActiveXObject("microsoft.xmlhttp");
-  xmlhttp.Open("GET", URL, false);
-  try {
-    xmlhttp.Send();
-  } catch (e) {
-  } finally {
-    var result = xmlhttp.responseText;
-    if (result) {
-      if (xmlhttp.Status == 200) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-}
-
-/**
  * 網址跳轉
  * @param  {String} url 欲跳轉的網址
  */
@@ -2771,208 +2734,6 @@ function jumpReload(){
   window.onpageshow = event => {
     if(event.persisted) window.location.reload();
   };
-}
-
-/**
- * Axios封裝
- * axiosPackage
- */
-const udApi = axios.create({
-  // baseURL: baseURL,
-  timeout: 10000, // 請求超時時間
-  // withCredentials: true, // 充許攜帶cookie
-  // headers: {"Content-Type": "application/x-www-form-urlencoded"}, //改用formdata格式發送
-})
-
-let ajaxCount = 0;
-
-// 請求攔截器
-udApi.interceptors.request.use(
-  config => {
-    if(ajaxCount === 0) vm.udLoading.open();
-    ajaxCount++;
-    
-    // config.data = JSON.stringify(config.data);
-
-    // 每次發送請求之前判斷是否存在token，如果存在，則統一在http請求的header都加上token，不用每次請求都手動添加了
-    // 即使本地存在token，也有可能token是過期的，所以在響應攔截器中要對返回狀態進行判斷
-    // if(token) config.headers.Authorization = "This is token";
-  
-    // 讓每個請求攜帶token--['X-Token']為自定義key 請根據實際情況自行修改
-    // if (store.getters.token) config.headers['X-Token'] = getToken();
-
-    return config;
-  },
-  error => {
-    console.log(error);
-    return Promise.reject(error);
-  }
-)
-
-// 響應攔截器
-udApi.interceptors.response.use(
-  response => {
-    ajaxCount--;
-    if(ajaxCount === 0) vm.udLoading.close();
-
-    // errorMsg處理
-    // 後端可回傳errorMsg, errorTitle, errorAct("reload": 重整頁面, "url": 跳轉至url)
-    if(response.data.errorMsg){
-      if(response.data.errorAct){
-        if(response.data.errorAct === 'reload'){
-          vm.udAlert({ msg: response.data.errorMsg, title: response.data.errorTitle, confirm: () => location.reload() });
-        }else{
-          vm.udAlert({ msg: response.data.errorMsg, title: response.data.errorTitle, confirm: () => toUrl(response.data.errorAct) });
-        }
-      }else{
-        vm.udAlert({msg: response.data.errorMsg, title: response.data.errorTitle});
-      }
-    }
-
-    return Promise.resolve(response);
-
-    // if (response.status === 200) { // 200
-    //   return Promise.resolve(response);
-    // } else { // 2xx
-    //   return Promise.reject(response);
-    // }
-  },
-  error => {
-    ajaxCount--;
-    if(ajaxCount === 0) vm.udLoading.close();
-
-    console.log('error', error);
-    if (error && error.response) {
-      switch (error.response.status) {
-        case 404:
-          vm.udAlert({title: error.message, msg: "找不到該頁面，請稍候再試"});
-          break;
-        case 500:
-          vm.udAlert({title: error.message, msg: "伺服器出錯，請稍候再試"});
-          break;
-        case 503:
-          vm.udAlert({title: error.message, msg: "服務失效，請稍候再試"});
-          break;
-        default:
-          vm.udAlert({title: error.message, msg: `連接錯誤：${error.response.status}，請稍候再試`});
-      }
-    } else {
-      vm.udAlert({title: error.message, msg: "連接到伺服器失敗，請稍候再試"});
-    }
-    return Promise.reject(error)
-  }
-);
-
-// let udApi = {
-//   /** 
-//    * get方法，對應GET請求
-//    * @param  {String} url 請求的url地址
-//    * @param  {Object} config 請求的config
-//    * @param  {Boolean} next 有errorMsg時是否繼續執行
-//    * @param  {Boolean} detail 是否回傳完整response
-//    */
-//   get(url, config = {}, next = false, detail = false){
-//     return new Promise((resolve, reject) =>{
-//       service.get(url, config)
-//       .then(res => {
-//         if(res.data.errorMsg){
-//           if(!next) return;
-//         }
-//         detail ? resolve(res) : resolve(res.data);
-//       })
-//       .catch(err => {
-//         detail ? reject(err) : reject(err.data);
-//       })
-//     });
-//   },
-//   /** 
-//    * post方法，對應POST請求
-//    * @param  {String} url 請求的url地址
-//    * @param  {Object} data 請求時攜帶的資料
-//    * @param  {Object} config 請求的config
-//    * @param  {Boolean} next 有errorMsg時是否繼續執行
-//    * @param  {Boolean} detail 是否回傳完整response
-//    */
-//   post(url, data = {}, config = {}, next = false, detail = false) {
-//     return new Promise((resolve, reject) => {
-//       service.post(url, data, config)
-//       .then(res => {
-//         if(res.data.errorMsg){
-//           if(!next) return;
-//         }
-//         detail ? resolve(res) : resolve(res.data);
-//       })
-//       .catch(err => {
-//         detail ? reject(err) : reject(err.data);
-//       })
-//     });
-//   },
-//   /** 
-//    * put方法，對應PUT請求
-//    * @param  {String} url 請求的url地址
-//    * @param  {Object} data 請求時攜帶的資料
-//    * @param  {Object} config 請求的config
-//    * @param  {Boolean} next 有errorMsg時是否繼續執行
-//    * @param  {Boolean} detail 是否回傳完整response
-//    */
-//   put(url, data = {}, config = {}, next = false, detail = false) {
-//     return new Promise((resolve, reject) => {
-//       service.put(url, data, config)
-//       .then(res => {
-//         if(res.data.errorMsg){
-//           if(!next) return;
-//         }
-//         detail ? resolve(res) : resolve(res.data);
-//       })
-//       .catch(err => {
-//         detail ? reject(err) : reject(err.data);
-//       })
-//     });
-//   },
-//   /** 
-//    * delete方法，對應DELETE請求
-//    * @param  {String} url 請求的url地址
-//    * @param  {Object} config 請求的config
-//    * @param  {Boolean} next 有errorMsg時是否繼續執行
-//    * @param  {Boolean} detail 是否回傳完整response
-//    */
-//   delete(url, config = {}, next = false, detail = false) {
-//     return new Promise((resolve, reject) => {
-//       service.delete(url, config)
-//       .then(res => {
-//         if(res.data.errorMsg){
-//           if(!next) return;
-//         }
-//         detail ? resolve(res) : resolve(res.data);
-//       })
-//       .catch(err => {
-//         detail ? reject(err) : reject(err.data);
-//       })
-//     });
-//   }
-// }
-
-// 掛載到Vue原型上
-Vue.prototype.udApi = udApi;
-
-/**
- * CDN備援
- */
-function cdnBackup(){
-  if(!window.Vue){
-    document.write(`
-      <link href="https://pro.fontawesome.com/releases/v5.13.1/css/fontawesome.css" rel="stylesheet">
-      <link href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css" rel="stylesheet">
-      <link href="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"><\/script>
-      <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"><\/script>
-      <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"><\/script>
-      <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js"><\/script>
-      <script src="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js"><\/script>
-      <script src="js/ud-modules.js"><\/script>
-    `);
-    console.log("CDN Error!!");
-  }
 }
 
 //-----------------------Device-----------------------
@@ -2997,42 +2758,4 @@ function isAppleMobileDevice() {
  */
 function isAndroidMobileDevice() {
   return /android/i.test(navigator.userAgent.toLowerCase());
-}
-
-//-----------------------Animation-----------------------
-/** 
- * RAF通用動畫函式
- * @param  {String} timing 指定時間
- * @param  {Object} draw 繪製
- * @param  {Object} duration 持續時間
- * animate({
- *   duration: 1000,
- *   timing(timeFraction) {
- *     return timeFraction;
- *   },
- *   draw(progress) {
- *     elem.style.width = progress * 100 + '%';
- *   }
- * });
- * progress = 0 表示開始動畫狀態，progress = 1 表示結束狀態。
- */
-function animate({timing, draw, duration}) {
-
-  let start = performance.now();
-
-  requestAnimationFrame(function animate(time) {
-    // timeFraction 從 0 增加到 1
-    let timeFraction = (time - start) / duration;
-    if (timeFraction > 1) timeFraction = 1;
-
-    // 計算當前動畫狀態
-    let progress = timing(timeFraction);
-
-    draw(progress); // 繪製
-
-    if (timeFraction < 1) {
-      requestAnimationFrame(animate);
-    }
-
-  });
 }

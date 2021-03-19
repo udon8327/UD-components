@@ -23,10 +23,6 @@
       <ud-modal v-model="isModalShow"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <el-upload class="upload-demo" ref="file" :http-request="upload" action="" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :before-upload="beforeUpload" list-type="picture" drag multiple><i class="el-icon-upload"></i>
-            <div class="el-upload__text">將文件拖到此處，或<em>點擊上傳</em></div>
-            <div class="el-upload__tip" slot="tip">只能上傳jpg/png文件，且不超過500kb</div> 
-          </el-upload>
           <ud-form :rules="rules" :model="user" ref="form">
             <ud-form-item label="姓名" prop="name" flex>
               <ud-input placeholder="請輸入您的姓名" v-model="user.name"></ud-input>

@@ -93,7 +93,7 @@ let vm = new Vue({
       // let file = this.$refs.file.files[0];
       let formData = new FormData();
       formData.append('image', param.file);
-      axios.post('https://api.imgur.com/3/image', formData, {
+      udAxios.post('https://api.imgur.com/3/image', formData, {
         headers: {
           Authorization: "Client-ID " + '0259aa13deafaac' //放置你剛剛申請的Client-ID
         },

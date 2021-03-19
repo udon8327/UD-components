@@ -26,6 +26,16 @@ Application
   Select2 搜尋下拉框 -----> ud-select2
   Scratch 刮刮樂 -----> ud-scratch
   Editor 文字編輯器 -----> ud-editor
+
+// ==================== 工具函數目錄 ====================
+Web
+  HTTP跳轉HTTPS -----> httpsRedirect
+  檢驗URL連接是否有效 -----> getUrlState
+  CDN備援 -----> cdnBackup
+
+Animation
+  RAF通用動畫函式 -----> animate
+
 */
 
 //-----------------------Form-----------------------
@@ -600,6 +610,97 @@ Vue.component('ud-editor', {
   name: "UdEditor",
   template: '<h1>文案編輯器</h1>'
 })
+
+//-----------------------Web-----------------------
+
+/**
+ * HTTP跳轉HTTPS
+ */
+function httpsRedirect(){
+  if (location.protocol !== 'https:') location.replace('https://' + location.href.split('//')[1]);
+};
+
+/**
+ * 檢驗URL連接是否有效
+ * @param  {String} URL 網址
+ */
+function getUrlState(URL) {
+  var xmlhttp = new ActiveXObject("microsoft.xmlhttp");
+  xmlhttp.Open("GET", URL, false);
+  try {
+    xmlhttp.Send();
+  } catch (e) {
+  } finally {
+    var result = xmlhttp.responseText;
+    if (result) {
+      if (xmlhttp.Status == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+}
+
+/**
+ * CDN備援
+ */
+function cdnBackup(){
+  if(!window.Vue){
+    document.write(`
+      <link href="https://pro.fontawesome.com/releases/v5.13.1/css/fontawesome.css" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"><\/script>
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"><\/script>
+      <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"><\/script>
+      <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.4.3/dist/formulate.min.js"><\/script>
+      <script src="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js"><\/script>
+      <script src="js/ud-modules.js"><\/script>
+    `);
+    console.log("CDN Error!!");
+  }
+}
+
+//-----------------------Animation-----------------------
+/** 
+ * RAF通用動畫函式
+ * @param  {String} timing 指定時間
+ * @param  {Object} draw 繪製
+ * @param  {Object} duration 持續時間
+ * animate({
+ *   duration: 1000,
+ *   timing(timeFraction) {
+ *     return timeFraction;
+ *   },
+ *   draw(progress) {
+ *     elem.style.width = progress * 100 + '%';
+ *   }
+ * });
+ * progress = 0 表示開始動畫狀態，progress = 1 表示結束狀態。
+ */
+function animate({timing, draw, duration}) {
+
+  let start = performance.now();
+
+  requestAnimationFrame(function animate(time) {
+    // timeFraction 從 0 增加到 1
+    let timeFraction = (time - start) / duration;
+    if (timeFraction > 1) timeFraction = 1;
+
+    // 計算當前動畫狀態
+    let progress = timing(timeFraction);
+
+    draw(progress); // 繪製
+
+    if (timeFraction < 1) {
+      requestAnimationFrame(animate);
+    }
+
+  });
+}
 
 //-----------------------開發區-----------------------
 //可編輯div
