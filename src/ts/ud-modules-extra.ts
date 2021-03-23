@@ -28,6 +28,20 @@ Application
   Editor 文字編輯器 -----> ud-editor
 
 // ==================== 工具函數目錄 ====================
+String
+  取得隨機十六進制顏色 -----> randomHexColorCode
+  轉義HTML(防XSS攻擊) -----> escapeHTML
+  駝峰式轉換 -----> convertCamelCase
+  將字串內URL轉為超連結 -----> replaceURLToLink
+
+Time
+  時間個性化輸出功能 -----> timeFormat
+  時間人性化 -----> formatTime
+
+Browser
+  動態加載css文件 -----> loadStyle
+  動態載入插件 -----> insertPlugin
+
 Web
   HTTP跳轉HTTPS -----> httpsRedirect
   檢驗URL連接是否有效 -----> getUrlState
@@ -612,7 +626,161 @@ Vue.component('ud-editor', {
 })
 
 //-----------------------Web-----------------------
+/**
+ * 取得隨機十六進制顏色碼
+ */
+function randomHexColorCode(){
+  let temp = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + temp.slice(0, 6);
+};
 
+/**
+ * 轉義HTML(防XSS攻擊)
+ * @param  {String} str 代入值
+ * escapeHTML('<a href="#">Me & you</a>'); -> '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
+ */
+function escapeHTML(str){
+  return str.replace(/[&<>'"]/g,tag =>({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+    }[tag] || tag)
+  );
+}
+
+/**
+ * 駝峰式轉換
+ * @param  {String} str 代入值
+ * convertCamelCase("camelCase"); -> camel-case
+ */
+function convertCamelCase(str = ''){
+  return str.replace(/([A-Z])/g, '-$1').toLowerCase();
+}
+
+/**
+ * 將字串內URL轉為超連結
+ * @param  {String} text 代入值
+ */
+function replaceURLToLink(text) {
+  text = text.replace(URL, (url) => {
+    let urlText = url;
+    if (!url.match('^https?://')) url = 'http://' + url;
+    return '' + urlText + '';
+  });
+  return text;
+};
+
+//-----------------------Time-----------------------
+/**
+ * 時間個性化輸出功能
+ * @param  {Any} time 時間物件
+ */
+function timeFormat(time) {
+  let date = new Date(time),
+    curDate = new Date(),
+    year = date.getFullYear(),
+    month = date.getMonth() + 10,
+    day = date.getDate(),
+    hour = date.getHours(),
+    minute = date.getMinutes(),
+    curYear = curDate.getFullYear(),
+    curHour = curDate.getHours(),
+    timeStr;
+  if (year < curYear) {
+    timeStr = year + "年" + month + "月" + day + "日 " + hour + ":" + minute;
+  } else {
+    let pastTime = curDate - date,
+      pastH = pastTime / 3600000;
+    if (pastH > curHour) {
+      timeStr = month + "月" + day + "日 " + hour + ":" + minute;
+    } else if (pastH >= 1) {
+      timeStr = "今天 " + hour + ":" + minute + "分";
+    } else {
+      let pastM = curDate.getMinutes() - minute;
+      if (pastM > 1) {
+        timeStr = pastM + "分鐘前";
+      } else {
+        timeStr = "剛剛";
+      }
+    }
+  }
+  return timeStr;
+}
+
+/**
+ * 時間人性化
+ * @param  {Any} time 時間物件
+ * @param  {Any} option 轉換格式
+ */
+function formatTime(time, option) {
+  if (('' + time).length === 10) {
+    time = parseInt(time) * 1000
+  } else {
+    time = +time
+  }
+  const d = new Date(time)
+  const now = Date.now()
+
+  const diff = (now - d) / 1000
+
+  if (diff < 30) {
+    return '剛剛'
+  } else if (diff < 3600) {
+    // less 1 hour
+    return Math.ceil(diff / 60) + '分鐘前'
+  } else if (diff < 3600 * 24) {
+    return Math.ceil(diff / 3600) + '小時前'
+  } else if (diff < 3600 * 24 * 2) {
+    return '1天前'
+  }
+  if (option) {
+    return parseTime(time, option)
+  } else {
+    return (
+      d.getMonth() +
+      1 +
+      '月' +
+      d.getDate() +
+      '日' +
+      d.getHours() +
+      '時' +
+      d.getMinutes() +
+      '分'
+    )
+  }
+}
+
+//-----------------------Browser-----------------------
+/**
+ * 動態加載css文件
+ * @param  {String} url 文件路徑
+ */
+function loadStyle(url) {
+  try {
+    document.createStyleSheet(url);
+  } catch (e) {
+    let cssLink = document.createElement("link");
+    cssLink.rel = "stylesheet";
+    cssLink.type = "text/css";
+    cssLink.href = url;
+    let head = document.getElementsByTagName("head")[0];
+    head.appendChild(cssLink);
+  }
+}
+
+/**
+ * 動態載入插件
+ * @param  {String} src 路徑
+ */
+function insertPlugin(src){
+  let script = document.createElement('script');
+  script.setAttribute('src', src);
+  document.head.appendChild(script);
+}
+
+//-----------------------Web-----------------------
 /**
  * HTTP跳轉HTTPS
  */

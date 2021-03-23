@@ -23,6 +23,8 @@
       <ud-modal v-model="isModalShow"></ud-modal>
       <div class="container">
         <div class="wrapper">
+          <ud-textarea v-model="qwe"></ud-textarea>
+          <ud-button @click="asd"></ud-button>
           <ud-form :rules="rules" :model="user" ref="form">
             <ud-form-item label="姓名" prop="name" flex>
               <ud-input placeholder="請輸入您的姓名" v-model="user.name"></ud-input>
@@ -66,7 +68,7 @@
         </div>
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.common.dev.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/2.13.2/index.js"></script>
     <script>

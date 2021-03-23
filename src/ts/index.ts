@@ -6,6 +6,7 @@ const BASE_URL = "https://udon8327.synology.me/";
 let vm = new Vue({
   el: "#app",
   data: {
+    qwe: "",
     fileList: [],
     file: "",
     isModalShow: 0,
@@ -88,6 +89,9 @@ let vm = new Vue({
     // this.postData();
   },
   methods: {
+    asd() {
+      alert(this.qwe.replaceAll('\n', '啊'))
+    },
     upload(param) {
       console.log('param: ', param);
       // let file = this.$refs.file.files[0];

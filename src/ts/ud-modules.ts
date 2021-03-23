@@ -55,13 +55,9 @@ Tools
 ==================== 工具函數目錄 ====================
 String
   將字串內換行符\n轉為<br> -----> nl2br
-  取得隨機十六進制顏色 -----> randomHexColorCode
   取得隨機字串 -----> randomString
   金錢加入千分位逗號 -----> formatNumber
   複製文字至剪貼簿 -----> copyTextToClipboard
-  轉義HTML(防XSS攻擊) -----> escapeHTML
-  駝峰式轉換 -----> convertCamelCase
-  將字串內URL轉為超連結 -----> replaceURLToLink
 
 Number
   取得範圍內隨機整數 -----> getRandom
@@ -94,10 +90,7 @@ Time
   檢查是否在某日期後 -----> isAfterDate
   檢查是否在某日期前 -----> isBeforeDate
   返回幾天前後的日期 -----> getDiffDate
-  時間個性化輸出功能 -----> timeFormat
   隨機數時間戳 -----> uniqueId
-  解析時間 -----> parseTime
-  時間人性化 -----> formatTime
   時間格式化 -----> Date.prototype.format
 
 DOM
@@ -113,12 +106,10 @@ Verify
   身分證驗證 -----> isIdCard
 
 Browser
-  動態加載css文件 -----> loadStyle
   取得LocalStorage的值 -----> getLocalStorage
   設定LocalStorage的值 -----> setLocalStorage
   取得Cookie的值 -----> getCookie
   設置cookie值 -----> setCookie
-  動態載入插件 -----> insertPlugin
   函式防抖 -----> debounce
   函式節流 -----> throttle
 
@@ -1796,14 +1787,6 @@ function nl2br(val, is_xhtml = false) {
 }
 
 /**
- * 取得隨機十六進制顏色碼
- */
-function randomHexColorCode(){
-  let temp = (Math.random() * 0xfffff * 1000000).toString(16);
-  return '#' + temp.slice(0, 6);
-};
-
-/**
  * 取得隨機字串
  * @param  {Number} length 指定字串長度
  */
@@ -1843,44 +1826,6 @@ function copyTextToClipboard(id) {
   document.execCommand("copy");
   vm.udAlert({msg: '文字已複製到剪貼簿'});
 }
-
-/**
- * 轉義HTML(防XSS攻擊)
- * @param  {String} str 代入值
- * escapeHTML('<a href="#">Me & you</a>'); -> '&lt;a href=&quot;#&quot;&gt;Me &amp; you&lt;/a&gt;'
- */
-function escapeHTML(str){
-  return str.replace(/[&<>'"]/g,tag =>({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    "'": '&#39;',
-    '"': '&quot;'
-    }[tag] || tag)
-  );
-}
-
-/**
- * 駝峰式轉換
- * @param  {String} str 代入值
- * convertCamelCase("camelCase"); -> camel-case
- */
-function convertCamelCase(str = ''){
-  return str.replace(/([A-Z])/g, '-$1').toLowerCase();
-}
-
-/**
- * 將字串內URL轉為超連結
- * @param  {String} text 代入值
- */
-function replaceURLToLink(text) {
-  text = text.replace(URL, function (url) {
-    let urlText = url;
-    if (!url.match('^https?://')) url = 'http://' + url;
-    return '' + urlText + '';
-  });
-  return text;
-};
 
 //-----------------------Number-----------------------
 /**
@@ -2166,42 +2111,6 @@ function getDiffDate(days){
 };
 
 /**
- * 時間個性化輸出功能
- * @param  {Any} time 時間物件
- */
-function timeFormat(time) {
-  let date = new Date(time),
-    curDate = new Date(),
-    year = date.getFullYear(),
-    month = date.getMonth() + 10,
-    day = date.getDate(),
-    hour = date.getHours(),
-    minute = date.getMinutes(),
-    curYear = curDate.getFullYear(),
-    curHour = curDate.getHours(),
-    timeStr;
-  if (year < curYear) {
-    timeStr = year + "年" + month + "月" + day + "日 " + hour + ":" + minute;
-  } else {
-    let pastTime = curDate - date,
-      pastH = pastTime / 3600000;
-    if (pastH > curHour) {
-      timeStr = month + "月" + day + "日 " + hour + ":" + minute;
-    } else if (pastH >= 1) {
-      timeStr = "今天 " + hour + ":" + minute + "分";
-    } else {
-      let pastM = curDate.getMinutes() - minute;
-      if (pastM > 1) {
-        timeStr = pastM + "分鐘前";
-      } else {
-        timeStr = "剛剛";
-      }
-    }
-  }
-  return timeStr;
-}
-
-/**
  * 隨機數時間戳
  */
 function uniqueId() {
@@ -2211,107 +2120,14 @@ function uniqueId() {
 }
 
 /**
- * 解析時間
- * @param  {Any} time 時間物件
- * @param  {Any} cFormat 轉換格式
- */
-function parseTime(time, cFormat) {
-  if (arguments.length === 0 || !time) {
-    return null
-  }
-  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
-  let date
-  if (typeof time === 'object') {
-    date = time
-  } else {
-    if ((typeof time === 'string')) {
-      if ((/^[0-9]+$/.test(time))) {
-        // support "1548221490638"
-        time = parseInt(time)
-      } else {
-        // support safari
-        // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
-        time = time.replace(new RegExp(/-/gm), '/')
-      }
-    }
-
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
-      time = time * 1000
-    }
-    date = new Date(time)
-  }
-  const formatObj = {
-    y: date.getFullYear(),
-    m: date.getMonth() + 1,
-    d: date.getDate(),
-    h: date.getHours(),
-    i: date.getMinutes(),
-    s: date.getSeconds(),
-    a: date.getDay()
-  }
-  const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
-    const value = formatObj[key]
-    // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
-    return value.toString().padStart(2, '0')
-  })
-  return time_str
-}
-
-/**
- * 時間人性化
- * @param  {Any} time 時間物件
- * @param  {Any} option 轉換格式
- */
-function formatTime(time, option) {
-  if (('' + time).length === 10) {
-    time = parseInt(time) * 1000
-  } else {
-    time = +time
-  }
-  const d = new Date(time)
-  const now = Date.now()
-
-  const diff = (now - d) / 1000
-
-  if (diff < 30) {
-    return '剛剛'
-  } else if (diff < 3600) {
-    // less 1 hour
-    return Math.ceil(diff / 60) + '分鐘前'
-  } else if (diff < 3600 * 24) {
-    return Math.ceil(diff / 3600) + '小時前'
-  } else if (diff < 3600 * 24 * 2) {
-    return '1天前'
-  }
-  if (option) {
-    return parseTime(time, option)
-  } else {
-    return (
-      d.getMonth() +
-      1 +
-      '月' +
-      d.getDate() +
-      '日' +
-      d.getHours() +
-      '時' +
-      d.getMinutes() +
-      '分'
-    )
-  }
-}
-
-/**
  * 時間格式化
  * @param  {Any} format 轉換格式
  * new Date().format('yyyyMMdd') -> "20200921"
  * new Date().format('yyyy-MM-dd') -> "2020-09-21"
  * new Date().format('yyyy-MM-dd hh:mm:ss') -> "2020-09-21 16:07:59"
  */
-Date.prototype.format = function (format) {
-  if(!format){
-    format = "yyyy-MM-dd hh:mm:ss";
-  }
+// function parseTime(date = new Date(), format = "yyyy-MM-dd hh:mm:ss"){
+Date.prototype.format = function(format = "yyyy-MM-dd hh:mm:ss") {
   let o = {
     "M+": this.getMonth() + 1, // 月份
     "d+": this.getDate(), // 日
@@ -2564,23 +2380,6 @@ function isIdCard(idStr){
 
 //-----------------------Browser-----------------------
 /**
- * 動態加載css文件
- * @param  {String} url 文件路徑
- */
-function loadStyle(url) {
-  try {
-    document.createStyleSheet(url);
-  } catch (e) {
-    let cssLink = document.createElement("link");
-    cssLink.rel = "stylesheet";
-    cssLink.type = "text/css";
-    cssLink.href = url;
-    let head = document.getElementsByTagName("head")[0];
-    head.appendChild(cssLink);
-  }
-}
-
-/**
  * 取得LocalStorage的值
  * @param  {String} key 鍵值
  */
@@ -2630,16 +2429,6 @@ function setCookie(name, value, Hours) {
 }
 
 /**
- * 動態載入插件
- * @param  {String} src 路徑
- */
-function insertPlugin(src){
-  let script = document.createElement('script');
-  script.setAttribute('src', src);
-  document.head.appendChild(script);
-}
-
-/**
  * 函式防抖
  * @description 將幾次操作合併為一次操作進行
  * @param  {Function} fn 處理函式
@@ -2678,7 +2467,7 @@ function throttle(fn, delay = 1000) {
 function throttle2(fn, delay){
   let timer; 
   let prevTime;
-  return function(...args){
+  return (...args) => {
     let currTime = Date.now();
     let context = this;
     if(!prevTime) prevTime = currTime;
