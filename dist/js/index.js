@@ -81,6 +81,7 @@ var vm = new Vue({
         ],
     },
     mounted: function () {
+        throw new Error('123123123123');
         // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
         this.init();
         // this.postData();
@@ -152,5 +153,4 @@ var vm = new Vue({
         }
     }
 });
-//# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

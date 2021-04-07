@@ -193,7 +193,6 @@ Vue.component('ud-button', {
 // Input 輸入框
 Vue.component('ud-input', {
   name: 'UdInput',
-  inheritAttrs: false,
   template: `
     <div class="ud-input">
       <input
@@ -204,6 +203,7 @@ Vue.component('ud-input', {
       >
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null,
     center: Boolean // 是否置中
@@ -230,7 +230,6 @@ Vue.component('ud-input', {
 // Textarea 多行輸入框
 Vue.component('ud-textarea', {
   name: "UdTextarea",
-  inheritAttrs: false,
   template: `
     <div class="ud-textarea">
       <textarea
@@ -242,6 +241,7 @@ Vue.component('ud-textarea', {
       </textarea>
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null,
   },
@@ -261,7 +261,6 @@ Vue.component('ud-textarea', {
 // Radio 單選框
 Vue.component('ud-radio', {
   name: "UdRadio",
-  inheritAttrs: false,
   template: `
     <div class="ud-radio" :class="{'is-flex': flex}">
 
@@ -297,6 +296,7 @@ Vue.component('ud-radio', {
 
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null, // value值
     option: null, // 單選項[string, number]
@@ -322,7 +322,6 @@ Vue.component('ud-radio', {
 // Checkbox 多選框
 Vue.component('ud-checkbox', {
   name: "UdCheckbox",
-  inheritAttrs: false,
   template: `
     <div class="ud-checkbox" :class="{'is-flex': flex}">
       <template v-if="option">
@@ -355,6 +354,7 @@ Vue.component('ud-checkbox', {
       </template>
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null, // value值 單個時綁定Boolean 多個時綁定Array
     option: null, // 單選項
@@ -380,7 +380,6 @@ Vue.component('ud-checkbox', {
 // Select 下拉框
 Vue.component('ud-select', {
   name: "UdSelect",
-  inheritAttrs: false,
   template: `
     <div class="ud-select">
       <select 
@@ -397,6 +396,7 @@ Vue.component('ud-select', {
       </select>
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null, // value值
     options: null, // 選項
@@ -447,7 +447,6 @@ Vue.component('ud-select', {
 // SelectMultiple 下拉複選框 (依賴：element-ui)
 Vue.component('ud-select-multiple', {
   name: "UdSelectMultiple",
-  inheritAttrs: false,
   template: `
     <div class="ud-select-multiple">
       <el-select
@@ -466,6 +465,7 @@ Vue.component('ud-select-multiple', {
       </el-select>
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null, // value值
     options: null, // 選項
@@ -861,7 +861,6 @@ Vue.component('ud-select-twzip', {
 // Switch 開關
 Vue.component('ud-switch', {
   name: "UdSwitch",
-  inheritAttrs: false,
   template: `
     <div class="ud-switch">
       <label>
@@ -877,6 +876,7 @@ Vue.component('ud-switch', {
       </label>
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: { default: false }, // value值
   },
@@ -1176,7 +1176,6 @@ Vue.component('ud-form-item', {
 // Form 表單驗證
 Vue.component('ud-form', {
   name: "UdForm",
-  inheritAttrs: false,
   template: `
     <div class="ud-form" :class="{'is-no-error-msg': noErrorMsg}">
       <form v-bind="$attrs">
@@ -1184,6 +1183,7 @@ Vue.component('ud-form', {
       </form>
     </div>
   `,
+  inheritAttrs: false,
   provide() {
     return {
       form: this  // 傳遞Form實例给後代，比如FormItem用來校驗
@@ -1743,6 +1743,7 @@ Vue.component('ud-countdown', {
 
 // QrCode 取得QRcode圖片
 Vue.component('ud-qrcode', {
+  name: "UdQrcode",
   template: `
     <div class="ud-qrcode">
       <div v-if="!ready" class="icon-css"></div>
