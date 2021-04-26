@@ -1853,6 +1853,7 @@ function round(n = 0, decimals = 0){
  * 預載單張圖片
  * @param  {String} url 圖片路徑
  * imageLoaded('imgUrl').then(...);
+ * 圖片讀取完成時返回Image物件
  */
 function imageLoaded(url) {
   let img = new Image();
@@ -1871,6 +1872,7 @@ function imageLoaded(url) {
  * 預載多張圖片
  * @param  {Array} arr 多張圖片路徑陣列
  * imageAllLoaded(['imgUrl1','imgUrl2']).then(...);
+ * 全部圖片都讀取完成時返回Image物件組成的陣列
  */
 function imageAllLoaded(arr) {
   let result = [];
