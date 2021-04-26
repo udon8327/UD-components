@@ -81,9 +81,16 @@ var vm = new Vue({
         ],
     },
     mounted: function () {
-        throw new Error('123123123123');
+        var _this = this;
+        udAlert({
+            msg: "好喔",
+            title: "錯誤",
+            confirm: confirm,
+        })
+            .then(function (val) { return _this.init(); })
+            .catch(function (err) { return udAlert(err); });
+        // throw new Error('123123123123')
         // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
-        this.init();
         // this.postData();
     },
     methods: {

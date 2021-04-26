@@ -1085,70 +1085,52 @@ Vue.component('ud-ratio', {
 });
 //-----------------------Notice-----------------------
 // Alert 警告彈窗
-Vue.component("ud-alert", {
+var UdAlert = {
     name: "UdAlert",
-    template: "\n    <transition name=\"fade\">\n      <div class=\"ud-alert\" v-if=\"value\" v-cloak>\n        <div class=\"modal-wrapper\" @click.self=\"maskCancel && $emit('input', 0)\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"hasCancel\" @click=\"$emit('input', 0)\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\">\n              <p>{{ title }}</p>\n            </div>\n            <div class=\"modal-body\">\n              <p>{{ message }}</p>\n              <slot></slot>\n            </div>\n            <div class=\"modal-footer\">\n              <div class=\"button-area\">\n                <ud-button @click=\"$emit('input', 0)\">OK</ud-button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
-    props: {
-        title: { default: "警告標題" },
-        message: { default: "警告訊息" },
-        value: { default: false },
-        maskCancel: Boolean,
-        hasCancel: Boolean,
-    },
-});
-// Confirm 確認彈窗
-Vue.component("ud-confirm", {
-    name: "UdConfirm",
-    template: "\n    <transition name=\"fade\">\n      <div class=\"ud-confirm\" v-if=\"value\" v-cloak>\n        <div class=\"modal-wrapper\" @click.self=\"maskCancel && $emit('input', 0)\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"hasCancel\" @click=\"$emit('input, 0')\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\">\n              <p>{{ title }}</p>\n            </div>\n            <div class=\"modal-body\">\n              <p>{{ message }}</p>\n              <slot></slot>\n            </div>\n            <div class=\"modal-footer\">\n              <div class=\"button-area\">\n                <ud-button plain @click=\"$emit('input', 0)\">{{ cancelText }}</ud-button>\n                <ud-button @click=\"$emit('confirm')\">{{ confirmText }}</ud-button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
-    props: {
-        title: { default: "確認標題" },
-        message: { default: "確認訊息" },
-        value: { default: false },
-        cancelText: { default: "取消" },
-        confirmText: { default: "確定" },
-        maskCancel: Boolean,
-        hasCancel: Boolean,
-    },
-});
-// AlertConfirm 警告確認彈窗(調用式) ud-alertConfirm
-var UdModalExtend = Vue.extend({
-    template: "\n    <transition name=\"fade\">\n      <div class=\"ud-alert\" v-if=\"isShow\">\n        <div class=\"modal-wrapper\" @click.self=\"maskHandler\">\n          <div class=\"modal-content\">\n            <div class=\"modal-close\" v-if=\"btnClose\" @click=\"destroy\">\n              <i class=\"fas fa-times\"></i>\n            </div>\n            <div class=\"modal-header\" v-if=\"title\">\n              <p v-html=\"nl2br(title)\"></p>\n            </div>\n            <div class=\"modal-body\">\n              <p v-html=\"nl2br(msg)\"></p>\n            </div>\n            <div class=\"modal-footer\">\n              <ud-flex>\n                <ud-button @click=\"cancelHandler\" plain v-if=\"isConfirm\">{{ cancelText }}</ud-button>\n                <ud-button @click=\"confirmHandler\">{{ confirmTextAfter }}</ud-button>\n              </ud-flex>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
+    template: "\n    <transition name=\"fade\">\n      <div class=\"ud-alert\" v-if=\"isShow\" @click.self=\"maskHandler\">\n        <div class=\"modal-wrapper\">\n          <div class=\"modal-close\" v-if=\"btnClose\" @click=\"destroy\">\n            <i class=\"icon-close\"></i>\n          </div>\n          <div class=\"modal-header\" v-if=\"title\">\n            <p v-html=\"nl2br(title)\"></p>\n          </div>\n          <div class=\"modal-body\">\n            <p v-html=\"nl2br(msg)\"></p>\n          </div>\n          <div class=\"modal-footer\">\n            <ud-flex>\n              <ud-button @click=\"cancelHandler\" plain v-if=\"confirm\">{{ cancelText }}</ud-button>\n              <ud-button @click=\"confirmHandler\">{{ confirmText }}</ud-button>\n            </ud-flex>\n          </div>\n        </div>\n      </div>\n    </transition>\n  ",
     data: function () {
         return {
             isShow: false,
-            isConfirm: false,
+            confirm: false,
             maskClose: false,
             btnClose: false,
-            title: "",
+            scrollLock: true,
+            title: '',
             msg: "網路通信錯誤，請稍候再試",
             cancelText: "取消",
-            cancel: function () { },
-            confirmText: "",
-            confirm: function () { },
+            onCancel: function () { },
+            confirmText: "確定",
+            onConfirm: function () { },
+            resolve: '',
+            reject: '',
         };
     },
-    computed: {
-        confirmTextAfter: function () {
-            if (this.confirmText)
-                return this.confirmText;
-            return this.isConfirm ? "確定" : "OK";
-        }
-    },
     mounted: function () {
-        this.isShow = true;
+        if (this.scrollLock)
+            document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        if (this.scrollLock)
+            document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
     },
     methods: {
+        show: function () {
+            var _this = this;
+            this.isShow = true;
+            return new Promise(function (resolve, reject) {
+                _this.resolve = resolve;
+                _this.reject = reject;
+            });
+        },
         nl2br: function (val) {
             return nl2br(val);
         },
         confirmHandler: function () {
-            if (typeof this.confirm === 'function')
-                this.confirm();
+            this.onConfirm();
+            this.resolve('confirm');
             this.destroy();
         },
         cancelHandler: function () {
-            if (typeof this.cancel === 'function')
-                this.cancel();
+            this.onCancel();
+            this.reject('cancel');
             this.destroy();
         },
         maskHandler: function () {
@@ -1158,32 +1140,28 @@ var UdModalExtend = Vue.extend({
         destroy: function () {
             var _this = this;
             this.isShow = false;
+            if (this.scrollLock)
+                document.getElementsByTagName('body')[0].style.overflow = 'auto';
             setTimeout(function () {
                 _this.$destroy(true);
                 _this.$el.parentNode.removeChild(_this.$el);
             }, 200);
         },
     },
-});
-Vue.prototype.udAlert = function (options) {
-    var UdAlert = new UdModalExtend({
-        el: document.createElement('div'),
-        data: function () {
-            return options;
-        }
-    });
-    document.body.appendChild(UdAlert.$el);
 };
-Vue.prototype.udConfirm = function (options) {
-    options.isConfirm = true;
-    var UdConfirm = new UdModalExtend({
-        el: document.createElement('div'),
-        data: function () {
-            return options;
-        }
-    });
-    document.body.appendChild(UdConfirm.$el);
+var udAlertExtend = Vue.extend(UdAlert);
+var udAlert = function (options) {
+    var udAlertInstance = new udAlertExtend();
+    if (typeof options === 'string') {
+        udAlertInstance.msg = options;
+    }
+    else if (typeof options === 'object') {
+        Object.assign(udAlertInstance, options);
+    }
+    document.body.appendChild(udAlertInstance.$mount().$el);
+    return udAlertInstance.show();
 };
+Vue.prototype.udAlert = udAlert;
 // Modal 通用彈窗
 Vue.component("ud-modal", {
     name: "UdModal",
@@ -1465,6 +1443,7 @@ function round(n, decimals) {
  * 預載單張圖片
  * @param  {String} url 圖片路徑
  * imageLoaded('imgUrl').then(...);
+ * 圖片讀取完成時返回Image物件
  */
 function imageLoaded(url) {
     var img = new Image();
@@ -1483,6 +1462,7 @@ function imageLoaded(url) {
  * 預載多張圖片
  * @param  {Array} arr 多張圖片路徑陣列
  * imageAllLoaded(['imgUrl1','imgUrl2']).then(...);
+ * 全部圖片都讀取完成時返回Image物件組成的陣列
  */
 function imageAllLoaded(arr) {
     var result = [];
