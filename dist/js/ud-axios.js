@@ -89,7 +89,7 @@ function (error) {
             var alertConfig = {
                 title: error.message,
                 msg: errorMsg,
-                confirm: function () { return reject(error); }
+                onConfirm: function () { return reject(error); }
             };
             Object.assign(alertConfig, error.config.alert);
             vm.udAlert(alertConfig);

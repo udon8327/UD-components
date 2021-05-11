@@ -1152,12 +1152,7 @@ var UdAlert = {
 var udAlertExtend = Vue.extend(UdAlert);
 var udAlert = function (options) {
     var udAlertInstance = new udAlertExtend();
-    if (typeof options === 'string') {
-        udAlertInstance.msg = options;
-    }
-    else if (typeof options === 'object') {
-        Object.assign(udAlertInstance, options);
-    }
+    typeof options === 'string' ? udAlertInstance.msg = options : Object.assign(udAlertInstance, options);
     document.body.appendChild(udAlertInstance.$mount().$el);
     return udAlertInstance.show();
 };

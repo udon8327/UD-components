@@ -244,14 +244,7 @@ template {
   display: none !important; }
 
 html, #app {
-  height: 100%;
-  font-size: 62.5%; }
-  @media (min-width: 540px) {
-    html, #app {
-      font-size: 72%; } }
-  @media (max-width: 340px) {
-    html, #app {
-      font-size: 54%; } }
+  height: 100%; }
 
 body {
   font-family: "Helvetica Neue", Helvetica, "PingFang TC", "LiHei Pro", "Hiragino Sans GB", "Microsoft JhengHei", "微軟正黑體", Arial ,sans-serif;
@@ -263,7 +256,7 @@ body {
   background-color: #fafafa; }
 
 p, span, h1, h2, h3, h4, h5, h6, label, div {
-  font-size: 1.6rem;
+  font-size: 16px;
   font-weight: normal;
   -webkit-text-size-adjust: none;
   margin: 0; }
@@ -276,34 +269,8 @@ img {
   max-width: 540px;
   margin: 0 auto;
   min-height: 100%;
-  background-color: #41b883;
-  padding: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column; }
-  .container .wrapper {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1 0px;
-    flex: 1 1 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    background-color: #fff;
-    padding: 15px 3% 60px 3%; }
-    .container .wrapper .scroll-wrapper {
-      -webkit-box-flex: 1;
-      -ms-flex: 1 1 0px;
-      flex: 1 1 0;
-      overflow: hidden;
-      overflow-y: auto; }
+  background-color: #fff;
+  padding: 15px; }
 
 .d-none, [v-cloak] {
   display: none; }

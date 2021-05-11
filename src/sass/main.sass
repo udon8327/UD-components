@@ -10,11 +10,6 @@
 
 html,#app
   height: 100%
-  font-size: 62.5%
-  @media (min-width: 540px)
-    font-size: 72%
-  @media (max-width: 340px)
-    font-size: 54%
 
 body
   font-family: "Helvetica Neue", Helvetica, "PingFang TC", "LiHei Pro", "Hiragino Sans GB", "Microsoft JhengHei", "微軟正黑體", Arial ,sans-serif
@@ -26,7 +21,7 @@ body
   background-color: #fafafa
 
 p,span,h1,h2,h3,h4,h5,h6,label,div
-  font-size: 1.6rem
+  font-size: 16px
   font-weight: normal
   -webkit-text-size-adjust: none
   margin: 0
@@ -45,20 +40,9 @@ img
   // background: url('../img/bg.jpg') repeat top center
   // background-size: 100%
   min-height: 100%
-  background-color: $main
-  padding: 10px
-  display: flex
-  flex-direction: column
+  background-color: #fff
+  padding: 15px
   .wrapper
-    flex: 1 1 0
-    display: flex
-    flex-direction: column
-    background-color: #fff
-    padding: 15px 3% 60px 3%
-    .scroll-wrapper
-      flex: 1 1 0
-      overflow: hidden
-      overflow-y: auto
 
 // global class
 .d-none,[v-cloak]

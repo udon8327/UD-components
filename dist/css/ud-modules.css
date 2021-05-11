@@ -26,8 +26,8 @@ html, #app {
   transition: .2s;
   position: relative; }
   .ud-button span {
-    font-size: 1.6rem;
-    line-height: 2rem; }
+    font-size: 16px;
+    line-height: 2px; }
   .ud-button:hover, .ud-button:focus {
     background-color: #64c89b; }
   .ud-button.is-plain {
@@ -56,7 +56,7 @@ html, #app {
   appearance: none;
   border-radius: 5px;
   border: 1px solid #cecece;
-  font-size: 1.4rem;
+  font-size: 14px;
   padding: 5px 10px;
   width: 100%;
   min-height: 40px;
@@ -184,7 +184,7 @@ html, #app {
   -ms-flex-align: center;
   align-items: center; }
   .ud-checkbox label p {
-    font-size: 1.4rem; }
+    font-size: 14px; }
   .ud-checkbox label input {
     position: absolute;
     left: -999px;
@@ -245,7 +245,7 @@ html, #app {
     border-radius: 5px;
     border: 1px solid #cecece;
     background-color: #fff;
-    font-size: 1.4rem;
+    font-size: 14px;
     padding: 5px 10px;
     width: 100%;
     margin: 0;
@@ -397,7 +397,7 @@ html, #app {
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
   cursor: pointer;
-  font-size: 1.4rem; }
+  font-size: 14px; }
   .ud-date-picker input::-webkit-input-placeholder {
     color: #868686; }
   .ud-date-picker input:-ms-input-placeholder {
@@ -427,7 +427,7 @@ html, #app {
     transform: translate(10px, 5px); }
 
 .ud-form-item {
-  margin-bottom: 1.8rem; }
+  margin-bottom: 18px; }
   .ud-form-item.is-flex {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -452,7 +452,7 @@ html, #app {
         border: 1px solid #dc3545; }
     .ud-form-item.is-error .ud-form-item-right > p.error-message {
       color: #dc3545;
-      font-size: 1.2rem;
+      font-size: 12px;
       position: absolute;
       left: 5px;
       white-space: nowrap; }
@@ -749,7 +749,7 @@ html, #app {
 
 .ud-html {
   text-align: left;
-  font-size: 1.4rem; }
+  font-size: 14px; }
   .ud-html h1 {
     font-size: 32px; }
   .ud-html h2 {

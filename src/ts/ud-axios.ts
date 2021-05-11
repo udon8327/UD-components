@@ -98,7 +98,7 @@ udAxios.interceptors.response.use(
         let alertConfig = {
           title: error.message,
           msg: errorMsg,
-          confirm: () => reject(error)
+          onConfirm: () => reject(error)
         }
         Object.assign(alertConfig, error.config.alert);
         vm.udAlert(alertConfig);
