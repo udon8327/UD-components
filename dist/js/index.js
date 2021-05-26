@@ -1,5 +1,3 @@
-udAxios.defaults.headers.common['Channel'] = "987";
-var BASE_URL = "https://udon8327.synology.me/";
 var vm = new Vue({
     el: "#app",
     data: {

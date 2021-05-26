@@ -1,8 +1,5 @@
 declare var $: (selector: string) => any;
 
-udAxios.defaults.headers.common['Channel'] = "987";
-const BASE_URL = "https://udon8327.synology.me/";
-
 let vm = new Vue({
   el: "#app",
   data: {
