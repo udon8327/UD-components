@@ -281,10 +281,12 @@ Vue.component('ud-select', {
     mounted: function () {
         if (this.center)
             this.centerSelect();
-        window.addEventListener("resize", this.centerSelect);
+        if (this.center)
+            window.addEventListener("resize", this.centerSelect);
     },
     destroyed: function () {
-        window.removeEventListener("resize", this.centerSelect);
+        if (this.center)
+            window.removeEventListener("resize", this.centerSelect);
     },
     methods: {
         onChange: function () {
@@ -887,6 +889,8 @@ Vue.component('ud-form-item', {
     mounted: function () {
         var _this = this;
         this.$on('validate', function () {
+            if (!_this.prop)
+                return;
             _this.validate(false);
         });
     },
