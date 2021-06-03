@@ -398,8 +398,12 @@ Vue.component('ud-select', {
   `,
   inheritAttrs: false,
   props: {
-    value: null, // value值
-    options: null, // 選項
+    value: { default: "" }, // value值
+    options: { // 選項
+      default: () => {
+        return { label: "", value: ""}
+      }
+    },
     placeholder: { default: "請選擇一項" }, // 取代文字
     combine: Boolean, // 使用value做為label
     center: Boolean, // 是否置中

@@ -266,8 +266,12 @@ Vue.component('ud-select', {
     template: "\n    <div class=\"ud-select\">\n      <select \n        v-model=\"modelValue\" \n        :data-placeholder-selected=\"modelValue.length === 0\"\n        v-bind=\"$attrs\"\n        @change=\"onChange\"\n        ref=\"select\"\n      >\n        <option value=\"\" disabled selected>{{ placeholder }}</option>\n        <option v-for=\"option in options\" :value=\"option.value\" :key=\"option.value\">\n          {{ combine ? option.value : option.label }}\n        </option>\n      </select>\n    </div>\n  ",
     inheritAttrs: false,
     props: {
-        value: null,
-        options: null,
+        value: { default: "" },
+        options: {
+            default: function () {
+                return { label: "", value: "" };
+            }
+        },
         placeholder: { default: "請選擇一項" },
         combine: Boolean,
         center: Boolean,
