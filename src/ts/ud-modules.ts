@@ -22,6 +22,7 @@ Form
   Checkbox 多選框 -----> ud-checkbox
   Select 下拉框 -----> ud-select
   SelectMultiple 下拉多選框 -----> ud-select-multiple
+  SelectLinkUniq 連動獨立下拉框 -----> ud-select-link-uniq
   SelectLink 連動下拉框 -----> ud-select-link
   SelectDate 日期連動下拉框 -----> ud-select-date
   SelectTwzip 台灣行政區連動下拉框 -----> ud-select-twzip
@@ -390,7 +391,7 @@ Vue.component('ud-select', {
         ref="select"
       >
         <option value="" disabled selected>{{ placeholder }}</option>
-        <option v-for="option in options" :value="option.value" :key="option.value">
+        <option v-for="option in options" :value="option.value" :key="option.value" :disabled="option.disabled">
           {{ combine ? option.value : option.label }}
         </option>
       </select>
@@ -401,7 +402,7 @@ Vue.component('ud-select', {
     value: { default: "" }, // value值
     options: { // 選項
       default: () => {
-        return { label: "", value: ""}
+        return { label: "", value: "", disabled: true }
       }
     },
     placeholder: { default: "請選擇一項" }, // 取代文字
@@ -486,6 +487,58 @@ Vue.component('ud-select-multiple', {
       this.$parent.$emit('validate'); // 通知FormItem校驗
       this.$emit('change', this.$refs.select.value);
     },
+  },
+})
+
+// SelectLinkUniq 連動獨立下拉框
+Vue.component('ud-select-link-uniq', {
+  name: "UdSelectLinkUniq",
+  template: `
+    <div class="ud-select-link">
+      <ud-select v-model="modelValue[num - 1]" :options="optionsUniq" :placeholder="placeholder" :combine="combine"></ud-select>
+    </div>
+  `,
+  props: {
+    num: null,
+    value: null, // value值
+    options: null, // 選項 [Array]
+    placeholder: { default: "請選擇一項" }, // placeholder值 [Array]
+    combine: Boolean, // 是否label直接使用value值
+  },
+  computed: {
+    modelValue: { // ["", "", ""]
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
+    },
+    uniqValue() {
+      return this.modelValue[this.num - 1];
+    },
+    optionsUniq() {
+      let temp = [];
+      if(this.num - 1 === 0) {
+        temp = this.options;
+      }else if(this.num - 1 === 1){
+        temp = this.options.find(option => option.value === this.modelValue[0]).children;
+      }else {
+        temp = this.options.find(option => option.value === this.modelValue[0]).children;
+      }
+      return temp;
+    },
+  },
+  watch: {
+    uniqValue() {
+      this.modelValue.splice(1, 1, "");
+    },
+    secondValue() {
+      if(this.third) this.modelValue.splice(2, 1, "");
+    },
+  },
+  mounted() {
+    this.$on('validate', () => {
+      this.$nextTick(() => {
+        this.$parent.$emit('validate'); // 通知FormItem校驗
+      })
+    })
   },
 })
 

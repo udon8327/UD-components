@@ -20,6 +20,7 @@ Form
   Checkbox 多選框 -----> ud-checkbox
   Select 下拉框 -----> ud-select
   SelectMultiple 下拉多選框 -----> ud-select-multiple
+  SelectLinkUniq 連動獨立下拉框 -----> ud-select-link-uniq
   SelectLink 連動下拉框 -----> ud-select-link
   SelectDate 日期連動下拉框 -----> ud-select-date
   SelectTwzip 台灣行政區連動下拉框 -----> ud-select-twzip
@@ -263,13 +264,13 @@ Vue.component('ud-checkbox', {
 // Select 下拉框
 Vue.component('ud-select', {
     name: "UdSelect",
-    template: "\n    <div class=\"ud-select\">\n      <select \n        v-model=\"modelValue\" \n        :data-placeholder-selected=\"modelValue.length === 0\"\n        v-bind=\"$attrs\"\n        @change=\"onChange\"\n        ref=\"select\"\n      >\n        <option value=\"\" disabled selected>{{ placeholder }}</option>\n        <option v-for=\"option in options\" :value=\"option.value\" :key=\"option.value\">\n          {{ combine ? option.value : option.label }}\n        </option>\n      </select>\n    </div>\n  ",
+    template: "\n    <div class=\"ud-select\">\n      <select \n        v-model=\"modelValue\" \n        :data-placeholder-selected=\"modelValue.length === 0\"\n        v-bind=\"$attrs\"\n        @change=\"onChange\"\n        ref=\"select\"\n      >\n        <option value=\"\" disabled selected>{{ placeholder }}</option>\n        <option v-for=\"option in options\" :value=\"option.value\" :key=\"option.value\" :disabled=\"option.disabled\">\n          {{ combine ? option.value : option.label }}\n        </option>\n      </select>\n    </div>\n  ",
     inheritAttrs: false,
     props: {
         value: { default: "" },
         options: {
             default: function () {
-                return { label: "", value: "" };
+                return { label: "", value: "", disabled: true };
             }
         },
         placeholder: { default: "請選擇一項" },
@@ -340,6 +341,58 @@ Vue.component('ud-select-multiple', {
             this.$parent.$emit('validate'); // 通知FormItem校驗
             this.$emit('change', this.$refs.select.value);
         },
+    },
+});
+// SelectLinkUniq 連動獨立下拉框
+Vue.component('ud-select-link-uniq', {
+    name: "UdSelectLinkUniq",
+    template: "\n    <div class=\"ud-select-link\">\n      <ud-select v-model=\"modelValue[num - 1]\" :options=\"optionsUniq\" :placeholder=\"placeholder\" :combine=\"combine\"></ud-select>\n    </div>\n  ",
+    props: {
+        num: null,
+        value: null,
+        options: null,
+        placeholder: { default: "請選擇一項" },
+        combine: Boolean,
+    },
+    computed: {
+        modelValue: {
+            get: function () { return this.value; },
+            set: function (val) { this.$emit('input', val); }
+        },
+        uniqValue: function () {
+            return this.modelValue[this.num - 1];
+        },
+        optionsUniq: function () {
+            var _this = this;
+            var temp = [];
+            if (this.num - 1 === 0) {
+                temp = this.options;
+            }
+            else if (this.num - 1 === 1) {
+                temp = this.options.find(function (option) { return option.value === _this.modelValue[0]; }).children;
+            }
+            else {
+                temp = this.options.find(function (option) { return option.value === _this.modelValue[0]; }).children;
+            }
+            return temp;
+        },
+    },
+    watch: {
+        uniqValue: function () {
+            this.modelValue.splice(1, 1, "");
+        },
+        secondValue: function () {
+            if (this.third)
+                this.modelValue.splice(2, 1, "");
+        },
+    },
+    mounted: function () {
+        var _this = this;
+        this.$on('validate', function () {
+            _this.$nextTick(function () {
+                _this.$parent.$emit('validate'); // 通知FormItem校驗
+            });
+        });
     },
 });
 // SelectLink 連動下拉框
