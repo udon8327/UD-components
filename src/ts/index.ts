@@ -3,6 +3,9 @@ declare var $: (selector: string) => any;
 let vm = new Vue({
   el: "#app",
   data: {
+    test1: "",
+    test2: "",
+    test3: "",
     store: ["", "", ""],
     fileList: [],
     file: "",
@@ -82,8 +85,13 @@ let vm = new Vue({
   },
   mounted() {
     // this.init();
-    for(let i = 0; i < 1; i++) {
-      console.log(i);
+    // for(let i = 0; i < 1; i++) {
+    //   console.log(i);
+    // }
+  },
+  computed: {
+    testArr() {
+      return [this.test1, this.test2, this.test3]
     }
   },
   methods: {

@@ -1010,16 +1010,20 @@ Vue.component('ud-select-test', {
     children: { default: "" },
     parent: { default: "" },
   },
+  data() {
+    return {
+      groupWatch: []
+    }
+  },
   computed: {
     modelValue: {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     },
-    optionsArr(newVal, oldVal) {
+    optionsArr() {
       // this.$nextTick(() => {
-
+        this.groupWatch = [...this.group];
         
-
         let temp = this.options;
         if(this.index === 0) {
           return temp;
@@ -1037,6 +1041,21 @@ Vue.component('ud-select-test', {
         return temp;
 
       // })
+    }
+  },
+  watch: {
+    groupWatch: {
+      handler: function(newVal, oldVal) {
+        let target;
+        for(let i = 0; i < newVal.length; i++) {
+          if(newVal[i] !== oldVal[i]) target = i;
+        }
+        if(this.index > target) this.$emit('input', "");
+        console.log('target: ', target);
+        console.log('newVal: ', newVal);
+        console.log('oldVal: ', oldVal);
+      },
+      deep: true,
     }
   },
   mounted() {

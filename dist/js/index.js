@@ -1,6 +1,9 @@
 var vm = new Vue({
     el: "#app",
     data: {
+        test1: "",
+        test2: "",
+        test3: "",
         store: ["", "", ""],
         fileList: [],
         file: "",
@@ -80,8 +83,13 @@ var vm = new Vue({
     },
     mounted: function () {
         // this.init();
-        for (var i = 0; i < 1; i++) {
-            console.log(i);
+        // for(let i = 0; i < 1; i++) {
+        //   console.log(i);
+        // }
+    },
+    computed: {
+        testArr: function () {
+            return [this.test1, this.test2, this.test3];
         }
     },
     methods: {
