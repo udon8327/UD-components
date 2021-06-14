@@ -8,7 +8,7 @@
  */
 // 自定義axios實例預設值
 var udAxios = axios.create({
-    baseURL: "http://mock.udons.site",
+    baseURL: "https://udon8327.synology.me:8000",
     timeout: 10000,
 });
 // 計算ajax數量
@@ -45,12 +45,15 @@ function (error) {
     }
     // 定義錯誤訊息
     var errorMsg = "";
+    var errorUrl = "";
     // 請求已發出，有收到錯誤回應
     if (error.response) {
         errorMsg = statusMsg[error.response.status] ? statusMsg[error.response.status] : "發生未知的錯誤";
         // error帶入message可自定義錯誤訊息
         if (error.response.data && error.response.data.message)
             errorMsg = error.response.data.message;
+        if (error.response.data && error.response.data.url)
+            errorUrl = error.response.data.url;
         // 請求已發出，但没有收到回應
     }
     else if (error.request) {
@@ -67,17 +70,19 @@ function (error) {
         }
         if (udAlert) {
             var alertConfig = {
-                title: error.response.status + " " + error.response.statusText,
+                // title: `${error.response.status} ${error.response.statusText}`,
                 msg: errorMsg,
                 onConfirm: function () { return reject(error); }
             };
+            if (errorUrl)
+                alertConfig.onConfirm = function () { return location.href = errorUrl; };
             // 客製化錯誤處理
             // if(error.response.status === 401) {
-            //   location.href = 'overall.html';
+            //   location.href = '';
             //   return;
             // }
             // if (error.response.status === 400) {
-            //     alertConfig.onConfirm = () => location.href = 'overall.html';
+            //     alertConfig.onConfirm = () => location.href = '';
             // }
             Object.assign(alertConfig, error.config.alert);
             udAlert(alertConfig);

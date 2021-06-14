@@ -23,8 +23,9 @@
       <ud-modal v-model="isModalShow"></ud-modal>
       <div class="container">
         <div class="wrapper">
-          <ud-textarea v-model="qwe"></ud-textarea>
-          <ud-button @click="asd"></ud-button>
+          <ud-select-test v-model="store[0]" :options="storeOptions" :group="store" :index="0"></ud-select-test>
+          <ud-select-test v-model="store[1]" :options="storeOptions" :group="store" :index="1"></ud-select-test>
+          <ud-select-test v-model="store[2]" :options="storeOptions" :group="store" :index="2"></ud-select-test>
           <ud-form :rules="rules" :model="user" ref="form">
             <ud-form-item label="姓名" prop="name" flex>
               <ud-input placeholder="請輸入您的姓名" v-model="user.name"></ud-input>

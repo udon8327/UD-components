@@ -1,7 +1,7 @@
 var vm = new Vue({
     el: "#app",
     data: {
-        qwe: "",
+        store: ["", "", ""],
         fileList: [],
         file: "",
         isModalShow: 0,
@@ -44,7 +44,7 @@ var vm = new Vue({
                     { label: "仁愛區", value: "200",
                         children: [
                             { label: "仁愛分店01", value: "20001" },
-                            { label: "仁愛分店02", value: "20002" },
+                            { label: "仁愛分店02", value: "20002", disabled: true },
                             { label: "仁愛分店03", value: "20003" },
                         ]
                     },
@@ -52,7 +52,7 @@ var vm = new Vue({
                         children: [
                             { label: "信義分店01", value: "20101" },
                             { label: "信義分店02", value: "20102" },
-                            { label: "信義分店03", value: "20103" },
+                            { label: "信義分店03", value: "20103", disabled: true },
                         ]
                     },
                 ]
@@ -79,21 +79,19 @@ var vm = new Vue({
         ],
     },
     mounted: function () {
-        var _this = this;
-        udAlert({
-            msg: "好喔",
-            title: "錯誤",
-            confirm: confirm,
-        })
-            .then(function (val) { return _this.init(); })
-            .catch(function (err) { return udAlert(err); });
-        // throw new Error('123123123123')
-        // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
-        // this.postData();
+        // this.init();
+        for (var i = 0; i < 1; i++) {
+            console.log(i);
+        }
     },
     methods: {
-        asd: function () {
-            alert(this.qwe.replaceAll('\n', '啊'));
+        init: function () {
+            var _this = this;
+            udAxios.get('/loccitane/samplings')
+                .then(function (res) { return _this.storeOptions = res.store_options; });
+        },
+        download: function () {
+            imageDownload('#image');
         },
         upload: function (param) {
             console.log('param: ', param);

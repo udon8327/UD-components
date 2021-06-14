@@ -3,7 +3,7 @@ declare var $: (selector: string) => any;
 let vm = new Vue({
   el: "#app",
   data: {
-    qwe: "",
+    store: ["", "", ""],
     fileList: [],
     file: "",
     isModalShow: 0,
@@ -46,7 +46,7 @@ let vm = new Vue({
           { label: "仁愛區", value: "200",
             children: [
               { label: "仁愛分店01", value: "20001"},
-              { label: "仁愛分店02", value: "20002"},
+              { label: "仁愛分店02", value: "20002", disabled: true},
               { label: "仁愛分店03", value: "20003"},
             ]
           },
@@ -54,7 +54,7 @@ let vm = new Vue({
             children: [
               { label: "信義分店01", value: "20101"},
               { label: "信義分店02", value: "20102"},
-              { label: "信義分店03", value: "20103"},
+              { label: "信義分店03", value: "20103", disabled: true},
             ]
           },
         ]
@@ -81,21 +81,18 @@ let vm = new Vue({
     ],
   },
   mounted() {
-    udAlert({
-      msg: "好喔",
-      title: "錯誤",
-      confirm,
-    })
-      .then(val => this.init())
-      .catch(err => udAlert(err))
-    // throw new Error('123123123123')
-    // this.udAlert({msg: "好喔"}).then(() => alert('aa'))
-    
-    // this.postData();
+    // this.init();
+    for(let i = 0; i < 1; i++) {
+      console.log(i);
+    }
   },
   methods: {
-    asd() {
-      alert(this.qwe.replaceAll('\n', '啊'))
+    init() {
+      udAxios.get('/loccitane/samplings')
+        .then(res => this.storeOptions = res.store_options)
+    },
+    download() {
+      imageDownload('#image');
     },
     upload(param) {
       console.log('param: ', param);

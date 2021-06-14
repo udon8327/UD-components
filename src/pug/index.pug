@@ -10,8 +10,11 @@ block modal
   ud-modal(v-model="isModalShow")
 
 block content
-  ud-textarea(v-model="qwe")
-  ud-button(@click="asd")
+  ud-select-test(v-model="store[0]" :options="storeOptions" :group="store" :index="0")
+  ud-select-test(v-model="store[1]" :options="storeOptions" :group="store" :index="1")
+  ud-select-test(v-model="store[2]" :options="storeOptions" :group="store" :index="2")
+
+
   //- el-upload.upload-demo(
   //-   ref="file"
   //-   :http-request="upload"

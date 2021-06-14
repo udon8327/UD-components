@@ -20,7 +20,6 @@ Form
   Checkbox 多選框 -----> ud-checkbox
   Select 下拉框 -----> ud-select
   SelectMultiple 下拉多選框 -----> ud-select-multiple
-  SelectLinkUniq 連動獨立下拉框 -----> ud-select-link-uniq
   SelectLink 連動下拉框 -----> ud-select-link
   SelectDate 日期連動下拉框 -----> ud-select-date
   SelectTwzip 台灣行政區連動下拉框 -----> ud-select-twzip
@@ -65,6 +64,8 @@ Number
 Image
   預載單張圖片 -----> imageLoaded
   預載多張圖片 -----> imageAllLoaded
+  下載Img圖片 -----> imageDownload
+  下載Canvas圖片 -----> canvasImageDownload
 
 Array
   陣列是否有重複值(不分型別) -----> isRepeat
@@ -341,58 +342,6 @@ Vue.component('ud-select-multiple', {
             this.$parent.$emit('validate'); // 通知FormItem校驗
             this.$emit('change', this.$refs.select.value);
         },
-    },
-});
-// SelectLinkUniq 連動獨立下拉框
-Vue.component('ud-select-link-uniq', {
-    name: "UdSelectLinkUniq",
-    template: "\n    <div class=\"ud-select-link\">\n      <ud-select v-model=\"modelValue[num - 1]\" :options=\"optionsUniq\" :placeholder=\"placeholder\" :combine=\"combine\"></ud-select>\n    </div>\n  ",
-    props: {
-        num: null,
-        value: null,
-        options: null,
-        placeholder: { default: "請選擇一項" },
-        combine: Boolean,
-    },
-    computed: {
-        modelValue: {
-            get: function () { return this.value; },
-            set: function (val) { this.$emit('input', val); }
-        },
-        uniqValue: function () {
-            return this.modelValue[this.num - 1];
-        },
-        optionsUniq: function () {
-            var _this = this;
-            var temp = [];
-            if (this.num - 1 === 0) {
-                temp = this.options;
-            }
-            else if (this.num - 1 === 1) {
-                temp = this.options.find(function (option) { return option.value === _this.modelValue[0]; }).children;
-            }
-            else {
-                temp = this.options.find(function (option) { return option.value === _this.modelValue[0]; }).children;
-            }
-            return temp;
-        },
-    },
-    watch: {
-        uniqValue: function () {
-            this.modelValue.splice(1, 1, "");
-        },
-        secondValue: function () {
-            if (this.third)
-                this.modelValue.splice(2, 1, "");
-        },
-    },
-    mounted: function () {
-        var _this = this;
-        this.$on('validate', function () {
-            _this.$nextTick(function () {
-                _this.$parent.$emit('validate'); // 通知FormItem校驗
-            });
-        });
     },
 });
 // SelectLink 連動下拉框
@@ -1530,6 +1479,54 @@ function imageAllLoaded(arr) {
             .then(function (res) { return resolve(res); })
             .catch(function (err) { return reject(err); });
     });
+}
+/**
+ * 下載Img圖片
+ * @param  {String} selector 選擇器，代表img標籤
+ * @param  {String} name 圖片名稱，可選
+ * imageDownload('#image', '自訂下載圖片名稱')
+ */
+function imageDownload(selector, name) {
+    if (name === void 0) { name = '下載圖片'; }
+    var image = new Image();
+    image.setAttribute('crossOrigin', 'anonymous'); // 解決跨域 Canvas 污染問題
+    image.src = document.querySelector(selector).src;
+    image.onload = function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        var context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0, image.width, image.height);
+        var url = canvas.toDataURL('image/jpg');
+        var a = document.createElement('a'); // 生成一個a元素
+        var event = new MouseEvent('click'); // 創建一個單擊事件
+        a.download = name; // 將a的download屬性設置為我們想要下載的圖片名稱，若name不存在則使用『下載圖片』作為默認名稱
+        a.href = url; // 將生成的URL設置為a.href屬性
+        a.dispatchEvent(event); // 觸發a的單擊事件
+    };
+}
+/**
+ * 下載Canvas元素圖片
+ * @param  {String} selector 選擇器，代表canvas
+ * @param  {String} name 圖片名稱，可選
+ * canvasImageDownload('canvas', '圖片名稱')
+ */
+// 
+function canvasImageDownload(selector, name) {
+    // 通過選擇器獲取canvas元素 
+    var canvas = document.querySelector(selector);
+    // 使用toDataURL方法將圖像轉換被base64編碼的URL字符串
+    var url = canvas.toDataURL('image/png');
+    // 生成一個a元素
+    var a = document.createElement('a');
+    // 創建一個單擊事件
+    var event = new MouseEvent('click');
+    // 將a的download屬性設置為我們想要下載的圖片名稱，若name不存在則使用『下載圖片名稱』作為默認名稱
+    a.download = name || '下載圖片名稱';
+    // 將生成的URL設置為a.href屬性
+    a.href = url;
+    // 觸發a的單擊事件
+    a.dispatchEvent(event);
 }
 //-----------------------Array-----------------------
 /**

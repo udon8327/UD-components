@@ -923,3 +923,152 @@ Vue.directive('focus', {
 //   }
 // })
 
+// SelectLinkUniq 連動獨立下拉框
+Vue.component('ud-select-link-uniq', {
+  name: "UdSelectLinkUniq",
+  template: `
+    <div class="ud-select-link">
+      <ud-select v-model="modelValue[num - 1]" :options="optionsUniq" :placeholder="placeholder" :combine="combine"></ud-select>
+    </div>
+  `,
+  props: {
+    num: null,
+    value: null, // value值
+    options: null, // 選項 [Array]
+    placeholder: { default: "請選擇一項" }, // placeholder值 [Array]
+    combine: Boolean, // 是否label直接使用value值
+  },
+  computed: {
+    modelValue: { // ["", "", ""]
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
+    },
+    uniqValue() {
+      return this.modelValue[this.num - 1];
+    },
+    optionsUniq() {
+      let temp = [];
+      if(this.num - 1 === 0) {
+        temp = this.options;
+      }else if(this.num - 1 === 1){
+        temp = this.options.find(option => option.value === this.modelValue[0]).children;
+      }else {
+        temp = this.options.find(option => option.value === this.modelValue[0]).children;
+      }
+      return temp;
+    },
+  },
+  watch: {
+    uniqValue() {
+      this.modelValue.splice(1, 1, "");
+    },
+    secondValue() {
+      if(this.third) this.modelValue.splice(2, 1, "");
+    },
+  },
+  mounted() {
+    this.$on('validate', () => {
+      this.$nextTick(() => {
+        this.$parent.$emit('validate'); // 通知FormItem校驗
+      })
+    })
+  },
+})
+
+// Select 下拉框
+Vue.component('ud-select-test', {
+  name: "UdSelect",
+  template: `
+    <div class="ud-select">
+      <select 
+        v-model="modelValue" 
+        :data-placeholder-selected="modelValue.length === 0"
+        v-bind="$attrs"
+        @change="onChange"
+        ref="select"
+      >
+        <option value="" disabled selected>{{ placeholder }}</option>
+        <option v-for="option in optionsArr" :value="option.value" :key="option.value" :disabled="option.disabled">
+          {{ combine ? option.value : option.label }}
+        </option>
+      </select>
+    </div>
+  `,
+  inheritAttrs: false,
+  props: {
+    value: { default: "" }, // value值
+    options: { // 選項
+      default: () => {
+        return { label: "", value: "", disabled: true }
+      }
+    },
+    placeholder: { default: "請選擇一項" }, // 取代文字
+    combine: Boolean, // 使用value做為label
+    center: Boolean, // 是否置中
+    group: { default: "" }, // 是否群組
+    index: { default: 0 }, // 群組索引
+    children: { default: "" },
+    parent: { default: "" },
+  },
+  computed: {
+    modelValue: {
+      get(){ return this.value },
+      set(val){ this.$emit('input', val) }
+    },
+    optionsArr(newVal, oldVal) {
+      // this.$nextTick(() => {
+
+        
+
+        let temp = this.options;
+        if(this.index === 0) {
+          return temp;
+        }
+        if(this.group[this.index - 1]) {
+          for(let i = 0; i < this.index; i++) {
+            temp = temp.find(option => option.value === this.group[i]).children;
+          }
+          // if(temp.find(this.modelValue) === -1) {
+          //   this. modelValue = "";
+          // }
+        }else {
+          return {};
+        }
+        return temp;
+
+      // })
+    }
+  },
+  mounted() {
+    // if(this.center) this.centerSelect();
+    // if(this.center) window.addEventListener("resize", this.centerSelect);
+  },
+  destroyed() {
+    // if(this.center) window.removeEventListener("resize", this.centerSelect);
+  },
+  methods: {
+    onChange() {
+      if(this.center) this.centerSelect();
+      this.$parent.$emit('validate'); // 通知FormItem校驗
+      this.$emit('change', this.$refs.select.value);
+    },
+    // getTextWidth(text, target) {
+    //   let el = document.createElement('span');
+    //   let fontSize = window.getComputedStyle(target).fontSize || '14px';
+    //   el.textContent = text;
+    //   el.style.display = 'inline-block';
+    //   el.style.fontSize = fontSize;
+    //   document.body.appendChild(el);
+    //   let elmWidth = el.offsetWidth;
+    //   el.remove();
+    //   return elmWidth;
+    // },
+    // centerSelect() {
+    //   let el = this.$refs.select;
+    //   let text = "";
+    //   el.value ? text = this.options.find(item => item.value == el.value).label : text = this.placeholder;
+    //   let emptySpace = el.offsetWidth - this.getTextWidth(text, el);
+    //   el.style.textIndent = `${ ( emptySpace / 2 ) - 10 }px`;
+    // }
+  },
+})
