@@ -1,10 +1,20 @@
 var vm = new Vue({
     el: "#app",
     data: {
+        aaa: "",
+        aaaOptions: [
+            {
+                label: "aaa", value: "aaa"
+            },
+            {
+                label: "bbb", value: "bbb"
+            },
+        ],
         test1: "",
         test2: "",
         test3: "",
-        store: ["", "", ""],
+        test4: "",
+        store: ["", "", "", ""],
         fileList: [],
         file: "",
         isModalShow: 0,
@@ -82,7 +92,7 @@ var vm = new Vue({
         ],
     },
     mounted: function () {
-        // this.init();
+        this.getStoreOptions();
         // for(let i = 0; i < 1; i++) {
         //   console.log(i);
         // }
@@ -93,10 +103,10 @@ var vm = new Vue({
         }
     },
     methods: {
-        init: function () {
+        getStoreOptions: function () {
             var _this = this;
-            udAxios.get('/loccitane/samplings')
-                .then(function (res) { return _this.storeOptions = res.store_options; });
+            udAxios.get('/loccitane/sampling/sampling-v2')
+                .then(function (res) { return _this.storeOptions = res.info.store_options; });
         },
         download: function () {
             imageDownload('#image');

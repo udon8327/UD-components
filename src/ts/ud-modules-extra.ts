@@ -1021,49 +1021,33 @@ Vue.component('ud-select-test', {
       set(val){ this.$emit('input', val) }
     },
     optionsArr() {
-      // this.$nextTick(() => {
-        this.groupWatch = [...this.group];
-        
-        let temp = this.options;
-        if(this.index === 0) {
-          return temp;
-        }
-        if(this.group[this.index - 1]) {
-          for(let i = 0; i < this.index; i++) {
-            temp = temp.find(option => option.value === this.group[i]).children;
-          }
-          // if(temp.find(this.modelValue) === -1) {
-          //   this. modelValue = "";
-          // }
-        }else {
-          return {};
+      this.groupWatch = [...this.group];
+      let temp = this.options;
+      if(this.index === 0) return temp;
+      if(this.group[this.index - 1]) {
+        for(let i = 0; i < this.index; i++) {
+          temp = temp.find(option => option.value === this.group[i]).children;
         }
         return temp;
-
-      // })
+      }
+      return {};
     }
   },
   watch: {
-    groupWatch: {
-      handler: function(newVal, oldVal) {
-        let target;
-        for(let i = 0; i < newVal.length; i++) {
-          if(newVal[i] !== oldVal[i]) target = i;
-        }
-        if(this.index > target) this.$emit('input', "");
-        console.log('target: ', target);
-        console.log('newVal: ', newVal);
-        console.log('oldVal: ', oldVal);
-      },
-      deep: true,
+    groupWatch(newVal, oldVal) {
+      let target;
+      for(let i = 0; i < this.group.length; i++) {
+        if(newVal[i] !== oldVal[i]) target = i;
+      }
+      if(this.index > target) this.$emit('input', "");
     }
   },
   mounted() {
-    // if(this.center) this.centerSelect();
-    // if(this.center) window.addEventListener("resize", this.centerSelect);
+    if(this.center) this.centerSelect();
+    if(this.center) window.addEventListener("resize", this.centerSelect);
   },
   destroyed() {
-    // if(this.center) window.removeEventListener("resize", this.centerSelect);
+    if(this.center) window.removeEventListener("resize", this.centerSelect);
   },
   methods: {
     onChange() {
@@ -1071,23 +1055,23 @@ Vue.component('ud-select-test', {
       this.$parent.$emit('validate'); // 通知FormItem校驗
       this.$emit('change', this.$refs.select.value);
     },
-    // getTextWidth(text, target) {
-    //   let el = document.createElement('span');
-    //   let fontSize = window.getComputedStyle(target).fontSize || '14px';
-    //   el.textContent = text;
-    //   el.style.display = 'inline-block';
-    //   el.style.fontSize = fontSize;
-    //   document.body.appendChild(el);
-    //   let elmWidth = el.offsetWidth;
-    //   el.remove();
-    //   return elmWidth;
-    // },
-    // centerSelect() {
-    //   let el = this.$refs.select;
-    //   let text = "";
-    //   el.value ? text = this.options.find(item => item.value == el.value).label : text = this.placeholder;
-    //   let emptySpace = el.offsetWidth - this.getTextWidth(text, el);
-    //   el.style.textIndent = `${ ( emptySpace / 2 ) - 10 }px`;
-    // }
+    getTextWidth(text, target) {
+      let el = document.createElement('span');
+      let fontSize = window.getComputedStyle(target).fontSize || '14px';
+      el.textContent = text;
+      el.style.display = 'inline-block';
+      el.style.fontSize = fontSize;
+      document.body.appendChild(el);
+      let elmWidth = el.offsetWidth;
+      el.remove();
+      return elmWidth;
+    },
+    centerSelect() {
+      let el = this.$refs.select;
+      let text = "";
+      el.value ? text = this.options.find(item => item.value == el.value).label : text = this.placeholder;
+      let emptySpace = el.offsetWidth - this.getTextWidth(text, el);
+      el.style.textIndent = `${ ( emptySpace / 2 ) - 10 }px`;
+    }
   },
 })

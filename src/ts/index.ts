@@ -3,10 +3,20 @@ declare var $: (selector: string) => any;
 let vm = new Vue({
   el: "#app",
   data: {
+    aaa: "",
+    aaaOptions: [
+      {
+        label: "aaa", value: "aaa"
+      },
+      {
+        label: "bbb", value: "bbb"
+      },
+    ],
     test1: "",
     test2: "",
     test3: "",
-    store: ["", "", ""],
+    test4: "",
+    store: ["", "", "", ""],
     fileList: [],
     file: "",
     isModalShow: 0,
@@ -84,7 +94,7 @@ let vm = new Vue({
     ],
   },
   mounted() {
-    // this.init();
+    this.getStoreOptions();
     // for(let i = 0; i < 1; i++) {
     //   console.log(i);
     // }
@@ -95,9 +105,9 @@ let vm = new Vue({
     }
   },
   methods: {
-    init() {
-      udAxios.get('/loccitane/samplings')
-        .then(res => this.storeOptions = res.store_options)
+    getStoreOptions() {
+      udAxios.get('/loccitane/sampling/sampling-v2')
+        .then(res => this.storeOptions = res.info.store_options)
     },
     download() {
       imageDownload('#image');

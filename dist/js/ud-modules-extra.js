@@ -842,12 +842,10 @@ Vue.component('ud-select-test', {
         },
         optionsArr: function () {
             var _this = this;
-            // this.$nextTick(() => {
             this.groupWatch = this.group.slice();
             var temp = this.options;
-            if (this.index === 0) {
+            if (this.index === 0)
                 return temp;
-            }
             if (this.group[this.index - 1]) {
                 var _loop_1 = function (i) {
                     temp = temp.find(function (option) { return option.value === _this.group[i]; }).children;
@@ -855,40 +853,31 @@ Vue.component('ud-select-test', {
                 for (var i = 0; i < this.index; i++) {
                     _loop_1(i);
                 }
-                // if(temp.find(this.modelValue) === -1) {
-                //   this. modelValue = "";
-                // }
+                return temp;
             }
-            else {
-                return {};
-            }
-            return temp;
-            // })
+            return {};
         }
     },
     watch: {
-        groupWatch: {
-            handler: function (newVal, oldVal) {
-                var target;
-                for (var i = 0; i < newVal.length; i++) {
-                    if (newVal[i] !== oldVal[i])
-                        target = i;
-                }
-                if (this.index > target)
-                    this.$emit('input', "");
-                console.log('target: ', target);
-                console.log('newVal: ', newVal);
-                console.log('oldVal: ', oldVal);
-            },
-            deep: true,
+        groupWatch: function (newVal, oldVal) {
+            var target;
+            for (var i = 0; i < this.group.length; i++) {
+                if (newVal[i] !== oldVal[i])
+                    target = i;
+            }
+            if (this.index > target)
+                this.$emit('input', "");
         }
     },
     mounted: function () {
-        // if(this.center) this.centerSelect();
-        // if(this.center) window.addEventListener("resize", this.centerSelect);
+        if (this.center)
+            this.centerSelect();
+        if (this.center)
+            window.addEventListener("resize", this.centerSelect);
     },
     destroyed: function () {
-        // if(this.center) window.removeEventListener("resize", this.centerSelect);
+        if (this.center)
+            window.removeEventListener("resize", this.centerSelect);
     },
     methods: {
         onChange: function () {
@@ -897,6 +886,24 @@ Vue.component('ud-select-test', {
             this.$parent.$emit('validate'); // 通知FormItem校驗
             this.$emit('change', this.$refs.select.value);
         },
+        getTextWidth: function (text, target) {
+            var el = document.createElement('span');
+            var fontSize = window.getComputedStyle(target).fontSize || '14px';
+            el.textContent = text;
+            el.style.display = 'inline-block';
+            el.style.fontSize = fontSize;
+            document.body.appendChild(el);
+            var elmWidth = el.offsetWidth;
+            el.remove();
+            return elmWidth;
+        },
+        centerSelect: function () {
+            var el = this.$refs.select;
+            var text = "";
+            el.value ? text = this.options.find(function (item) { return item.value == el.value; }).label : text = this.placeholder;
+            var emptySpace = el.offsetWidth - this.getTextWidth(text, el);
+            el.style.textIndent = (emptySpace / 2) - 10 + "px";
+        }
     },
 });
 //# sourceMappingURL=ud-modules-extra.js.map
