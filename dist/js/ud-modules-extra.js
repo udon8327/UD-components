@@ -819,7 +819,9 @@ Vue.component('ud-select-test', {
         value: { default: "" },
         options: {
             default: function () {
-                return { label: "", value: "", disabled: true };
+                return [
+                    { label: "", value: "", disabled: true }
+                ];
             }
         },
         placeholder: { default: "請選擇一項" },
@@ -827,8 +829,6 @@ Vue.component('ud-select-test', {
         center: Boolean,
         group: { default: "" },
         index: { default: 0 },
-        children: { default: "" },
-        parent: { default: "" },
     },
     data: function () {
         return {

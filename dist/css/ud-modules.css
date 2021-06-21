@@ -77,6 +77,9 @@ html, #app {
   .ud-input input:focus {
     outline: 0;
     border: 1px solid #41b883; }
+  .ud-input input:disabled {
+    background-color: #eee;
+    cursor: not-allowed; }
 
 .ud-textarea textarea {
   -webkit-appearance: none;
@@ -104,6 +107,9 @@ html, #app {
   .ud-textarea textarea:focus {
     outline: 0;
     border: 1px solid #41b883; }
+  .ud-textarea textarea:disabled {
+    background-color: #eee;
+    cursor: not-allowed; }
 
 .ud-radio.is-flex {
   display: -webkit-box;

@@ -1,16 +1,4 @@
 /*
-==================== TODO ====================
-寫說明文件
-彈窗組件支援自定義top高度
-彈窗組件支援自定義body固定
-彈窗組件支援多重彈窗
-彈窗組件支援多種動畫效果
-表單組件樣式重整
-表單組件支援disabled
-編寫表格ud-table
-編寫分頁ud-pagination
-Alert,Confirm,Modal統一修改樣式
-
 ==================== Vue組件庫(Basic)目錄 ====================
 Form
   Button 按鈕 -----> ud-button
@@ -271,7 +259,9 @@ Vue.component('ud-select', {
         value: { default: "" },
         options: {
             default: function () {
-                return { label: "", value: "", disabled: true };
+                return [
+                    { label: "", value: "", disabled: true }
+                ];
             }
         },
         placeholder: { default: "請選擇一項" },

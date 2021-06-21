@@ -999,7 +999,9 @@ Vue.component('ud-select-test', {
     value: { default: "" }, // value值
     options: { // 選項
       default: () => {
-        return { label: "", value: "", disabled: true }
+        return [
+          { label: "", value: "", disabled: true }
+        ]
       }
     },
     placeholder: { default: "請選擇一項" }, // 取代文字
@@ -1007,8 +1009,6 @@ Vue.component('ud-select-test', {
     center: Boolean, // 是否置中
     group: { default: "" }, // 是否群組
     index: { default: 0 }, // 群組索引
-    children: { default: "" },
-    parent: { default: "" },
   },
   data() {
     return {
