@@ -9,7 +9,7 @@ Form
   Radio 單選框 -----> ud-radio
   Checkbox 多選框 -----> ud-checkbox
   Select 下拉框 -----> ud-select
-  SelectMultiple 下拉多選框 -----> ud-select-multiple
+  SelectMultiple 下拉複選框 -----> ud-select-multiple
   SelectLink 連動下拉框 -----> ud-select-link
   SelectDate 日期連動下拉框 -----> ud-select-date
   SelectTwzip 台灣行政區連動下拉框 -----> ud-select-twzip
@@ -27,8 +27,6 @@ Layout
 
 Notice
   Alert 警告彈窗 -----> ud-alert
-  Confirm 確認彈窗 -----> ud-confirm
-  AlertConfirm 警告確認彈窗(調用式) -----> ud-alertConfirm
   Modal 通用彈窗 -----> ud-modal
   Loading 載入中 -----> ud-loading
 
@@ -96,8 +94,6 @@ Verify
   身分證驗證 -----> isIdCard
 
 Browser
-  取得LocalStorage的值 -----> getLocalStorage
-  設定LocalStorage的值 -----> setLocalStorage
   取得Cookie的值 -----> getCookie
   設置cookie值 -----> setCookie
   函式防抖 -----> debounce
@@ -113,51 +109,43 @@ Device
   判斷是否移動裝置 -----> isMobileUserAgent
   判斷是否蘋果移動裝置 -----> isAppleMobileDevice
   判斷是否安卓移動裝置 -----> isAndroidMobileDevice
-
 */
 
 // 初始化執行
-// cdnBackup();
-// Vue.use(VueFormulate);
 jumpReload();
-
 
 //-----------------------Form-----------------------
 // Button 按鈕
 Vue.component('ud-button', {
   name: 'UdButton',
   template: `
-    <button
-      class="ud-button"
-      @click="handleClick"
-      :disabled="disabled || loading"
-      :type="type"
-      :class="{
-        'is-disabled': disabled,
-        'is-loading': loading,
-        'is-plain': plain,
-        'is-round': round,
-        'is-circle': circle,
-      }"
-      :style="{
-        'border-radius': radius,
-        'width': width,
-        'min-width': minWidth,
-        'max-width': maxWidth,
-      }"
-    >
-      <i class="fas fa-spinner fa-pulse" v-if="loading"></i>
-      <i :class="icon" v-if="icon && !loading"></i>
-      <span><slot>按鈕</slot></span>
-    </button>
+    <div class="ud-button">
+      <button
+        @click="clickHandler"
+        v-bind="$attrs"
+        :disabled="disabled || loading"
+        :class="{
+          'is-disabled': disabled || loading,
+          'is-plain': plain,
+          'is-round': round,
+          'is-circle': circle,
+        }"
+      >
+        <div class="button-wrapper">
+          <span><slot>按鈕</slot></span>
+          <div class="button-icon" v-if="loading || icon || image">
+            <div class="icon-loading" v-if="loading"></div>
+            <i :class="icon" v-if="icon && !loading"></i>
+            <img :src="image" alt="" v-if="image && !loading">
+          </div>
+        </div>
+      </button>
+    </div>
   `,
+  inheritAttrs: false,
   props: {
-    icon: { default: '' }, // icon
-    type: { default: 'button' }, // 原始類型 (button, submit, reset)
-    radius: { default: '5px' }, // 圓角
-    width: { default: '100%' }, // 寬度
-    minWidth: { default: '0px' }, // 最小寬度
-    maxWidth: { default: '100%' }, // 最大寬度
+    icon: { default: '' }, // CSS的icon
+    image: { default: '' }, // 圖片的icon
     loading: Boolean, // 載入中
     disabled: Boolean, // 禁止點擊
     plain: Boolean, // 線條化
@@ -166,7 +154,7 @@ Vue.component('ud-button', {
     throttle: Boolean // 函式節流
   },
   methods: {
-    handleClick(evt) {
+    clickHandler(evt) {
       if(this.throttle) return;
       this.$emit('click', evt);
     }
@@ -174,10 +162,10 @@ Vue.component('ud-button', {
   mounted() {
     if(!this.throttle) return;
     this.$el.addEventListener('click', throttle(
-        (evt) => {this.$emit('click', evt)}
+        evt => this.$emit('click', evt)
       )
     );
-  },
+  }
 })
 
 // Input 輸入框
@@ -214,7 +202,7 @@ Vue.component('ud-input', {
     focus() {
       this.$refs.input.focus();
     }
-  },
+  }
 })
 
 // Textarea 多行輸入框
@@ -245,7 +233,7 @@ Vue.component('ud-textarea', {
     onInput() {
       this.$parent.$emit('validate'); // 通知FormItem校驗
     }
-  },
+  }
 })
 
 // Radio 單選框
@@ -306,7 +294,7 @@ Vue.component('ud-radio', {
       this.$parent.$emit('validate'); // 通知FormItem校驗
       this.$emit('change', this.$refs.radio.value);
     }
-  },
+  }
 })
 
 // Checkbox 多選框
@@ -364,7 +352,7 @@ Vue.component('ud-checkbox', {
       this.$parent.$emit('validate'); // 通知FormItem校驗
       this.$emit('change', this.$refs.checkbox.value);
     }
-  },
+  }
 })
 
 // Select 下拉框
@@ -380,8 +368,8 @@ Vue.component('ud-select', {
         ref="select"
       >
         <option value="" disabled selected>{{ placeholder }}</option>
-        <option v-for="option in options" :value="option.value" :key="option.value" :disabled="option.disabled">
-          {{ combine ? option.value : option.label }}
+        <option v-for="option in optionsArr" :value="option[valueBy]" :key="option[valueBy]" :disabled="option.disabled">
+          {{ combine ? option[valueBy] : option[labelBy] }}
         </option>
       </select>
     </div>
@@ -399,12 +387,42 @@ Vue.component('ud-select', {
     placeholder: { default: "請選擇一項" }, // 取代文字
     combine: Boolean, // 使用value做為label
     center: Boolean, // 是否置中
+    group: { default: "" }, // 是否群組
+    index: { default: 0 }, // 群組索引
+    labelBy: { default: "label" }, // label替代值
+    valueBy: { default: "value" }, // value替代值
+  },
+  data() {
+    return {
+      groupWatch: []
+    }
   },
   computed: {
     modelValue: {
-      get(){ return this.value },
+      get(){ return this.value == null ? "" : this.value },
       set(val){ this.$emit('input', val) }
     },
+    optionsArr() {
+      this.groupWatch = [...this.group];
+      let temp = this.options;
+      if(this.index === 0) return temp;
+      if(this.group[this.index - 1]) {
+        for(let i = 0; i < this.index; i++) {
+          temp = temp.find(option => option.value === this.group[i]).children;
+        }
+        return temp;
+      }
+      return {};
+    }
+  },
+  watch: {
+    groupWatch(newVal, oldVal) {
+      let target;
+      for(let i = 0; i < this.group.length; i++) {
+        if(newVal[i] !== oldVal[i]) target = i;
+      }
+      if(this.index > target) this.$emit('input', "");
+    }
   },
   mounted() {
     if(this.center) this.centerSelect();
@@ -437,7 +455,7 @@ Vue.component('ud-select', {
       let emptySpace = el.offsetWidth - this.getTextWidth(text, el);
       el.style.textIndent = `${ ( emptySpace / 2 ) - 10 }px`;
     }
-  },
+  }
 })
 
 // SelectMultiple 下拉複選框 (依賴：element-ui)
@@ -478,7 +496,7 @@ Vue.component('ud-select-multiple', {
       this.$parent.$emit('validate'); // 通知FormItem校驗
       this.$emit('change', this.$refs.select.value);
     },
-  },
+  }
 })
 
 // SelectLink 連動下拉框
@@ -553,7 +571,7 @@ Vue.component('ud-select-link', {
         this.$parent.$emit('validate'); // 通知FormItem校驗
       })
     })
-  },
+  }
 })
 
 // SelectDate 日期連動下拉框
@@ -642,7 +660,7 @@ Vue.component('ud-select-date', {
         this.$parent.$emit('validate'); // 通知FormItem校驗
       })
     })
-  },
+  }
 })
 
 // SelectTwzip 台灣行政區連動下拉框
@@ -851,7 +869,7 @@ Vue.component('ud-select-twzip', {
         this.$parent.$emit('validate'); // 通知FormItem校驗
       })
     })
-  },
+  }
 })
 
 // Switch 開關
@@ -881,13 +899,12 @@ Vue.component('ud-switch', {
       get(){ return this.value },
       set(val){ this.$emit('input', val) }
     }
-  },
+  }
 })
 
 // DatePicker 日期選擇器 (依賴：element-ui)
 Vue.component('ud-date-picker', {
   name: 'UdDatePicker',
-  inheritAttrs: false,
   template: `
     <div class="ud-date-picker">
       <el-date-picker
@@ -905,6 +922,7 @@ Vue.component('ud-date-picker', {
       </el-date-picker>
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null,
     center: Boolean, // 是否置中
@@ -959,7 +977,7 @@ Vue.component('ud-date-picker', {
       let emptySpace = el.offsetWidth - this.getTextWidth(text, el);
       el.style.textIndent = `${ ( emptySpace / 2 ) }px`;
     }
-  },
+  }
 })
 
 // Captcha 圖形驗證碼
@@ -1055,7 +1073,7 @@ Vue.component('ud-captcha', {
       this.$refs.canvasArea.insertAdjacentHTML('afterbegin', '<canvas width="100" height="38" id="verify-canvas" style="display: none;"></canvas>')
       this.drawCode();
     }
-  },
+  }
 })
 
 // FormItem 表單驗證容器
@@ -1226,11 +1244,12 @@ Vue.component('ud-flex', {
   `,
   props: {
 
-  },
+  }
 })
 
 // Arrow CSS箭頭
 Vue.component('ud-arrow', {
+  name: "UdArrow",
   template: `
     <i 
       class="ud-arrow"
@@ -1292,11 +1311,12 @@ Vue.component('ud-collapse', {
         el.style.height = 0;
       }
     }
-  },
+  }
 })
 
 // Ratio 等比例自適應容器
 Vue.component('ud-ratio', {
+  name: "UdRatio",
   template: `
     <div class="ud-ratio">
       <div class="ud-ratio-bg" :style="{
@@ -1314,13 +1334,13 @@ Vue.component('ud-ratio', {
     height: { default: 100 }, // 高度比例
     radius: { default: '0px' }, // 圓角
     bgSize: { default: "cover" } // 背景尺寸 (cover, contain, 100%...等)
-  },
+  }
 })
 
 
 //-----------------------Notice-----------------------
 // Alert 警告彈窗
-let UdAlert = {
+const UdAlert = {
   name: "UdAlert",
   template: `
     <transition name="fade">
@@ -1398,41 +1418,38 @@ let UdAlert = {
         this.$el.parentNode.removeChild(this.$el);
       }, 200);
     },
-  },
+  }
 };
 
-let udAlertExtend = Vue.extend(UdAlert);
-let udAlert = options => {
-  let udAlertInstance = new udAlertExtend();
-  typeof options === 'string' ? udAlertInstance.msg = options : Object.assign(udAlertInstance, options);
-  document.body.appendChild(udAlertInstance.$mount().$el);
-  return udAlertInstance.show();
+const udAlertExtend = Vue.extend(UdAlert);
+const udAlert = options => {
+  let instance = new udAlertExtend();
+  typeof options === 'string' ? instance.msg = options : Object.assign(instance, options);
+  document.body.appendChild(instance.$mount().$el);
+  return instance.show();
 };
 Vue.prototype.udAlert = udAlert;
-
 
 // Modal 通用彈窗
 Vue.component("ud-modal", {
   name: "UdModal",
   template: `
     <transition name="fade">
-      <div class="ud-modal" v-show="isShow" v-cloak>
-        <div class="modal-wrapper" @click.self="onMaskClick">
-          <div class="modal-content">
-            <div class="modal-close" v-if="hasCancel" @click="isShow = 0">
-              <i class="fas fa-times"></i>
-            </div>
-            <div class="modal-header" v-if="!$slots.default">
-              <p>{{ title }}</p>
-            </div>
-            <div class="modal-body">
-              <p v-if="!$slots.default">{{ message }}</p>
-              <slot></slot>
-            </div>
-            <div class="modal-footer" v-if="!$slots.default">
-              <div class="button-area">
-                <ud-button @click="isShow = 0">OK</ud-button>
-              </div>
+      <div class="ud-modal" v-show="isShow" @click.self="maskHandler">
+        <div class="modal-wrapper" >
+          <div class="modal-close" v-if="btnClose" @click="isShow = 0">
+            <i class="icon-close"></i>
+          </div>
+          <div class="modal-header" v-if="!$slots.default">
+            <p>{{ title }}</p>
+          </div>
+          <div class="modal-body">
+            <p v-if="!$slots.default">{{ message }}</p>
+            <slot></slot>
+          </div>
+          <div class="modal-footer" v-if="!$slots.default">
+            <div class="button-area">
+              <ud-button @click="isShow = 0">確認</ud-button>
             </div>
           </div>
         </div>
@@ -1443,8 +1460,8 @@ Vue.component("ud-modal", {
     title: { default: "通用標題" }, // 通用標題
     message: { default: "通用訊息" }, // 通用訊息
     value: { default: 0 }, // 開關值
-    maskCancel: Boolean, // 遮罩關閉
-    hasCancel: Boolean, // 按鈕關閉
+    maskClose: Boolean, // 遮罩關閉
+    btnClose: Boolean, // 按鈕關閉
   },
   computed: {
     isShow: {
@@ -1453,48 +1470,15 @@ Vue.component("ud-modal", {
     }
   },
   methods: {
-    onMaskClick() {
-      if(this.maskCancel) this.isShow = 0;
-    }
-  },
+    maskHandler() {
+      if(this.maskClose) this.isShow = 0;
+    },
+  }
 });
 
 // Loading 載入中
-Vue.component('ud-loading', {
+const UdLoading = {
   name: "UdLoading",
-  template: `
-    <transition name="loading">
-      <div class="ud-loading" v-show="isShow" :class="{'theme-white': theme === 'white'}">
-        <div class="modal-wrapper">
-          <div class="modal-content">
-            <div class="modal-header">
-              <i :class="icon"></i>
-            </div>
-            <div class="modal-body">
-              <p v-html="nl2br(msg)"></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-  `,
-  data() {
-    return {
-      isShow: false
-    }
-  },
-  props: {
-    label:{ default: "載入中..." } // 載入中文字
-  },
-  methods: {
-    nl2br(val) {
-      return nl2br(val);
-    },
-  },
-})
-
-// Loading 載入中(調用式) ud-loading
-let UdLoadingExtend = Vue.extend({
   template: `
     <transition name="loading">
       <div class="ud-loading" v-show="isShow" :class="{'theme-white': theme === 'white'}">
@@ -1539,30 +1523,27 @@ let UdLoadingExtend = Vue.extend({
         this.$el.parentNode.removeChild(this.$el);
       }, 200);
     },
-  },
-});
-
-let UdLoading;
-Vue.prototype.udLoading = { // 加至vue原型方法
-  open: (options = {}) => {
-    UdLoading = new UdLoadingExtend({
-      el: document.createElement("div"),
-      data() {
-        return options;
-      }
-    })
-    if(UdLoading.fixed) document.body.style.overflowY = 'hidden';
-    document.body.appendChild(UdLoading.$el);
-  },
-  close: () => {
-    UdLoading.destroy();
   }
 };
 
+const udLoadingExtend = Vue.extend(UdLoading);
+const udLoading = {
+  instance: null,
+  open: (options = {}) => {
+    udLoading.instance = new udLoadingExtend({
+      el: document.createElement("div"),
+      data() { return options }
+    })
+    if(udLoading.instance.fixed) document.body.style.overflowY = 'hidden';
+    document.body.appendChild(udLoading.instance.$el);
+  },
+  close: () => udLoading.instance.destroy()
+};
 
 //-----------------------Tools-----------------------
 // Html 用戶自定義訊息
 Vue.component('ud-html', {
+  name: "UdHtml",
   template: `
     <div class="ud-html" v-html="nl2br(text)"></div>
   `,
@@ -1590,16 +1571,20 @@ Vue.component('ud-backtop', {
     scrollToTop(){
       scrollTo();
     }
-  },
+  }
 })
 
 // Ellipsis 文字省略
 Vue.component('ud-ellipsis', {
   name: "UdEllipsis",
-  template: '<p class="ud-ellipsis" :style="{webkitLineClamp: maxLine}"><slot></slot></p>',
+  template: `
+    <p class="ud-ellipsis" :style="{webkitLineClamp: maxLine}">
+      <slot></slot>
+    </p>
+  `,
   props: {
     maxLine: { default: 1, } // 指定省略行數
-  },
+  }
 })
 
 // Phone 撥打電話
@@ -1619,7 +1604,7 @@ Vue.component('ud-phone', {
     phoneHref(){
       return `tel:${this.number}`
     }
-  },
+  }
 })
 
 // Countdown 倒數計時
@@ -1654,7 +1639,7 @@ Vue.component('ud-countdown', {
       this.countTime = this.time;
       this.countdown();
     }
-  },
+  }
 })
 
 // QrCode 取得QRcode圖片
@@ -1685,7 +1670,7 @@ Vue.component('ud-qrcode', {
     QrCodeSrc() {
       return `http://chart.apis.google.com/chart?cht=qr&choe=UTF-8&chs=${this.width}x${this.height}&chl=${this.url}`
     }
-  },
+  }
 })
 
 
@@ -1833,22 +1818,14 @@ function imageDownload(selector, name = '下載圖片') {
  * @param  {String} name 圖片名稱，可選 
  * canvasImageDownload('canvas', '圖片名稱')
  */
-// 
 function canvasImageDownload(selector, name) {
-  // 通過選擇器獲取canvas元素 
-  let canvas = document.querySelector(selector);
-  // 使用toDataURL方法將圖像轉換被base64編碼的URL字符串
-  let url = canvas.toDataURL('image/png');
-  // 生成一個a元素
-  let a = document.createElement('a');
-  // 創建一個單擊事件
-  let event = new MouseEvent('click');
-  // 將a的download屬性設置為我們想要下載的圖片名稱，若name不存在則使用『下載圖片名稱』作為默認名稱
-  a.download = name || '下載圖片名稱';
-  // 將生成的URL設置為a.href屬性
-  a.href = url;
-  // 觸發a的單擊事件
-  a.dispatchEvent(event);
+  let canvas = document.querySelector(selector); // 通過選擇器獲取canvas元素
+  let url = canvas.toDataURL('image/png'); // 使用toDataURL方法將圖像轉換被base64編碼的URL字符串
+  let a = document.createElement('a'); // 生成一個a元素
+  let event = new MouseEvent('click'); // 創建一個單擊事件
+  a.download = name || '下載圖片名稱'; // 將a的download屬性設置為我們想要下載的圖片名稱，若name不存在則使用『下載圖片名稱』作為默認名稱
+  a.href = url; // 將生成的URL設置為a.href屬性
+  a.dispatchEvent(event); // 觸發a的單擊事件
 }
 
 //-----------------------Array-----------------------
@@ -1925,10 +1902,10 @@ function shuffle([...arr]){
 //-----------------------Object-----------------------
 /**
  * 精準型別判斷
- * @param  {Any} v 代入值
+ * @param  {Any} val 代入值
  */
-function typeOf(v){
-  return v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
+function typeOf(val){
+  return val === undefined ? 'undefined' : val === null ? 'null' : val.constructor.name.toLowerCase();
 }
 
 /**
@@ -2347,23 +2324,6 @@ function isIdCard(idStr){
 }
 
 //-----------------------Browser-----------------------
-/**
- * 取得LocalStorage的值
- * @param  {String} key 鍵值
- */
-function getLocalStorage(key) {
-  return localStorage.getItem(key);
-}
-
-/**
- * 設定LocalStorage的值
- * @param  {String} key 鍵值
- * @param  {String} val 屬性值
- */
-function setLocalStorage(key, val) {
-  localStorage.setItem(key, val);
-}
-
 /**
  * 取得Cookie的值
  * @param  {String} name 名稱值

@@ -50,46 +50,7 @@ var vm = new Vue({
             { label: "花丸", value: "maru" },
             { label: "步夢", value: "pomu" },
         ],
-        storeOptions: [
-            {
-                label: "基隆市", value: "KL",
-                children: [
-                    { label: "仁愛區", value: "200",
-                        children: [
-                            { label: "仁愛分店01", value: "20001" },
-                            { label: "仁愛分店02", value: "20002", disabled: true },
-                            { label: "仁愛分店03", value: "20003" },
-                        ]
-                    },
-                    { label: "信義區", value: "201",
-                        children: [
-                            { label: "信義分店01", value: "20101" },
-                            { label: "信義分店02", value: "20102" },
-                            { label: "信義分店03", value: "20103", disabled: true },
-                        ]
-                    },
-                ]
-            },
-            {
-                label: "台北市", value: "TP",
-                children: [
-                    { label: "中正區", value: "100",
-                        children: [
-                            { label: "中正分店01", value: "10001" },
-                            { label: "中正分店02", value: "10002" },
-                            { label: "中正分店03", value: "10003" },
-                        ]
-                    },
-                    { label: "大同區", value: "103",
-                        children: [
-                            { label: "大同分店01", value: "10301" },
-                            { label: "大同分店02", value: "10302" },
-                            { label: "大同分店03", value: "10303" },
-                        ]
-                    },
-                ]
-            },
-        ],
+        storeOptions: [],
     },
     mounted: function () {
         this.getStoreOptions();
@@ -105,8 +66,8 @@ var vm = new Vue({
     methods: {
         getStoreOptions: function () {
             var _this = this;
-            udAxios.get('/loccitane/sampling/sampling-v2')
-                .then(function (res) { return _this.storeOptions = res.info.store_options; });
+            udAxios.get('/test/select/4')
+                .then(function (res) { return _this.storeOptions = res.options; });
         },
         download: function () {
             imageDownload('#image');
@@ -128,6 +89,9 @@ var vm = new Vue({
             this.$refs.form.validate(function () {
                 _this.udAlert({ msg: "驗證成功!!" });
             });
+        },
+        toUrl: function (url) {
+            location.href = url;
         },
         //API
         init: function () {

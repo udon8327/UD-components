@@ -10,19 +10,20 @@ block modal
   ud-modal(v-model="isModalShow")
 
 block content
-  ud-select-test(v-model='aaa' :options="aaaOptions" center)
+  a(href='⁨https://meet.google.com/rrb-rvfz-otx⁩' target="_blank") TEST
+  ud-select(v-model='aaa' :options="aaaOptions" center)
   br
   .d-flex
-    ud-select-test(v-model="store[0]" :options="storeOptions" :group="store" :index="0" placeholder="請選擇縣市")
-    ud-select-test(v-model="store[1]" :options="storeOptions" :group="store" :index="1" placeholder="請選擇店點")
-    ud-select-test(v-model="store[2]" :options="storeOptions" :group="store" :index="2" placeholder="請選擇日期")
-    ud-select-test(v-model="store[3]" :options="storeOptions" :group="store" :index="3" placeholder="請選擇時段")
+    ud-select(v-model="store[0]" :options="storeOptions" :group="store" :index="0" placeholder="請選擇縣市")
+    ud-select(v-model="store[1]" :options="storeOptions" :group="store" :index="1" placeholder="請選擇店點")
+    ud-select(v-model="store[2]" :options="storeOptions" :group="store" :index="2" placeholder="請選擇日期")
+    ud-select(v-model="store[3]" :options="storeOptions" :group="store" :index="3" placeholder="請選擇時段")
   br
   .d-flex
-    ud-select-test(v-model="test1" :options="storeOptions" :group="testArr" :index="0")
-    ud-select-test(v-model="test2" :options="storeOptions" :group="testArr" :index="1")
-    ud-select-test(v-model="test3" :options="storeOptions" :group="testArr" :index="2")
-    ud-select-test(v-model="test4" :options="storeOptions" :group="testArr" :index="3")
+    ud-select(v-model="test1" :options="storeOptions" :group="testArr" :index="0")
+    ud-select(v-model="test2" :options="storeOptions" :group="testArr" :index="1")
+    ud-select(v-model="test3" :options="storeOptions" :group="testArr" :index="2")
+    ud-select(v-model="test4" :options="storeOptions" :group="testArr" :index="3")
   br
 
   //- el-upload.upload-demo(

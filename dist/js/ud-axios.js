@@ -9,7 +9,7 @@
 // 自定義axios實例預設值
 var udAxios = axios.create({
     baseURL: "https://udon8327.synology.me:8000",
-    timeout: 10000,
+    timeout: 30000,
 });
 // 計算ajax數量
 var ajaxCount = 0;

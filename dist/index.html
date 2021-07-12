@@ -22,19 +22,19 @@
     <div id="app" v-cloak>
       <ud-modal v-model="isModalShow"></ud-modal>
       <div class="container">
-        <div class="wrapper">
-          <ud-select-test v-model="aaa" :options="aaaOptions" center></ud-select-test><br>
+        <div class="wrapper"><a href="⁨https://meet.google.com/rrb-rvfz-otx⁩" target="_blank">TEST</a>
+          <ud-select v-model="aaa" :options="aaaOptions" center></ud-select><br>
           <div class="d-flex">
-            <ud-select-test v-model="store[0]" :options="storeOptions" :group="store" :index="0" placeholder="請選擇縣市"></ud-select-test>
-            <ud-select-test v-model="store[1]" :options="storeOptions" :group="store" :index="1" placeholder="請選擇店點"></ud-select-test>
-            <ud-select-test v-model="store[2]" :options="storeOptions" :group="store" :index="2" placeholder="請選擇日期"></ud-select-test>
-            <ud-select-test v-model="store[3]" :options="storeOptions" :group="store" :index="3" placeholder="請選擇時段"></ud-select-test>
+            <ud-select v-model="store[0]" :options="storeOptions" :group="store" :index="0" placeholder="請選擇縣市"></ud-select>
+            <ud-select v-model="store[1]" :options="storeOptions" :group="store" :index="1" placeholder="請選擇店點"></ud-select>
+            <ud-select v-model="store[2]" :options="storeOptions" :group="store" :index="2" placeholder="請選擇日期"></ud-select>
+            <ud-select v-model="store[3]" :options="storeOptions" :group="store" :index="3" placeholder="請選擇時段"></ud-select>
           </div><br>
           <div class="d-flex">
-            <ud-select-test v-model="test1" :options="storeOptions" :group="testArr" :index="0"></ud-select-test>
-            <ud-select-test v-model="test2" :options="storeOptions" :group="testArr" :index="1"></ud-select-test>
-            <ud-select-test v-model="test3" :options="storeOptions" :group="testArr" :index="2"></ud-select-test>
-            <ud-select-test v-model="test4" :options="storeOptions" :group="testArr" :index="3"></ud-select-test>
+            <ud-select v-model="test1" :options="storeOptions" :group="testArr" :index="0"></ud-select>
+            <ud-select v-model="test2" :options="storeOptions" :group="testArr" :index="1"></ud-select>
+            <ud-select v-model="test3" :options="storeOptions" :group="testArr" :index="2"></ud-select>
+            <ud-select v-model="test4" :options="storeOptions" :group="testArr" :index="3"></ud-select>
           </div><br>
           <ud-form :rules="rules" :model="user" ref="form">
             <ud-form-item label="姓名" prop="name" flex>

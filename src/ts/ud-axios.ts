@@ -10,7 +10,7 @@
 // 自定義axios實例預設值
 const udAxios = axios.create({
   baseURL: "https://udon8327.synology.me:8000",
-  timeout: 10000, // 請求超時時間
+  timeout: 30000, // 請求超時時間
   // headers: {
   //   authorization: 'Bearer token',
   // },
