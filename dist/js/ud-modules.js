@@ -38,75 +38,62 @@ Tools
 
 ==================== 工具函數目錄 ====================
 String
-  將字串內換行符\n轉為<br> -----> nl2br
-  取得隨機字串 -----> randomString
-  金錢加入千分位逗號 -----> formatNumber
-  複製文字至剪貼簿 -----> copyTextToClipboard
+  nl2br：將字串內換行符\n轉為<br>
+  getRandomString：取得隨機字串
+  copyTextToClipboard：複製文字至剪貼簿
 
 Number
-  取得範圍內隨機整數 -----> getRandom
-  四捨五入到指定位數 -----> round
-
+  getRandom：取得範圍內隨機整數
+  roundNumber：四捨五入到指定位數
+  formatNumber：數字加入千分位逗號
+  padStart：數字補零
+  
 Image
-  預載單張圖片 -----> imageLoaded
-  預載多張圖片 -----> imageAllLoaded
-  下載Img圖片 -----> imageDownload
-  下載Canvas圖片 -----> canvasImageDownload
+  imageLoaded：單張圖片載入完成
+  imageAllLoaded：多張圖片載入完成
+  imageDownload：下載Img圖片
+  canvasImageDownload：下載Canvas圖片
 
 Array
-  陣列是否有重複值(不分型別) -----> isRepeat
-  移除陣列中的重複元素 -----> uniqArray
-  二維陣列扁平化(第二參數可指定深度) -----> flatArray
-  返回陣列中某值的所有索引 -----> indexOfAll
-  兩陣列的交集 -----> intersection
-  洗牌陣列 -----> shuffle
+  isArrayRepeat：陣列是否有重複值(不分型別)
+  removeArrayRepeat：移除陣列中的重複元素
+  flatArray：二維陣列扁平化
+  indexOfAll：返回陣列中某值的所有索引
+  intersectionArray：兩陣列的交集
+  shuffleArray：洗牌陣列
 
 Object
-  精準型別判斷 -----> typeOf
-  過濾物件鍵值 -----> filterObj
-  刪除物件鍵值 -----> deleteObj
-  深拷貝(簡易版) -----> deepCloneSimple
-  深拷貝(完全版) -----> deepClone
+  typeOf：精準型別判斷
+  filterObj：過濾物件鍵值
+  deleteObj：刪除物件鍵值
+  deepCloneSimple：深拷貝(簡易版)
+  deepClone：深拷貝(完全版)
 
 Time
-  檢查是否為閏年 -----> isLeapYear
-  檢查日期是否存在 -----> isExistDate
-  返回當前24小時制時間的字符串 -----> getColonTimeFromDate
-  返回日期間的天數 -----> getDaysDiffBetweenDates
-  檢查是否在某日期後 -----> isAfterDate
-  檢查是否在某日期前 -----> isBeforeDate
-  返回幾天前後的日期 -----> getDiffDate
-  隨機數時間戳 -----> uniqueId
-  時間格式化 -----> Date.prototype.format
+  isLeapYear：判斷是否為閏年
+  isExistDate：判斷日期是否存在
+  getDiffDate：取得前後幾天的日期
+  formatTime：時間格式化
 
 DOM
-  滾動至指定位置 -----> scrollTo
-  取得頁面當前捲動高度(寬度) -----> getPageScroll
-  取得頁面總高度(寬度) -----> getPage
-  取得頁面可視高度(寬度) -----> getPageView
+  scrollTo：滾動至指定位置
+  getPageScroll：取得頁面當前捲動高度(寬度)
+  getPageSize：取得頁面尺寸
 
 Verify
-  各式驗證函式 -----> isRegex
-  精準數字驗證 -----> isNumber
-  未填入驗證 -----> isEmpty
-  身分證驗證 -----> isIdCard
-
-Browser
-  取得Cookie的值 -----> getCookie
-  設置cookie值 -----> setCookie
-  函式防抖 -----> debounce
-  函式節流 -----> throttle
+  isVerify：常用驗證函式
+  isNumber：精準數字驗證
+  isEmpty：未填入驗證
 
 Web
-  查詢網址所帶參數 -----> queryString
-  解析網址 -----> parseUrl
-  網址跳轉 -----> toUrl
-  跳頁重整 -----> jumpReload
-
-Device
-  判斷是否移動裝置 -----> isMobileUserAgent
-  判斷是否蘋果移動裝置 -----> isAppleMobileDevice
-  判斷是否安卓移動裝置 -----> isAndroidMobileDevice
+  getCookie：取得Cookie的值
+  debounce：函式防抖
+  throttle：函式節流
+  queryString：查詢網址所帶參數
+  parseUrl：解析網址
+  toUrl：網址跳轉
+  jumpReload：跳頁重整
+  isMobile：判斷是否移動裝置
 */
 // 初始化執行
 jumpReload();
@@ -1370,22 +1357,22 @@ Vue.component('ud-qrcode', {
 //-----------------------String-----------------------
 /**
  * 將字串內換行符\n轉為<br>
- * @param  {String} val 傳入值
- * @param  {Boolean} is_xhtml 是否為xhtml
+ * @param {string} val 傳入值
+ * @param {boolean} is_xhtml 是否為xhtml 預設為false
  */
 function nl2br(val, is_xhtml) {
+    if (val === void 0) { val = ''; }
     if (is_xhtml === void 0) { is_xhtml = false; }
-    if (typeof val === 'undefined' || val === null) {
-        return '';
-    }
+    if (val == null)
+        return val;
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (val + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 /**
  * 取得隨機字串
- * @param  {Number} length 指定字串長度
+ * @param {number} length 指定字串長度 預設為10
  */
-function randomString(length) {
+function getRandomString(length) {
     if (length === void 0) { length = 10; }
     var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     var temp = "";
@@ -1395,37 +1382,27 @@ function randomString(length) {
     return temp;
 }
 /**
- * 數字加入千分位逗號
- * 例：formatNumber(99999) -> 99,999
- * @param  {Number} val 傳入值
- */
-function formatNumber(val) {
-    if (val === void 0) { val = 0; }
-    var temp = val.toString();
-    var pattern = /(-?\d+)(\d{3})/;
-    while (pattern.test(temp)) {
-        temp = temp.replace(pattern, "$1,$2");
-    }
-    return temp;
-}
-/**
  * 複製文字至剪貼簿
- * @param  {String} id 要複製文字的元素id
+ * @param {string} id 要複製文字的元素id
+ * @example copyTextToClipboard('id').then(res => udAlert(`已複製\n${ res }`));
  */
 function copyTextToClipboard(id) {
-    var textRange = document.createRange();
-    textRange.selectNode(document.getElementById(id));
-    var sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(textRange);
-    document.execCommand("copy");
-    vm.udAlert({ msg: '文字已複製到剪貼簿' });
+    return new Promise(function (resolve) {
+        var textRange = document.createRange();
+        textRange.selectNode(document.getElementById(id));
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(textRange);
+        document.execCommand("copy");
+        resolve(textRange);
+    });
 }
 //-----------------------Number-----------------------
 /**
  * 取得範圍內隨機整數
- * @param {Number} min 隨機數最小值 預設為0
- * @param {Number} max 隨機數最小值 預設為100
+ * @param {number} min 隨機數最小值 預設為0
+ * @param {number} max 隨機數最大值 預設為100
+ * @example getRandom(5, 10) -> 7
  */
 function getRandom(min, max) {
     if (min === void 0) { min = 0; }
@@ -1434,21 +1411,68 @@ function getRandom(min, max) {
 }
 /**
  * 四捨五入到指定位數
- * @param  {String} n 代入值 預設為0
- * @param  {Number} decimals 指定位數 預設為0
- * round(1.235, 2); -> 1.24
+ * @param {number} val 傳入值
+ * @param {number} decimals 指定位數 預設為0
+ * @example roundNumber(1.235, 2) -> 1.24
  */
-function round(n, decimals) {
-    if (n === void 0) { n = 0; }
+function roundNumber(val, decimals) {
     if (decimals === void 0) { decimals = 0; }
-    return Number(Math.round(n + "e" + decimals) + "e-" + decimals);
+    if (val == null)
+        return val;
+    return Number(Math.round(val + "e" + decimals) + "e-" + decimals);
+}
+/**
+ * 數字加入千分位逗號
+ * @param {number} val 傳入值
+ * @example formatNumber(99999) -> 99,999
+ */
+function formatNumber(val) {
+    if (val == null)
+        return val;
+    var temp = val.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(temp)) {
+        temp = temp.replace(pattern, "$1,$2");
+    }
+    return temp;
+}
+/**
+ * 數字補零
+ * @param {number|string} val 傳入值
+ * @param {number} length 要補到幾位 預設為2
+ * @param {number|string} string 要補的值 預設為0
+ * @example padStart(5) -> '05'
+ * @example padStart(5, 4) -> '0005'
+ * @example padStart(5, 4, 2) -> '2225'
+ */
+function padStart(val, length, string) {
+    if (length === void 0) { length = 2; }
+    if (string === void 0) { string = 0; }
+    if (val == null)
+        return val;
+    if (!String.prototype.padStart) {
+        String.prototype.padStart = function padStart(targetLength, padString) {
+            targetLength = targetLength >> 0;
+            padString = String(typeof padString !== 'undefined' ? padString : ' ');
+            if (this.length > targetLength) {
+                return String(this);
+            }
+            else {
+                targetLength = targetLength - this.length;
+                if (targetLength > padString.length) {
+                    padString += padString.repeat(targetLength / padString.length);
+                }
+                return padString.slice(0, targetLength) + String(this);
+            }
+        };
+    }
+    return val.toString().padStart(length, string);
 }
 //-----------------------Image-----------------------
 /**
- * 預載單張圖片
- * @param  {String} url 圖片路徑
- * imageLoaded('imgUrl').then(...);
- * 圖片讀取完成時返回Image物件
+ * 單張圖片載入完成
+ * @param {string} url 圖片路徑
+ * @example imageLoaded('imgUrl').then(...) -> 圖片讀取完成時返回該Image物件
  */
 function imageLoaded(url) {
     var img = new Image();
@@ -1464,10 +1488,9 @@ function imageLoaded(url) {
     });
 }
 /**
- * 預載多張圖片
- * @param  {Array} arr 多張圖片路徑陣列
- * imageAllLoaded(['imgUrl1','imgUrl2']).then(...);
- * 全部圖片都讀取完成時返回Image物件組成的陣列
+ * 多張圖片載入完成
+ * @param {array} arr 多張圖片路徑陣列
+ * @example imageAllLoaded(['imgUrl1','imgUrl2']).then(...) -> 全部圖片都讀取完成時返回該Image物件組成的陣列
  */
 function imageAllLoaded(arr) {
     var result = [];
@@ -1482,9 +1505,9 @@ function imageAllLoaded(arr) {
 }
 /**
  * 下載Img圖片
- * @param  {String} selector 選擇器，代表img標籤
- * @param  {String} name 圖片名稱，可選
- * imageDownload('#image', '自訂下載圖片名稱')
+ * @param {string} selector 圖片元素選擇器
+ * @param {string} name 圖片名稱 預設為'下載圖片'
+ * @example imageDownload('#image', '自訂圖片名稱')
  */
 function imageDownload(selector, name) {
     if (name === void 0) { name = '下載圖片'; }
@@ -1498,34 +1521,38 @@ function imageDownload(selector, name) {
         var context = canvas.getContext('2d');
         context.drawImage(image, 0, 0, image.width, image.height);
         var url = canvas.toDataURL('image/jpg');
-        var a = document.createElement('a'); // 生成一個a元素
-        var event = new MouseEvent('click'); // 創建一個單擊事件
-        a.download = name; // 將a的download屬性設置為我們想要下載的圖片名稱，若name不存在則使用『下載圖片』作為默認名稱
-        a.href = url; // 將生成的URL設置為a.href屬性
-        a.dispatchEvent(event); // 觸發a的單擊事件
+        var a = document.createElement('a');
+        var event = new MouseEvent('click');
+        a.download = name;
+        a.href = url;
+        a.dispatchEvent(event);
     };
 }
 /**
- * 下載Canvas元素圖片
- * @param  {String} selector 選擇器，代表canvas
- * @param  {String} name 圖片名稱，可選
- * canvasImageDownload('canvas', '圖片名稱')
+ * 下載Canvas圖片
+ * @param {string} selector canvas元素選擇器
+ * @param {string} name 圖片名稱 預設為'下載圖片'
+ * @example canvasImageDownload('canvas', '自訂圖片名稱')
  */
 function canvasImageDownload(selector, name) {
-    var canvas = document.querySelector(selector); // 通過選擇器獲取canvas元素
-    var url = canvas.toDataURL('image/png'); // 使用toDataURL方法將圖像轉換被base64編碼的URL字符串
-    var a = document.createElement('a'); // 生成一個a元素
-    var event = new MouseEvent('click'); // 創建一個單擊事件
-    a.download = name || '下載圖片名稱'; // 將a的download屬性設置為我們想要下載的圖片名稱，若name不存在則使用『下載圖片名稱』作為默認名稱
-    a.href = url; // 將生成的URL設置為a.href屬性
-    a.dispatchEvent(event); // 觸發a的單擊事件
+    if (name === void 0) { name = '下載圖片'; }
+    var canvas = document.querySelector(selector);
+    var url = canvas.toDataURL('image/png');
+    var a = document.createElement('a');
+    var event = new MouseEvent('click');
+    a.download = name;
+    a.href = url;
+    a.dispatchEvent(event);
 }
 //-----------------------Array-----------------------
 /**
  * 陣列是否有重複值(不分型別)
- * @param  {Array} arr 代入值
+ * @param {array} arr 傳入值
+ * @example isArrayRepeat([1, 2, 2, 3]) -> true
  */
-function isRepeat(arr) {
+function isArrayRepeat(arr) {
+    if (arr == null)
+        return arr;
     var obj = {};
     for (var i in arr) {
         if (obj[arr[i]])
@@ -1536,77 +1563,87 @@ function isRepeat(arr) {
 }
 /**
  * 移除陣列中的重複元素
- * @param  {Array} arr 代入值
+ * @param {array} arr 傳入值
+ * @example removeArrayRepeat([1, 2, 2, 3]) -> [1, 2, 3]
  */
-function uniqArray(arr) {
+function removeArrayRepeat(arr) {
+    if (arr == null)
+        return arr;
     var newArr = arr.filter(function (el, i, arr) { return arr.indexOf(el) === i; });
     return newArr;
 }
 /**
- * 二維陣列扁平化(第二參數可指定深度)
- * @param  {Array} arr 代入值
- * @param  {Number} depth 指定深度
- * flatArray([1, [2], 3, 4]); -> [1, 2, 3, 4]
- * flatArray([1, [2, [3, [4, 5], 6], 7], 8], 2); -> [1, 2, 3, [4, 5], 6, 7, 8]
+ * 二維陣列扁平化
+ * @param {array} arr 傳入值
+ * @param {number} depth 指定深度
+ * @example flatArray([1, [2], 3, 4]); -> [1, 2, 3, 4]
+ * @example flatArray([1, [2, [3, [4, 5], 6], 7], 8], 2); -> [1, 2, 3, [4, 5], 6, 7, 8]
  */
 function flatArray(arr, depth) {
     if (depth === void 0) { depth = 1; }
+    if (arr == null)
+        return arr;
     return arr.reduce(function (a, v) { return a.concat(depth > 1 && Array.isArray(v) ? flatArray(v, depth - 1) : v); }, []);
 }
 /**
  * 返回陣列中某值的所有索引
- * @param  {Array} arr 代入值
- * @param  {Number} val 指定值
- * indexOfAll([1, 2, 3, 1, 2, 3], 1); -> [0,3]
- * indexOfAll([1, 2, 3], 4); -> []
+ * @param {array} arr 傳入值
+ * @param {number} val 指定值
+ * @example indexOfAll([1, 2, 3, 1, 2, 3], 1); -> [0,3]
+ * @example indexOfAll([1, 2, 3], 4); -> []
  */
 function indexOfAll(arr, val) {
+    if (arr == null)
+        return arr;
     return arr.reduce(function (acc, el, i) { return (el === val ? acc.concat([i]) : acc); }, []);
 }
 /**
  * 兩陣列的交集
- * @param  {Array} a 陣列A
- * @param  {Array} b 陣列B
- * intersection([1, 2, 3], [4, 3, 2]); -> [2, 3]
+ * @param {array} arrA 陣列A
+ * @param {array} arrB 陣列B
+ * @example intersectionArray([1, 2, 3], [4, 3, 2]); -> [2, 3]
  */
-function intersection(a, b) {
-    var s = new Set(b);
-    return a.filter(function (x) { return s.has(x); });
+function intersectionArray(arrA, arrB) {
+    if (arrA == null || arrB == null)
+        return null;
+    var s = new Set(arrB);
+    return arrA.filter(function (x) { return s.has(x); });
 }
 ;
 /**
  * 洗牌陣列
- * @param  {Array} a 陣列A
- * @param  {Array} b 陣列B
- * shuffle([1, 2, 3]); -> [2, 3, 1];
+ * @param {array} arr 傳入值
+ * @example shuffleArray([1, 2, 3]); -> [2, 3, 1];
  */
-function shuffle(_a) {
-    var arr = _a.slice(0);
-    var m = arr.length;
+function shuffleArray(arr) {
+    if (arr == null)
+        return arr;
+    var arrCopy = arr.slice();
+    var m = arrCopy.length;
     while (m) {
         var i = Math.floor(Math.random() * m--);
-        _b = [arr[i], arr[m]], arr[m] = _b[0], arr[i] = _b[1];
+        _a = [arrCopy[i], arrCopy[m]], arrCopy[m] = _a[0], arrCopy[i] = _a[1];
     }
-    return arr;
-    var _b;
+    return arrCopy;
+    var _a;
 }
 ;
 //-----------------------Object-----------------------
 /**
  * 精準型別判斷
- * @param  {Any} val 代入值
+ * @param {any} val 傳入值
  */
 function typeOf(val) {
     return val === undefined ? 'undefined' : val === null ? 'null' : val.constructor.name.toLowerCase();
 }
 /**
  * 過濾物件鍵值
- * @param  {Object} obj 代入值
- * @param  {Array} arr 過濾值的陣列
- * filterObj(obj,["name","gender"]);
+ * @param {object} val 傳入值
+ * @param {array} arr 過濾值的陣列
+ * @example filterObj(obj, ["keyA", "keyB"]);
  */
-function filterObj(obj, arr) {
-    var tempObj = JSON.parse(JSON.stringify(obj));
+function filterObj(val, arr) {
+    var tempObj = JSON.parse(JSON.stringify(val));
     for (var i in tempObj) {
         if (arr.indexOf(i) === -1)
             delete tempObj[i];
@@ -1615,9 +1652,9 @@ function filterObj(obj, arr) {
 }
 /**
  * 刪除物件鍵值
- * @param  {Object} obj 代入值
- * @param  {Array} arr 刪除值的陣列
- * deleteObj(test,["name","gender"]);
+ * @param {object} obj 傳入值
+ * @param {array} arr 刪除值的陣列
+ * @example deleteObj(obj, ["keyA", "keyB"]);
  */
 function deleteObj(obj, arr) {
     var tempObj = JSON.parse(JSON.stringify(obj));
@@ -1629,62 +1666,61 @@ function deleteObj(obj, arr) {
 }
 /**
  * 深拷貝(簡易版)
- * @param  {Object} obj 代入值
- * 無法拷貝特殊類型值與funciton
+ * @param {object} obj 傳入值
  */
 function deepCloneSimple(obj) {
+    if (obj == null)
+        return obj;
     return JSON.parse(JSON.stringify(obj));
 }
 /**
  * 深拷貝(完全版)
- * @param  {Object} obj 代入值
+ * @param {object} obj 傳入值
  */
 function deepClone(obj, hash) {
     if (hash === void 0) { hash = new WeakMap(); }
-    if (obj == null) {
+    if (obj == null)
         return obj;
-    }
-    if (obj instanceof RegExp) {
+    if (obj instanceof RegExp)
         return new RegExp(obj);
-    }
-    if (obj instanceof Date) {
+    if (obj instanceof Date)
         return new Date(obj);
-    }
-    if (obj instanceof Error) {
+    if (obj instanceof Error)
         return new Error(obj);
-    }
-    if (typeof obj !== 'object') {
+    if (typeof obj !== 'object')
         return obj;
-    }
     if (hash.get(obj))
         return hash.get(obj);
     var cloneObj = new obj.constructor;
     hash.set(obj, cloneObj);
     for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
+        if (obj.hasOwnProperty(key))
             cloneObj[key] = deepClone(obj[key], hash);
-        }
     }
     return cloneObj;
 }
 //-----------------------Time-----------------------
 /**
- * 檢查是否為閏年
- * @param  {Number} year 年份
+ * 判斷是否為閏年
+ * @param {number} year 年份
  */
 function isLeapYear(year) {
+    if (year == null)
+        return year;
     return new Date(year, 1, 29).getDate() === 29;
 }
 /**
- * 檢查日期是否存在
- * @param  {String} dateStr 日期字串
- * @param  {String} split 分割符 預設為"-"
- * isExistDate("2020-02-29"); -> true
- * isExistDate("2019/02/29","/"); -> false
+ *  判斷日期是否存在
+ * @param {string} date 日期字串
+ * @param {string} split 分割符 預設為"-"
+ * @example isExistDate("2020-02-29"); -> true
+ * @example isExistDate("2019/02/29", "/"); -> false
  */
-function isExistDate(dateStr, split) {
+function isExistDate(date, split) {
     if (split === void 0) { split = "-"; }
-    var dateArr = dateStr.split(split);
+    if (date == null)
+        return date;
+    var dateArr = date.split(split);
     var limitInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     var theYear = parseInt(dateArr[0]);
     var theMonth = parseInt(dateArr[1]);
@@ -1695,81 +1731,43 @@ function isExistDate(dateStr, split) {
     return theDay > 0 && theDay <= limitInMonth[theMonth - 1];
 }
 /**
- * 返回當前24小時制時間的字符串
- * @param  {Any} date 時間物件
- * getColonTimeFromDate(new Date()); -> "08:38:00"
- */
-function getColonTimeFromDate(date) {
-    return date.toTimeString().slice(0, 8);
-}
-/**
- * 返回日期間的天數
- * @param  {Any} dateInitial 開始時間物件
- * @param  {Any} dateFinal 結束時間物件
- * getDaysDiffBetweenDates(new Date('2019-01-01'), new Date('2019-10-14')); -> 286
- */
-function getDaysDiffBetweenDates(dateInitial, dateFinal) {
-    return (dateFinal - dateInitial) / (1000 * 3600 * 24);
-}
-/**
- * 檢查是否在某日期後
- * @param  {Any} dateA 時間物件A
- * @param  {Any} dateB 時間物件B
- * isAfterDate(new Date(2010, 10, 21), new Date(2010, 10, 20)); -> true
- */
-function isAfterDate(dateA, dateB) {
-    return dateA > dateB;
-}
-/**
- * 檢查是否在某日期前
- * @param  {Any} dateA 時間物件A
- * @param  {Any} dateB 時間物件B
- * isBeforeDate(new Date(2010, 10, 20), new Date(2010, 10, 21)); -> true
- */
-function isBeforeDate(dateA, dateB) {
-    return dateA < dateB;
-}
-/**
- * 返回幾天前後的日期
- * @param  {Number} days 指定天數 可為負值
- * getDiffDate(1); -> "2020-07-01"
- * getDiffDate(0); -> "2020-06-30"
- * getDiffDate(-2); -> "2020-06-28"
+ * 取得前後幾天的日期
+ * @param {number} days 指定天數 可為負值
+ * @example getDiffDate(1); -> "2020-07-01"
+ * @example getDiffDate(0); -> "2020-06-30"
+ * @example getDiffDate(-2); -> "2020-06-28"
  */
 function getDiffDate(days) {
+    if (days === void 0) { days = 0; }
     var t = new Date();
     t.setDate(t.getDate() + days);
     return t.toISOString().split('T')[0];
 }
 ;
 /**
- * 隨機數時間戳
- */
-function uniqueId() {
-    return (Number(new Date()).toString() + parseInt(10 * Math.random()) + parseInt(10 * Math.random()) + parseInt(10 * Math.random()));
-}
-/**
  * 時間格式化
- * @param  {Any} format 轉換格式
- * new Date().format('yyyyMMdd') -> "20200921"
- * new Date().format('yyyy-MM-dd') -> "2020-09-21"
- * new Date().format('yyyy-MM-dd hh:mm:ss') -> "2020-09-21 16:07:59"
+ * @param {any} date 傳入值(Date物件、timestamp或任何合法時間格式)
+ * @param {string} format 轉換格式 預設值為'yyyy-MM-dd hh:mm:ss'
+ * @example formatTime(new Date(), 'yyyyMMdd') -> "20210726"
+ * @example formatTime(new Date(), 'yyyy-MM-dd') -> "2021-07-26"
+ * @example formatTime(new Date(), 'yyyy-MM-dd hh:mm:ss') -> "2021-07-26 14:08:00"
+ * @example formatTime(new Date(1627280134101), 'yyyy-MM-dd hh:mm:ss') -> "2021-07-26 14:15:34"
  */
-// function parseTime(date = new Date(), format = "yyyy-MM-dd hh:mm:ss"){
-Date.prototype.format = function (format) {
+function formatTime(date, format) {
+    if (date === void 0) { date = new Date(); }
     if (format === void 0) { format = "yyyy-MM-dd hh:mm:ss"; }
     var o = {
-        "M+": this.getMonth() + 1,
-        "d+": this.getDate(),
-        "H+": this.getHours(),
-        "h+": this.getHours(),
-        "m+": this.getMinutes(),
-        "s+": this.getSeconds(),
-        "q+": Math.floor((this.getMonth() + 3) / 3),
-        "S": this.getMilliseconds() // 毫秒
+        "M+": date.getMonth() + 1,
+        "d+": date.getDate(),
+        "H+": date.getHours(),
+        "h+": date.getHours(),
+        "m+": date.getMinutes(),
+        "s+": date.getSeconds(),
+        "q+": Math.floor((date.getMonth() + 3) / 3),
+        "S": date.getMilliseconds() // 毫秒
     };
     if (/(y+)/.test(format)) {
-        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
     }
     for (var k in o) {
         if (new RegExp("(" + k + ")").test(format)) {
@@ -1777,17 +1775,18 @@ Date.prototype.format = function (format) {
         }
     }
     return format;
-};
+}
+;
 //-----------------------DOM-----------------------
 /**
  * 滾動至指定位置
- * @param  {String, Number} el 滾動位置(預設為'top',可選：'top', 'bottom', '.foobar', 300)
- * @param  {Number} speed 滾動時間(預設為5,瞬移為1)
- * @param  {Number} offset 自定偏移(可接受正負數字)
- * @param  {Function} callback 回調函式
- * scrollTo();
- * scrollTo('top', 1);
- * scrollTo('.foobar', 10, -30, () => {console.log('滾動完成')});
+ * @param {string|number} el 滾動位置('top': 頂部, 'bottom': 底部, '.foobar': 元素, 300: 像素)
+ * @param {number} speed 滾動時間(瞬移為1,請勿設為0)
+ * @param {number} offset 自定偏移(可接受正負數字)
+ * @param {function} callback 回調函式
+ * @example scrollTo(); -> 滾動回項部
+ * @example scrollTo('top', 1); -> 瞬間回項部
+ * @example scrollTo('.foobar', 10, -30, () => {console.log('滾動完成')});
  */
 function scrollTo(el, speed, offset, callback) {
     if (el === void 0) { el = "top"; }
@@ -1825,20 +1824,20 @@ function scrollTo(el, speed, offset, callback) {
 }
 ;
 /**
- * 取得頁面當前捲動高度(寬度)
- * @param  {Any} direction 改取寬度
+ * 取得頁面當前捲動長寬度
+ * @param {string} type 類型(width: 寬度, height: 高度)
  */
-function getPageScroll(direction) {
-    if (direction) {
+function getPageScroll(type) {
+    if (type === void 0) { type = 'height'; }
+    if (type === 'width') {
         return document.documentElement.scrollLeft || document.body.scrollLeft;
     }
-    else {
+    if (type === 'height') {
         var bodyTop = 0;
         if (typeof window.pageYOffset != "undefined") {
             bodyTop = window.pageYOffset;
         }
-        else if (typeof document.compatMode != "undefined"
-            && document.compatMode != "BackCompat") {
+        else if (typeof document.compatMode != "undefined" && document.compatMode != "BackCompat") {
             bodyTop = document.documentElement.scrollTop;
         }
         else if (typeof document.body != "undefined") {
@@ -1848,216 +1847,151 @@ function getPageScroll(direction) {
     }
 }
 /**
- * 取得頁面總高度(寬度)
- * @param  {Any} direction 改取寬度
+ * 取得頁面尺寸
+ * @param {string} scope 範圍(view: 可視頁面, full: 完整頁面)
  */
-function getPage(direction) {
+function getPageSize(scope) {
+    if (scope === void 0) { scope = 'view'; }
     var el = document.compatMode == "BackCompat" ? document.body : document.documentElement;
-    if (direction) {
-        return Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, el.clientWidth);
+    if (scope === 'view') {
+        return [el.clientWidth, el.clientHeight];
     }
-    else {
-        return Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, el.clientHeight);
-    }
-}
-/**
- * 取得頁面可視高度(寬度)
- * @param  {Any} direction 改取寬度
- */
-function getPageView(direction) {
-    var el = document.compatMode == "BackCompat" ? document.body : document.documentElement;
-    if (direction) {
-        return el.clientWidth;
-    }
-    else {
-        return el.clientHeight;
+    if (scope === 'full') {
+        return [
+            Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, el.clientWidth),
+            Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, el.clientHeight)
+        ];
     }
 }
 //-----------------------Verify-----------------------
 /**
- * 各式驗證函式
- * @param  {String} type 驗證類型
- * @param  {Any} val 要驗證的值
- * @param  {String} regex 指定正則表達式
+ * 常用驗證函式
+ * @param {any} val 傳入值
+ * @param {string|regex} type 驗證類型(可接受正則表達式)
+ * @example isVerify('1988-05-27', 'date') -> true
+ * @example isVerify('ABC', /[A-Z]/) -> true
  */
-function isRegex(type, val, regex) {
+function isVerify(val, type) {
+    if (val == null)
+        return val;
     switch (type) {
         // 姓名驗證
         case "name":
             return /^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(val);
-            break;
         // 電話驗證
         case "phone":
             return /^09[0-9]{8}$/.test(val);
-            break;
         // 電子郵件驗證
         case "email":
             return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(val);
-            break;
-        // 身分證字號驗證
-        case "idcard":
-            return /^[A-Z](1|2)[0-9]{8}$/.test(val);
-            break;
-        // 日期驗證(1988-05-27)
+        // 日期驗證
         case "date":
             return /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/.test(val);
-            break;
         // 數字驗證
         case "number":
             return !isNaN(val);
-            break;
         // 網址驗證
         case "url":
             return /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(val);
-            break;
         // IP地址驗證
         case "ip":
             return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(val);
-            break;
         // Hex色碼驗證
         case "hex":
             return /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/.test(val);
-            break;
-        //校驗是否為指定正則表達式
-        case "regex":
-            var regexMode = new RegExp(regex);
+        // 身分證字號驗證
+        case "id":
+            var letters = new Array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'W', 'Z', 'I', 'O');
+            var multiply = new Array(1, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+            var nums = new Array(2);
+            var firstChar = void 0;
+            var firstNum = void 0;
+            var lastNum = void 0;
+            var total = 0;
+            var regExpID = /^[a-z](1|2)\d{8}$/i;
+            if (val.search(regExpID) == -1) {
+                return false;
+            }
+            else {
+                firstChar = val.charAt(0).toUpperCase();
+                lastNum = val.charAt(9);
+            }
+            for (var i = 0; i < 26; i++) {
+                if (firstChar == letters[i]) {
+                    firstNum = i + 10;
+                    nums[0] = Math.floor(firstNum / 10);
+                    nums[1] = firstNum - (nums[0] * 10);
+                    break;
+                }
+            }
+            for (var i = 0; i < multiply.length; i++) {
+                if (i < 2) {
+                    total += nums[i] * multiply[i];
+                }
+                else {
+                    total += parseInt(val.charAt(i - 1)) * multiply[i];
+                }
+            }
+            if ((10 - (total % 10)) != lastNum) {
+                return false;
+            }
+            return true;
+        // 正則表達式驗證
+        default:
+            var regexMode = new RegExp(type);
             return regexMode.test(val);
-            break;
     }
 }
 /**
  * 精準數字驗證
- * @param  {Any} val 要驗證的值
+ * @param {any} val 傳入值
  */
 function isNumber(val) {
-    if (typeOf(val) !== "number") {
-        return false;
-    }
-    else {
-        return !isNaN(val);
-    }
+    return typeOf(val) !== "number" ? false : !isNaN(val);
 }
 /**
  * 未填入驗證
- * @param  {Any} val 要驗證的值
+ * @param {any} val 傳入值
  */
 function isEmpty(val) {
     switch (typeOf(val)) {
         case "string":
-            if (val.trim().length === 0)
-                return true;
-            break;
+            return (val.trim().length === 0) ? true : false;
         case "number":
-            break;
+            return false;
         case "boolean":
-            if (!val)
-                return true;
-            break;
+            return val ? false : true;
         case "array":
             if (val.length === 0)
                 return true;
-            if (val.some(function (i) { return i.length === 0; }))
-                return true;
-            break;
+            return val.some(function (i) { return i.length === 0; }) ? true : false;
         case "object":
-            break;
+            return false;
         case "null":
             return true;
-            break;
         case "undefined":
             return true;
-            break;
+        default:
+            return false;
     }
-    return false;
 }
-// 身分證驗證
-function isIdCard(idStr) {
-    // 依照字母的編號排列，存入陣列備用。
-    var letters = new Array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'W', 'Z', 'I', 'O');
-    // 儲存各個乘數
-    var multiply = new Array(1, 9, 8, 7, 6, 5, 4, 3, 2, 1);
-    var nums = new Array(2);
-    var firstChar;
-    var firstNum;
-    var lastNum;
-    var total = 0;
-    // 撰寫「正規表達式」。第一個字為英文字母，
-    // 第二個字為1或2，後面跟著8個數字，不分大小寫。
-    var regExpID = /^[a-z](1|2)\d{8}$/i;
-    // 使用「正規表達式」檢驗格式
-    if (idStr.search(regExpID) == -1) {
-        // 基本格式錯誤
-        // alert("請仔細填寫身份證號碼");
-        return false;
-    }
-    else {
-        // 取出第一個字元和最後一個數字。
-        firstChar = idStr.charAt(0).toUpperCase();
-        lastNum = idStr.charAt(9);
-    }
-    // 找出第一個字母對應的數字，並轉換成兩位數數字。
-    for (var i = 0; i < 26; i++) {
-        if (firstChar == letters[i]) {
-            firstNum = i + 10;
-            nums[0] = Math.floor(firstNum / 10);
-            nums[1] = firstNum - (nums[0] * 10);
-            break;
-        }
-    }
-    // 執行加總計算
-    for (var i = 0; i < multiply.length; i++) {
-        if (i < 2) {
-            total += nums[i] * multiply[i];
-        }
-        else {
-            total += parseInt(idStr.charAt(i - 1)) * multiply[i];
-        }
-    }
-    // 和最後一個數字比對
-    if ((10 - (total % 10)) != lastNum) {
-        // alert("身份證號碼寫錯了！");
-        return false;
-    }
-    return true;
-}
-//-----------------------Browser-----------------------
+//-----------------------Web-----------------------
 /**
  * 取得Cookie的值
- * @param  {String} name 名稱值
+ * @param {string} key 傳入值
  */
-function getCookie(name) {
-    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+function getCookie(key) {
+    var arr = document.cookie.match(new RegExp("(^| )" + key + "=([^;]*)(;|$)"));
     if (arr != null)
         return unescape(arr[2]);
     return null;
 }
 /**
- * 設置cookie值
- * @param  {String} name 名稱值
- * @param  {String} value 屬性值
- * @param  {String} Hours 過期時間
- */
-function setCookie(name, value, Hours) {
-    var d = new Date();
-    var offset = 8;
-    var utc = d.getTime() + d.getTimezoneOffset() * 60000;
-    var nd = utc + 3600000 * offset;
-    var exp = new Date(nd);
-    exp.setTime(exp.getTime() + Hours * 60 * 60 * 1000);
-    document.cookie =
-        name +
-            "=" +
-            escape(value) +
-            ";path=/;expires=" +
-            exp.toGMTString() +
-            ";domain=360doc.com;";
-}
-/**
  * 函式防抖
  * @description 將幾次操作合併為一次操作進行
- * @param  {Function} fn 處理函式
- * @param  {Number} wait 停止後等待時間 預設為200ms
- * window.addEventListener('scroll', debounce(() => console.log(getRandom), 500));
+ * @param {function} fn 處理函式
+ * @param {number} wait 停止後等待時間 預設為200ms
+ * @example window.addEventListener('scroll', debounce(() => console.log(getRandom), 500));
  */
 function debounce(fn, wait) {
     if (wait === void 0) { wait = 200; }
@@ -2071,9 +2005,9 @@ function debounce(fn, wait) {
 /**
  * 函式節流
  * @description 一定時間內只觸發一次函式
- * @param  {Function} fn 處理函式
- * @param  {Number} delay 處理間隔時間 預設為1000ms
- * window.addEventListener('scroll', throttle(() => console.log(getRandom), 2000));
+ * @param {function} fn 處理函式
+ * @param {number} delay 處理間隔時間 預設為1000ms
+ * @example window.addEventListener('scroll', throttle(() => console.log(getRandom), 2000));
  */
 function throttle(fn, delay) {
     var _this = this;
@@ -2089,38 +2023,11 @@ function throttle(fn, delay) {
         }
     };
 }
-function throttle2(fn, delay) {
-    var _this = this;
-    var timer;
-    var prevTime;
-    return function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        var currTime = Date.now();
-        var context = _this;
-        if (!prevTime)
-            prevTime = currTime;
-        clearTimeout(timer);
-        if (currTime - prevTime > delay) {
-            prevTime = currTime;
-            fn.apply(context, args);
-            clearTimeout(timer);
-            return;
-        }
-        timer = setTimeout(function () {
-            prevTime = Date.now();
-            timer = null;
-            fn.apply(context, args);
-        }, delay);
-    };
-}
-//-----------------------Web-----------------------
 /**
  * 查詢網址所帶參數
- * @param  {String} key 鍵值
- * @param  {String} url 網址
+ * @param {string} key 鍵值
+ * @param {string} url 網址
+ * @example queryString('id', https://foo?id=123) -> "123"
  */
 function queryString(key, url) {
     if (key === void 0) { key = ""; }
@@ -2130,18 +2037,22 @@ function queryString(key, url) {
 }
 /**
  * 解析網址
- * @param  {String} url 網址
+ * @param {string} url 網址
  */
 function parseUrl(url) {
     if (url === void 0) { url = location.href; }
+    if (url == null)
+        return url;
     var parseUrl = new URL(url);
     return parseUrl;
 }
 /**
  * 網址跳轉
- * @param  {String} url 欲跳轉的網址
+ * @param {string} url 欲跳轉的網址
  */
 function toUrl(url) {
+    if (url == null)
+        return url;
     window.location.href = url;
 }
 /**
@@ -2153,23 +2064,19 @@ function jumpReload() {
             window.location.reload();
     };
 }
-//-----------------------Device-----------------------
 /**
  * 判斷是否移動裝置
+ * @param {string} os 作業系統('': 所有機型, apple: 蘋果, android: 安卓)
  */
-function isMobileUserAgent() {
-    return /iphone|ipod|android.*mobile|windows.*phone|blackberry.*mobile/i.test(window.navigator.userAgent.toLowerCase());
-}
-/**
- * 判斷是否蘋果移動裝置
- */
-function isAppleMobileDevice() {
-    return /iphone|ipod|ipad|Macintosh/i.test(navigator.userAgent.toLowerCase());
-}
-/**
- * 判斷是否安卓移動裝置
- */
-function isAndroidMobileDevice() {
-    return /android/i.test(navigator.userAgent.toLowerCase());
+function isMobile(os) {
+    if (os === void 0) { os = ''; }
+    switch (os) {
+        case 'apple':
+            return /iphone|ipod|ipad|Macintosh/i.test(navigator.userAgent.toLowerCase());
+        case 'android':
+            return /android/i.test(navigator.userAgent.toLowerCase());
+        default:
+            return /iphone|ipod|android.*mobile|windows.*phone|blackberry.*mobile/i.test(window.navigator.userAgent.toLowerCase());
+    }
 }
 //# sourceMappingURL=ud-modules.js.map

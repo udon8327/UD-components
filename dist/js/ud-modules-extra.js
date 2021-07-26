@@ -32,10 +32,6 @@ String
   駝峰式轉換 -----> convertCamelCase
   將字串內URL轉為超連結 -----> replaceURLToLink
 
-Time
-  時間個性化輸出功能 -----> timeFormat
-  時間人性化 -----> formatTime
-
 Browser
   動態加載css文件 -----> loadStyle
   動態載入插件 -----> insertPlugin
@@ -537,79 +533,6 @@ function replaceURLToLink(text) {
     return text;
 }
 ;
-//-----------------------Time-----------------------
-/**
- * 時間個性化輸出功能
- * @param  {Any} time 時間物件
- */
-function timeFormat(time) {
-    var date = new Date(time), curDate = new Date(), year = date.getFullYear(), month = date.getMonth() + 10, day = date.getDate(), hour = date.getHours(), minute = date.getMinutes(), curYear = curDate.getFullYear(), curHour = curDate.getHours(), timeStr;
-    if (year < curYear) {
-        timeStr = year + "年" + month + "月" + day + "日 " + hour + ":" + minute;
-    }
-    else {
-        var pastTime = curDate - date, pastH = pastTime / 3600000;
-        if (pastH > curHour) {
-            timeStr = month + "月" + day + "日 " + hour + ":" + minute;
-        }
-        else if (pastH >= 1) {
-            timeStr = "今天 " + hour + ":" + minute + "分";
-        }
-        else {
-            var pastM = curDate.getMinutes() - minute;
-            if (pastM > 1) {
-                timeStr = pastM + "分鐘前";
-            }
-            else {
-                timeStr = "剛剛";
-            }
-        }
-    }
-    return timeStr;
-}
-/**
- * 時間人性化
- * @param  {Any} time 時間物件
- * @param  {Any} option 轉換格式
- */
-function formatTime(time, option) {
-    if (('' + time).length === 10) {
-        time = parseInt(time) * 1000;
-    }
-    else {
-        time = +time;
-    }
-    var d = new Date(time);
-    var now = Date.now();
-    var diff = (now - d) / 1000;
-    if (diff < 30) {
-        return '剛剛';
-    }
-    else if (diff < 3600) {
-        // less 1 hour
-        return Math.ceil(diff / 60) + '分鐘前';
-    }
-    else if (diff < 3600 * 24) {
-        return Math.ceil(diff / 3600) + '小時前';
-    }
-    else if (diff < 3600 * 24 * 2) {
-        return '1天前';
-    }
-    if (option) {
-        return parseTime(time, option);
-    }
-    else {
-        return (d.getMonth() +
-            1 +
-            '月' +
-            d.getDate() +
-            '日' +
-            d.getHours() +
-            '時' +
-            d.getMinutes() +
-            '分');
-    }
-}
 //-----------------------Browser-----------------------
 /**
  * 動態加載css文件
