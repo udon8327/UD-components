@@ -1,3 +1,4 @@
+var _this = this;
 /*
 ==================== Vue組件庫(Basic)目錄 ====================
 Form
@@ -47,7 +48,7 @@ Number
   roundNumber：四捨五入到指定位數
   formatNumber：數字加入千分位逗號
   padStart：數字補零
-  
+
 Image
   imageLoaded：單張圖片載入完成
   imageAllLoaded：多張圖片載入完成
@@ -95,8 +96,6 @@ Web
   jumpReload：跳頁重整
   isMobile：判斷是否移動裝置
 */
-// 初始化執行
-jumpReload();
 //-----------------------Form-----------------------
 // Button 按鈕
 Vue.component('ud-button', {
@@ -1360,19 +1359,19 @@ Vue.component('ud-qrcode', {
  * @param {string} val 傳入值
  * @param {boolean} is_xhtml 是否為xhtml 預設為false
  */
-function nl2br(val, is_xhtml) {
+var nl2br = function (val, is_xhtml) {
     if (val === void 0) { val = ''; }
     if (is_xhtml === void 0) { is_xhtml = false; }
     if (val == null)
         return val;
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (val + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
-}
+};
 /**
  * 取得隨機字串
  * @param {number} length 指定字串長度 預設為10
  */
-function getRandomString(length) {
+var getRandomString = function (length) {
     if (length === void 0) { length = 10; }
     var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     var temp = "";
@@ -1380,13 +1379,13 @@ function getRandomString(length) {
         temp += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return temp;
-}
+};
 /**
  * 複製文字至剪貼簿
  * @param {string} id 要複製文字的元素id
  * @example copyTextToClipboard('id').then(res => udAlert(`已複製\n${ res }`));
  */
-function copyTextToClipboard(id) {
+var copyTextToClipboard = function (id) {
     return new Promise(function (resolve) {
         var textRange = document.createRange();
         textRange.selectNode(document.getElementById(id));
@@ -1396,7 +1395,7 @@ function copyTextToClipboard(id) {
         document.execCommand("copy");
         resolve(textRange);
     });
-}
+};
 //-----------------------Number-----------------------
 /**
  * 取得範圍內隨機整數
@@ -1404,29 +1403,29 @@ function copyTextToClipboard(id) {
  * @param {number} max 隨機數最大值 預設為100
  * @example getRandom(5, 10) -> 7
  */
-function getRandom(min, max) {
+var getRandom = function (min, max) {
     if (min === void 0) { min = 0; }
     if (max === void 0) { max = 100; }
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 /**
  * 四捨五入到指定位數
  * @param {number} val 傳入值
  * @param {number} decimals 指定位數 預設為0
  * @example roundNumber(1.235, 2) -> 1.24
  */
-function roundNumber(val, decimals) {
+var roundNumber = function (val, decimals) {
     if (decimals === void 0) { decimals = 0; }
     if (val == null)
         return val;
     return Number(Math.round(val + "e" + decimals) + "e-" + decimals);
-}
+};
 /**
  * 數字加入千分位逗號
  * @param {number} val 傳入值
  * @example formatNumber(99999) -> 99,999
  */
-function formatNumber(val) {
+var formatNumber = function (val) {
     if (val == null)
         return val;
     var temp = val.toString();
@@ -1435,7 +1434,7 @@ function formatNumber(val) {
         temp = temp.replace(pattern, "$1,$2");
     }
     return temp;
-}
+};
 /**
  * 數字補零
  * @param {number|string} val 傳入值
@@ -1445,7 +1444,7 @@ function formatNumber(val) {
  * @example padStart(5, 4) -> '0005'
  * @example padStart(5, 4, 2) -> '2225'
  */
-function padStart(val, length, string) {
+var padStart = function (val, length, string) {
     if (length === void 0) { length = 2; }
     if (string === void 0) { string = 0; }
     if (val == null)
@@ -1467,14 +1466,14 @@ function padStart(val, length, string) {
         };
     }
     return val.toString().padStart(length, string);
-}
+};
 //-----------------------Image-----------------------
 /**
  * 單張圖片載入完成
  * @param {string} url 圖片路徑
  * @example imageLoaded('imgUrl').then(...) -> 圖片讀取完成時返回該Image物件
  */
-function imageLoaded(url) {
+var imageLoaded = function (url) {
     var img = new Image();
     img.src = url;
     return new Promise(function (resolve, reject) {
@@ -1486,13 +1485,13 @@ function imageLoaded(url) {
             img.onerror = function (e) { return reject(e); };
         }
     });
-}
+};
 /**
  * 多張圖片載入完成
  * @param {array} arr 多張圖片路徑陣列
  * @example imageAllLoaded(['imgUrl1','imgUrl2']).then(...) -> 全部圖片都讀取完成時返回該Image物件組成的陣列
  */
-function imageAllLoaded(arr) {
+var imageAllLoaded = function (arr) {
     var result = [];
     arr.forEach(function (item) {
         result.push(imageLoaded(item));
@@ -1502,14 +1501,14 @@ function imageAllLoaded(arr) {
             .then(function (res) { return resolve(res); })
             .catch(function (err) { return reject(err); });
     });
-}
+};
 /**
  * 下載Img圖片
  * @param {string} selector 圖片元素選擇器
  * @param {string} name 圖片名稱 預設為'下載圖片'
  * @example imageDownload('#image', '自訂圖片名稱')
  */
-function imageDownload(selector, name) {
+var imageDownload = function (selector, name) {
     if (name === void 0) { name = '下載圖片'; }
     var image = new Image();
     image.setAttribute('crossOrigin', 'anonymous'); // 解決跨域 Canvas 污染問題
@@ -1527,14 +1526,14 @@ function imageDownload(selector, name) {
         a.href = url;
         a.dispatchEvent(event);
     };
-}
+};
 /**
  * 下載Canvas圖片
  * @param {string} selector canvas元素選擇器
  * @param {string} name 圖片名稱 預設為'下載圖片'
  * @example canvasImageDownload('canvas', '自訂圖片名稱')
  */
-function canvasImageDownload(selector, name) {
+var canvasImageDownload = function (selector, name) {
     if (name === void 0) { name = '下載圖片'; }
     var canvas = document.querySelector(selector);
     var url = canvas.toDataURL('image/png');
@@ -1543,14 +1542,14 @@ function canvasImageDownload(selector, name) {
     a.download = name;
     a.href = url;
     a.dispatchEvent(event);
-}
+};
 //-----------------------Array-----------------------
 /**
  * 陣列是否有重複值(不分型別)
  * @param {array} arr 傳入值
  * @example isArrayRepeat([1, 2, 2, 3]) -> true
  */
-function isArrayRepeat(arr) {
+var isArrayRepeat = function (arr) {
     if (arr == null)
         return arr;
     var obj = {};
@@ -1560,18 +1559,18 @@ function isArrayRepeat(arr) {
         obj[arr[i]] = true;
     }
     return false;
-}
+};
 /**
  * 移除陣列中的重複元素
  * @param {array} arr 傳入值
  * @example removeArrayRepeat([1, 2, 2, 3]) -> [1, 2, 3]
  */
-function removeArrayRepeat(arr) {
+var removeArrayRepeat = function (arr) {
     if (arr == null)
         return arr;
     var newArr = arr.filter(function (el, i, arr) { return arr.indexOf(el) === i; });
     return newArr;
-}
+};
 /**
  * 二維陣列扁平化
  * @param {array} arr 傳入值
@@ -1579,12 +1578,12 @@ function removeArrayRepeat(arr) {
  * @example flatArray([1, [2], 3, 4]); -> [1, 2, 3, 4]
  * @example flatArray([1, [2, [3, [4, 5], 6], 7], 8], 2); -> [1, 2, 3, [4, 5], 6, 7, 8]
  */
-function flatArray(arr, depth) {
+var flatArray = function (arr, depth) {
     if (depth === void 0) { depth = 1; }
     if (arr == null)
         return arr;
     return arr.reduce(function (a, v) { return a.concat(depth > 1 && Array.isArray(v) ? flatArray(v, depth - 1) : v); }, []);
-}
+};
 /**
  * 返回陣列中某值的所有索引
  * @param {array} arr 傳入值
@@ -1592,30 +1591,29 @@ function flatArray(arr, depth) {
  * @example indexOfAll([1, 2, 3, 1, 2, 3], 1); -> [0,3]
  * @example indexOfAll([1, 2, 3], 4); -> []
  */
-function indexOfAll(arr, val) {
+var indexOfAll = function (arr, val) {
     if (arr == null)
         return arr;
     return arr.reduce(function (acc, el, i) { return (el === val ? acc.concat([i]) : acc); }, []);
-}
+};
 /**
  * 兩陣列的交集
  * @param {array} arrA 陣列A
  * @param {array} arrB 陣列B
  * @example intersectionArray([1, 2, 3], [4, 3, 2]); -> [2, 3]
  */
-function intersectionArray(arrA, arrB) {
+var intersectionArray = function (arrA, arrB) {
     if (arrA == null || arrB == null)
         return null;
     var s = new Set(arrB);
     return arrA.filter(function (x) { return s.has(x); });
-}
-;
+};
 /**
  * 洗牌陣列
  * @param {array} arr 傳入值
  * @example shuffleArray([1, 2, 3]); -> [2, 3, 1];
  */
-function shuffleArray(arr) {
+var shuffleArray = function (arr) {
     if (arr == null)
         return arr;
     var arrCopy = arr.slice();
@@ -1626,58 +1624,57 @@ function shuffleArray(arr) {
     }
     return arrCopy;
     var _a;
-}
-;
+};
 //-----------------------Object-----------------------
 /**
  * 精準型別判斷
  * @param {any} val 傳入值
  */
-function typeOf(val) {
+var typeOf = function (val) {
     return val === undefined ? 'undefined' : val === null ? 'null' : val.constructor.name.toLowerCase();
-}
+};
 /**
  * 過濾物件鍵值
  * @param {object} val 傳入值
  * @param {array} arr 過濾值的陣列
  * @example filterObj(obj, ["keyA", "keyB"]);
  */
-function filterObj(val, arr) {
+var filterObj = function (val, arr) {
     var tempObj = JSON.parse(JSON.stringify(val));
     for (var i in tempObj) {
         if (arr.indexOf(i) === -1)
             delete tempObj[i];
     }
     return tempObj;
-}
+};
 /**
  * 刪除物件鍵值
  * @param {object} obj 傳入值
  * @param {array} arr 刪除值的陣列
  * @example deleteObj(obj, ["keyA", "keyB"]);
  */
-function deleteObj(obj, arr) {
+var deleteObj = function (obj, arr) {
     var tempObj = JSON.parse(JSON.stringify(obj));
     for (var i in tempObj) {
         if (arr.indexOf(i) !== -1)
             delete tempObj[i];
     }
     return tempObj;
-}
+};
 /**
  * 深拷貝(簡易版)
  * @param {object} obj 傳入值
  */
-function deepCloneSimple(obj) {
+var deepCloneSimple = function (obj) {
     if (obj == null)
         return obj;
     return JSON.parse(JSON.stringify(obj));
-}
+};
 /**
  * 深拷貝(完全版)
  * @param {object} obj 傳入值
  */
-function deepClone(obj, hash) {
+var deepClone = function (obj, hash) {
     if (hash === void 0) { hash = new WeakMap(); }
     if (obj == null)
         return obj;
@@ -1698,17 +1695,17 @@ function deepClone(obj, hash) {
             cloneObj[key] = deepClone(obj[key], hash);
     }
     return cloneObj;
-}
+};
 //-----------------------Time-----------------------
 /**
  * 判斷是否為閏年
  * @param {number} year 年份
  */
-function isLeapYear(year) {
+var isLeapYear = function (year) {
     if (year == null)
         return year;
     return new Date(year, 1, 29).getDate() === 29;
-}
+};
 /**
  *  判斷日期是否存在
  * @param {string} date 日期字串
@@ -1716,7 +1713,7 @@ function isLeapYear(year) {
  * @example isExistDate("2020-02-29"); -> true
  * @example isExistDate("2019/02/29", "/"); -> false
  */
-function isExistDate(date, split) {
+var isExistDate = function (date, split) {
     if (split === void 0) { split = "-"; }
     if (date == null)
         return date;
@@ -1729,7 +1726,7 @@ function isExistDate(date, split) {
     if (isLeap)
         limitInMonth[1] = 29;
     return theDay > 0 && theDay <= limitInMonth[theMonth - 1];
-}
+};
 /**
  * 取得前後幾天的日期
  * @param {number} days 指定天數 可為負值
@@ -1737,13 +1734,12 @@ function isExistDate(date, split) {
  * @example getDiffDate(0); -> "2020-06-30"
  * @example getDiffDate(-2); -> "2020-06-28"
  */
-function getDiffDate(days) {
+var getDiffDate = function (days) {
     if (days === void 0) { days = 0; }
     var t = new Date();
     t.setDate(t.getDate() + days);
     return t.toISOString().split('T')[0];
-}
-;
+};
 /**
  * 時間格式化
  * @param {any} date 傳入值(Date物件、timestamp或任何合法時間格式)
@@ -1753,7 +1749,7 @@ function getDiffDate(days) {
  * @example formatTime(new Date(), 'yyyy-MM-dd hh:mm:ss') -> "2021-07-26 14:08:00"
  * @example formatTime(new Date(1627280134101), 'yyyy-MM-dd hh:mm:ss') -> "2021-07-26 14:15:34"
  */
-function formatTime(date, format) {
+var formatTime = function (date, format) {
     if (date === void 0) { date = new Date(); }
     if (format === void 0) { format = "yyyy-MM-dd hh:mm:ss"; }
     var o = {
@@ -1775,8 +1771,7 @@ function formatTime(date, format) {
         }
     }
     return format;
-}
-;
+};
 //-----------------------DOM-----------------------
 /**
  * 滾動至指定位置
@@ -1788,7 +1783,7 @@ function formatTime(date, format) {
  * @example scrollTo('top', 1); -> 瞬間回項部
  * @example scrollTo('.foobar', 10, -30, () => {console.log('滾動完成')});
  */
-function scrollTo(el, speed, offset, callback) {
+var scrollTo = function (el, speed, offset, callback) {
     if (el === void 0) { el = "top"; }
     if (speed === void 0) { speed = 5; }
     if (offset === void 0) { offset = 0; }
@@ -1809,7 +1804,7 @@ function scrollTo(el, speed, offset, callback) {
             top = document.querySelector(el).offsetTop + offset;
         }
     }
-    function scroll() {
+    var scroll = function () {
         scrollTop = scrollTop + (top - scrollTop) / speed;
         if (Math.abs(scrollTop - top) <= 1) {
             document.scrollingElement.scrollTop = top;
@@ -1818,16 +1813,14 @@ function scrollTo(el, speed, offset, callback) {
         }
         document.scrollingElement.scrollTop = scrollTop;
         requestAnimationFrame(scroll);
-    }
-    ;
+    };
     scroll();
-}
-;
+};
 /**
  * 取得頁面當前捲動長寬度
  * @param {string} type 類型(width: 寬度, height: 高度)
  */
-function getPageScroll(type) {
+var getPageScroll = function (type) {
     if (type === void 0) { type = 'height'; }
     if (type === 'width') {
         return document.documentElement.scrollLeft || document.body.scrollLeft;
@@ -1845,12 +1838,12 @@ function getPageScroll(type) {
         }
         return bodyTop;
     }
-}
+};
 /**
  * 取得頁面尺寸
  * @param {string} scope 範圍(view: 可視頁面, full: 完整頁面)
  */
-function getPageSize(scope) {
+var getPageSize = function (scope) {
     if (scope === void 0) { scope = 'view'; }
     var el = document.compatMode == "BackCompat" ? document.body : document.documentElement;
     if (scope === 'view') {
@@ -1862,7 +1855,7 @@ function getPageSize(scope) {
             Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, el.clientHeight)
         ];
     }
-}
+};
 //-----------------------Verify-----------------------
 /**
  * 常用驗證函式
@@ -1871,7 +1864,7 @@ function getPageSize(scope) {
  * @example isVerify('1988-05-27', 'date') -> true
  * @example isVerify('ABC', /[A-Z]/) -> true
  */
-function isVerify(val, type) {
+var isVerify = function (val, type) {
     if (val == null)
         return val;
     switch (type) {
@@ -1941,19 +1934,19 @@ function isVerify(val, type) {
             var regexMode = new RegExp(type);
             return regexMode.test(val);
     }
-}
+};
 /**
  * 精準數字驗證
  * @param {any} val 傳入值
  */
-function isNumber(val) {
+var isNumber = function (val) {
     return typeOf(val) !== "number" ? false : !isNaN(val);
-}
+};
 /**
  * 未填入驗證
  * @param {any} val 傳入值
  */
-function isEmpty(val) {
+var isEmpty = function (val) {
     switch (typeOf(val)) {
         case "string":
             return (val.trim().length === 0) ? true : false;
@@ -1974,18 +1967,18 @@ function isEmpty(val) {
         default:
             return false;
     }
-}
+};
 //-----------------------Web-----------------------
 /**
  * 取得Cookie的值
  * @param {string} key 傳入值
  */
-function getCookie(key) {
+var getCookie = function (key) {
     var arr = document.cookie.match(new RegExp("(^| )" + key + "=([^;]*)(;|$)"));
     if (arr != null)
         return unescape(arr[2]);
     return null;
-}
+};
 /**
  * 函式防抖
  * @description 將幾次操作合併為一次操作進行
@@ -1993,7 +1986,7 @@ function getCookie(key) {
  * @param {number} wait 停止後等待時間 預設為200ms
  * @example window.addEventListener('scroll', debounce(() => console.log(getRandom), 500));
  */
-function debounce(fn, wait) {
+var debounce = function (fn, wait) {
     if (wait === void 0) { wait = 200; }
     var timeout = null;
     return function () {
@@ -2001,7 +1994,7 @@ function debounce(fn, wait) {
             clearTimeout(timeout);
         timeout = setTimeout(fn, wait);
     };
-}
+};
 /**
  * 函式節流
  * @description 一定時間內只觸發一次函式
@@ -2009,8 +2002,7 @@ function debounce(fn, wait) {
  * @param {number} delay 處理間隔時間 預設為1000ms
  * @example window.addEventListener('scroll', throttle(() => console.log(getRandom), 2000));
  */
-function throttle(fn, delay) {
-    var _this = this;
+var throttle = function (fn, delay) {
     if (delay === void 0) { delay = 1000; }
     var prev = Date.now();
     return function () {
@@ -2022,53 +2014,53 @@ function throttle(fn, delay) {
             prev = Date.now();
         }
     };
-}
+};
 /**
  * 查詢網址所帶參數
  * @param {string} key 鍵值
  * @param {string} url 網址
  * @example queryString('id', https://foo?id=123) -> "123"
  */
-function queryString(key, url) {
+var queryString = function (key, url) {
     if (key === void 0) { key = ""; }
     if (url === void 0) { url = location.href; }
     var parseUrl = new URL(url);
     return parseUrl.searchParams.get(key);
-}
+};
 /**
  * 解析網址
  * @param {string} url 網址
  */
-function parseUrl(url) {
+var parseUrl = function (url) {
     if (url === void 0) { url = location.href; }
     if (url == null)
         return url;
     var parseUrl = new URL(url);
     return parseUrl;
-}
+};
 /**
  * 網址跳轉
  * @param {string} url 欲跳轉的網址
  */
-function toUrl(url) {
+var toUrl = function (url) {
     if (url == null)
         return url;
     window.location.href = url;
-}
+};
 /**
  * 跳頁重整
  */
-function jumpReload() {
+var jumpReload = function () {
     window.onpageshow = function (event) {
         if (event.persisted)
             window.location.reload();
     };
-}
+};
 /**
  * 判斷是否移動裝置
  * @param {string} os 作業系統('': 所有機型, apple: 蘋果, android: 安卓)
  */
-function isMobile(os) {
+var isMobile = function (os) {
     if (os === void 0) { os = ''; }
     switch (os) {
         case 'apple':
@@ -2078,5 +2070,7 @@ function isMobile(os) {
         default:
             return /iphone|ipod|android.*mobile|windows.*phone|blackberry.*mobile/i.test(window.navigator.userAgent.toLowerCase());
     }
-}
+};
+// 初始化執行
+jumpReload();
 //# sourceMappingURL=ud-modules.js.map
