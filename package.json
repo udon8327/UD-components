@@ -1,0 +1,22 @@
+{
+  "name": "ud_vue2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udon8327/Components.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/udon8327/Components/issues"
+  },
+  "homepage": "https://github.com/udon8327/Components#readme",
+  "dependencies": {
+    "vue-qrcode-reader": "^3.0.3"
+  }
+}

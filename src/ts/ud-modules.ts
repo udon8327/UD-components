@@ -107,6 +107,7 @@ Vue.component('ud-button', {
       <button
         @click="clickHandler"
         v-bind="$attrs"
+        v-on="$listeners"
         :disabled="disabled || loading"
         :class="{
           'is-disabled': disabled || loading,
@@ -160,6 +161,7 @@ Vue.component('ud-input', {
       <input
         v-model="modelValue"
         v-bind="$attrs"
+        v-on="$listeners"
         @input="onInput"
         ref="input"
       >
@@ -198,6 +200,7 @@ Vue.component('ud-textarea', {
         type="text"
         v-model="modelValue"
         v-bind="$attrs"
+        v-on="$listeners"
         @input="onInput"
       >
       </textarea>
@@ -232,6 +235,7 @@ Vue.component('ud-radio', {
           v-model="modelValue"
           :value="option"
           v-bind="$attrs"
+          v-on="$listeners"
           @change="onChange"
           ref="radio"
         >
@@ -247,6 +251,7 @@ Vue.component('ud-radio', {
           v-model="modelValue"
           :value="option.value"
           v-bind="$attrs"
+          v-on="$listeners"
           @change="onChange"
           ref="radio"
         >
@@ -293,6 +298,7 @@ Vue.component('ud-checkbox', {
             v-model="modelValue"
             :value="option"
             v-bind="$attrs"
+            v-on="$listeners"
             @change="onChange"
             ref="checkbox"
           >
@@ -307,6 +313,7 @@ Vue.component('ud-checkbox', {
             :value="option.value"
             v-model="modelValue"
             v-bind="$attrs"
+            v-on="$listeners"
             @change="onChange"
             ref="checkbox"
           >
@@ -348,6 +355,7 @@ Vue.component('ud-select', {
         v-model="modelValue" 
         :data-placeholder-selected="modelValue.length === 0"
         v-bind="$attrs"
+        v-on="$listeners"
         @change="onChange"
         ref="select"
       >
@@ -866,6 +874,7 @@ Vue.component('ud-switch', {
           type="checkbox"
           v-model="modelValue"
           v-bind="$attrs"
+          v-on="$listeners"
         >
         <div class="switch-decorator">
           <div class="circle"></div>
@@ -895,6 +904,7 @@ Vue.component('ud-date-picker', {
         class="ud-select"
         v-model="modelValue"
         v-bind="$attrs"
+        v-on="$listeners"
         type="date"
         :value-format="valueFormat"
         :align="align"
@@ -1177,7 +1187,10 @@ Vue.component('ud-form', {
   name: "UdForm",
   template: `
     <div class="ud-form" :class="{'is-no-error-msg': noErrorMsg}">
-      <form v-bind="$attrs">
+      <form 
+        v-bind="$attrs"
+        v-on="$listeners"
+      >
         <slot></slot>
       </form>
     </div>
