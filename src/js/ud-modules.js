@@ -1,5 +1,3 @@
-declare var $: (selector: string) => any;
-
 /*
 ==================== Vue組件庫(Basic)目錄 ====================
 Form
@@ -160,6 +158,7 @@ Vue.component('ud-input', {
       <input
         v-model="modelValue"
         v-bind="$attrs"
+        v-on="$listeners"
         @input="onInput"
         ref="input"
       >
@@ -198,6 +197,7 @@ Vue.component('ud-textarea', {
         type="text"
         v-model="modelValue"
         v-bind="$attrs"
+        v-on="$listeners"
         @input="onInput"
       >
       </textarea>

@@ -68,7 +68,15 @@ let vm = new Vue({
   },
   methods: {
     getStoreOptions() {
-      udAxios.get('/test/select/4')
+      udAxios.post('https://polls.apiblueprint.org/questions', {
+        question: "Favourite programming language?",
+        choices: [
+            "Swift",
+            "Python",
+            "Objective-C",
+            "Ruby"
+        ]
+    })
         .then(res => this.storeOptions = res.options)
     },
     download() {
@@ -87,9 +95,9 @@ let vm = new Vue({
       .catch(err => console.log(err));
     },
     formSubmit: function(){
-      this.$refs.form.validate(() => {
-        this.udAlert({msg: "驗證成功!!"})
-      });
+      // this.$refs.form.validate(() => {
+      //   this.udAlert({msg: "驗證成功!!"})
+      // });
     },
     toUrl(url) {
       location.href = url;
