@@ -1,5 +1,5 @@
 // axios 全局預設值
-// axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL; // API基礎路徑
+// axios.defaults.baseURL = ``; // API基礎路徑
 // axios.defaults.timeout = 30000; // 請求超時時間
 // axios.defaults.withCredentials = true; // 允許攜帶cookie
 
@@ -16,7 +16,7 @@
 
 // udAxios 自定義預設值
 const udAxios = axios.create({
-  baseURL: "https://private-anon-b20c11c638-e26.apiary-mock.com", // API基礎路徑
+  baseURL: "https://private-anon-b20c11c638-e26.apiary-mock.com", // API基礎路徑
   timeout: 30000, // 請求超時時間,
   // withCredentials: true, // 允許攜帶cookie
   // headers: { // 自定義headers

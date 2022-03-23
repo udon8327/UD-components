@@ -10,9 +10,11 @@ var vm = new Vue({
             udAxios.get("coin")
                 .then(function (res) {
                 console.log('res: ', res);
-            })
-                .catch(function (err) { });
+            }).catch(function (err) { });
         },
+        toDemo: function () {
+            location.href = 'demo.html';
+        }
     }
 });
 //# sourceMappingURL=index.js.map

@@ -8,8 +8,8 @@ html, #app {
       font-size: 54%; } }
 
 .ud-button button {
-  background-color: #c3172d;
-  border: 1px solid #c3172d;
+  background-color: #5e5248;
+  border: 1px solid #5e5248;
   color: #fff;
   padding: 10px;
   border-radius: 5px;
@@ -90,11 +90,11 @@ html, #app {
     opacity: 0.85; }
   .ud-button button.is-plain {
     background-color: #fff;
-    border: 1px solid #c3172d;
-    color: #c3172d; }
+    border: 1px solid #5e5248;
+    color: #5e5248; }
     .ud-button button.is-plain:hover, .ud-button button.is-plain:focus {
-      background-color: #c3172d;
-      border: 1px solid #c3172d;
+      background-color: #5e5248;
+      border: 1px solid #5e5248;
       color: #fff; }
   .ud-button button.is-disabled {
     background-color: #ddd;
@@ -134,7 +134,7 @@ html, #app {
     color: #aaa; }
   .ud-input input:focus {
     outline: 0;
-    border: 1px solid #c3172d; }
+    border: 1px solid #5e5248; }
   .ud-input input:disabled {
     background-color: #eee;
     cursor: not-allowed; }
@@ -164,7 +164,7 @@ html, #app {
     color: #aaa; }
   .ud-textarea textarea:focus {
     outline: 0;
-    border: 1px solid #c3172d; }
+    border: 1px solid #5e5248; }
   .ud-textarea textarea:disabled {
     background-color: #eee;
     cursor: not-allowed; }
@@ -196,9 +196,9 @@ html, #app {
     opacity: 0;
     pointer-events: none; }
     .ud-radio label input:checked + .radio-decorator {
-      border-color: #c3172d; }
+      border-color: #5e5248; }
       .ud-radio label input:checked + .radio-decorator:before {
-        background-color: #c3172d; }
+        background-color: #5e5248; }
   .ud-radio label .radio-decorator {
     margin-right: 6px;
     -webkit-box-flex: 0;
@@ -255,9 +255,9 @@ html, #app {
     opacity: 0;
     pointer-events: none; }
     .ud-checkbox label input:checked + .checkbox-decorator {
-      border-color: #c3172d; }
+      border-color: #5e5248; }
       .ud-checkbox label input:checked + .checkbox-decorator:before {
-        background-color: #c3172d;
+        background-color: #5e5248;
         -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>');
         mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8.76,56.2c-6.38-6.34,3.26-16,9.64-9.69L38,65.88,80.56,23.29c6.38-6.38,16.07,3.32,9.69,9.69L42.84,80.37a6.83,6.83,0,0,1-9.65,0Z"/></svg>'); }
   .ud-checkbox label .checkbox-decorator {
@@ -321,7 +321,7 @@ html, #app {
       color: #333; }
     .ud-select select:focus {
       outline: 0;
-      border: 1px solid #c3172d; }
+      border: 1px solid #5e5248; }
     .ud-select select[data-placeholder-selected] {
       color: #a8a8a8; }
     .ud-select select[multiple] option:nth-of-type(1) {
@@ -384,7 +384,7 @@ html, #app {
     opacity: 0;
     pointer-events: none; }
     .ud-switch label input:checked + .switch-decorator {
-      background: #c3172d; }
+      background: #5e5248; }
       .ud-switch label input:checked + .switch-decorator .circle {
         margin-left: 20px; }
   .ud-switch label .switch-decorator {
@@ -455,7 +455,7 @@ html, #app {
     color: #868686; }
   .ud-date-picker input:focus {
     outline: 0;
-    border: 1px solid #c3172d; }
+    border: 1px solid #5e5248; }
 
 .ud-captcha {
   position: relative;

@@ -14,8 +14,10 @@ let vm = new Vue({
       udAxios.get(`coin`)
         .then(res => {
           console.log('res: ', res);
-        })
-        .catch(err => {});
+        }).catch(err => {});
     },
+    toDemo() {
+      location.href = 'demo.html';
+    }
   }
 });
