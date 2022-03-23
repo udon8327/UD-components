@@ -1,39 +1,44 @@
+// axios 全局預設值
+// axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL; // API基礎路徑
+// axios.defaults.timeout = 30000; // 請求超時時間
+// axios.defaults.withCredentials = true; // 允許攜帶cookie
+
 /**
  * udAxios 額外config值
- * @param {Boolean} noAlert 關閉alert效果
- * @param {Boolean} noLoading 關閉loading效果
- * @param {Boolean} fullRes 成功時回傳完整res
+ * @param {Boolean} fullRes 成功時回傳完整response
+ * @param {Boolean} default 直接返回錯誤不作任何處理
+ * @param {Boolean} noAlert 關閉自動alert
+ * @param {Array} noAlertCode 關閉自動alert的錯誤code名單
  * @param {Object} alert 客製化alert效果
+ * @param {Boolean} noLoading 關閉loading效果
  * @param {Object} loading 客製化loading效果
  */
 
-// 自定義axios實例預設值
+// udAxios 自定義預設值
 const udAxios = axios.create({
-  baseURL: "https://udon8327.synology.me:8000",
-  timeout: 30000, // 請求超時時間
-  // headers: {
-  //   authorization: 'Bearer token',
-  // },
-  // auth: {}, // 設置Authorization頭
+  baseURL: "https://private-anon-b20c11c638-e26.apiary-mock.com", // API基礎路徑
+  timeout: 30000, // 請求超時時間,
   // withCredentials: true, // 允許攜帶cookie
-  // responseType: "json", // 指定回傳格式
+  // headers: { // 自定義headers
+  //   'Authorization': 'Bearer token',
+  //   'Content-Type': 'application/x-www-form-urlencoded'
+  // },
 })
 
-// 計算ajax數量
-let ajaxCount = 0;
+let ajaxCount = 0; // 計算ajax數量
 
 // 請求攔截器
 udAxios.interceptors.request.use(
   config => {
-    if(vm.udLoading && !config.noLoading){
+    if(!config.noLoading){
       if(ajaxCount === 0) vm.udLoading.open(config.loading);
       ajaxCount++;
     }
-    // config.data = JSON.stringify(config.data);
     return config;
   },
   error => {
-    udAlert ? udAlert({title: error.message, msg: "請求發送失敗"}) : alert("請求發送失敗");
+    vm.udAlert("請求發送失敗/n請稍候再試");
+    return Promise.reject(error);
   }
 )
 
@@ -41,66 +46,57 @@ udAxios.interceptors.request.use(
 udAxios.interceptors.response.use(
   // 狀態碼 2xx: 回應成功
   response => {
-    if(vm.udLoading && !response.config.noLoading){
+    if(!response.config.noLoading){
       ajaxCount--;
       if(ajaxCount === 0) vm.udLoading.close();
     }
-    return Promise.resolve(response.config.fullRes ? response : response.data);
+    return response.config.fullRes ? response : response.data;
   },
   // 狀態碼 3xx: 重新導向, 4xx: 用戶端錯誤, 5xx: 伺服器錯誤
   error => {
-    if(vm.udLoading && !error.config.noLoading) {
+    if(!error.config.noLoading) {
       ajaxCount--;
       if(ajaxCount === 0) vm.udLoading.close();
     }
-
+    if(error.config.default) return Promise.reject(error);
+    
     // 定義錯誤訊息
     let errorMsg = "";
-    let errorUrl = "";
-    // 請求已發出，有收到錯誤回應
-    if(error.response) {
+    if(error.response) { // 請求已發出，有收到錯誤回應
       errorMsg = statusMsg[error.response.status] ? statusMsg[error.response.status] : "發生未知的錯誤";
-      // error帶入message可自定義錯誤訊息
       if(error.response.data && error.response.data.message) errorMsg = error.response.data.message;
-      if(error.response.data && error.response.data.url) errorUrl = error.response.data.url;
-    // 請求已發出，但没有收到回應
-    }else if(error.request) {
-      errorMsg = "伺服器沒有回應";
-    // 請求被取消或發送請求時異常
-    }else {
+    }else if(error.request) { // 請求已發出，但没有收到回應
+      errorMsg = "請求逾時或伺服器沒有回應";
+    }else { // 請求被取消或發送請求時異常
       errorMsg = "請求被取消或發送請求時異常";
     }
 
-    return new Promise((resolve, reject) => {
-      if(error.config.noAlert){
-        reject(error);
-        return;
+    // 定義警告彈窗
+    let alertConfig = { msg: errorMsg };
+    Object.assign(alertConfig, error.config.alert);
+    
+    // 定義錯誤處理
+    let code = error.response && error.response.data && error.response.data.code;
+    if(code) { // 有收到code的錯誤
+      switch (code) {
+        // case '984': // LINE 尚未登入，前台使用
+        //   udAxios.get(`/api/line/login/verify?url=${ encodeURIComponent(window.location) }`, {
+        //     default: true
+        //   })
+        //     .then(res => console.log('已登入'))
+        //     .catch(err => location.href = err.response.data.data.url);
+        //   break;
+        default:
+          if(!(error.config.noAlertCode && error.config.noAlertCode.some(error => error == code))) {
+            if(!error.config.noAlert) vm.udAlert(alertConfig);
+          }
       }
-      if(udAlert) {
-        let alertConfig = {
-          // title: `${error.response.status} ${error.response.statusText}`,
-          msg: errorMsg,
-          onConfirm: () => reject(error)
-        }
-        if(errorUrl) alertConfig.onConfirm = () => location.href = errorUrl;
-
-        // 客製化錯誤處理
-        // if(error.response.status === 401) {
-        //   location.href = '';
-        //   return;
-        // }
-        // if (error.response.status === 400) {
-        //     alertConfig.onConfirm = () => location.href = '';
-        // }
-
-        Object.assign(alertConfig, error.config.alert);
-        udAlert(alertConfig);
-      }else {
-        alert(errorMsg);
-        reject(error);
-      }
-    })
-
+    }else { // 沒收到code的錯誤
+      if(!error.config.noAlert) vm.udAlert(alertConfig);
+    }
+    // 拋回錯誤
+    console.log(`errorCode: ${ code }, errorMsg: ${ errorMsg }`);
+    return Promise.reject(error);
   }
 );
 
