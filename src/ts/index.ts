@@ -11,12 +11,17 @@ let vm = new Vue({
   },
   methods: {
     getData() {
-      udAxios.get(`profile`)
+      udAxios.get(`products`)
         .then(res => {
         }).catch(err => {});
     },
     toDemo() {
       location.href = 'demo.html';
+    },
+    submitForm(event) {
+      console.log('submit!!');
+      event.preventDefault(event);
+      document.getElementById('form').submit();
     }
   }
 });

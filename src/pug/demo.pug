@@ -134,7 +134,7 @@ block content
     ud-form-item(label="地址" prop="twzip")
       ud-select-twzip(v-model="user.twzip" flex)
     ud-form-item(label="預約日期" prop="date")
-      ud-select-date(v-model="user.date" flex third roc)
+      ud-select-date(v-model="user.date" flex third roc required)
         p 年
         p(slot="second") 月
         p(slot="third") 日

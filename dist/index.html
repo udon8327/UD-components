@@ -22,6 +22,10 @@
       <div class="container">
         <div class="wrapper">
           <ud-button @click="toDemo">DEMO</ud-button>
+          <form id="form" name="from">
+            <ud-input name="name" required></ud-input>
+            <ud-button @click="submitForm" type="submit">送出</ud-button>
+          </form>
         </div>
       </div>
     </div>

@@ -563,14 +563,15 @@ Vue.component('ud-select-date', {
   name: "UdSelectDate",
   template: `
     <div class="ud-select-date" :class="{'is-flex': flex}">
-      <ud-select v-model="modelValue[0]" :options="firstArr" :placeholder="placeholder[0]" combine></ud-select>
+      <ud-select v-model="modelValue[0]" v-bind="$attrs" :options="firstArr" :placeholder="placeholder[0]" combine></ud-select>
       <slot></slot>
-      <ud-select v-model="modelValue[1]" :options="secondArr" :placeholder="placeholder[1]" combine></ud-select>
+      <ud-select v-model="modelValue[1]" v-bind="$attrs" :options="secondArr" :placeholder="placeholder[1]" combine></ud-select>
       <slot name="second"></slot>
-      <ud-select v-model="modelValue[2]" :options="thirdArr" :placeholder="placeholder[2]" combine v-if="third"></ud-select>
+      <ud-select v-model="modelValue[2]" v-bind="$attrs" :options="thirdArr" :placeholder="placeholder[2]" combine v-if="third"></ud-select>
       <slot name="third"></slot>
     </div>
   `,
+  inheritAttrs: false,
   props: {
     value: null, // value值
     placeholder: { // placeholder值 [Array]
