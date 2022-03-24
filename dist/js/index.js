@@ -7,9 +7,8 @@ var vm = new Vue({
     computed: {},
     methods: {
         getData: function () {
-            udAxios.get("coin")
+            udAxios.get("profile")
                 .then(function (res) {
-                console.log('res: ', res);
             }).catch(function (err) { });
         },
         toDemo: function () {

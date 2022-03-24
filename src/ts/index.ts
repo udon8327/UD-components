@@ -11,9 +11,8 @@ let vm = new Vue({
   },
   methods: {
     getData() {
-      udAxios.get(`coin`)
+      udAxios.get(`profile`)
         .then(res => {
-          console.log('res: ', res);
         }).catch(err => {});
     },
     toDemo() {
